@@ -1,0 +1,1685 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NaFT — 自然代替性トークン | 全国対応の地域GXウォレット基盤</title>
+<style>
+:root{
+  --g950:#082b21;--g900:#0b3d2e;--g800:#11533f;--g700:#166a50;--g600:#1b8161;--g500:#27a374;--g400:#4dbb8f;
+  --g100:#dff0e8;--g50:#f1f8f4;
+  --gold:#a9821f;--gold-strong:#8a6a14;--gold-bg:#f9f3e0;
+  --ink:#182620;--sub:#5c6f66;--faint:#8b9a92;--line:#e1e8e4;--bg:#f5f8f6;--card:#ffffff;
+  --red:#bb4038;--red-bg:#fbecea;--amber:#93650f;--amber-bg:#fcf2da;--blue:#2e5f8a;--blue-bg:#e9f1f8;--gray-bg:#eef1ef;
+  --radius:12px;
+  --shadow:0 1px 2px rgba(12,40,30,.05),0 10px 26px -18px rgba(12,40,30,.28);
+  --font:"Hiragino Sans","Hiragino Kaku Gothic ProN","Yu Gothic UI","Yu Gothic","Noto Sans JP","Segoe UI",system-ui,sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:var(--font);color:var(--ink);background:var(--bg);font-size:14.5px;line-height:1.65;-webkit-font-smoothing:antialiased}
+a{color:var(--g700);text-decoration:none}
+button{font-family:var(--font);cursor:pointer}
+h1,h2,h3,h4{line-height:1.35;letter-spacing:.01em}
+.mono{font-family:"SF Mono","Consolas","Menlo",monospace;letter-spacing:.02em}
+.container{max-width:1120px;margin:0 auto;padding:0 24px}
+.muted{color:var(--sub)}.small{font-size:12.5px}.tiny{font-size:11.5px}
+.right{text-align:right}.center{text-align:center}
+.mt8{margin-top:8px}.mt16{margin-top:16px}.mt24{margin-top:24px}.mt32{margin-top:32px}.mb8{margin-bottom:8px}.mb16{margin-bottom:16px}.mb24{margin-bottom:24px}
+.flex{display:flex;align-items:center;gap:10px}.between{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.wrap{flex-wrap:wrap}
+/* buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;border-radius:9px;border:1px solid transparent;padding:9px 18px;font-size:13.5px;font-weight:600;transition:.15s;white-space:nowrap}
+.btn-p{background:var(--g800);color:#fff}.btn-p:hover{background:var(--g700)}
+.btn-o{background:#fff;color:var(--g800);border-color:#c9d6d0}.btn-o:hover{border-color:var(--g600);color:var(--g700)}
+.btn-ghost{background:transparent;color:var(--g800)}.btn-ghost:hover{background:var(--g50)}
+.btn-gold{background:linear-gradient(135deg,#b98f24,#96731a);color:#fff}.btn-gold:hover{filter:brightness(1.06)}
+.btn-danger{background:var(--red);color:#fff}.btn-danger:hover{filter:brightness(1.08)}
+.btn-amber{background:#fff;color:var(--amber);border-color:#e3cf9a}.btn-amber:hover{background:var(--amber-bg)}
+.btn-red-o{background:#fff;color:var(--red);border-color:#e5b8b4}.btn-red-o:hover{background:var(--red-bg)}
+.btn-lg{padding:12px 26px;font-size:15px;border-radius:10px}
+.btn-sm{padding:5px 12px;font-size:12.5px;border-radius:7px}
+.btn-block{width:100%}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+/* cards */
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow)}
+.card-p{padding:22px}
+.section-title{font-size:16px;font-weight:700}
+.eyebrow{font-size:11.5px;font-weight:700;letter-spacing:.14em;color:var(--g600);text-transform:uppercase}
+/* badges */
+.badge{display:inline-flex;align-items:center;gap:4px;padding:2.5px 9px;border-radius:99px;font-size:11.5px;font-weight:600;white-space:nowrap}
+.b-green{background:var(--g100);color:var(--g800)}
+.b-amber{background:var(--amber-bg);color:var(--amber)}
+.b-red{background:var(--red-bg);color:var(--red)}
+.b-gray{background:var(--gray-bg);color:var(--sub)}
+.b-blue{background:var(--blue-bg);color:var(--blue)}
+.b-gold{background:var(--gold-bg);color:var(--gold-strong)}
+.b-outline{background:#fff;border:1px solid var(--line);color:var(--sub)}
+/* forms */
+.label{display:block;font-size:12.5px;font-weight:600;color:var(--sub);margin:14px 0 5px}
+.input,.select,.textarea{width:100%;border:1px solid #cdd8d2;border-radius:9px;padding:9px 12px;font-size:14px;font-family:var(--font);background:#fff;color:var(--ink)}
+.input:focus,.select:focus,.textarea:focus{outline:2px solid var(--g400);outline-offset:0;border-color:var(--g500)}
+.textarea{min-height:96px;resize:vertical}
+.field-note{font-size:11.5px;color:var(--faint);margin-top:4px}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:0 20px}
+.chip{display:inline-flex;align-items:center;gap:6px;padding:7px 14px;border-radius:99px;border:1px solid #ccd8d2;background:#fff;font-size:13px;font-weight:600;color:var(--sub);cursor:pointer;transition:.12s}
+.chip:hover{border-color:var(--g500)}
+.chip.on{background:var(--g800);border-color:var(--g800);color:#fff}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+/* table */
+.tbl{width:100%;border-collapse:collapse;font-size:13px}
+.tbl th{text-align:left;font-size:11.5px;color:var(--faint);font-weight:600;letter-spacing:.05em;padding:9px 12px;border-bottom:1px solid var(--line);white-space:nowrap}
+.tbl td{padding:10px 12px;border-bottom:1px solid #edf2ef;vertical-align:middle}
+.tbl tr:last-child td{border-bottom:none}
+.tbl-wrap{overflow-x:auto}
+.amount-pos{color:var(--g700);font-weight:700}.amount-neg{color:var(--ink);font-weight:700}
+/* stat */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.stat{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:16px 18px;box-shadow:var(--shadow)}
+.stat .k{font-size:11.5px;color:var(--sub);font-weight:600}
+.stat .v{font-size:22px;font-weight:800;letter-spacing:.01em;margin-top:2px}
+.stat .u{font-size:12px;color:var(--faint);font-weight:600}
+.stat .s{font-size:11px;color:var(--faint);margin-top:3px}
+/* progress */
+.prog{height:7px;background:#e8efeb;border-radius:99px;overflow:hidden}
+.prog>i{display:block;height:100%;background:linear-gradient(90deg,var(--g600),var(--g400));border-radius:99px}
+/* project card */
+.pgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.pcard{background:#fff;border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);display:flex;flex-direction:column;transition:.15s}
+.pcard:hover{transform:translateY(-2px);box-shadow:0 4px 8px rgba(12,40,30,.06),0 16px 34px -18px rgba(12,40,30,.35)}
+.pcard .ph{height:96px;display:flex;align-items:center;justify-content:center;font-size:38px;position:relative}
+.pcard .ph .cat-tag{position:absolute;top:10px;left:10px}
+.pcard .pb{padding:15px 16px 16px;display:flex;flex-direction:column;flex:1;gap:8px}
+.pcard h3{font-size:14.5px;font-weight:700;line-height:1.45}
+.meta-row{display:flex;flex-wrap:wrap;gap:5px;font-size:11.5px;color:var(--sub)}
+.kv{display:flex;justify-content:space-between;font-size:12px;color:var(--sub)}
+.kv b{color:var(--ink)}
+/* shell */
+.shell{display:flex;min-height:100vh}
+.side{width:232px;background:var(--g950);color:#cfe3da;flex-shrink:0;display:flex;flex-direction:column;position:sticky;top:0;height:100vh}
+.side .brand{padding:20px 20px 14px;border-bottom:1px solid rgba(255,255,255,.08)}
+.side nav{padding:12px 10px;flex:1;overflow-y:auto}
+.side .nav-label{font-size:10.5px;letter-spacing:.12em;color:#6e8a7f;padding:12px 12px 5px;font-weight:700}
+.side a.nv{display:flex;align-items:center;gap:9px;padding:8.5px 12px;border-radius:8px;color:#c3d8cf;font-size:13.5px;font-weight:600;margin-bottom:1px}
+.side a.nv:hover{background:rgba(255,255,255,.07);color:#fff}
+.side a.nv.on{background:var(--g700);color:#fff}
+.side .ubox{padding:14px 16px;border-top:1px solid rgba(255,255,255,.08);font-size:12px}
+.main{flex:1;min-width:0;display:flex;flex-direction:column}
+.topbar{background:#fff;border-bottom:1px solid var(--line);padding:14px 28px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;position:sticky;top:0;z-index:20}
+.topbar h1{font-size:17px;font-weight:700}
+.content{padding:26px 28px 48px;max-width:1180px;width:100%}
+.disclaimer{background:var(--gold-bg);border:1px solid #ecd9a8;border-radius:10px;padding:12px 16px;font-size:11.5px;color:#6d5410;line-height:1.7}
+.footer-note{padding:0 28px 34px;max-width:1180px}
+/* logo */
+.logo{display:inline-flex;align-items:center;gap:9px;font-weight:800;letter-spacing:.02em}
+.logo .mark{width:30px;height:30px;border-radius:9px;background:linear-gradient(135deg,var(--g700),var(--g500));display:inline-flex;align-items:center;justify-content:center;color:#fff;font-size:15px;position:relative;overflow:hidden}
+.logo .mark::after{content:"";position:absolute;right:-6px;bottom:-6px;width:16px;height:16px;border-radius:50%;border:2.5px solid rgba(255,255,255,.55)}
+.logo b{font-size:16.5px}
+.logo .sub-jp{display:block;font-size:9.5px;font-weight:600;color:var(--faint);letter-spacing:.14em;line-height:1}
+/* wallet hero card */
+.wallet-card{background:radial-gradient(120% 160% at 85% -20%,#1d7a58 0%,var(--g900) 55%,var(--g950) 100%);color:#fff;border-radius:16px;padding:24px 26px;position:relative;overflow:hidden;box-shadow:0 18px 40px -20px rgba(8,43,33,.7)}
+.wallet-card::before{content:"";position:absolute;right:-70px;top:-70px;width:230px;height:230px;border-radius:50%;border:1.5px solid rgba(200,170,80,.35)}
+.wallet-card::after{content:"";position:absolute;right:-30px;top:-30px;width:150px;height:150px;border-radius:50%;border:1.5px solid rgba(200,170,80,.5)}
+.wallet-card .wl{font-size:11px;letter-spacing:.13em;color:#9fc4b5;font-weight:700}
+.wallet-card .bal{font-size:34px;font-weight:800;letter-spacing:.01em}
+.wallet-card .bal .u{font-size:14px;font-weight:600;color:#b9d8cb}
+.wallet-card .row2{display:flex;gap:30px;margin-top:14px;flex-wrap:wrap}
+.wallet-card .mini .k{font-size:10.5px;color:#8fb8a8;letter-spacing:.1em;font-weight:700}
+.wallet-card .mini .v{font-size:15px;font-weight:700}
+.wcode{font-family:"SF Mono",Consolas,monospace;font-size:12px;background:rgba(255,255,255,.1);padding:3px 10px;border-radius:6px;letter-spacing:.06em}
+/* modal */
+.overlay{position:fixed;inset:0;background:rgba(10,25,19,.55);z-index:100;display:flex;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(2px)}
+.modal{background:#fff;border-radius:14px;max-width:520px;width:100%;max-height:88vh;overflow-y:auto;box-shadow:0 30px 70px -20px rgba(0,0,0,.45)}
+.modal-h{padding:18px 22px 0;display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+.modal-h h3{font-size:16px;font-weight:700}
+.modal-b{padding:14px 22px 22px}
+.modal-x{background:none;border:none;font-size:20px;color:var(--faint);line-height:1;padding:2px 6px}
+.modal-lg{max-width:760px}
+/* toast */
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--g900);color:#fff;padding:11px 22px;border-radius:99px;font-size:13.5px;font-weight:600;z-index:200;box-shadow:0 12px 30px -10px rgba(0,0,0,.5);animation:tin .25s ease}
+.toast.err{background:var(--red)}
+@keyframes tin{from{opacity:0;transform:translate(-50%,10px)}to{opacity:1;transform:translate(-50%,0)}}
+/* landing */
+.pub-head{background:rgba(255,255,255,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:50}
+.pub-head .in{max-width:1120px;margin:0 auto;padding:13px 24px;display:flex;align-items:center;justify-content:space-between;gap:14px}
+.pub-nav{display:flex;gap:22px;align-items:center;font-size:13.5px;font-weight:600}
+.pub-nav a{color:var(--sub)}.pub-nav a:hover{color:var(--g800)}
+.hero{background:linear-gradient(180deg,#ffffff 0%,var(--g50) 100%);border-bottom:1px solid var(--line)}
+.hero .in{max-width:1120px;margin:0 auto;padding:70px 24px 60px;display:grid;grid-template-columns:1.15fr .85fr;gap:48px;align-items:center}
+.hero h1{font-size:37px;font-weight:800;line-height:1.4;letter-spacing:.01em}
+.hero h1 .hl{color:var(--g700)}
+.hero p.lead{font-size:15px;color:var(--sub);margin-top:18px;line-height:1.9}
+.hero-badge{display:inline-flex;gap:7px;align-items:center;background:#fff;border:1px solid var(--line);padding:5px 14px;border-radius:99px;font-size:12px;font-weight:700;color:var(--g700);margin-bottom:20px}
+.circ-strip{background:var(--g950);color:#cfe3da}
+.circ-strip .in{max-width:1120px;margin:0 auto;padding:22px 24px;display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.circ-strip .k{font-size:11px;color:#7fa798;letter-spacing:.1em;font-weight:700}
+.circ-strip .v{font-size:21px;font-weight:800;color:#fff}
+.circ-strip .v .u{font-size:12px;color:#9fc4b5;font-weight:600}
+.sec{padding:64px 0}
+.sec.alt{background:#fff;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.sec h2{font-size:25px;font-weight:800;margin-top:8px}
+.sec .sec-lead{color:var(--sub);margin-top:12px;max-width:640px;line-height:1.9}
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:30px}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:30px}
+.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:30px}
+.fcard{background:#fff;border:1px solid var(--line);border-radius:12px;padding:20px}
+.fcard .ic{width:36px;height:36px;border-radius:9px;background:var(--g100);display:flex;align-items:center;justify-content:center;font-size:17px;margin-bottom:12px}
+.fcard h3{font-size:14.5px;font-weight:700;margin-bottom:6px}
+.fcard p{font-size:12.5px;color:var(--sub);line-height:1.7}
+.flow-step{display:flex;gap:14px;padding:16px 0;border-bottom:1px dashed var(--line)}
+.flow-step:last-child{border-bottom:none}
+.flow-step .n{width:30px;height:30px;border-radius:50%;background:var(--g800);color:#fff;font-weight:800;font-size:13px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.qr-holder{display:flex;flex-direction:column;align-items:center;gap:10px;padding:16px;background:var(--g50);border-radius:12px;border:1px solid var(--line)}
+.qr-holder img{border-radius:8px}
+#qrbox{background:#fff;padding:12px;border-radius:10px;border:1px solid var(--line)}
+.reward-card{border:1px solid var(--line);border-radius:12px;background:#fff;overflow:hidden;box-shadow:var(--shadow)}
+.reward-card .rt{background:linear-gradient(135deg,var(--g900),var(--g700));color:#fff;padding:14px 16px;display:flex;justify-content:space-between;gap:8px;align-items:flex-start}
+.reward-card .rt h3{font-size:14px;font-weight:700;line-height:1.5}
+.reward-card .rb{padding:14px 16px}
+.reward-card.used .rt{background:linear-gradient(135deg,#5b6f66,#8b9a92)}
+.rank-bar{height:8px;border-radius:99px;background:linear-gradient(90deg,var(--g700),var(--g400));min-width:3px}
+.alert-row{background:var(--red-bg)}
+.notice-inline{background:var(--blue-bg);border:1px solid #c9dcec;color:var(--blue);border-radius:9px;padding:10px 14px;font-size:12px;line-height:1.7}
+.empty{padding:44px 20px;text-align:center;color:var(--faint);font-size:13px}
+.empty .big{font-size:30px;margin-bottom:8px}
+.step-dots{display:flex;gap:6px;margin-bottom:18px}
+.step-dots i{height:5px;flex:1;border-radius:99px;background:#e2eae5}
+.step-dots i.on{background:var(--g600)}
+.tabbar{display:flex;gap:4px;background:var(--gray-bg);padding:4px;border-radius:10px;width:fit-content}
+.tabbar button{border:none;background:transparent;padding:7px 16px;border-radius:8px;font-size:13px;font-weight:600;color:var(--sub)}
+.tabbar button.on{background:#fff;color:var(--g800);box-shadow:0 1px 3px rgba(0,0,0,.1)}
+.demo-acc{border:1px solid var(--line);border-radius:10px;padding:12px 14px;display:flex;justify-content:space-between;align-items:center;gap:10px;background:#fff}
+.demo-acc:hover{border-color:var(--g500)}
+.filters{display:flex;gap:10px;flex-wrap:wrap;align-items:flex-end}
+.filters>div{min-width:130px}
+.filters .label{margin-top:0}
+@media(max-width:960px){
+  .hero .in{grid-template-columns:1fr;padding:44px 24px 40px;gap:30px}
+  .hero h1{font-size:28px}
+  .g3,.g4,.pgrid,.stats{grid-template-columns:repeat(2,1fr)}
+  .circ-strip .in{grid-template-columns:repeat(2,1fr)}
+  .shell{flex-direction:column}
+  .side{width:100%;height:auto;position:static;flex-direction:column}
+  .side nav{display:flex;overflow-x:auto;padding:6px 10px;gap:2px}
+  .side .nav-label{display:none}
+  .side a.nv{white-space:nowrap;padding:7px 12px;margin-bottom:0}
+  .side .ubox{display:none}
+  .content,.topbar{padding-left:16px;padding-right:16px}
+}
+@media(max-width:600px){
+  .g2,.g3,.g4,.pgrid,.stats,.form-grid{grid-template-columns:1fr}
+  .pub-nav{display:none}
+  .hero h1{font-size:24px}
+}
+</style>
+</head>
+<body>
+<div id="root"><div style="padding:80px;text-align:center;color:#8b9a92">読み込み中…</div></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script>
+/* ============ NaFT — Natural-Fungible Token / PoC build ============ */
+/* ---------- persistent storage (window.storage w/ in-memory fallback) ---------- */
+var _mem = {};
+var store = {
+  async get(k){ if(window.storage){ try{ var r = await window.storage.get(k); return r ? r.value : null; }catch(e){ return null; } } return _mem[k]!==undefined?_mem[k]:null; },
+  async set(k,v){ if(window.storage){ try{ await window.storage.set(k,v); return; }catch(e){} } _mem[k]=v; },
+  async del(k){ if(window.storage){ try{ await window.storage.delete(k); return; }catch(e){} } delete _mem[k]; }
+};
+var DB_KEY = 'naft_db_v1', SES_KEY = 'naft_session_v1';
+
+/* ---------- constants ---------- */
+var DISCLAIMER = 'NaFTポイントおよびデモステーブルトークンは、法定通貨・暗号資産・電子決済手段ではありません。本サービスの初期版は、地域GX活動と環境価値の可視化を目的としたPoC・実証実験用のシステムです。実際のカーボンクレジット売買・償却・金融決済は、専門家・提携機関との確認を経て段階的に実装予定です。';
+var CATS = {
+  'Agriculture':['農業','🌾'],'Biochar':['バイオ炭','🪵'],'Forest':['森林保全','🌲'],
+  'Energy Saving':['省エネ','💡'],'Renewable Energy':['再生可能エネルギー','☀️'],'Mobility':['モビリティ','🚲'],
+  'Waste Reduction':['食品ロス・廃棄物削減','♻️'],'Local Business':['地域事業','🏪'],'Community Action':['コミュニティ活動','🤝'],'Other':['その他','🌍']
+};
+var CAT_GRAD = {
+  'Agriculture':'linear-gradient(135deg,#e8f3d9,#cfe6b8)','Biochar':'linear-gradient(135deg,#ece4d8,#d8c9b2)',
+  'Forest':'linear-gradient(135deg,#d8ecdf,#b3d9c2)','Energy Saving':'linear-gradient(135deg,#fdf3d6,#f4e2ad)',
+  'Renewable Energy':'linear-gradient(135deg,#fdeeda,#f8dcae)','Mobility':'linear-gradient(135deg,#dcebf5,#bcd8ec)',
+  'Waste Reduction':'linear-gradient(135deg,#e2f1ea,#c2e3d3)','Local Business':'linear-gradient(135deg,#f0e8f2,#ddcbe2)',
+  'Community Action':'linear-gradient(135deg,#fbe9e2,#f3cfc0)','Other':'linear-gradient(135deg,#e9eeec,#d3ddd8)'
+};
+var RS_MAP = {approved:['承認済み','b-green'],pending_review:['審査待ち','b-amber'],draft:['下書き','b-gray'],rejected:['却下','b-red'],revision_required:['差し戻し','b-amber'],suspended:['停止中','b-red'],archived:['アーカイブ','b-gray']};
+var TT_MAP = {initial_grant:'初回付与',support_project:'プロジェクト支援',reserve_credit:'クレジット購入予約',reward_issue:'炭素配当発行',reward_redeem:'GX還元チケット利用',merchant_reward:'加盟店還元',project_reward:'プロジェクト還元',admin_adjustment:'運営調整',revoke:'取消',refund:'返金'};
+var TOKEN_MAP = {NAFT_POINT:'NaFTポイント',DEMO_STABLE:'デモステーブル',CARBON_REWARD:'炭素配当',CREDIT_RESERVATION:'クレジット予約'};
+var SCOPE_MAP = {local_only:['地域限定','b-green'],regional:['広域利用','b-blue'],prefecture_wide:['県内利用','b-blue'],multi_region:['複数地域連携','b-gold'],nationwide:['全国利用','b-gold']};
+var ROLE_MAP = {citizen:'市民',producer:'事業者・生産者',merchant:'加盟店',municipal_admin:'自治体管理者',financial_partner:'地域金融パートナー',local_operator:'地域運営者',platform_admin:'プラットフォーム管理者',super_admin:'スーパー管理者'};
+var REGION_TYPE_MAP = {prefecture:'都道府県',municipality:'市区町村',wide_area:'広域連携エリア',shopping_street:'商工会・商店街',ja_area:'JA管内',financial_institution_area:'地域金融機関エリア',decarbonization_area:'脱炭素先行地域',university_area:'大学エリア',corporate_area:'企業エリア',community:'コミュニティ'};
+var OP_TYPE_MAP = {municipality:'自治体',regional_bank:'地方銀行',credit_union:'信用組合',shinkin_bank:'信用金庫',ja:'JA',chamber_of_commerce:'商工会議所',shopping_street_association:'商店街振興組合',university:'大学',npo:'NPO',private_company:'民間企業',startup:'スタートアップ',community:'コミュニティ'};
+var RW_STATUS = {available:['利用可能','b-green'],used:['利用済み','b-gray'],expired:['期限切れ','b-red'],revoked:['取消済み','b-red']};
+
+/* ---------- utils ---------- */
+function uid(p){ return p+'_'+Date.now().toString(36)+Math.random().toString(36).slice(2,8); }
+function rnd(n){ var c='ABCDEFGHJKLMNPQRSTUVWXYZ23456789',s=''; for(var i=0;i<n;i++)s+=c[Math.floor(Math.random()*c.length)]; return s; }
+function walletCode(){ return 'NAFT-WLT-'+rnd(8); }
+function txCode(){ var d=new Date(); return 'TX-'+d.getFullYear()+String(d.getMonth()+1).padStart(2,'0')+String(d.getDate()).padStart(2,'0')+'-'+rnd(6); }
+function nowISO(){ return new Date().toISOString(); }
+function fmt(n){ return (Math.round(n*10)/10).toLocaleString('ja-JP'); }
+function fmtInt(n){ return Math.round(n).toLocaleString('ja-JP'); }
+function fmtDate(iso){ if(!iso)return '—'; var d=new Date(iso); return d.getFullYear()+'/'+String(d.getMonth()+1).padStart(2,'0')+'/'+String(d.getDate()).padStart(2,'0'); }
+function fmtDT(iso){ if(!iso)return '—'; var d=new Date(iso); return fmtDate(iso)+' '+String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0'); }
+function esc(s){ return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+function hashPw(s){ var h=5381; for(var i=0;i<s.length;i++){h=((h<<5)+h+s.charCodeAt(i))|0;} return 'h'+(h>>>0).toString(36)+s.length; }
+function daysFromNow(n){ var d=new Date(); d.setDate(d.getDate()+n); return d.toISOString(); }
+function daysAgo(n){ var d=new Date(); d.setDate(d.getDate()-n); return d.toISOString(); }
+function pct(cur,tgt){ return Math.min(100, Math.round((cur/Math.max(1,tgt))*100)); }
+function badge(pair){ return '<span class="badge '+pair[1]+'">'+pair[0]+'</span>'; }
+function rsBadge(s){ return badge(RS_MAP[s]||[s,'b-gray']); }
+function scopeBadge(s){ return badge(SCOPE_MAP[s]||[s,'b-gray']); }
+
+/* ---------- seed data ---------- */
+function seedDB(){
+  var t = nowISO();
+  var regions = [
+    {id:'r1',name:'北海道 道北森林保全エリア',region_type:'wide_area',prefecture:'北海道',municipality:'上川・宗谷広域',area_description:'道北の森林資源を活かした森林吸収・木質バイオマス活用エリア',operator_name:'道北広域森林GX協議会',operator_type:'npo',contact_email:'gx@dohoku-forest.example.jp',status:'active',created_at:t},
+    {id:'r2',name:'宮城県 仙台都市圏GXエリア',region_type:'wide_area',prefecture:'宮城県',municipality:'仙台都市圏',area_description:'都市部の省エネ・モビリティ転換を中心としたGXエリア',operator_name:'仙台都市圏GX推進コンソーシアム',operator_type:'municipality',contact_email:'gx@sendai-area.example.jp',status:'active',created_at:t},
+    {id:'r3',name:'福島県 会津地域GXエリア',region_type:'wide_area',prefecture:'福島県',municipality:'会津地域',area_description:'中山間地域の農業・バイオ炭・雪国省エネを軸としたGXエリア（地域金融機関連携）',operator_name:'会津地域GX推進協議会',operator_type:'regional_bank',contact_email:'gx@aizu-area.example.jp',status:'active',created_at:t},
+    {id:'r4',name:'埼玉県 秩父森林・観光GXエリア',region_type:'municipality',prefecture:'埼玉県',municipality:'秩父エリア',area_description:'森林保全・観光・商店街省エネを組み合わせたGXエリア',operator_name:'秩父GX推進室',operator_type:'municipality',contact_email:'gx@chichibu.example.jp',status:'active',created_at:t},
+    {id:'r5',name:'山梨県 甲信農業GXエリア',region_type:'ja_area',prefecture:'山梨県',municipality:'甲信農業地域',area_description:'果樹剪定枝・農業残渣を活用したバイオ炭・土壌炭素貯留エリア',operator_name:'JA甲信グリーン',operator_type:'ja',contact_email:'gx@koshin-ja.example.jp',status:'active',created_at:t},
+    {id:'r6',name:'長野県 中山間地域GXエリア',region_type:'wide_area',prefecture:'長野県',municipality:'中山間広域',area_description:'中山間地の再エネ・森林・小規模農家支援エリア',operator_name:'信州中山間GXネットワーク',operator_type:'npo',contact_email:'gx@shinshu-net.example.jp',status:'active',created_at:t},
+    {id:'r7',name:'静岡県 茶業・再エネGXエリア',region_type:'wide_area',prefecture:'静岡県',municipality:'茶産地・再エネ地域',area_description:'茶業の省エネ・営農型太陽光を中心としたGXエリア',operator_name:'静岡茶業GX協議会',operator_type:'chamber_of_commerce',contact_email:'gx@shizuoka-cha.example.jp',status:'active',created_at:t},
+    {id:'r8',name:'兵庫県 瀬戸内沿岸GXエリア',region_type:'wide_area',prefecture:'兵庫県',municipality:'瀬戸内沿岸',area_description:'食品ロス削減・港湾省エネ・地域循環を軸としたGXエリア（信用金庫連携）',operator_name:'瀬戸内沿岸GXパートナーズ',operator_type:'shinkin_bank',contact_email:'gx@setouchi-gx.example.jp',status:'active',created_at:t},
+    {id:'r9',name:'熊本県 阿蘇草原再生GXエリア',region_type:'decarbonization_area',prefecture:'熊本県',municipality:'阿蘇地域',area_description:'草原再生・観光・草資源活用による炭素貯留エリア',operator_name:'阿蘇草原再生GX機構',operator_type:'npo',contact_email:'gx@aso-grassland.example.jp',status:'active',created_at:t},
+    {id:'r10',name:'沖縄県 離島再エネGXエリア',region_type:'community',prefecture:'沖縄県',municipality:'離島地域',area_description:'離島の再エネ自給・省エネ・海洋環境保全エリア',operator_name:'島しょGXラボ',operator_type:'startup',contact_email:'gx@shima-lab.example.jp',status:'active',created_at:t}
+  ];
+  var users = [
+    {id:'u1',name:'佐藤 みどり',email:'citizen@naft.demo',password_hash:hashPw('demo1234'),role:'citizen',home_region_id:'r2',selected_region_id:'r2',support_region_ids:['r1','r9'],interests:['Forest','Renewable Energy'],permitted_region_ids:[],status:'active',created_at:daysAgo(40)},
+    {id:'u2',name:'会津 太郎',email:'producer@naft.demo',password_hash:hashPw('demo1234'),role:'producer',home_region_id:'r3',selected_region_id:'r3',support_region_ids:['r3'],interests:['Biochar','Agriculture'],permitted_region_ids:[],status:'active',created_at:daysAgo(60)},
+    {id:'u3',name:'管理 花子',email:'admin@naft.demo',password_hash:hashPw('demo1234'),role:'municipal_admin',home_region_id:'r3',selected_region_id:'r3',support_region_ids:[],interests:[],permitted_region_ids:['r3'],status:'active',created_at:daysAgo(90)},
+    {id:'u4',name:'全国 統括',email:'platform@naft.demo',password_hash:hashPw('demo1234'),role:'platform_admin',home_region_id:null,selected_region_id:null,support_region_ids:[],interests:[],permitted_region_ids:[],status:'active',created_at:daysAgo(120)},
+    {id:'u5',name:'商店 次郎',email:'merchant@naft.demo',password_hash:hashPw('demo1234'),role:'merchant',home_region_id:'r3',selected_region_id:'r3',support_region_ids:[],interests:[],permitted_region_ids:['r3'],status:'active',created_at:daysAgo(50)},
+    {id:'u6',name:'金融 桜',email:'bank@naft.demo',password_hash:hashPw('demo1234'),role:'financial_partner',home_region_id:'r3',selected_region_id:'r3',support_region_ids:[],interests:[],permitted_region_ids:['r3','r8'],status:'active',created_at:daysAgo(80)}
+  ];
+  var wallets = [
+    {id:'w1',user_id:'u1',wallet_code:'NAFT-WLT-8F3K9Q2L',demo_stable_balance:3000,naft_point_balance:8200,total_supported_amount:1800,total_co2_contribution:49.8,supported_project_ids:['pj1','pj7'],status:'active',created_at:daysAgo(40)},
+    {id:'w2',user_id:'u2',wallet_code:'NAFT-WLT-'+rnd(8),demo_stable_balance:0,naft_point_balance:5000,total_supported_amount:0,total_co2_contribution:0,supported_project_ids:[],status:'active',created_at:daysAgo(60)},
+    {id:'w3',user_id:'u3',wallet_code:'NAFT-WLT-'+rnd(8),demo_stable_balance:0,naft_point_balance:0,total_supported_amount:0,total_co2_contribution:0,supported_project_ids:[],status:'active',created_at:daysAgo(90)},
+    {id:'w4',user_id:'u4',wallet_code:'NAFT-WLT-'+rnd(8),demo_stable_balance:0,naft_point_balance:0,total_supported_amount:0,total_co2_contribution:0,supported_project_ids:[],status:'active',created_at:daysAgo(120)},
+    {id:'w5',user_id:'u5',wallet_code:'NAFT-WLT-'+rnd(8),demo_stable_balance:0,naft_point_balance:0,total_supported_amount:0,total_co2_contribution:0,supported_project_ids:[],status:'active',created_at:daysAgo(50)},
+    {id:'w6',user_id:'u6',wallet_code:'NAFT-WLT-'+rnd(8),demo_stable_balance:0,naft_point_balance:0,total_supported_amount:0,total_co2_contribution:0,supported_project_ids:[],status:'active',created_at:daysAgo(80)}
+  ];
+  var producers = [
+    {id:'p1',user_id:null,organization_name:'道北フォレストワークス',description:'森林整備・間伐材活用を行う地域林業グループ',region_id:'r1',contact_email:'info@dohoku-fw.example.jp',verification_status:'verified',created_at:t},
+    {id:'p2',user_id:'u2',organization_name:'会津グリーンファーム',description:'中山間地域で稲作・野菜栽培とバイオ炭づくりに取り組む農業法人',region_id:'r3',contact_email:'producer@naft.demo',verification_status:'verified',created_at:t},
+    {id:'p3',user_id:null,organization_name:'秩父商店街連合会',description:'商店街の省エネ・地域イベント脱炭素化を推進',region_id:'r4',contact_email:'info@chichibu-st.example.jp',verification_status:'verified',created_at:t},
+    {id:'p4',user_id:null,organization_name:'甲信アグリカーボン',description:'果樹剪定枝のバイオ炭化と土壌施用を行う生産者グループ',region_id:'r5',contact_email:'info@koshin-ac.example.jp',verification_status:'verified',created_at:t},
+    {id:'p5',user_id:null,organization_name:'しずおか茶園エナジー',description:'茶園の省エネ設備・営農型太陽光の導入を推進',region_id:'r7',contact_email:'info@shizuoka-te.example.jp',verification_status:'verified',created_at:t},
+    {id:'p6',user_id:null,organization_name:'瀬戸内フードループ',description:'食品ロス削減と地域内フードリサイクルを推進',region_id:'r8',contact_email:'info@setouchi-fl.example.jp',verification_status:'verified',created_at:t},
+    {id:'p7',user_id:null,organization_name:'阿蘇グラスランド協同組合',description:'野焼き・放牧による草原再生と観光GXを推進',region_id:'r9',contact_email:'info@aso-gl.example.jp',verification_status:'verified',created_at:t},
+    {id:'p8',user_id:null,organization_name:'島しょソーラー合同会社',description:'離島での太陽光・蓄電池・省エネ導入を推進',region_id:'r10',contact_email:'info@shima-solar.example.jp',verification_status:'verified',created_at:t}
+  ];
+  function pj(id,pid,rid,area,title,cat,desc,co2,method,target,cur,cnt,trust,plan,rs,days){
+    var r = regions.find(function(x){return x.id===rid;});
+    return {id:id,producer_id:pid,region_id:rid,prefecture:r.prefecture,municipality:r.municipality,area_name:area,region_scope:'regional',is_nationwide_visible:true,
+      title:title,category:cat,description:desc,location:r.prefecture+' '+area,estimated_co2_reduction:co2,calculation_method:method,
+      target_amount:target,current_amount:cur,support_count:cnt,status:rs==='approved'?'active':'inactive',review_status:rs,trust_score:trust,
+      start_date:daysAgo(days),end_date:daysFromNow(300),regional_return_plan:plan,main_image_url:'',reduction_type:'削減・吸収',related_url:'',contact_email:'',created_at:daysAgo(days)};
+  }
+  var projects = [
+    pj('pj1','p1','r1','道北森林区','北海道 道北森林保全プロジェクト','Forest','間伐・植林・林地残材の活用により、森林のCO2吸収機能を維持・向上させます。間伐材は地域の木質バイオマスボイラーや建材として活用し、森林と地域経済の循環をつくります。',45.0,'森林経営活動による吸収量算定（J-クレジット制度 FO-001 方法論を参考に、施業面積×樹種別吸収係数で推計）',1500000,812000,128,88,'支援額の一部を地域の直売所・木工品店で使えるGX還元チケットとして地域に還元します。','approved',55),
+    pj('pj2','p2','r3','会津中山間地区','東北 中山間地域バイオ炭プロジェクト','Biochar','稲わら・もみ殻・剪定枝を炭化してバイオ炭をつくり、農地に施用して炭素を土壌に貯留します。土壌改良と収量安定にもつながる、農家発の炭素貯留活動です。',18.5,'バイオ炭の農地施用による炭素貯留量算定（J-クレジット制度 AG-004 方法論を参考に、施用量×炭素含有率×残存係数で推計）',700000,318000,57,82,'地域の直売所で使える炭素配当チケットを支援者と地域住民に発行します。','approved',48),
+    pj('pj3','p3','r4','秩父中心商店街','関東 商店街省エネ照明プロジェクト','Energy Saving','商店街の街路灯・店舗照明を高効率LEDへ更新し、電力使用量を削減します。削減効果は電力データで見える化し、商店街の脱炭素をまち全体で進めます。',9.2,'照明更新前後の消費電力量差分×排出係数による削減量推計（省エネ法定期報告の算定方法を参考）',400000,265000,74,79,'商店街加盟店で使える5%還元のGXチケットを発行し、地域内消費を促進します。','approved',42),
+    pj('pj4','p4','r5','甲信果樹地帯','甲信 農業残渣バイオ炭プロジェクト','Agriculture','ぶどう・もも等の剪定枝を野焼きせず炭化し、園地に施用します。野焼き由来の排出を減らしながら、土壌への炭素貯留を進める果樹地帯ぐるみの取り組みです。',16.8,'剪定枝炭化量×炭素含有率×残存係数による貯留量推計＋野焼き回避分の排出削減推計',650000,402000,66,84,'県内農産物の購入に使える還元チケットを発行し、農家の所得向上につなげます。','approved',38),
+    pj('pj5','p5','r7','茶産地エリア','中部 地域再エネ応援プロジェクト','Renewable Energy','茶園での営農型太陽光と製茶工場の再エネ切替を進めます。地域の再エネ電力を地域で使う「エネルギーの地産地消」を目指します。',28.0,'再エネ発電量×系統電力排出係数による代替削減量推計（FIT設備認定データに基づく）',1000000,560000,91,86,'茶産地の対象店舗で使えるGX還元チケットを発行します。','approved',35),
+    pj('pj6','p6','r8','瀬戸内沿岸部','関西 食品ロス削減プロジェクト','Waste Reduction','小売・飲食店の余剰食品を地域内でマッチングし、廃棄を削減します。廃棄物の焼却・輸送に伴う排出を減らし、食の地域循環をつくります。',7.5,'食品廃棄削減量×廃棄物処理排出係数による削減量推計',300000,198000,53,76,'参加店舗で使える還元チケットを発行し、食品ロス削減の輪を広げます。','approved',30),
+    pj('pj7','p7','r9','阿蘇草原地帯','九州 草原再生・観光GXプロジェクト','Community Action','野焼き・放牧・採草による草原の維持再生活動です。草原の炭素貯留と生物多様性を守りながら、観光と結びつけた持続可能な地域づくりを進めます。',21.0,'草原維持面積×土壌炭素貯留係数による貯留量推計（研究機関の実測データを参考）',850000,431000,88,83,'阿蘇地域の観光施設・直売所で使えるGX還元チケットを発行します。','approved',28),
+    pj('pj8','p8','r10','離島地区','沖縄 離島再エネ・省エネプロジェクト','Renewable Energy','離島の太陽光＋蓄電池導入と公共施設の省エネ改修を進めます。ディーゼル発電への依存を減らし、島のエネルギー自給率を高めます。',13.5,'再エネ発電量×島内ディーゼル発電排出係数による代替削減量推計',550000,274000,49,80,'島内の対象店舗・宿泊施設で使える還元チケットを発行します。','approved',25),
+    pj('pj9','p2','r3','会津平野部','会津 営農型ソーラーシェアリング準備プロジェクト','Renewable Energy','水田・畑地の上部空間を活用した営農型太陽光の導入準備を進めます。営農を続けながら再エネをつくる、農業と発電の両立モデルです。',11.0,'計画発電量×系統電力排出係数による代替削減量推計（設備計画書に基づく）',480000,0,0,50,'地域の直売所で使える還元チケットの発行を予定しています。','pending_review',6),
+    pj('pj10','p2','r3','会津豪雪地区','会津 雪室活用・低温貯蔵省エネプロジェクト','Energy Saving','冬の雪を雪室に貯蔵し、夏場の農産物低温貯蔵に活用します。電気式冷蔵の使用量を減らす、雪国ならではの省エネです。',6.2,'雪室利用による冷蔵電力削減量×排出係数による削減量推計',260000,0,0,50,'雪室貯蔵農産物の直売還元を予定しています。','draft',3)
+  ];
+  var evidences = [
+    {id:'ev1',project_id:'pj1',file_url:'',file_name:'施業計画書_道北森林区_2026.pdf',file_type:'pdf',description:'森林経営計画・施業面積の根拠資料',uploaded_by:'p1',created_at:t},
+    {id:'ev2',project_id:'pj1',file_url:'',file_name:'間伐実施写真_202603.jpg',file_type:'image',description:'間伐実施状況の記録写真',uploaded_by:'p1',created_at:t},
+    {id:'ev3',project_id:'pj2',file_url:'',file_name:'バイオ炭施用記録_2026春.xlsx',file_type:'xlsx',description:'炭化量・施用量の記録台帳',uploaded_by:'p2',created_at:t},
+    {id:'ev4',project_id:'pj2',file_url:'',file_name:'炭化炉稼働写真.jpg',file_type:'image',description:'炭化炉の稼働状況写真',uploaded_by:'p2',created_at:t},
+    {id:'ev5',project_id:'pj9',file_url:'',file_name:'営農型太陽光_設備計画書.pdf',file_type:'pdf',description:'設備容量・想定発電量の計画資料',uploaded_by:'p2',created_at:t},
+    {id:'ev6',project_id:'pj9',file_url:'',file_name:'農地一時転用許可申請（準備中）.pdf',file_type:'pdf',description:'農地一時転用に関する準備資料',uploaded_by:'p2',created_at:t}
+  ];
+  var rewards = [
+    {id:'rw1',region_id:'r3',related_project_id:'pj2',title:'地域直売所GX還元チケット',description:'地域のバイオ炭プロジェクトへの支援により発行される、地元直売所で使える100円分の還元チケットです。',issuer_name:'会津地域GX推進協議会',reward_type:'fixed_amount',reward_value:'100円分',available_region_ids:['r3'],available_prefectures:['福島県'],nationwide_available:false,usage_scope:'local_only',valid_from:t,valid_until:daysFromNow(90),status:'active',created_at:t},
+    {id:'rw2',region_id:'r4',related_project_id:'pj3',title:'商店街省エネ応援チケット',description:'商店街省エネプロジェクトへの支援により発行される、商店街加盟店で使える5%還元チケットです。',issuer_name:'秩父商店街連合会',reward_type:'percent',reward_value:'加盟店5%還元',available_region_ids:['r4'],available_prefectures:['埼玉県'],nationwide_available:false,usage_scope:'regional',valid_from:t,valid_until:daysFromNow(90),status:'active',created_at:t},
+    {id:'rw3',region_id:'r5',related_project_id:'pj4',title:'県内農産物応援チケット',description:'農業GXプロジェクトへの支援により発行される、県内農産物の購入時に使える200円分の還元チケットです。',issuer_name:'JA甲信グリーン',reward_type:'fixed_amount',reward_value:'200円分',available_region_ids:['r5'],available_prefectures:['山梨県'],nationwide_available:false,usage_scope:'prefecture_wide',valid_from:t,valid_until:daysFromNow(120),status:'active',created_at:t},
+    {id:'rw4',region_id:'r1',related_project_id:'pj1',title:'複数地域連携GXチケット',description:'森林・草原など自然資源系GXプロジェクトへの支援により発行される、連携地域の対象店舗で使える150円分の還元チケットです。',issuer_name:'連携地域GX事務局',reward_type:'fixed_amount',reward_value:'150円分',available_region_ids:['r1','r6','r9'],available_prefectures:['北海道','長野県','熊本県'],nationwide_available:false,usage_scope:'multi_region',valid_from:t,valid_until:daysFromNow(120),status:'active',created_at:t},
+    {id:'rw5',region_id:null,related_project_id:null,title:'全国GX応援デジタルチケット',description:'全国のGXプロジェクトへの支援により発行される、全国対応GXキャンペーンで使える100円分のデジタルチケットです。',issuer_name:'NaFT運営事務局',reward_type:'fixed_amount',reward_value:'100円分',available_region_ids:[],available_prefectures:[],nationwide_available:true,usage_scope:'nationwide',valid_from:t,valid_until:daysFromNow(180),status:'active',created_at:t}
+  ];
+  var userRewards = [
+    {id:'ur1',user_id:'u1',reward_id:'rw4',status:'available',qr_code_value:'NAFT-RWD-'+rnd(10),origin_note:'北海道 道北森林保全プロジェクトへの支援により発行されました。あなたの支援により、推定30.0kg-CO2分の地域GX活動に参加しました。',issued_at:daysAgo(12),used_at:null,expired_at:null},
+    {id:'ur2',user_id:'u1',reward_id:'rw5',status:'available',qr_code_value:'NAFT-RWD-'+rnd(10),origin_note:'九州 草原再生・観光GXプロジェクトへの支援により発行されました。あなたの支援により、推定19.8kg-CO2分の地域GX活動に参加しました。',issued_at:daysAgo(8),used_at:null,expired_at:null},
+    {id:'ur3',user_id:'u1',reward_id:'rw5',status:'used',qr_code_value:'NAFT-RWD-'+rnd(10),origin_note:'全国GXキャンペーンにより発行されました。',issued_at:daysAgo(30),used_at:daysAgo(5),expired_at:null}
+  ];
+  function tx(code,from,to,amt,tok,type,pjId,rwId,rid,note,by,ago){
+    var r = rid ? regions.find(function(x){return x.id===rid;}) : null;
+    return {id:uid('tx'),transaction_code:code,from_wallet_id:from,to_wallet_id:to,amount:amt,token_type:tok,transaction_type:type,
+      related_project_id:pjId,related_reward_id:rwId,region_id:rid,prefecture:r?r.prefecture:null,municipality:r?r.municipality:null,
+      transaction_hash:null,chain_id:null,token_contract_address:null,credit_token_id:null,offchain_transaction_id:uid('off'),onchain_status:'offchain_only',
+      status:'completed',note:note,created_by:by,created_at:daysAgo(ago)};
+  }
+  var transactions = [
+    tx('TX-SEED-001','SYSTEM','w1',5000,'NAFT_POINT','initial_grant',null,null,'r2','初回オンボーディング付与','system',40),
+    tx('TX-SEED-002','SYSTEM','w1',5000,'NAFT_POINT','admin_adjustment',null,null,'r2','PoC参加モニターボーナス','u4',35),
+    tx('TX-SEED-003','SYSTEM','w2',5000,'NAFT_POINT','initial_grant',null,null,'r3','初回オンボーディング付与','system',60),
+    tx('TX-SEED-004','w1','PROJECT_POOL',1000,'NAFT_POINT','support_project','pj1',null,'r1','道北森林保全プロジェクトへの支援','u1',12),
+    tx('TX-SEED-005','SYSTEM','w1',1,'CARBON_REWARD','reward_issue','pj1','rw4','r1','複数地域連携GXチケット発行','system',12),
+    tx('TX-SEED-006','w1','PROJECT_POOL',800,'NAFT_POINT','support_project','pj7',null,'r9','草原再生・観光GXプロジェクトへの支援','u1',8),
+    tx('TX-SEED-007','SYSTEM','w1',1,'CARBON_REWARD','reward_issue','pj7','rw5','r9','全国GX応援デジタルチケット発行','system',8),
+    tx('TX-SEED-008','w1','MERCHANT',1,'CARBON_REWARD','reward_redeem',null,'rw5','r3','GX還元チケット利用（加盟店）','u5',5)
+  ];
+  var reviews = [
+    {id:'rev1',project_id:'pj1',reviewer_id:'u4',action:'approve',comment:'施業計画書・実施写真を確認。算定方法も妥当と判断し承認します。',created_at:daysAgo(50)},
+    {id:'rev2',project_id:'pj2',reviewer_id:'u3',action:'approve',comment:'施用記録台帳と炭化炉の稼働状況を確認。承認します。',created_at:daysAgo(44)},
+    {id:'rev3',project_id:'pj9',reviewer_id:null,action:'submit',comment:'審査に提出されました。',created_at:daysAgo(6)}
+  ];
+  var auditLogs = [
+    {id:uid('al'),actor_user_id:'u4',action:'region_create',entity_type:'region',entity_id:'r1〜r10',note:'初期地域データ登録（全国10エリア）',created_at:daysAgo(120)},
+    {id:uid('al'),actor_user_id:'u4',action:'project_approve',entity_type:'carbon_project',entity_id:'pj1',note:'道北森林保全プロジェクトを承認',created_at:daysAgo(50)},
+    {id:uid('al'),actor_user_id:'u3',action:'project_approve',entity_type:'carbon_project',entity_id:'pj2',note:'中山間地域バイオ炭プロジェクトを承認',created_at:daysAgo(44)},
+    {id:uid('al'),actor_user_id:'u2',action:'project_submit',entity_type:'carbon_project',entity_id:'pj9',note:'営農型ソーラーシェアリング準備プロジェクトを審査提出',created_at:daysAgo(6)},
+    {id:uid('al'),actor_user_id:'u1',action:'support_project',entity_type:'transaction',entity_id:'TX-SEED-006',note:'草原再生プロジェクトへ800pt支援',created_at:daysAgo(8)}
+  ];
+  return {version:1,users:users,regions:regions,wallets:wallets,producers:producers,projects:projects,evidences:evidences,
+    rewards:rewards,user_rewards:userRewards,transactions:transactions,reviews:reviews,audit_logs:auditLogs,reservations:[]};
+}
+
+var db = null;
+async function loadDB(){
+  var raw = await store.get(DB_KEY);
+  if(raw){ try{ db = JSON.parse(raw); }catch(e){ db = null; } }
+  if(!db || !db.version){ db = seedDB(); await saveDB(); }
+}
+async function saveDB(){ await store.set(DB_KEY, JSON.stringify(db)); }
+async function resetDB(){ db = seedDB(); await saveDB(); }
+
+/* ---------- db helpers ---------- */
+function findUser(id){ return db.users.find(function(u){return u.id===id;}); }
+function walletOf(uidv){ return db.wallets.find(function(w){return w.user_id===uidv;}); }
+function regionOf(id){ return db.regions.find(function(r){return r.id===id;}); }
+function projectOf(id){ return db.projects.find(function(p){return p.id===id;}); }
+function producerOf(id){ return db.producers.find(function(p){return p.id===id;}); }
+function producerOfUser(uidv){ return db.producers.find(function(p){return p.user_id===uidv;}); }
+function rewardOf(id){ return db.rewards.find(function(r){return r.id===id;}); }
+function regionName(id){ var r=regionOf(id); return r?r.name:'—'; }
+function producerName(id){ var p=producerOf(id); return p?p.organization_name:'—'; }
+function audit(action,entityType,entityId,note){
+  db.audit_logs.unshift({id:uid('al'),actor_user_id:S.user?S.user.id:'system',action:action,entity_type:entityType,entity_id:entityId,note:note,created_at:nowISO()});
+}
+function addTx(o){
+  var r = o.region_id ? regionOf(o.region_id) : null;
+  var t = Object.assign({id:uid('tx'),transaction_code:txCode(),from_wallet_id:null,to_wallet_id:null,amount:0,token_type:'NAFT_POINT',
+    transaction_type:'admin_adjustment',related_project_id:null,related_reward_id:null,region_id:null,
+    prefecture:r?r.prefecture:null,municipality:r?r.municipality:null,
+    transaction_hash:null,chain_id:null,token_contract_address:null,credit_token_id:null,offchain_transaction_id:uid('off'),onchain_status:'offchain_only',
+    status:'completed',note:'',created_by:S.user?S.user.id:'system',created_at:nowISO()}, o);
+  db.transactions.unshift(t);
+  return t;
+}
+</script>
+<script>
+/* ---------- app state & router ---------- */
+var S = { user:null, modal:null, toast:null, mf:{q:'',pref:'',region:'',cat:'',sort:'new'}, ob:{step:1,home:'',support:[],cats:[]}, rwTab:'available', adminRegion:'', platRegion:'' };
+
+function go(h){ if(location.hash===h){ render(); } else { location.hash = h; } }
+window.addEventListener('hashchange', render);
+
+function roleHome(role){
+  if(role==='citizen') return '#/app';
+  if(role==='producer') return '#/producer';
+  if(role==='merchant') return '#/merchant';
+  if(role==='platform_admin'||role==='super_admin') return '#/platform';
+  return '#/admin';
+}
+function isAdminRole(r){ return ['municipal_admin','financial_partner','local_operator'].indexOf(r)>=0; }
+function isPlatformRole(r){ return ['platform_admin','super_admin'].indexOf(r)>=0; }
+
+function toast(msg,err){ S.toast={msg:msg,err:!!err}; render(); setTimeout(function(){ S.toast=null; var t=document.getElementById('toast'); if(t)t.remove(); },2600); }
+function openModal(m){ S.modal=m; render(); }
+function closeModal(){ S.modal=null; render(); }
+
+/* ---------- render loop ---------- */
+function render(){
+  var h = location.hash || '#/';
+  var parts = h.slice(2).split('?')[0].split('/').filter(Boolean);
+  var html = '';
+  try{ html = route(parts); }catch(e){ html = '<div class="container" style="padding:60px 24px">エラーが発生しました：'+esc(e.message)+'</div>'; console.error(e); }
+  document.getElementById('root').innerHTML = html + renderModal() + (S.toast?'<div id="toast" class="toast'+(S.toast.err?' err':'')+'">'+esc(S.toast.msg)+'</div>':'');
+  afterRender();
+  window.scrollTo(0, S._keepScroll ? window.scrollY : 0);
+  S._keepScroll = false;
+}
+function afterRender(){
+  document.querySelectorAll('.qr-target').forEach(function(el){
+    el.innerHTML='';
+    if(window.QRCode){ try{ new QRCode(el,{text:el.dataset.v,width:168,height:168,correctLevel:QRCode.CorrectLevel.M}); return; }catch(e){} }
+    el.innerHTML = '<div class="mono small" style="padding:20px;border:1px dashed #bbb;border-radius:8px;word-break:break-all">'+esc(el.dataset.v)+'</div>';
+  });
+}
+function route(p){
+  var seg = p[0]||'';
+  // public
+  if(seg===''||seg==='home') return pgLanding();
+  if(seg==='market') return pgPublicMarket();
+  if(seg==='project') return pgProjectDetail(p[1], true);
+  if(seg==='login') return pgLogin();
+  if(seg==='register') return pgRegister();
+  if(seg==='onboarding') return S.user ? pgOnboarding() : pgLogin();
+  // guards
+  if(!S.user) return pgLogin();
+  if(seg==='app'){
+    if(S.user.role!=='citizen'){ location.hash = roleHome(S.user.role); return ''; }
+    var sub = p[1]||'';
+    if(sub==='') return citizenShell('home', pgCitizenHome());
+    if(sub==='wallet') return citizenShell('wallet', pgWallet());
+    if(sub==='market') return citizenShell('market', pgAppMarket());
+    if(sub==='project') return citizenShell('market', pgProjectDetail(p[2], false));
+    if(sub==='transactions') return citizenShell('tx', pgCitizenTx());
+    if(sub==='rewards') return citizenShell('rewards', pgRewards());
+    if(sub==='regions') return citizenShell('regions', pgRegions());
+    if(sub==='profile') return citizenShell('profile', pgProfile());
+  }
+  if(seg==='producer'){
+    if(S.user.role!=='producer'){ location.hash = roleHome(S.user.role); return ''; }
+    var sub2 = p[1]||'';
+    if(sub2==='') return producerShell('home', pgProducerHome());
+    if(sub2==='projects') return producerShell('projects', pgProducerProjects());
+    if(sub2==='new') return producerShell('new', pgProjectForm(p[2]||null));
+    if(sub2==='project') return producerShell('projects', pgProducerProjectDetail(p[2]));
+    if(sub2==='transactions') return producerShell('tx', pgProducerTx());
+  }
+  if(seg==='merchant'){
+    if(S.user.role!=='merchant'){ location.hash = roleHome(S.user.role); return ''; }
+    return merchantShell(pgMerchant());
+  }
+  if(seg==='admin'){
+    if(!isAdminRole(S.user.role) && !isPlatformRole(S.user.role)){ location.hash = roleHome(S.user.role); return ''; }
+    var sub3 = p[1]||'';
+    if(sub3==='') return adminShell('home', pgAdminHome());
+    if(sub3==='reviews') return adminShell('reviews', pgAdminReviews());
+    if(sub3==='projects') return adminShell('projects', pgAdminProjects());
+    if(sub3==='transactions') return adminShell('tx', pgAdminTx());
+    if(sub3==='rewards') return adminShell('rewards', pgAdminRewards());
+    if(sub3==='audit') return adminShell('audit', pgAuditLogs(adminRegionIds()));
+    if(sub3==='reports') return adminShell('reports', pgAdminReports());
+  }
+  if(seg==='platform'){
+    if(!isPlatformRole(S.user.role)){ location.hash = roleHome(S.user.role); return ''; }
+    var sub4 = p[1]||'';
+    if(sub4==='') return platformShell('home', pgPlatformHome());
+    if(sub4==='regions') return platformShell('regions', pgPlatformRegions());
+    if(sub4==='projects') return platformShell('projects', pgPlatformProjects());
+    if(sub4==='transactions') return platformShell('tx', pgPlatformTx());
+    if(sub4==='audit') return platformShell('audit', pgAuditLogs(null));
+    if(sub4==='reports') return platformShell('reports', pgPlatformReports());
+    if(sub4==='settings') return platformShell('settings', pgPlatformSettings());
+  }
+  return pgLanding();
+}
+
+/* ---------- shared components ---------- */
+function logoHTML(dark){
+  return '<a href="#/" class="logo"><span class="mark">Na</span><span><b style="color:'+(dark?'#fff':'var(--g900)')+'">NaFT</b><span class="sub-jp" style="'+(dark?'color:#7fa798':'')+'">自然代替性トークン</span></span></a>';
+}
+function statCard(k,v,u,s){ return '<div class="stat"><div class="k">'+k+'</div><div class="v">'+v+(u?' <span class="u">'+u+'</span>':'')+'</div>'+(s?'<div class="s">'+s+'</div>':'')+'</div>'; }
+function disclaimerBox(){ return '<div class="disclaimer">⚠️ '+esc(DISCLAIMER)+'</div>'; }
+function catBadge(c){ var m=CATS[c]||[c,'']; return '<span class="badge b-outline">'+m[1]+' '+m[0]+'</span>'; }
+function trustBadge(v){ var cls = v>=80?'b-green':(v>=60?'b-blue':'b-gray'); return '<span class="badge '+cls+'">信頼スコア '+v+'</span>'; }
+
+function projectCard(p, base){
+  var prog = pct(p.current_amount, p.target_amount);
+  return '<a class="pcard" href="'+base+'/'+p.id+'">'
+    +'<div class="ph" style="background:'+(CAT_GRAD[p.category]||CAT_GRAD.Other)+'"><span class="cat-tag">'+catBadge(p.category)+'</span>'+(CATS[p.category]?CATS[p.category][1]:'🌍')+'</div>'
+    +'<div class="pb"><div class="meta-row"><span>📍 '+esc(p.prefecture)+'・'+esc(p.municipality)+'</span></div>'
+    +'<h3>'+esc(p.title)+'</h3>'
+    +'<div class="meta-row"><span>実施：'+esc(producerName(p.producer_id))+'</span></div>'
+    +'<div class="kv"><span>推定CO2削減量</span><b>'+fmt(p.estimated_co2_reduction)+' t-CO2</b></div>'
+    +'<div class="prog"><i style="width:'+prog+'%"></i></div>'
+    +'<div class="kv"><span><b>'+fmtInt(p.current_amount)+'</b> / '+fmtInt(p.target_amount)+' pt</span><span>'+prog+'%・支援者'+p.support_count+'人</span></div>'
+    +'<div class="between"><span>'+trustBadge(p.trust_score)+'</span><span class="btn btn-o btn-sm">詳細を見る</span></div>'
+    +'</div></a>';
+}
+function txAmountCell(t, myWalletId){
+  var neg = myWalletId ? (t.from_wallet_id===myWalletId) : (t.transaction_type==='support_project'||t.transaction_type==='reward_redeem');
+  if(t.token_type==='CARBON_REWARD') return '<span class="badge b-gold">チケット×'+t.amount+'</span>';
+  if(t.token_type==='CREDIT_RESERVATION') return '<span class="badge b-blue">予約 '+fmtInt(t.amount)+'円想定</span>';
+  return '<span class="'+(neg?'amount-neg':'amount-pos')+'">'+(neg?'−':'+')+fmtInt(t.amount)+' pt</span>';
+}
+function txTable(txs, myWalletId, showRegion){
+  if(!txs.length) return '<div class="empty"><div class="big">📒</div>取引はまだありません。プロジェクトを支援すると、ここに台帳として記録されます。</div>';
+  var rows = txs.map(function(t){
+    var pj = t.related_project_id ? projectOf(t.related_project_id) : null;
+    return '<tr'+(t.amount>=50000&&t.token_type==='NAFT_POINT'?' class="alert-row"':'')+'>'
+      +'<td class="small muted" style="white-space:nowrap">'+fmtDT(t.created_at)+'</td>'
+      +'<td><span class="badge b-outline">'+(TT_MAP[t.transaction_type]||t.transaction_type)+'</span></td>'
+      +'<td class="small">'+(TOKEN_MAP[t.token_type]||t.token_type)+'</td>'
+      +'<td class="right">'+txAmountCell(t,myWalletId)+'</td>'
+      +'<td class="small">'+(pj?esc(pj.title):esc(t.note||'—'))+'</td>'
+      +(showRegion?'<td class="small muted">'+(t.prefecture?esc(t.prefecture):'—')+'</td>':'')
+      +'<td class="mono tiny muted">'+esc(t.transaction_code)+'</td>'
+      +'<td>'+badge(t.status==='completed'?['完了','b-green']:[t.status,'b-gray'])+'</td></tr>';
+  }).join('');
+  return '<div class="tbl-wrap"><table class="tbl"><thead><tr><th>日時</th><th>種別</th><th>トークン</th><th style="text-align:right">数量</th><th>関連</th>'+(showRegion?'<th>都道府県</th>':'')+'<th>取引コード</th><th>状態</th></tr></thead><tbody>'+rows+'</tbody></table></div>';
+}
+function regionOptions(sel, withEmpty, list){
+  var rs = list || db.regions;
+  var o = withEmpty ? '<option value="">'+withEmpty+'</option>' : '';
+  var prefs = {};
+  rs.forEach(function(r){ (prefs[r.prefecture]=prefs[r.prefecture]||[]).push(r); });
+  Object.keys(prefs).forEach(function(pf){
+    o += '<optgroup label="'+esc(pf)+'">'+prefs[pf].map(function(r){ return '<option value="'+r.id+'"'+(sel===r.id?' selected':'')+'>'+esc(r.name)+'</option>'; }).join('')+'</optgroup>';
+  });
+  return o;
+}
+function catOptions(sel, withEmpty){
+  var o = withEmpty?'<option value="">'+withEmpty+'</option>':'';
+  Object.keys(CATS).forEach(function(c){ o+='<option value="'+c+'"'+(sel===c?' selected':'')+'>'+CATS[c][1]+' '+CATS[c][0]+'</option>'; });
+  return o;
+}
+
+/* ---------- modal renderer ---------- */
+function renderModal(){
+  if(!S.modal) return '';
+  var m = S.modal, body='';
+  if(m.type==='support') body = modalSupport(m);
+  else if(m.type==='reserve') body = modalReserve(m);
+  else if(m.type==='qr') body = modalQR(m);
+  else if(m.type==='rewardDetail') body = modalRewardDetail(m);
+  else if(m.type==='review') body = modalReview(m);
+  else if(m.type==='csv') body = modalCSV(m);
+  else if(m.type==='confirmReset') body = modalConfirmReset();
+  else return '';
+  return '<div class="overlay" onclick="if(event.target===this)closeModal()">'+body+'</div>';
+}
+function modalFrame(title, inner, lg){
+  return '<div class="modal'+(lg?' modal-lg':'')+'"><div class="modal-h"><h3>'+title+'</h3><button class="modal-x" onclick="closeModal()">×</button></div><div class="modal-b">'+inner+'</div></div>';
+}
+function modalQR(m){
+  return modalFrame(esc(m.title||'QRコード'),
+    '<div class="qr-holder"><div id="q1" class="qr-target" data-v="'+esc(m.value)+'"></div><div class="mono small">'+esc(m.value)+'</div>'
+    +(m.note?'<div class="small muted center">'+esc(m.note)+'</div>':'')+'</div>');
+}
+</script>
+<script>
+/* ---------- public: landing ---------- */
+function pubHeader(){
+  return '<header class="pub-head"><div class="in">'+logoHTML(false)
+    +'<nav class="pub-nav"><a href="#/#problem">課題</a><a href="#/#solution">仕組み</a><a href="#/#features">機能</a><a href="#/#usecases">活用例</a><a href="#/market">マーケット</a><a href="#/#compliance">コンプライアンス</a></nav>'
+    +'<div class="flex">'+(S.user?'<a class="btn btn-p" href="'+roleHome(S.user.role)+'">マイページへ</a>':'<a class="btn btn-ghost" href="#/login">ログイン</a><a class="btn btn-p" href="#/register">無料で始める</a>')+'</div>'
+    +'</div></header>';
+}
+function pubFooter(){
+  return '<footer style="background:var(--g950);color:#9fc4b5;padding:40px 0 32px;margin-top:0"><div class="container">'
+    +'<div class="between" style="align-items:flex-start"><div>'+logoHTML(true)+'<div class="small mt8" style="max-width:420px;color:#7fa798">炭素を、まちで巡る価値に変える。<br>全国の地域がそれぞれのGX経済圏を立ち上げられる、ホワイトラベル型の炭素ウォレット基盤。</div></div>'
+    +'<div class="small" style="display:flex;gap:28px;flex-wrap:wrap"><div><div style="color:#fff;font-weight:700;margin-bottom:8px">プロダクト</div><a href="#/market" style="color:#9fc4b5;display:block;margin-bottom:5px">全国マーケット</a><a href="#/register" style="color:#9fc4b5;display:block;margin-bottom:5px">アカウント登録</a><a href="#/login" style="color:#9fc4b5;display:block">ログイン</a></div>'
+    +'<div><div style="color:#fff;font-weight:700;margin-bottom:8px">導入</div><a href="#/#usecases" style="color:#9fc4b5;display:block;margin-bottom:5px">活用例</a><a href="#/#contact" style="color:#9fc4b5;display:block;margin-bottom:5px">地域PoCの相談</a><a href="#/#compliance" style="color:#9fc4b5;display:block">コンプライアンス</a></div></div></div>'
+    +'<div class="tiny mt24" style="border-top:1px solid rgba(255,255,255,.1);padding-top:18px;color:#6e8a7f;line-height:1.8">'+esc(DISCLAIMER)+'<br>© 2026 NaFT — Natural-Fungible Token（PoC版）</div>'
+    +'</div></footer>';
+}
+function pgLanding(){
+  var approved = db.projects.filter(function(p){return p.review_status==='approved';});
+  var totalSupport = approved.reduce(function(s,p){return s+p.current_amount;},0);
+  var totalCo2 = approved.reduce(function(s,p){return s+p.estimated_co2_reduction*Math.min(1,p.current_amount/p.target_amount);},0);
+  var problems = [
+    ['🔍','活動が見えない','地域の脱炭素活動は日々の営みに埋もれ、市民や地域外からは見えにくいままです。'],
+    ['🏢','クレジットが遠い','カーボンクレジットは専門家・大企業中心の制度で、市民や小規模事業者から遠い存在です。'],
+    ['🌾','制度対応が難しい','農家や小規模事業者にとって、算定・証憑・申請などの制度対応はハードルが高すぎます。'],
+    ['💸','価値が地域に戻らない','地域で生まれた環境価値が、地域経済の中で循環する仕組みがありません。'],
+    ['🙋','自分ごとにならない','GXが「国や企業の話」にとどまり、市民一人ひとりの参加につながっていません。'],
+    ['🧩','取り組みが分断','地域ごとの取り組みがバラバラで、良いモデルが全国へ広がっていきません。']
+  ];
+  var solSteps = [
+    ['地域GXプロジェクトを登録・可視化','農家・事業者・NPOが、バイオ炭・森林保全・省エネなどの活動を推定CO2削減量・算定根拠・証憑つきで登録します。'],
+    ['管理者が審査','自治体・地域金融機関・地域運営者が証憑と算定根拠を確認し、承認したプロジェクトだけがマーケットに掲載されます。'],
+    ['市民がPoC用ポイントで支援','市民はGXウォレットのNaFTポイントで、応援したい地域のプロジェクトを支援。全国どこからでも「ふるさとのGX」を応援できます。'],
+    ['支援履歴を取引台帳に記録','すべての支援・還元は取引台帳と監査ログに記録され、透明性のあるかたちで地域GXの成果が積み上がります。'],
+    ['炭素配当として地域に還元','支援に応じてGX還元チケット（炭素配当）が発行され、地域内消費と脱炭素活動の循環が生まれます。'],
+    ['地域ごとに導入、全国へ展開','地域単位で導入しながら全国マーケットにもつながり、将来はカーボンクレジット取引・ステーブルトークン・DAOへ拡張します。']
+  ];
+  var feats = [
+    ['👛','GXウォレット','市民一人ひとりの支援・貢献・還元を記録する炭素ウォレット'],
+    ['🌏','カーボンクレジット候補マーケット','全国のクレジット候補プロジェクトを検索・支援・購入予約'],
+    ['🔎','全国プロジェクト検索','都道府県・カテゴリ・CO2削減量・支援額で横断検索'],
+    ['🪙','地域GXポイント','PoC用NaFTポイントで支援の意思を可視化'],
+    ['🎫','炭素配当チケット','支援の成果を地域内還元として受け取るGX還元チケット'],
+    ['📒','取引台帳','初回付与から支援・還元まで全取引を台帳に記録'],
+    ['🛡️','監査ログ','審査・承認・調整などの操作履歴をすべて保存'],
+    ['🏭','事業者登録','算定根拠・証憑つきでプロジェクトを登録・提出'],
+    ['✅','管理者審査','承認・差し戻し・却下・停止のワークフロー'],
+    ['📊','地域GXダッシュボード','担当エリアの参加・流通・CO2成果を可視化'],
+    ['🗾','全国横断ダッシュボード','都道府県別・カテゴリ別に全国の状況を俯瞰'],
+    ['📄','PoCレポート','自治体・金融機関向けの報告レポートとCSV出力']
+  ];
+  var uses = ['小規模農家のバイオ炭','森林保全・間伐材活用','商店街の省エネ活動','地域再エネプロジェクト','地域交通・モビリティ削減','食品ロス削減','地域イベントの脱炭素化','大学・NPOの環境活動','企業版ふるさと納税・CSR連携','地銀・信金・JAとの地域GX金融モデル'];
+  return pubHeader()
+  +'<section class="hero"><div class="in"><div>'
+    +'<span class="hero-badge">🌱 全国対応・ホワイトラベル型 GXウォレット基盤</span>'
+    +'<h1>日本中の地域GXを、<br><span class="hl">市民参加の経済循環</span>へ。</h1>'
+    +'<p class="lead">NaFTは、全国の自治体・地域金融機関・JA・商工会・企業・NPOが、地域の脱炭素活動を可視化し、市民参加と地域内還元につなげるためのGXウォレット基盤です。<br>炭素を、まちで巡る価値に変える。</p>'
+    +'<div class="flex mt24 wrap"><a class="btn btn-p btn-lg" href="#/login">デモを開始する</a><a class="btn btn-o btn-lg" href="#/register">自分の地域で試す</a><a class="btn btn-ghost btn-lg" href="#/#contact">地域PoCを相談する</a></div>'
+    +'<div class="tiny muted mt16">※ 本デモはPoC用です。NaFTポイントは法定通貨・暗号資産・電子決済手段ではありません。</div>'
+  +'</div><div>'
+    +'<div class="wallet-card"><div class="between"><span class="wl">CITIZEN GX WALLET</span><span class="badge b-gold">PoC</span></div>'
+    +'<div class="mt16"><div class="wl">NaFTポイント残高</div><div class="bal">8,200 <span class="u">pt</span></div></div>'
+    +'<div class="row2"><div class="mini"><div class="k">累計CO2貢献</div><div class="v">49.8 kg-CO2</div></div><div class="mini"><div class="k">支援プロジェクト</div><div class="v">2件</div></div><div class="mini"><div class="k">炭素配当</div><div class="v">🎫 2枚</div></div></div>'
+    +'<div class="mt16 between"><span class="wcode">NAFT-WLT-8F3K9Q2L</span><span class="tiny" style="color:#9fc4b5">取引台帳に記録済み</span></div></div>'
+    +'<div class="card card-p mt16" style="font-size:12.5px;color:var(--sub);line-height:1.8"><b style="color:var(--ink)">🎫 炭素配当（GX還元チケット）</b><br>「このチケットは、地域のバイオ炭プロジェクトへの支援により発行されました。あなたの支援により、推定0.8kg-CO2分の地域GX活動に参加しました。」</div>'
+  +'</div></div></section>'
+  +'<div class="circ-strip"><div class="in">'
+    +'<div><div class="k">登録地域</div><div class="v">'+db.regions.length+' <span class="u">エリア（全国）</span></div></div>'
+    +'<div><div class="k">承認済みプロジェクト</div><div class="v">'+approved.length+' <span class="u">件</span></div></div>'
+    +'<div><div class="k">累計支援</div><div class="v">'+fmtInt(totalSupport)+' <span class="u">pt</span></div></div>'
+    +'<div><div class="k">推定CO2削減（進捗換算）</div><div class="v">'+fmt(totalCo2)+' <span class="u">t-CO2</span></div></div>'
+  +'</div></div>'
+  +'<section class="sec" id="problem"><div class="container"><span class="eyebrow">Problem</span><h2>地域の環境価値は、まだ「巡って」いない。</h2>'
+    +'<div class="g3">'+problems.map(function(x){return '<div class="fcard"><div class="ic">'+x[0]+'</div><h3>'+x[1]+'</h3><p>'+x[2]+'</p></div>';}).join('')+'</div></div></section>'
+  +'<section class="sec alt" id="solution"><div class="container"><span class="eyebrow">Solution</span><h2>登録 → 審査 → 支援 → 台帳 → 炭素配当。<br>ひとつの循環に。</h2>'
+    +'<div class="card card-p mt24" style="max-width:820px">'+solSteps.map(function(x,i){return '<div class="flow-step"><div class="n">'+(i+1)+'</div><div><b>'+x[0]+'</b><div class="small muted mt8" style="margin-top:4px">'+x[1]+'</div></div></div>';}).join('')+'</div></div></section>'
+  +'<section class="sec" id="features"><div class="container"><span class="eyebrow">Features</span><h2>デモではなく、運用を見据えた基盤機能。</h2>'
+    +'<div class="g4">'+feats.map(function(x){return '<div class="fcard"><div class="ic">'+x[0]+'</div><h3>'+x[1]+'</h3><p>'+x[2]+'</p></div>';}).join('')+'</div></div></section>'
+  +'<section class="sec alt" id="usecases"><div class="container"><span class="eyebrow">Use Cases</span><h2>ローカルにも、全国にも広がる炭素ウォレット。</h2>'
+    +'<p class="sec-lead">都道府県・市区町村・広域連携・商店街・JA管内・地域金融機関の営業エリア・脱炭素先行地域・大学や企業のコミュニティまで。特定の地域に依存しない設計で、どの単位からでも導入できます。</p>'
+    +'<div class="chips mt24">'+uses.map(function(u){return '<span class="chip" style="cursor:default">🌱 '+u+'</span>';}).join('')+'</div>'
+    +'<div class="g3 mt32">'
+    +'<div class="fcard"><div class="ic">🏛️</div><h3>自治体・脱炭素先行地域</h3><p>地域GXの市民参加率・支援額・推定CO2削減量をダッシュボードで可視化し、PoCレポートとして報告に活用できます。</p></div>'
+    +'<div class="fcard"><div class="ic">🏦</div><h3>地銀・信金・JA</h3><p>営業エリア単位の地域GX金融モデルとして導入。取引先の脱炭素プロジェクト支援と地域内還元を一体で設計できます。</p></div>'
+    +'<div class="fcard"><div class="ic">🏪</div><h3>商工会・商店街・企業</h3><p>省エネ・イベント脱炭素化を還元チケットとつなぎ、地域内消費とGX活動の循環をつくります。</p></div>'
+    +'</div></div></section>'
+  +'<section class="sec" id="compliance"><div class="container"><span class="eyebrow">Compliance</span><h2>初期版は、PoCとしての位置づけを明確に。</h2>'
+    +'<div class="g2 mt24" style="align-items:start"><div class="card card-p"><b>初期版で行うこと</b><ul class="small muted mt8" style="padding-left:18px;line-height:2">'
+    +'<li>PoC用地域GXポイント（NaFTポイント）の付与・利用</li><li>デモステーブルトークンの表示</li><li>カーボンクレジット候補の登録・可視化</li><li>支援・購入予約（意思表示）</li><li>地域還元（GX還元チケット）の可視化</li><li>取引台帳・監査ログの記録</li></ul></div>'
+    +'<div class="card card-p"><b>初期版で行わないこと</b><ul class="small muted mt8" style="padding-left:18px;line-height:2">'
+    +'<li>実際の金融取引・資金決済</li><li>暗号資産の交換・売買</li><li>電子決済手段・ステーブルコインの発行</li><li>カーボンクレジットの実売買・償却</li><li>金融商品の勧誘・投資助言</li></ul></div></div>'
+    +'<div class="mt16">'+disclaimerBox()+'</div></div></section>'
+  +'<section class="sec alt" id="contact"><div class="container center"><span class="eyebrow">Get Started</span><h2>あなたの地域から、始められます。</h2>'
+    +'<p class="sec-lead" style="margin:12px auto 0">「ふるさとの脱炭素を応援したい市民」も、「地域GXを立ち上げたい自治体・金融機関・JA・商工会」も。まずはデモからお試しください。</p>'
+    +'<div class="flex mt24 wrap" style="justify-content:center"><a class="btn btn-p btn-lg" href="#/register">自分の地域で始める</a><a class="btn btn-o btn-lg" href="#/market">全国マーケットを見る</a></div>'
+    +'<div class="small muted mt16">地域PoCのご相談：poc@naft.example.jp（デモ用アドレス）</div></div></section>'
+  +pubFooter();
+}
+
+/* ---------- public market & project ---------- */
+function marketFilterBar(base){
+  var f=S.mf;
+  var prefs = Array.from(new Set(db.regions.map(function(r){return r.prefecture;})));
+  return '<div class="card card-p mb16"><div class="filters">'
+    +'<div style="flex:1;min-width:200px"><span class="label">キーワード検索</span><input class="input" id="mf-q" value="'+esc(f.q)+'" placeholder="プロジェクト名・地域名・実施者名" onkeydown="if(event.key===\'Enter\')applyMF(\''+base+'\')"></div>'
+    +'<div><span class="label">都道府県</span><select class="select" id="mf-pref">'+'<option value="">すべて</option>'+prefs.map(function(p){return '<option'+(f.pref===p?' selected':'')+'>'+p+'</option>';}).join('')+'</select></div>'
+    +'<div style="min-width:200px"><span class="label">地域エリア</span><select class="select" id="mf-region">'+regionOptions(f.region,'すべての地域')+'</select></div>'
+    +'<div><span class="label">カテゴリ</span><select class="select" id="mf-cat">'+catOptions(f.cat,'すべて')+'</select></div>'
+    +'<div><span class="label">並び順</span><select class="select" id="mf-sort">'
+      +'<option value="new"'+(f.sort==='new'?' selected':'')+'>新着順</option><option value="amount"'+(f.sort==='amount'?' selected':'')+'>支援額順</option><option value="co2"'+(f.sort==='co2'?' selected':'')+'>CO2削減量順</option><option value="progress"'+(f.sort==='progress'?' selected':'')+'>進捗率順</option></select></div>'
+    +'<div><button class="btn btn-p" onclick="applyMF(\''+base+'\')">検索</button></div>'
+    +'</div></div>';
+}
+function applyMF(base){
+  S.mf = { q:document.getElementById('mf-q').value.trim(), pref:document.getElementById('mf-pref').value, region:document.getElementById('mf-region').value, cat:document.getElementById('mf-cat').value, sort:document.getElementById('mf-sort').value };
+  render();
+}
+function filteredProjects(){
+  var f=S.mf;
+  var list = db.projects.filter(function(p){ return p.review_status==='approved'; });
+  if(f.pref) list=list.filter(function(p){return p.prefecture===f.pref;});
+  if(f.region) list=list.filter(function(p){return p.region_id===f.region;});
+  if(f.cat) list=list.filter(function(p){return p.category===f.cat;});
+  if(f.q){ var q=f.q.toLowerCase(); list=list.filter(function(p){ return (p.title+p.prefecture+p.municipality+p.area_name+producerName(p.producer_id)+p.description+(CATS[p.category]?CATS[p.category][0]:'')).toLowerCase().indexOf(q)>=0; }); }
+  if(f.sort==='amount') list.sort(function(a,b){return b.current_amount-a.current_amount;});
+  else if(f.sort==='co2') list.sort(function(a,b){return b.estimated_co2_reduction-a.estimated_co2_reduction;});
+  else if(f.sort==='progress') list.sort(function(a,b){return pct(b.current_amount,b.target_amount)-pct(a.current_amount,a.target_amount);});
+  else list.sort(function(a,b){return new Date(b.created_at)-new Date(a.created_at);});
+  return list;
+}
+function marketBody(base){
+  var list = filteredProjects();
+  return marketFilterBar(base)
+    +'<div class="between mb16"><span class="small muted">承認済みプロジェクト '+list.length+'件（審査を通過したプロジェクトのみ掲載しています）</span></div>'
+    +(list.length?'<div class="pgrid">'+list.map(function(p){return projectCard(p,base);}).join('')+'</div>'
+      :'<div class="empty"><div class="big">🔎</div>条件に合うプロジェクトが見つかりません。条件を変えて検索してください。</div>');
+}
+function pgPublicMarket(){
+  return pubHeader()+'<div class="container" style="padding:36px 24px 60px"><span class="eyebrow">Nationwide Market</span><h2 style="font-size:24px;font-weight:800;margin:6px 0 4px">全国カーボンプロジェクトマーケット</h2>'
+    +'<p class="small muted mb16">全国の地域で生まれたカーボンクレジット候補プロジェクトを、地域・カテゴリから探せます。支援にはログインが必要です。</p>'
+    +marketBody('#/project')+'<div class="mt24">'+disclaimerBox()+'</div></div>'+pubFooter();
+}
+
+/* ---------- project detail (public + app) ---------- */
+function pgProjectDetail(id, isPublic){
+  var p = projectOf(id);
+  if(!p) return (isPublic?pubHeader():'')+'<div class="container" style="padding:60px 24px">プロジェクトが見つかりません。</div>';
+  var visible = p.review_status==='approved' || (S.user && (isPlatformRole(S.user.role)||isAdminRole(S.user.role)|| (producerOfUser(S.user.id)&&producerOfUser(S.user.id).id===p.producer_id)));
+  if(!visible) return (isPublic?pubHeader():'')+'<div class="container" style="padding:60px 24px">このプロジェクトは現在公開されていません。</div>';
+  var prog = pct(p.current_amount,p.target_amount);
+  var evs = db.evidences.filter(function(e){return e.project_id===p.id;});
+  var revs = db.reviews.filter(function(r){return r.project_id===p.id;}).sort(function(a,b){return new Date(a.created_at)-new Date(b.created_at);});
+  var txs = db.transactions.filter(function(t){return t.related_project_id===p.id && t.transaction_type==='support_project';}).slice(0,8);
+  var rws = db.rewards.filter(function(r){return r.related_project_id===p.id || (r.region_id===p.region_id&&r.status==='active');});
+  var resCount = db.reservations.filter(function(r){return r.project_id===p.id&&r.status!=='cancelled';}).length;
+  var canSupport = S.user && S.user.role==='citizen' && p.review_status==='approved';
+  var inner = '<div style="display:grid;grid-template-columns:1.6fr 1fr;gap:20px" class="pj-detail-grid">'
+    +'<div><div class="card" style="overflow:hidden"><div class="ph" style="height:150px;background:'+(CAT_GRAD[p.category]||CAT_GRAD.Other)+';display:flex;align-items:center;justify-content:center;font-size:56px">'+(CATS[p.category]?CATS[p.category][1]:'🌍')+'</div>'
+    +'<div class="card-p"><div class="flex wrap mb8">'+catBadge(p.category)+rsBadge(p.review_status)+trustBadge(p.trust_score)+'</div>'
+    +'<h2 style="font-size:20px;font-weight:800">'+esc(p.title)+'</h2>'
+    +'<div class="small muted mt8">📍 '+esc(p.prefecture)+'・'+esc(p.municipality)+'（'+esc(p.area_name)+'）｜実施：'+esc(producerName(p.producer_id))+'｜地域：'+esc(regionName(p.region_id))+'</div>'
+    +'<p class="mt16" style="line-height:1.9">'+esc(p.description)+'</p>'
+    +'<div class="mt24"><b class="section-title">推定CO2削減量と算定方法</b><div class="card card-p mt8" style="background:var(--g50);box-shadow:none"><div class="between"><span class="small muted">推定CO2削減・吸収量（'+esc(p.reduction_type||'削減・吸収')+'）</span><b style="font-size:18px;color:var(--g700)">'+fmt(p.estimated_co2_reduction)+' t-CO2</b></div><div class="small muted mt8" style="line-height:1.8">'+esc(p.calculation_method)+'</div><div class="tiny muted mt8">※ 数値は事業者による推定値であり、審査で根拠資料を確認していますが、認証済みカーボンクレジットではありません。</div></div></div>'
+    +'<div class="mt24"><b class="section-title">証憑・根拠資料</b>'+(evs.length?'<div class="mt8">'+evs.map(function(e){return '<div class="flex" style="padding:9px 0;border-bottom:1px dashed var(--line)"><span>📎</span><div><div class="small"><b>'+esc(e.file_name)+'</b></div><div class="tiny muted">'+esc(e.description)+'</div></div></div>';}).join('')+'</div>':'<div class="small muted mt8">証憑は審査時に管理者が確認しています。</div>')+'</div>'
+    +'<div class="mt24"><b class="section-title">地域還元予定</b><p class="small muted mt8" style="line-height:1.8">'+esc(p.regional_return_plan)+'</p></div>'
+    +'<div class="mt24"><b class="section-title">タイムライン・審査ログ</b><div class="mt8">'
+      +'<div class="flow-step"><div class="n" style="background:var(--g100);color:var(--g800)">始</div><div class="small"><b>活動期間</b><div class="muted">'+fmtDate(p.start_date)+' 〜 '+fmtDate(p.end_date)+'</div></div></div>'
+      +revs.map(function(r){var u=r.reviewer_id?findUser(r.reviewer_id):null;return '<div class="flow-step"><div class="n" style="background:var(--g100);color:var(--g800)">'+(r.action==='approve'?'✓':(r.action==='submit'?'↑':'!'))+'</div><div class="small"><b>'+({approve:'承認',reject:'却下',request_revision:'差し戻し',suspend:'停止',submit:'審査提出'}[r.action]||r.action)+'</b> <span class="tiny muted">'+fmtDT(r.created_at)+(u?'・'+esc(u.name):'')+'</span><div class="muted">'+esc(r.comment||'')+'</div></div></div>';}).join('')
+    +'</div></div>'
+    +'</div></div></div>'
+    +'<div><div class="card card-p">'
+      +'<div class="kv"><span>目標支援額</span><b>'+fmtInt(p.target_amount)+' pt</b></div>'
+      +'<div style="font-size:26px;font-weight:800;margin:6px 0 2px;color:var(--g800)">'+fmtInt(p.current_amount)+' <span class="small muted" style="font-weight:600">pt 支援済み</span></div>'
+      +'<div class="prog"><i style="width:'+prog+'%"></i></div>'
+      +'<div class="between small muted" style="margin-top:6px"><span>進捗 '+prog+'%</span><span>支援者 '+p.support_count+' 人</span></div>'
+      +(canSupport
+        ?'<button class="btn btn-p btn-lg btn-block mt16" onclick="openSupport(\''+p.id+'\')">🌱 このプロジェクトを支援する</button><button class="btn btn-o btn-block mt8" onclick="openReserve(\''+p.id+'\')">📝 クレジット購入予約（意思表示）</button>'
+        :(S.user?'<div class="notice-inline mt16">支援は市民アカウントから行えます。'+(p.review_status!=='approved'?'（未承認・停止中のプロジェクトには支援できません）':'')+'</div>'
+          :'<a class="btn btn-p btn-lg btn-block mt16" href="#/login">ログインして支援する</a><div class="tiny muted mt8 center">支援にはPoC用NaFTポイントを使用します</div>'))
+      +'<div class="tiny muted mt8">購入予約は実決済ではなく、将来のカーボンクレジット化・販売に向けた意思表示です。'+(resCount?'（現在の予約 '+resCount+'件）':'')+'</div>'
+    +'</div>'
+    +'<div class="card card-p mt16"><b class="section-title">🎫 関連するGX還元チケット</b>'
+      +(rws.length?rws.map(function(r){return '<div style="padding:10px 0;border-bottom:1px dashed var(--line)"><div class="between"><b class="small">'+esc(r.title)+'</b>'+scopeBadge(r.usage_scope)+'</div><div class="tiny muted mt8" style="margin-top:4px">'+esc(r.reward_value)+'｜発行元：'+esc(r.issuer_name)+'</div></div>';}).join(''):'<div class="small muted mt8">このプロジェクトに関連する還元チケットは準備中です。</div>')
+      +'<div class="tiny muted mt8">1,000pt以上の支援で、対象のGX還元チケット（炭素配当）が発行されます。</div></div>'
+    +'<div class="card card-p mt16"><b class="section-title">📒 最近の支援（取引台帳より）</b>'
+      +(txs.length?'<div class="mt8">'+txs.map(function(t){return '<div class="between small" style="padding:7px 0;border-bottom:1px dashed var(--line)"><span class="muted">'+fmtDT(t.created_at)+'</span><b>+'+fmtInt(t.amount)+' pt</b></div>';}).join('')+'</div>':'<div class="small muted mt8">まだ支援の記録がありません。最初の支援者になりましょう。</div>')+'</div>'
+    +'</div></div><style>@media(max-width:900px){.pj-detail-grid{grid-template-columns:1fr!important}}</style>';
+  if(isPublic) return pubHeader()+'<div class="container" style="padding:30px 24px 60px"><a class="small" href="#/market">← 全国マーケットへ戻る</a><div class="mt16">'+inner+'</div><div class="mt24">'+disclaimerBox()+'</div></div>'+pubFooter();
+  return '<a class="small" href="#/app/market">← マーケットへ戻る</a><div class="mt16">'+inner+'</div>';
+}
+
+/* ---------- auth ---------- */
+function authFrame(inner){
+  return '<div style="min-height:100vh;background:linear-gradient(180deg,#fff,var(--g50));display:flex;flex-direction:column">'
+    +'<div class="container" style="padding:18px 24px">'+logoHTML(false)+'</div>'
+    +'<div style="flex:1;display:flex;align-items:flex-start;justify-content:center;padding:20px 16px 60px"><div style="width:100%;max-width:460px">'+inner+'</div></div></div>';
+}
+function pgLogin(){
+  var demos = [['citizen@naft.demo','市民','佐藤 みどり','b-green'],['producer@naft.demo','事業者','会津 太郎','b-blue'],['admin@naft.demo','地域管理者','管理 花子','b-amber'],['bank@naft.demo','金融パートナー','金融 桜','b-blue'],['merchant@naft.demo','加盟店','商店 次郎','b-gray'],['platform@naft.demo','全国管理者','全国 統括','b-gold']];
+  return authFrame('<div class="card card-p"><h2 style="font-size:19px;font-weight:800">ログイン</h2><p class="small muted mt8">GXウォレットにアクセスします。</p>'
+    +'<span class="label">メールアドレス</span><input class="input" id="lg-email" placeholder="you@example.jp">'
+    +'<span class="label">パスワード</span><input class="input" type="password" id="lg-pw" placeholder="••••••••" onkeydown="if(event.key===\'Enter\')doLogin()">'
+    +'<button class="btn btn-p btn-lg btn-block mt24" onclick="doLogin()">ログイン</button>'
+    +'<div class="small muted mt16 center">アカウントがない方は <a href="#/register"><b>新規登録</b></a></div></div>'
+    +'<div class="card card-p mt16"><b class="small">🎭 デモアカウントでログイン（パスワード: demo1234）</b><div class="mt8" style="display:grid;gap:8px">'
+    +demos.map(function(d){return '<div class="demo-acc"><div><span class="badge '+d[3]+'">'+d[1]+'</span> <b class="small">'+d[2]+'</b><div class="tiny muted mono">'+d[0]+'</div></div><button class="btn btn-o btn-sm" onclick="quickLogin(\''+d[0]+'\')">ログイン</button></div>';}).join('')
+    +'</div></div><div class="mt16">'+disclaimerBox()+'</div>');
+}
+async function quickLogin(email){
+  document.getElementById('lg-email').value = email; document.getElementById('lg-pw').value='demo1234'; await doLogin();
+}
+async function doLogin(){
+  var email = document.getElementById('lg-email').value.trim().toLowerCase();
+  var pw = document.getElementById('lg-pw').value;
+  var u = db.users.find(function(x){return x.email===email;});
+  if(!u || u.password_hash!==hashPw(pw)){ toast('メールアドレスまたはパスワードが正しくありません',true); return; }
+  if(u.status!=='active'){ toast('このアカウントは現在利用できません',true); return; }
+  S.user = u; await store.set(SES_KEY,u.id);
+  audit('login','user',u.id,u.name+' がログイン'); await saveDB();
+  toast('ログインしました');
+  go(u.onboarded===false ? '#/onboarding' : roleHome(u.role));
+}
+function pgRegister(){
+  return authFrame('<div class="card card-p"><h2 style="font-size:19px;font-weight:800">新規登録</h2><p class="small muted mt8">全国どこからでも、地域GXに参加できます。</p>'
+    +'<span class="label">お名前</span><input class="input" id="rg-name" placeholder="例：山田 花子">'
+    +'<span class="label">メールアドレス</span><input class="input" id="rg-email" placeholder="you@example.jp">'
+    +'<span class="label">パスワード（6文字以上）</span><input class="input" type="password" id="rg-pw">'
+    +'<span class="label">登録種別</span><select class="select" id="rg-role"><option value="citizen">市民として参加する</option><option value="producer">事業者・生産者として参加する</option></select>'
+    +'<div id="rg-org-wrap" style="display:none"><span class="label">事業者・団体名</span><input class="input" id="rg-org" placeholder="例：〇〇グリーンファーム"></div>'
+    +'<button class="btn btn-p btn-lg btn-block mt24" onclick="doRegister()">登録してオンボーディングへ</button>'
+    +'<div class="tiny muted mt16" style="line-height:1.8">'+esc(DISCLAIMER)+'</div>'
+    +'<div class="small muted mt16 center">すでにアカウントをお持ちの方は <a href="#/login"><b>ログイン</b></a></div></div>'
+    +'<script>document.getElementById("rg-role").onchange=function(){document.getElementById("rg-org-wrap").style.display=this.value==="producer"?"block":"none"}<\/script>');
+}
+async function doRegister(){
+  var name=document.getElementById('rg-name').value.trim(), email=document.getElementById('rg-email').value.trim().toLowerCase(), pw=document.getElementById('rg-pw').value, role=document.getElementById('rg-role').value, org=(document.getElementById('rg-org')||{value:''}).value.trim();
+  if(!name){ toast('お名前を入力してください',true); return; }
+  if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){ toast('メールアドレスの形式が正しくありません',true); return; }
+  if(pw.length<6){ toast('パスワードは6文字以上にしてください',true); return; }
+  if(db.users.some(function(u){return u.email===email;})){ toast('このメールアドレスは既に登録されています',true); return; }
+  if(role==='producer'&&!org){ toast('事業者・団体名を入力してください',true); return; }
+  var u = {id:uid('u'),name:name,email:email,password_hash:hashPw(pw),role:role,home_region_id:null,selected_region_id:null,support_region_ids:[],interests:[],permitted_region_ids:[],status:'active',onboarded:false,created_at:nowISO()};
+  db.users.push(u);
+  db.wallets.push({id:uid('w'),user_id:u.id,wallet_code:walletCode(),wallet_address:null,demo_stable_balance:0,naft_point_balance:0,total_supported_amount:0,total_co2_contribution:0,supported_project_ids:[],status:'active',created_at:nowISO()});
+  if(role==='producer') db.producers.push({id:uid('p'),user_id:u.id,organization_name:org,description:'',region_id:null,contact_email:email,address:'',verification_status:'pending',created_at:nowISO()});
+  S.user=u; await store.set(SES_KEY,u.id);
+  audit('user_register','user',u.id,name+'（'+ROLE_MAP[role]+'）が新規登録');
+  await saveDB();
+  S.ob={step:1,home:'',support:[],cats:[]};
+  go('#/onboarding');
+}
+async function doLogout(){
+  audit('logout','user',S.user.id,S.user.name+' がログアウト'); await saveDB();
+  S.user=null; await store.del(SES_KEY); toast('ログアウトしました'); go('#/');
+}
+
+/* ---------- onboarding ---------- */
+function pgOnboarding(){
+  var ob=S.ob;
+  var dots='<div class="step-dots">'+[1,2,3].map(function(i){return '<i class="'+(i<=ob.step?'on':'')+'"></i>';}).join('')+'</div>';
+  var inner='';
+  if(ob.step===1){
+    inner='<h2 style="font-size:18px;font-weight:800">お住まいの地域を選んでください</h2><p class="small muted mt8">近くの地域GXを見るために使います。あとから変更できます。</p>'
+      +'<span class="label">居住地域</span><select class="select" id="ob-home">'+regionOptions(ob.home,'選択してください')+'</select>'
+      +'<div class="field-note">お住まいの地域がまだ登録されていない場合は、近いエリアか、応援したい地域を選んでください。</div>'
+      +'<button class="btn btn-p btn-lg btn-block mt24" onclick="obNext1()">次へ：応援したい地域を選ぶ</button>';
+  } else if(ob.step===2){
+    inner='<h2 style="font-size:18px;font-weight:800">あなたが応援したい地域を選んでください</h2><p class="small muted mt8">ふるさとのGXを応援する。旅先で出会ったまちを応援する。複数選べます。</p>'
+      +'<div class="chips mt16">'+db.regions.map(function(r){var on=ob.support.indexOf(r.id)>=0;return '<span class="chip'+(on?' on':'')+'" onclick="obToggle(\'support\',\''+r.id+'\')">'+esc(r.prefecture)+'｜'+esc(r.municipality)+'</span>';}).join('')+'</div>'
+      +'<div class="flex mt24"><button class="btn btn-o" onclick="S.ob.step=1;render()">戻る</button><button class="btn btn-p btn-lg" style="flex:1" onclick="obNext2()">次へ：関心カテゴリを選ぶ</button></div>';
+  } else {
+    inner='<h2 style="font-size:18px;font-weight:800">関心のあるカテゴリを選んでください</h2><p class="small muted mt8">カテゴリから探す際のおすすめ表示に使います。</p>'
+      +'<div class="chips mt16">'+Object.keys(CATS).map(function(c){var on=ob.cats.indexOf(c)>=0;return '<span class="chip'+(on?' on':'')+'" onclick="obToggle(\'cats\',\''+c+'\')">'+CATS[c][1]+' '+CATS[c][0]+'</span>';}).join('')+'</div>'
+      +'<div class="card card-p mt24" style="background:var(--g50);box-shadow:none"><b class="small">🎁 オンボーディング完了で</b><div style="font-size:20px;font-weight:800;color:var(--g700)">PoC用 NaFTポイント 5,000pt を付与</div><div class="tiny muted">付与は取引台帳に「初回付与」として記録されます。</div></div>'
+      +'<div class="flex mt24"><button class="btn btn-o" onclick="S.ob.step=2;render()">戻る</button><button class="btn btn-p btn-lg" style="flex:1" onclick="obFinish()">ウォレットを作成して始める</button></div>';
+  }
+  return authFrame('<div class="card card-p">'+dots+inner+'</div>');
+}
+function obToggle(field,v){ var a=S.ob[field]; var i=a.indexOf(v); if(i>=0)a.splice(i,1);else a.push(v); S._keepScroll=true; render(); }
+function obNext1(){ var v=document.getElementById('ob-home').value; if(!v){ toast('居住地域を選択してください',true); return; } S.ob.home=v; S.ob.step=2; render(); }
+function obNext2(){ if(!S.ob.support.length){ toast('応援したい地域を1つ以上選んでください',true); return; } S.ob.step=3; render(); }
+async function obFinish(){
+  var u=S.user;
+  u.home_region_id=S.ob.home; u.selected_region_id=S.ob.home; u.support_region_ids=S.ob.support.slice(); u.interests=S.ob.cats.slice(); u.onboarded=true;
+  var w=walletOf(u.id);
+  var granted = false;
+  if(!db.transactions.some(function(t){return t.to_wallet_id===w.id&&t.transaction_type==='initial_grant';})){
+    w.naft_point_balance += 5000; granted = true;
+    addTx({from_wallet_id:'SYSTEM',to_wallet_id:w.id,amount:5000,token_type:'NAFT_POINT',transaction_type:'initial_grant',region_id:u.home_region_id,note:'初回オンボーディング付与'});
+  }
+  var pr = producerOfUser(u.id); if(pr && !pr.region_id) pr.region_id = u.home_region_id;
+  audit('onboarding_complete','user',u.id,u.name+' がオンボーディング完了'+(granted?'（初回付与 5,000pt）':''));
+  await saveDB();
+  toast(granted?'ウォレットを作成し、5,000ptを付与しました':'設定を保存しました');
+  go(roleHome(u.role));
+}
+</script>
+<script>
+/* ---------- app shells ---------- */
+function shellFrame(navItems, active, title, content, extraTop){
+  var u=S.user, w=walletOf(u.id);
+  return '<div class="shell"><aside class="side"><div class="brand">'+logoHTML(true)+'</div><nav>'
+    +navItems.map(function(n){ if(n.label) return '<div class="nav-label">'+n.label+'</div>';
+      return '<a class="nv'+(n.key===active?' on':'')+'" href="'+n.href+'">'+n.icon+' '+n.name+'</a>'; }).join('')
+    +'</nav><div class="ubox"><div style="color:#fff;font-weight:700">'+esc(u.name)+'</div><div style="color:#7fa798">'+ROLE_MAP[u.role]+(w&&u.role==='citizen'?'｜'+fmtInt(w.naft_point_balance)+' pt':'')+'</div>'
+    +'<button class="btn btn-o btn-sm btn-block mt8" onclick="doLogout()">ログアウト</button></div></aside>'
+    +'<main class="main"><div class="topbar"><h1>'+title+'</h1><div class="flex wrap">'+(extraTop||'')+'<span class="badge b-gold">PoC版</span><button class="btn btn-ghost btn-sm" onclick="doLogout()">ログアウト</button></div></div>'
+    +'<div class="content">'+content+'</div>'
+    +'<div class="footer-note">'+disclaimerBox()+'</div></main></div>';
+}
+var CITIZEN_NAV_TITLES = {home:'ホーム',wallet:'GXウォレット',market:'全国マーケット',tx:'取引履歴',rewards:'GX還元チケット',regions:'地域をさがす',profile:'プロフィール'};
+function citizenShell(active, content){
+  var nav=[{label:'メニュー'},
+    {key:'home',href:'#/app',icon:'🏠',name:'ホーム'},
+    {key:'wallet',href:'#/app/wallet',icon:'👛',name:'GXウォレット'},
+    {key:'market',href:'#/app/market',icon:'🌏',name:'全国マーケット'},
+    {key:'tx',href:'#/app/transactions',icon:'📒',name:'取引履歴'},
+    {key:'rewards',href:'#/app/rewards',icon:'🎫',name:'GX還元チケット'},
+    {key:'regions',href:'#/app/regions',icon:'🗾',name:'地域をさがす'},
+    {key:'profile',href:'#/app/profile',icon:'⚙️',name:'プロフィール'}];
+  return shellFrame(nav, active, CITIZEN_NAV_TITLES[active]||'ホーム', content);
+}
+
+/* ---------- citizen pages ---------- */
+function pgCitizenHome(){
+  var u=S.user, w=walletOf(u.id);
+  var myRw = db.user_rewards.filter(function(r){return r.user_id===u.id&&r.status==='available';});
+  var recs = db.projects.filter(function(p){return p.review_status==='approved' && (u.support_region_ids.indexOf(p.region_id)>=0 || p.region_id===u.home_region_id);}).slice(0,3);
+  if(!recs.length) recs = db.projects.filter(function(p){return p.review_status==='approved';}).slice(0,3);
+  var txs = db.transactions.filter(function(t){return t.from_wallet_id===w.id||t.to_wallet_id===w.id;}).slice(0,5);
+  return '<h2 style="font-size:18px;font-weight:800">こんにちは、'+esc(u.name)+' さん 🌱</h2>'
+    +'<p class="small muted mt8">あなたの支援が、地域の脱炭素を少しずつ前に進めています。</p>'
+    +'<div class="stats mt16">'
+    +statCard('NaFTポイント残高',fmtInt(w.naft_point_balance),'pt','PoC用ポイント')
+    +statCard('累計支援額',fmtInt(w.total_supported_amount),'pt','支援プロジェクト '+w.supported_project_ids.length+'件')
+    +statCard('累計CO2貢献（推定）',fmt(w.total_co2_contribution),'kg-CO2','支援額に応じた推定値')
+    +statCard('利用可能なチケット',myRw.length,'枚','<a href="#/app/rewards">チケットを見る →</a>')
+    +'</div>'
+    +'<div class="between mt32 mb16"><b class="section-title">🌏 あなたの応援地域のプロジェクト</b><a class="btn btn-o btn-sm" href="#/app/market">全国マーケットを見る</a></div>'
+    +'<div class="pgrid">'+recs.map(function(p){return projectCard(p,'#/app/project');}).join('')+'</div>'
+    +'<div class="between mt32 mb16"><b class="section-title">📒 最近の取引</b><a class="btn btn-o btn-sm" href="#/app/transactions">すべて見る</a></div>'
+    +'<div class="card">'+txTable(txs,w.id,false)+'</div>';
+}
+function pgWallet(){
+  var u=S.user, w=walletOf(u.id);
+  var txs = db.transactions.filter(function(t){return t.from_wallet_id===w.id||t.to_wallet_id===w.id;}).slice(0,8);
+  var myRw = db.user_rewards.filter(function(r){return r.user_id===u.id;}).slice(0,3);
+  return '<div style="max-width:560px"><div class="wallet-card"><div class="between"><span class="wl">CITIZEN GX WALLET</span><span class="badge b-gold">PoC</span></div>'
+    +'<div class="mt16"><div class="wl">NaFTポイント残高</div><div class="bal">'+fmtInt(w.naft_point_balance)+' <span class="u">pt</span></div></div>'
+    +'<div class="row2"><div class="mini"><div class="k">デモステーブル</div><div class="v">'+fmtInt(w.demo_stable_balance)+' dJPY</div></div>'
+    +'<div class="mini"><div class="k">累計CO2貢献</div><div class="v">'+fmt(w.total_co2_contribution)+' kg-CO2</div></div>'
+    +'<div class="mini"><div class="k">累計支援</div><div class="v">'+fmtInt(w.total_supported_amount)+' pt</div></div></div>'
+    +'<div class="mt16 between"><span class="wcode">'+esc(w.wallet_code)+'</span><button class="btn btn-o btn-sm" onclick="openModal({type:\'qr\',title:\'ウォレットQRコード\',value:\''+esc(w.wallet_code)+'\',note:\'PoC用ウォレット識別コードです。\'})" style="background:rgba(255,255,255,.12);color:#fff;border-color:rgba(255,255,255,.3)">QR表示</button></div></div></div>'
+    +'<div class="notice-inline mt16">NaFTポイント・デモステーブルトークンはPoC用の記録であり、換金・決済はできません。デモステーブルは将来のステーブルトークン連携を想定した表示項目です。</div>'
+    +'<div class="between mt32 mb16"><b class="section-title">🗾 応援している地域</b><a class="btn btn-o btn-sm" href="#/app/regions">地域を追加する</a></div>'
+    +'<div class="chips">'+(u.support_region_ids.length?u.support_region_ids.map(function(rid){var r=regionOf(rid);return r?'<span class="chip" style="cursor:default">📍 '+esc(r.name)+'</span>':'';}).join(''):'<span class="small muted">まだ応援地域が設定されていません。</span>')+'</div>'
+    +'<div class="between mt32 mb16"><b class="section-title">🎫 最近の炭素配当</b><a class="btn btn-o btn-sm" href="#/app/rewards">すべて見る</a></div>'
+    +(myRw.length?'<div class="g3">'+myRw.map(rewardCardHTML).join('')+'</div>':'<div class="card"><div class="empty"><div class="big">🎫</div>1,000pt以上の支援で、GX還元チケット（炭素配当）が発行されます。</div></div>')
+    +'<div class="between mt32 mb16"><b class="section-title">📒 最近の取引</b><a class="btn btn-o btn-sm" href="#/app/transactions">すべて見る</a></div>'
+    +'<div class="card">'+txTable(txs,w.id,false)+'</div>';
+}
+function pgAppMarket(){
+  return '<p class="small muted mb16">全国のカーボンクレジット候補プロジェクトを検索し、NaFTポイントで支援できます（承認済みのみ掲載）。</p>'+marketBody('#/app/project');
+}
+function pgCitizenTx(){
+  var w=walletOf(S.user.id);
+  var txs = db.transactions.filter(function(t){return t.from_wallet_id===w.id||t.to_wallet_id===w.id;});
+  var res = db.reservations.filter(function(r){return r.user_id===S.user.id;});
+  return '<p class="small muted mb16">初回付与・支援・炭素配当の発行と利用は、すべて取引台帳に記録されます。</p>'
+    +'<div class="card">'+txTable(txs,w.id,true)+'</div>'
+    +(res.length?'<div class="mt24"><b class="section-title">📝 クレジット購入予約（意思表示）</b><div class="card mt8"><div class="tbl-wrap"><table class="tbl"><thead><tr><th>予約日</th><th>プロジェクト</th><th style="text-align:right">数量</th><th style="text-align:right">想定金額</th><th>状態</th></tr></thead><tbody>'
+      +res.map(function(r){var p=projectOf(r.project_id);return '<tr><td class="small muted">'+fmtDT(r.created_at)+'</td><td class="small">'+(p?esc(p.title):'—')+'</td><td class="right"><b>'+r.quantity+'</b> t-CO2</td><td class="right">'+fmtInt(r.total_expected_price)+' 円想定</td><td>'+badge(['意思表示','b-blue'])+'</td></tr>';}).join('')
+      +'</tbody></table></div></div><div class="tiny muted mt8">購入予約は実決済ではなく、将来のカーボンクレジット化・販売に向けた意思表示です。</div></div>':'');
+}
+function rewardCardHTML(ur){
+  var rw = rewardOf(ur.reward_id); if(!rw) return '';
+  var st = RW_STATUS[ur.status]||[ur.status,'b-gray'];
+  return '<div class="reward-card'+(ur.status!=='available'?' used':'')+'"><div class="rt"><h3>🎫 '+esc(rw.title)+'</h3>'+scopeBadge(rw.usage_scope)+'</div>'
+    +'<div class="rb"><div class="between small"><b style="color:var(--g700);font-size:15px">'+esc(rw.reward_value)+'</b>'+badge(st)+'</div>'
+    +'<div class="tiny muted mt8">発行元：'+esc(rw.issuer_name)+'<br>有効期限：'+fmtDate(rw.valid_until)+(ur.used_at?'<br>利用日：'+fmtDate(ur.used_at):'')+'</div>'
+    +'<div class="flex mt8">'
+    +(ur.status==='available'?'<button class="btn btn-p btn-sm" onclick="openModal({type:\'qr\',title:\'チケットQRコード\',value:\''+esc(ur.qr_code_value)+'\',note:\'店舗でこのQRコードを提示してください。\'})">QRを表示</button>':'')
+    +'<button class="btn btn-o btn-sm" onclick="openModal({type:\'rewardDetail\',urId:\''+ur.id+'\'})">詳細</button></div></div></div>';
+}
+function pgRewards(){
+  var u=S.user;
+  var all = db.user_rewards.filter(function(r){return r.user_id===u.id;});
+  // expire check
+  all.forEach(function(ur){ var rw=rewardOf(ur.reward_id); if(ur.status==='available'&&rw&&new Date(rw.valid_until)<new Date()){ ur.status='expired'; ur.expired_at=nowISO(); } });
+  var tab=S.rwTab;
+  var list = all.filter(function(r){ return tab==='available'?r.status==='available':(tab==='used'?r.status==='used':(r.status==='expired'||r.status==='revoked')); });
+  return '<p class="small muted mb16">GX還元チケットは、あなたの支援に対する「炭素配当」です。対象地域の店舗・サービスで利用できます（PoCでは利用の可視化のみ）。</p>'
+    +'<div class="tabbar mb16">'+[['available','利用可能'],['used','利用済み'],['expired','期限切れ・取消']].map(function(t){return '<button class="'+(tab===t[0]?'on':'')+'" onclick="S.rwTab=\''+t[0]+'\';render()">'+t[1]+'</button>';}).join('')+'</div>'
+    +(list.length?'<div class="g3">'+list.map(rewardCardHTML).join('')+'</div>'
+      :'<div class="card"><div class="empty"><div class="big">🎫</div>'+(tab==='available'?'利用可能なチケットはありません。1,000pt以上の支援で炭素配当が発行されます。':'該当するチケットはありません。')+'</div></div>');
+}
+function modalRewardDetail(m){
+  var ur = db.user_rewards.find(function(r){return r.id===m.urId;}); if(!ur) return modalFrame('チケット','見つかりません');
+  var rw = rewardOf(ur.reward_id);
+  var areas = rw.nationwide_available?'全国':(rw.available_prefectures&&rw.available_prefectures.length?rw.available_prefectures.join('・'):regionName(rw.region_id));
+  var pjName = rw.related_project_id?(projectOf(rw.related_project_id)||{}).title:null;
+  return modalFrame('🎫 '+esc(rw.title),
+    '<div class="flex wrap mb8">'+scopeBadge(rw.usage_scope)+badge(RW_STATUS[ur.status]||[ur.status,'b-gray'])+'</div>'
+    +'<div class="card card-p" style="background:var(--g50);box-shadow:none"><div class="small" style="line-height:1.9">'+esc(ur.origin_note||rw.description)+'</div></div>'
+    +'<div class="mt16 small" style="line-height:2"><b>内容：</b>'+esc(rw.reward_value)+'<br><b>発行元：</b>'+esc(rw.issuer_name)+'<br><b>利用可能エリア：</b>'+esc(areas)+'<br>'
+    +(pjName?'<b>関連プロジェクト：</b>'+esc(pjName)+'<br>':'')
+    +'<b>発行日：</b>'+fmtDate(ur.issued_at)+'<br><b>有効期限：</b>'+fmtDate(rw.valid_until)
+    +(ur.used_at?'<br><b>利用日：</b>'+fmtDate(ur.used_at):'')+'</div>'
+    +(ur.status==='available'?'<div class="qr-holder mt16"><div class="qr-target" data-v="'+esc(ur.qr_code_value)+'"></div><div class="mono small">'+esc(ur.qr_code_value)+'</div><div class="tiny muted">店舗でこのQRコードを提示してください</div></div>':'')
+    +'<div class="tiny muted mt16">'+esc(rw.description)+'</div>');
+}
+function pgRegions(){
+  var u=S.user;
+  return '<p class="small muted mb16">全国の地域GXエリアです。「応援する」に追加すると、ホームやウォレットにおすすめ表示されます。</p>'
+    +'<div class="g3">'+db.regions.map(function(r){
+      var on = u.support_region_ids.indexOf(r.id)>=0;
+      var pjs = db.projects.filter(function(p){return p.region_id===r.id&&p.review_status==='approved';}).length;
+      return '<div class="fcard"><div class="between"><span class="badge b-outline">'+esc(r.prefecture)+'</span>'+(u.home_region_id===r.id?'<span class="badge b-green">居住地域</span>':'')+'</div>'
+        +'<h3 class="mt8">'+esc(r.name)+'</h3><p>'+esc(r.area_description)+'</p>'
+        +'<div class="tiny muted mt8">運営：'+esc(r.operator_name)+'（'+(OP_TYPE_MAP[r.operator_type]||r.operator_type)+'）｜承認済みプロジェクト '+pjs+'件</div>'
+        +'<button class="btn '+(on?'btn-o':'btn-p')+' btn-sm btn-block mt16" onclick="toggleSupportRegion(\''+r.id+'\')">'+(on?'✓ 応援中（解除する）':'🌱 この地域を応援する')+'</button></div>';
+    }).join('')+'</div>';
+}
+async function toggleSupportRegion(rid){
+  var a=S.user.support_region_ids; var i=a.indexOf(rid);
+  if(i>=0){a.splice(i,1);}else{a.push(rid);}
+  await saveDB(); S._keepScroll=true; toast(i>=0?'応援を解除しました':'応援地域に追加しました');
+}
+function pgProfile(){
+  var u=S.user, w=walletOf(u.id);
+  return '<div style="max-width:560px"><div class="card card-p"><b class="section-title">アカウント情報</b>'
+    +'<span class="label">お名前</span><input class="input" id="pf-name" value="'+esc(u.name)+'">'
+    +'<span class="label">メールアドレス</span><input class="input" value="'+esc(u.email)+'" disabled style="background:var(--gray-bg)">'
+    +'<span class="label">ロール</span><input class="input" value="'+ROLE_MAP[u.role]+'" disabled style="background:var(--gray-bg)">'
+    +'<span class="label">居住地域</span><select class="select" id="pf-home">'+regionOptions(u.home_region_id,'選択してください')+'</select>'
+    +'<span class="label">関心カテゴリ</span><div class="chips">'+Object.keys(CATS).map(function(c){var on=u.interests.indexOf(c)>=0;return '<span class="chip'+(on?' on':'')+'" onclick="toggleInterest(\''+c+'\')">'+CATS[c][1]+' '+CATS[c][0]+'</span>';}).join('')+'</div>'
+    +'<button class="btn btn-p mt24" onclick="saveProfile()">保存する</button></div>'
+    +(w?'<div class="card card-p mt16"><b class="section-title">ウォレット情報</b><div class="small mt8" style="line-height:2"><b>ウォレットコード：</b><span class="mono">'+esc(w.wallet_code)+'</span><br><b>作成日：</b>'+fmtDate(w.created_at)+'<br><b>オンチェーン連携：</b><span class="badge b-gray">未接続（将来拡張）</span></div></div>':'')
+    +'</div>';
+}
+function toggleInterest(c){ var a=S.user.interests; var i=a.indexOf(c); if(i>=0)a.splice(i,1);else a.push(c); S._keepScroll=true; render(); }
+async function saveProfile(){
+  var n=document.getElementById('pf-name').value.trim(); if(!n){toast('お名前を入力してください',true);return;}
+  S.user.name=n; var h=document.getElementById('pf-home').value; if(h){S.user.home_region_id=h;S.user.selected_region_id=h;}
+  audit('profile_update','user',S.user.id,'プロフィールを更新'); await saveDB(); toast('保存しました');
+}
+
+/* ---------- support flow ---------- */
+function openSupport(pjId){ openModal({type:'support',pjId:pjId,step:1,amount:'',result:null}); }
+function modalSupport(m){
+  var p = projectOf(m.pjId), w = walletOf(S.user.id);
+  if(m.step===1){
+    return modalFrame('🌱 プロジェクトを支援する',
+      '<b class="small">'+esc(p.title)+'</b><div class="tiny muted">'+esc(p.prefecture)+'・'+esc(p.municipality)+'</div>'
+      +'<span class="label">支援額（NaFTポイント）</span><input class="input" type="number" id="sp-amt" min="1" step="100" value="'+esc(m.amount)+'" placeholder="例：1000">'
+      +'<div class="chips mt8">'+[500,1000,3000].map(function(a){return '<span class="chip" onclick="document.getElementById(\'sp-amt\').value='+a+'">'+fmtInt(a)+' pt</span>';}).join('')+'</div>'
+      +'<div class="small muted mt16">利用可能残高：<b>'+fmtInt(w.naft_point_balance)+' pt</b></div>'
+      +'<div class="tiny muted mt8">1,000pt以上の支援で、GX還元チケット（炭素配当）が発行されます。</div>'
+      +'<button class="btn btn-p btn-lg btn-block mt16" onclick="confirmSupport()">確認画面へ</button>');
+  }
+  if(m.step===2){
+    var amt=m.amount, co2 = amt/p.target_amount*p.estimated_co2_reduction*1000;
+    return modalFrame('支援内容の確認',
+      '<div class="card card-p" style="background:var(--g50);box-shadow:none"><div class="kv"><span>プロジェクト</span><b>'+esc(p.title)+'</b></div>'
+      +'<div class="kv mt8"><span>支援額</span><b style="font-size:17px;color:var(--g700)">'+fmtInt(amt)+' pt</b></div>'
+      +'<div class="kv mt8"><span>推定CO2貢献</span><b>'+fmt(co2)+' kg-CO2</b></div>'
+      +'<div class="kv mt8"><span>支援後の残高</span><b>'+fmtInt(walletOf(S.user.id).naft_point_balance-amt)+' pt</b></div></div>'
+      +'<div class="tiny muted mt16">支援は取引台帳に記録されます。NaFTポイントはPoC用であり、返金・換金はできません。</div>'
+      +'<div class="flex mt16"><button class="btn btn-o" onclick="S.modal.step=1;render()">戻る</button><button class="btn btn-p btn-lg" style="flex:1" onclick="execSupport()">この内容で支援する</button></div>');
+  }
+  // step3: done
+  var r=m.result;
+  return modalFrame('🎉 支援ありがとうございます！',
+    '<div class="center" style="padding:8px 0 4px;font-size:40px">🌱</div>'
+    +'<div class="center"><b>'+esc(p.title)+'</b> に <b style="color:var(--g700)">'+fmtInt(r.amount)+' pt</b> を支援しました。</div>'
+    +'<div class="card card-p mt16" style="background:var(--g50);box-shadow:none;text-align:center"><div class="small muted">あなたの支援により、</div><div style="font-size:21px;font-weight:800;color:var(--g700)">推定 '+fmt(r.co2)+' kg-CO2</div><div class="small muted">分の地域GX活動に参加しました。</div></div>'
+    +(r.reward?'<div class="reward-card mt16"><div class="rt"><h3>🎫 '+esc(r.reward.title)+' を獲得！</h3>'+scopeBadge(r.reward.usage_scope)+'</div><div class="rb small">'+esc(r.reward.reward_value)+'｜発行元：'+esc(r.reward.issuer_name)+'<div class="tiny muted mt8">「GX還元チケット」ページからQRコードを表示できます。</div></div></div>':'')
+    +'<div class="flex mt16"><button class="btn btn-o" style="flex:1" onclick="closeModal()">閉じる</button><a class="btn btn-p" style="flex:1" href="#/app/rewards" onclick="closeModal()">チケットを見る</a></div>');
+}
+function confirmSupport(){
+  var v = parseInt(document.getElementById('sp-amt').value,10);
+  var w = walletOf(S.user.id), p = projectOf(S.modal.pjId);
+  if(!v||v<=0){ toast('支援額を入力してください',true); return; }
+  if(v>w.naft_point_balance){ toast('残高が不足しています（残高 '+fmtInt(w.naft_point_balance)+' pt）',true); return; }
+  if(p.review_status!=='approved'){ toast('このプロジェクトは現在支援できません',true); return; }
+  S.modal.amount=v; S.modal.step=2; render();
+}
+async function execSupport(){
+  var m=S.modal, p=projectOf(m.pjId), u=S.user, w=walletOf(u.id), amt=m.amount;
+  if(p.review_status!=='approved'||amt>w.naft_point_balance){ toast('支援を実行できませんでした',true); return; }
+  w.naft_point_balance -= amt;
+  p.current_amount += amt;
+  p.support_count += 1;
+  if(w.supported_project_ids.indexOf(p.id)<0) w.supported_project_ids.push(p.id);
+  w.total_supported_amount += amt;
+  var co2 = Math.round(amt/p.target_amount*p.estimated_co2_reduction*1000*10)/10;
+  w.total_co2_contribution = Math.round((w.total_co2_contribution+co2)*10)/10;
+  var t = addTx({from_wallet_id:w.id,to_wallet_id:'PROJECT_POOL',amount:amt,token_type:'NAFT_POINT',transaction_type:'support_project',related_project_id:p.id,region_id:p.region_id,note:p.title+'への支援'});
+  var issued=null;
+  if(amt>=1000){
+    var rw = db.rewards.find(function(r){return r.status==='active'&&r.related_project_id===p.id;})
+      || db.rewards.find(function(r){return r.status==='active'&&r.region_id===p.region_id;})
+      || db.rewards.find(function(r){return r.status==='active'&&r.nationwide_available;});
+    if(rw){
+      var ur = {id:uid('ur'),user_id:u.id,reward_id:rw.id,status:'available',qr_code_value:'NAFT-RWD-'+rnd(10),
+        origin_note:p.title+'への支援により発行されました。あなたの支援により、推定'+fmt(co2)+'kg-CO2分の地域GX活動に参加しました。',
+        issued_at:nowISO(),used_at:null,expired_at:null};
+      db.user_rewards.unshift(ur);
+      addTx({from_wallet_id:'SYSTEM',to_wallet_id:w.id,amount:1,token_type:'CARBON_REWARD',transaction_type:'reward_issue',related_project_id:p.id,related_reward_id:rw.id,region_id:p.region_id,note:rw.title+'の発行（炭素配当）'});
+      issued = rw;
+    }
+  }
+  audit('support_project','transaction',t.transaction_code,u.name+' が「'+p.title+'」へ '+fmtInt(amt)+'pt を支援'+(issued?'（チケット発行：'+issued.title+'）':''));
+  await saveDB();
+  S.modal={type:'support',pjId:p.id,step:3,amount:amt,result:{amount:amt,co2:co2,reward:issued}};
+  render();
+}
+
+/* ---------- reserve flow ---------- */
+function openReserve(pjId){ openModal({type:'reserve',pjId:pjId}); }
+function modalReserve(m){
+  var p=projectOf(m.pjId);
+  return modalFrame('📝 クレジット購入予約（意思表示）',
+    '<b class="small">'+esc(p.title)+'</b><div class="tiny muted">推定CO2削減量：'+fmt(p.estimated_co2_reduction)+' t-CO2</div>'
+    +'<div class="notice-inline mt16">これは実際の売買・決済ではありません。このプロジェクトが将来カーボンクレジット化された場合に「購入を検討したい」という意思表示として記録されます。</div>'
+    +'<span class="label">希望数量（t-CO2）</span><input class="input" type="number" id="rv-qty" min="0.1" step="0.1" value="1.0">'
+    +'<span class="label">想定単価（参考値）</span><input class="input" value="3,000 円 / t-CO2（デモ用参考単価）" disabled style="background:var(--gray-bg)">'
+    +'<button class="btn btn-p btn-lg btn-block mt24" onclick="execReserve()">この内容で予約を登録する</button>');
+}
+async function execReserve(){
+  var m=S.modal, p=projectOf(m.pjId), u=S.user;
+  var q = parseFloat(document.getElementById('rv-qty').value);
+  if(!q||q<=0){ toast('数量を入力してください',true); return; }
+  q = Math.round(q*10)/10;
+  var total = Math.round(q*3000);
+  var res = {id:uid('rsv'),user_id:u.id,project_id:p.id,quantity:q,expected_unit_price:3000,total_expected_price:total,status:'registered',created_at:nowISO()};
+  db.reservations.unshift(res);
+  var t = addTx({from_wallet_id:walletOf(u.id).id,to_wallet_id:'RESERVATION_BOOK',amount:total,token_type:'CREDIT_RESERVATION',transaction_type:'reserve_credit',related_project_id:p.id,region_id:p.region_id,note:p.title+'のクレジット購入予約（'+q+'t-CO2・意思表示）'});
+  audit('reserve_credit','reservation',res.id,u.name+' が「'+p.title+'」のクレジット購入予約（'+q+'t-CO2／想定'+fmtInt(total)+'円）を登録');
+  await saveDB();
+  closeModal(); toast('購入予約（意思表示）を登録しました');
+}
+</script>
+<script>
+/* ---------- producer ---------- */
+var PRODUCER_TITLES = {home:'事業者ホーム',projects:'マイプロジェクト',new:'プロジェクト登録',tx:'関連取引'};
+function producerShell(active, content){
+  var nav=[{label:'事業者メニュー'},
+    {key:'home',href:'#/producer',icon:'🏠',name:'ホーム'},
+    {key:'projects',href:'#/producer/projects',icon:'📁',name:'マイプロジェクト'},
+    {key:'new',href:'#/producer/new',icon:'➕',name:'プロジェクト登録'},
+    {key:'tx',href:'#/producer/transactions',icon:'📒',name:'関連取引'},
+    {label:'マーケット'},
+    {key:'market',href:'#/market',icon:'🌏',name:'全国マーケット'}];
+  return shellFrame(nav, active, PRODUCER_TITLES[active]||'事業者',content);
+}
+function myProducer(){ return producerOfUser(S.user.id); }
+function pgProducerHome(){
+  var pr=myProducer();
+  if(!pr) return '<div class="empty">事業者情報が見つかりません。</div>';
+  var pjs = db.projects.filter(function(p){return p.producer_id===pr.id;});
+  var approved = pjs.filter(function(p){return p.review_status==='approved';});
+  var totalSup = approved.reduce(function(s,p){return s+p.current_amount;},0);
+  var supporters = approved.reduce(function(s,p){return s+p.support_count;},0);
+  var pending = pjs.filter(function(p){return p.review_status==='pending_review';}).length;
+  var needFix = pjs.filter(function(p){return p.review_status==='revision_required';}).length;
+  return '<h2 style="font-size:18px;font-weight:800">'+esc(pr.organization_name)+' 🌾</h2>'
+    +'<p class="small muted mt8">活動地域：'+esc(regionName(pr.region_id))+'｜認証状態：'+badge(pr.verification_status==='verified'?['確認済み事業者','b-green']:['確認待ち','b-amber'])+'</p>'
+    +'<div class="stats mt16">'
+    +statCard('登録プロジェクト',pjs.length,'件','承認済み '+approved.length+'件')
+    +statCard('累計支援額',fmtInt(totalSup),'pt','承認済みプロジェクト合計')
+    +statCard('支援者数',supporters,'人','のべ人数')
+    +statCard('審査状況',pending,'件 審査待ち',needFix?'<span style="color:var(--amber)">差し戻し '+needFix+'件</span>':'差し戻しなし')
+    +'</div>'
+    +(needFix?'<div class="notice-inline mt16" style="background:var(--amber-bg);border-color:#e8d3a0;color:var(--amber)">差し戻しされたプロジェクトがあります。審査コメントを確認し、修正のうえ再提出してください。</div>':'')
+    +'<div class="between mt32 mb16"><b class="section-title">📁 マイプロジェクト</b><a class="btn btn-p btn-sm" href="#/producer/new">＋ 新規プロジェクト登録</a></div>'
+    +producerProjectTable(pjs.slice(0,6))
+    +'<div class="card card-p mt24" style="background:var(--g50);box-shadow:none"><b class="small">💡 承認までの流れ</b><div class="small muted mt8" style="line-height:1.9">1. プロジェクトを登録（下書き保存可）→ 2. 審査に提出 → 3. 地域管理者が証憑・算定根拠を確認 → 4. 承認されると全国マーケットに掲載され、市民からの支援を受けられます。</div></div>';
+}
+function producerProjectTable(pjs){
+  if(!pjs.length) return '<div class="card"><div class="empty"><div class="big">📁</div>まだプロジェクトがありません。「新規プロジェクト登録」から始めましょう。</div></div>';
+  return '<div class="card"><div class="tbl-wrap"><table class="tbl"><thead><tr><th>プロジェクト</th><th>カテゴリ</th><th>審査状況</th><th style="text-align:right">支援額</th><th style="text-align:right">支援者</th><th></th></tr></thead><tbody>'
+    +pjs.map(function(p){return '<tr><td><b class="small">'+esc(p.title)+'</b><div class="tiny muted">'+esc(p.prefecture)+'・'+esc(p.municipality)+'</div></td>'
+      +'<td>'+catBadge(p.category)+'</td><td>'+rsBadge(p.review_status)+'</td>'
+      +'<td class="right small"><b>'+fmtInt(p.current_amount)+'</b> / '+fmtInt(p.target_amount)+' pt</td><td class="right small">'+p.support_count+'人</td>'
+      +'<td class="right"><a class="btn btn-o btn-sm" href="#/producer/project/'+p.id+'">管理</a></td></tr>';}).join('')
+    +'</tbody></table></div></div>';
+}
+function pgProducerProjects(){
+  var pr=myProducer(); var pjs=db.projects.filter(function(p){return p.producer_id===pr.id;});
+  return '<div class="between mb16"><span class="small muted">登録済み '+pjs.length+'件</span><a class="btn btn-p btn-sm" href="#/producer/new">＋ 新規プロジェクト登録</a></div>'+producerProjectTable(pjs);
+}
+function pgProjectForm(editId){
+  var pr=myProducer();
+  var p = editId ? projectOf(editId) : null;
+  if(editId && (!p || p.producer_id!==pr.id)) return '<div class="empty">編集対象が見つかりません。</div>';
+  if(p && ['draft','revision_required'].indexOf(p.review_status)<0) return '<div class="empty">このプロジェクトは現在編集できません（審査中または公開中）。</div>';
+  var v = p || {title:'',region_id:pr.region_id||'',area_name:'',category:'',description:'',reduction_type:'削減',estimated_co2_reduction:'',calculation_method:'',start_date:'',end_date:'',target_amount:'',regional_return_plan:'',related_url:'',contact_email:pr.contact_email||'',is_nationwide_visible:true};
+  var evs = p ? db.evidences.filter(function(e){return e.project_id===p.id;}) : [];
+  return '<div style="max-width:760px">'
+    +(p&&p.review_status==='revision_required'?'<div class="notice-inline mb16" style="background:var(--amber-bg);border-color:#e8d3a0;color:var(--amber)">このプロジェクトは差し戻されています。審査コメントを確認のうえ修正してください。</div>':'')
+    +'<div class="card card-p"><b class="section-title">'+(p?'プロジェクトを編集':'新規プロジェクト登録')+'</b>'
+    +'<p class="small muted mt8">登録後、地域管理者の審査を経て承認されると全国マーケットに掲載されます。</p>'
+    +'<span class="label">プロジェクト名 *</span><input class="input" id="pf-title" value="'+esc(v.title)+'" placeholder="例：〇〇地区 バイオ炭プロジェクト">'
+    +'<div class="form-grid">'
+    +'<div><span class="label">実施地域（GXエリア） *</span><select class="select" id="pf-region">'+regionOptions(v.region_id,'選択してください')+'</select></div>'
+    +'<div><span class="label">市区町村・地区名 *</span><input class="input" id="pf-area" value="'+esc(v.area_name)+'" placeholder="例：会津平野部"></div>'
+    +'<div><span class="label">カテゴリ *</span><select class="select" id="pf-cat">'+catOptions(v.category,'選択してください')+'</select></div>'
+    +'<div><span class="label">削減の種類</span><select class="select" id="pf-rtype">'+['削減','吸収','回避','削減・吸収'].map(function(x){return '<option'+(v.reduction_type===x?' selected':'')+'>'+x+'</option>';}).join('')+'</select></div>'
+    +'<div><span class="label">推定CO2削減・吸収量（t-CO2） *</span><input class="input" type="number" step="0.1" id="pf-co2" value="'+esc(v.estimated_co2_reduction)+'"></div>'
+    +'<div><span class="label">目標支援額（pt） *</span><input class="input" type="number" step="1000" id="pf-target" value="'+esc(v.target_amount)+'"></div>'
+    +'<div><span class="label">活動開始日</span><input class="input" type="date" id="pf-start" value="'+(v.start_date?v.start_date.slice(0,10):'')+'"></div>'
+    +'<div><span class="label">活動終了日（予定）</span><input class="input" type="date" id="pf-end" value="'+(v.end_date?v.end_date.slice(0,10):'')+'"></div>'
+    +'</div>'
+    +'<span class="label">活動内容の説明 *</span><textarea class="textarea" id="pf-desc" placeholder="どんな活動で、どのようにCO2削減・吸収につながるのかを、市民にも分かる言葉で説明してください。">'+esc(v.description)+'</textarea>'
+    +'<span class="label">CO2削減量の算定根拠 *</span><textarea class="textarea" id="pf-method" placeholder="例：J-クレジット制度の方法論を参考に、施用量×炭素含有率×残存係数で推計">'+esc(v.calculation_method)+'</textarea>'
+    +'<span class="label">地域還元の予定</span><textarea class="textarea" id="pf-plan" placeholder="例：支援額の一部を地域直売所で使える還元チケットとして発行予定">'+esc(v.regional_return_plan)+'</textarea>'
+    +'<span class="label">証憑・根拠資料（写真・報告書・センサーデータ等）</span><input class="input" type="file" id="pf-ev" multiple>'
+    +'<div class="field-note">PoC版ではファイル名のみを記録します（実ファイルは保存されません）。'+(evs.length?' 登録済み：'+evs.map(function(e){return esc(e.file_name);}).join('、'):'')+'</div>'
+    +'<span class="label">証憑の説明</span><input class="input" id="pf-evdesc" placeholder="例：炭化量・施用量の記録台帳">'
+    +'<div class="form-grid">'
+    +'<div><span class="label">関連URL</span><input class="input" id="pf-url" value="'+esc(v.related_url)+'" placeholder="https://"></div>'
+    +'<div><span class="label">連絡先メール</span><input class="input" id="pf-mail" value="'+esc(v.contact_email)+'"></div>'
+    +'</div>'
+    +'<label class="flex mt16 small" style="cursor:pointer"><input type="checkbox" id="pf-nw"'+(v.is_nationwide_visible?' checked':'')+'> 全国マーケットに公開する（チェックを外すと地域内のみ表示）</label>'
+    +'<div class="flex mt24 wrap"><button class="btn btn-o" onclick="saveProject(\''+(p?p.id:'')+'\',false)">下書き保存</button><button class="btn btn-p btn-lg" style="flex:1" onclick="saveProject(\''+(p?p.id:'')+'\',true)">審査に提出する</button></div>'
+    +'<div class="tiny muted mt16">提出後は地域管理者による審査が行われます。承認までは全国マーケットに表示されません。</div>'
+    +'</div></div>';
+}
+async function saveProject(editId, submit){
+  var pr=myProducer();
+  var g=function(id){return document.getElementById(id).value.trim();};
+  var title=g('pf-title'),region=g('pf-region'),area=g('pf-area'),cat=g('pf-cat'),co2=parseFloat(g('pf-co2')),target=parseInt(g('pf-target'),10),desc=g('pf-desc'),method=g('pf-method');
+  if(submit){
+    if(!title||!region||!area||!cat||!desc||!method||!co2||co2<=0||!target||target<=0){ toast('必須項目（*）をすべて入力してください',true); return; }
+  } else if(!title){ toast('下書き保存にはプロジェクト名が必要です',true); return; }
+  var r=region?regionOf(region):null;
+  var p = editId?projectOf(editId):null;
+  if(!p){
+    p={id:uid('pj'),producer_id:pr.id,created_at:nowISO(),current_amount:0,support_count:0,trust_score:50,status:'inactive',main_image_url:'',region_scope:'regional'};
+    db.projects.unshift(p);
+  }
+  Object.assign(p,{title:title,region_id:region||null,prefecture:r?r.prefecture:'',municipality:r?r.municipality:'',area_name:area,category:cat||'Other',
+    description:desc,location:(r?r.prefecture+' ':'')+area,reduction_type:g('pf-rtype'),estimated_co2_reduction:co2||0,calculation_method:method,
+    target_amount:target||0,start_date:g('pf-start')?new Date(g('pf-start')).toISOString():null,end_date:g('pf-end')?new Date(g('pf-end')).toISOString():null,
+    regional_return_plan:g('pf-plan'),related_url:g('pf-url'),contact_email:g('pf-mail'),is_nationwide_visible:document.getElementById('pf-nw').checked,
+    review_status: submit?'pending_review':'draft'});
+  var files=document.getElementById('pf-ev').files;
+  for(var i=0;i<files.length;i++){
+    db.evidences.push({id:uid('ev'),project_id:p.id,file_url:'',file_name:files[i].name,file_type:(files[i].name.split('.').pop()||'file'),description:g('pf-evdesc'),uploaded_by:pr.id,created_at:nowISO()});
+  }
+  if(submit) db.reviews.push({id:uid('rev'),project_id:p.id,reviewer_id:null,action:'submit',comment:'審査に提出されました。',created_at:nowISO()});
+  audit(submit?'project_submit':'project_draft_save','carbon_project',p.id,'「'+p.title+'」を'+(submit?'審査に提出':'下書き保存'));
+  await saveDB();
+  toast(submit?'審査に提出しました。承認までお待ちください。':'下書きを保存しました');
+  go('#/producer/projects');
+}
+function pgProducerProjectDetail(id){
+  var pr=myProducer(); var p=projectOf(id);
+  if(!p||p.producer_id!==pr.id) return '<div class="empty">プロジェクトが見つかりません。</div>';
+  var revs=db.reviews.filter(function(r){return r.project_id===p.id;}).sort(function(a,b){return new Date(b.created_at)-new Date(a.created_at);});
+  var evs=db.evidences.filter(function(e){return e.project_id===p.id;});
+  var txs=db.transactions.filter(function(t){return t.related_project_id===p.id&&t.transaction_type==='support_project';});
+  var editable=['draft','revision_required'].indexOf(p.review_status)>=0;
+  return '<a class="small" href="#/producer/projects">← マイプロジェクトへ戻る</a>'
+    +'<div class="card card-p mt16"><div class="between"><div><div class="flex wrap mb8">'+catBadge(p.category)+rsBadge(p.review_status)+trustBadge(p.trust_score)+'</div>'
+    +'<h2 style="font-size:18px;font-weight:800">'+esc(p.title)+'</h2><div class="small muted mt8">📍 '+esc(p.prefecture)+'・'+esc(p.municipality)+'｜推定 '+fmt(p.estimated_co2_reduction)+' t-CO2</div></div>'
+    +'<div class="flex wrap">'+(editable?'<a class="btn btn-o" href="#/producer/new/'+p.id+'">編集する</a>':'')
+    +(p.review_status==='approved'?'<a class="btn btn-p" href="#/project/'+p.id+'">公開ページを見る</a>':'')+'</div></div>'
+    +'<div class="stats mt16" style="grid-template-columns:repeat(3,1fr)">'
+    +statCard('支援額',fmtInt(p.current_amount)+' / '+fmtInt(p.target_amount),'pt','進捗 '+pct(p.current_amount,p.target_amount)+'%')
+    +statCard('支援者数',p.support_count,'人','')
+    +statCard('証憑',evs.length,'件','')
+    +'</div></div>'
+    +'<div class="card card-p mt16"><b class="section-title">審査コメント・履歴</b>'
+    +(revs.length?'<div class="mt8">'+revs.map(function(r){var u2=r.reviewer_id?findUser(r.reviewer_id):null;return '<div class="flow-step"><div class="n" style="background:var(--g100);color:var(--g800)">'+(r.action==='approve'?'✓':(r.action==='submit'?'↑':'!'))+'</div><div class="small"><b>'+({approve:'承認',reject:'却下',request_revision:'差し戻し',suspend:'停止',submit:'審査提出'}[r.action]||r.action)+'</b> <span class="tiny muted">'+fmtDT(r.created_at)+(u2?'・'+esc(u2.name):'')+'</span><div class="muted">'+esc(r.comment||'')+'</div></div></div>';}).join('')+'</div>':'<div class="small muted mt8">まだ審査履歴はありません。</div>')
+    +'</div>'
+    +'<div class="mt16"><b class="section-title">📒 このプロジェクトへの支援（台帳）</b><div class="card mt8">'+txTable(txs,null,false)+'</div></div>';
+}
+function pgProducerTx(){
+  var pr=myProducer();
+  var myPjIds = db.projects.filter(function(p){return p.producer_id===pr.id;}).map(function(p){return p.id;});
+  var txs = db.transactions.filter(function(t){return myPjIds.indexOf(t.related_project_id)>=0;});
+  return '<p class="small muted mb16">あなたのプロジェクトに関連する取引の台帳です。</p><div class="card">'+txTable(txs,null,true)+'</div>';
+}
+</script>
+<script>
+/* ---------- admin (municipal_admin / financial_partner / local_operator) ---------- */
+function adminRegionIds(){
+  var ids = S.user.permitted_region_ids||[];
+  if(S.adminRegion && ids.indexOf(S.adminRegion)>=0) return [S.adminRegion];
+  if(ids.length>1 && !S.adminRegion) return [ids[0]];
+  return ids.length?[ids[0]]:[];
+}
+var ADMIN_TITLES = {home:'地域GXダッシュボード',reviews:'プロジェクト審査',projects:'地域プロジェクト',tx:'取引台帳',rewards:'GX還元チケット管理',audit:'監査ログ',reports:'レポート・CSV出力'};
+function adminShell(active, content){
+  var ids=S.user.permitted_region_ids||[];
+  var pending = db.projects.filter(function(p){return p.review_status==='pending_review'&&ids.indexOf(p.region_id)>=0;}).length;
+  var nav=[{label:'地域管理'},
+    {key:'home',href:'#/admin',icon:'📊',name:'ダッシュボード'},
+    {key:'reviews',href:'#/admin/reviews',icon:'✅',name:'プロジェクト審査'+(pending?' ('+pending+')':'')},
+    {key:'projects',href:'#/admin/projects',icon:'📁',name:'地域プロジェクト'},
+    {key:'tx',href:'#/admin/transactions',icon:'📒',name:'取引台帳'},
+    {key:'rewards',href:'#/admin/rewards',icon:'🎫',name:'チケット管理'},
+    {key:'audit',href:'#/admin/audit',icon:'🛡️',name:'監査ログ'},
+    {key:'reports',href:'#/admin/reports',icon:'📄',name:'レポート・CSV'}];
+  var switcher = ids.length>1 ? '<select class="select" style="width:auto" onchange="S.adminRegion=this.value;render()">'+ids.map(function(id){return '<option value="'+id+'"'+(adminRegionIds()[0]===id?' selected':'')+'>'+esc(regionName(id))+'</option>';}).join('')+'</select>' : '<span class="badge b-green">'+esc(regionName(adminRegionIds()[0]))+'</span>';
+  return shellFrame(nav, active, ADMIN_TITLES[active]||'地域管理', content, switcher);
+}
+function regionStats(rid){
+  var citizens = db.users.filter(function(u){return u.role==='citizen'&&(u.home_region_id===rid||u.support_region_ids.indexOf(rid)>=0);}).length;
+  var producers = db.producers.filter(function(p){return p.region_id===rid;}).length;
+  var pjs = db.projects.filter(function(p){return p.region_id===rid;});
+  var approved = pjs.filter(function(p){return p.review_status==='approved';});
+  var txs = db.transactions.filter(function(t){return t.region_id===rid;});
+  var supported = txs.filter(function(t){return t.transaction_type==='support_project';}).reduce(function(s,t){return s+t.amount;},0);
+  var circulation = txs.filter(function(t){return t.token_type==='NAFT_POINT';}).reduce(function(s,t){return s+t.amount;},0);
+  var co2 = approved.reduce(function(s,p){return s+p.estimated_co2_reduction*Math.min(1,p.current_amount/Math.max(1,p.target_amount));},0);
+  var rwIds = db.rewards.filter(function(r){return r.region_id===rid;}).map(function(r){return r.id;});
+  var issued = db.user_rewards.filter(function(ur){return rwIds.indexOf(ur.reward_id)>=0;});
+  return {citizens:citizens,producers:producers,projects:pjs.length,approved:approved.length,pending:pjs.filter(function(p){return p.review_status==='pending_review';}).length,
+    supported:supported,circulation:circulation,co2:co2,ticketsIssued:issued.length,ticketsUsed:issued.filter(function(u){return u.status==='used';}).length,
+    txs:txs,popular:approved.slice().sort(function(a,b){return b.current_amount-a.current_amount;}).slice(0,5)};
+}
+function pgAdminHome(){
+  var rid=adminRegionIds()[0]; if(!rid) return '<div class="empty">担当地域が設定されていません。</div>';
+  var r=regionOf(rid), st=regionStats(rid);
+  return '<h2 style="font-size:18px;font-weight:800">'+esc(r.name)+'</h2>'
+    +'<p class="small muted mt8">'+esc(r.area_description)+'｜運営：'+esc(r.operator_name)+'（'+(OP_TYPE_MAP[r.operator_type]||r.operator_type)+'）</p>'
+    +(st.pending?'<a href="#/admin/reviews" class="notice-inline mt16" style="display:block;background:var(--amber-bg);border-color:#e8d3a0;color:var(--amber)">🔔 審査待ちのプロジェクトが '+st.pending+'件 あります。審査画面へ →</a>':'')
+    +'<div class="stats mt16">'
+    +statCard('参加市民数',st.citizens,'人','居住＋応援')
+    +statCard('事業者数',st.producers,'者','')
+    +statCard('プロジェクト',st.projects,'件','承認済み '+st.approved+'件')
+    +statCard('累計支援額',fmtInt(st.supported),'pt','')
+    +'</div><div class="stats mt16">'
+    +statCard('ポイント流通量',fmtInt(st.circulation),'pt','地域内NaFTポイント取引合計')
+    +statCard('推定CO2削減（進捗換算）',fmt(st.co2),'t-CO2','承認済みプロジェクト')
+    +statCard('チケット発行',st.ticketsIssued,'枚','利用済み '+st.ticketsUsed+'枚')
+    +statCard('チケット利用率',st.ticketsIssued?Math.round(st.ticketsUsed/st.ticketsIssued*100):0,'%','')
+    +'</div>'
+    +'<div class="between mt32 mb16"><b class="section-title">🔥 人気プロジェクト</b><a class="btn btn-o btn-sm" href="#/admin/projects">すべて見る</a></div>'
+    +'<div class="card"><div class="tbl-wrap"><table class="tbl"><thead><tr><th>プロジェクト</th><th style="text-align:right">支援額</th><th style="text-align:right">支援者</th><th style="text-align:right">進捗</th></tr></thead><tbody>'
+    +(st.popular.length?st.popular.map(function(p){return '<tr><td class="small"><b>'+esc(p.title)+'</b></td><td class="right small"><b>'+fmtInt(p.current_amount)+'</b> pt</td><td class="right small">'+p.support_count+'人</td><td class="right small">'+pct(p.current_amount,p.target_amount)+'%</td></tr>';}).join(''):'<tr><td colspan="4" class="center muted small" style="padding:24px">承認済みプロジェクトがありません</td></tr>')
+    +'</tbody></table></div></div>'
+    +'<div class="between mt32 mb16"><b class="section-title">📒 地域の最近の取引</b><a class="btn btn-o btn-sm" href="#/admin/transactions">台帳を見る</a></div>'
+    +'<div class="card">'+txTable(st.txs.slice(0,6),null,false)+'</div>';
+}
+function pgAdminReviews(){
+  var rid=adminRegionIds()[0];
+  var queue = db.projects.filter(function(p){return p.region_id===rid&&['pending_review','revision_required'].indexOf(p.review_status)>=0;});
+  var done = db.projects.filter(function(p){return p.region_id===rid&&['approved','rejected','suspended'].indexOf(p.review_status)>=0;});
+  function row(p){
+    var pr2=producerOf(p.producer_id);
+    return '<tr><td><b class="small">'+esc(p.title)+'</b><div class="tiny muted">'+esc(pr2?pr2.organization_name:'—')+'｜'+fmtDate(p.created_at)+' 登録</div></td>'
+      +'<td>'+catBadge(p.category)+'</td><td class="right small">'+fmt(p.estimated_co2_reduction)+' t</td><td>'+rsBadge(p.review_status)+'</td>'
+      +'<td class="right"><button class="btn btn-p btn-sm" onclick="openModal({type:\'review\',pjId:\''+p.id+'\'})">審査する</button></td></tr>';
+  }
+  return '<p class="small muted mb16">証憑・算定根拠を確認し、承認・差し戻し・却下を行います。承認したプロジェクトのみ全国マーケットに掲載されます。</p>'
+    +'<b class="section-title">審査待ち・差し戻し中（'+queue.length+'件）</b>'
+    +'<div class="card mt8">'+(queue.length?'<div class="tbl-wrap"><table class="tbl"><thead><tr><th>プロジェクト</th><th>カテゴリ</th><th style="text-align:right">推定CO2</th><th>状態</th><th></th></tr></thead><tbody>'+queue.map(row).join('')+'</tbody></table></div>':'<div class="empty"><div class="big">✅</div>審査待ちのプロジェクトはありません。</div>')+'</div>'
+    +'<b class="section-title" style="display:block;margin-top:32px">審査済み（'+done.length+'件）</b>'
+    +'<div class="card mt8">'+(done.length?'<div class="tbl-wrap"><table class="tbl"><thead><tr><th>プロジェクト</th><th>カテゴリ</th><th style="text-align:right">推定CO2</th><th>状態</th><th></th></tr></thead><tbody>'+done.map(row).join('')+'</tbody></table></div>':'<div class="empty">まだありません。</div>')+'</div>';
+}
+function modalReview(m){
+  var p=projectOf(m.pjId); if(!p) return modalFrame('審査','見つかりません');
+  var pr2=producerOf(p.producer_id);
+  var evs=db.evidences.filter(function(e){return e.project_id===p.id;});
+  var revs=db.reviews.filter(function(r){return r.project_id===p.id;}).sort(function(a,b){return new Date(b.created_at)-new Date(a.created_at);});
+  return modalFrame('✅ プロジェクト審査', 
+    '<div class="flex wrap mb8">'+catBadge(p.category)+rsBadge(p.review_status)+trustBadge(p.trust_score)+'</div>'
+    +'<b>'+esc(p.title)+'</b><div class="tiny muted">'+esc(p.prefecture)+'・'+esc(p.municipality)+'（'+esc(p.area_name)+'）｜実施：'+esc(pr2?pr2.organization_name:'—')+'</div>'
+    +'<div class="card card-p mt16" style="background:var(--g50);box-shadow:none;font-size:12.5px;line-height:1.9">'
+    +'<b>活動内容：</b>'+esc(p.description)+'<br><br>'
+    +'<b>推定CO2削減量：</b>'+fmt(p.estimated_co2_reduction)+' t-CO2（'+esc(p.reduction_type||'')+'）<br>'
+    +'<b>算定根拠：</b>'+esc(p.calculation_method)+'<br>'
+    +'<b>目標支援額：</b>'+fmtInt(p.target_amount)+' pt<br>'
+    +'<b>活動期間：</b>'+fmtDate(p.start_date)+' 〜 '+fmtDate(p.end_date)+'<br>'
+    +'<b>地域還元予定：</b>'+esc(p.regional_return_plan||'—')+'<br>'
+    +'<b>連絡先：</b>'+esc(p.contact_email||'—')+(p.related_url?'<br><b>関連URL：</b>'+esc(p.related_url):'')+'</div>'
+    +'<div class="mt16"><b class="small">📎 証憑・根拠資料（'+evs.length+'件）</b>'+(evs.length?evs.map(function(e){return '<div class="small" style="padding:6px 0;border-bottom:1px dashed var(--line)">📎 <b>'+esc(e.file_name)+'</b><span class="tiny muted">　'+esc(e.description)+'</span></div>';}).join(''):'<div class="tiny muted">証憑が登録されていません。差し戻しを検討してください。</div>')+'</div>'
+    +(revs.length?'<div class="mt16"><b class="small">過去の審査履歴</b>'+revs.slice(0,3).map(function(r){return '<div class="tiny muted" style="padding:4px 0">・'+fmtDT(r.created_at)+'　'+({approve:'承認',reject:'却下',request_revision:'差し戻し',suspend:'停止',submit:'提出'}[r.action]||r.action)+'：'+esc(r.comment||'')+'</div>';}).join('')+'</div>':'')
+    +'<span class="label">審査コメント（事業者に表示されます）</span><textarea class="textarea" id="rv-comment" placeholder="例：証憑を確認しました。算定方法も妥当と判断し承認します。"></textarea>'
+    +'<div class="flex mt16 wrap">'
+    +(['pending_review','revision_required','suspended'].indexOf(p.review_status)>=0?'<button class="btn btn-p" style="flex:1" onclick="reviewAction(\''+p.id+'\',\'approve\')">承認する</button>':'')
+    +(p.review_status==='pending_review'?'<button class="btn btn-amber" onclick="reviewAction(\''+p.id+'\',\'request_revision\')">差し戻し</button><button class="btn btn-red-o" onclick="reviewAction(\''+p.id+'\',\'reject\')">却下</button>':'')
+    +(p.review_status==='approved'?'<button class="btn btn-danger" onclick="reviewAction(\''+p.id+'\',\'suspend\')">公開を停止する</button>':'')
+    +'</div>', true);
+}
+async function reviewAction(pjId, action){
+  var p=projectOf(pjId);
+  var comment=document.getElementById('rv-comment').value.trim();
+  if(action!=='approve'&&!comment){ toast('差し戻し・却下・停止にはコメントが必要です',true); return; }
+  var map={approve:'approved',request_revision:'revision_required',reject:'rejected',suspend:'suspended'};
+  p.review_status=map[action]; p.status = action==='approve'?'active':'inactive';
+  if(action==='approve'&&p.trust_score<70) p.trust_score=70;
+  db.reviews.push({id:uid('rev'),project_id:p.id,reviewer_id:S.user.id,action:action,comment:comment||'承認します。',created_at:nowISO()});
+  var lbl={approve:'承認',request_revision:'差し戻し',reject:'却下',suspend:'停止'}[action];
+  audit('project_'+action,'carbon_project',p.id,'「'+p.title+'」を'+lbl+(comment?'（'+comment.slice(0,40)+'）':''));
+  await saveDB();
+  closeModal(); toast('プロジェクトを'+lbl+'しました');
+}
+function pgAdminProjects(){
+  var rid=adminRegionIds()[0];
+  var pjs=db.projects.filter(function(p){return p.region_id===rid;});
+  return '<div class="card"><div class="tbl-wrap"><table class="tbl"><thead><tr><th>プロジェクト</th><th>実施者</th><th>カテゴリ</th><th>状態</th><th style="text-align:right">支援額</th><th style="text-align:right">推定CO2</th><th></th></tr></thead><tbody>'
+    +(pjs.length?pjs.map(function(p){return '<tr><td class="small"><b>'+esc(p.title)+'</b></td><td class="small">'+esc(producerName(p.producer_id))+'</td><td>'+catBadge(p.category)+'</td><td>'+rsBadge(p.review_status)+'</td>'
+      +'<td class="right small">'+fmtInt(p.current_amount)+' pt</td><td class="right small">'+fmt(p.estimated_co2_reduction)+' t</td>'
+      +'<td class="right"><button class="btn btn-o btn-sm" onclick="openModal({type:\'review\',pjId:\''+p.id+'\'})">詳細・審査</button></td></tr>';}).join(''):'<tr><td colspan="7" class="center small muted" style="padding:24px">プロジェクトがありません</td></tr>')
+    +'</tbody></table></div></div>';
+}
+function pgAdminTx(){
+  var rid=adminRegionIds()[0];
+  var txs=db.transactions.filter(function(t){return t.region_id===rid;});
+  return '<p class="small muted mb16">担当地域に関連する取引の台帳です。50,000pt以上の大口取引は赤色でハイライトされます。</p><div class="card">'+txTable(txs,null,false)+'</div>';
+}
+function pgAdminRewards(){
+  var rid=adminRegionIds()[0];
+  var rws=db.rewards.filter(function(r){return r.region_id===rid || (r.nationwide_available&&isPlatformRole(S.user.role));});
+  var pjs=db.projects.filter(function(p){return p.region_id===rid&&p.review_status==='approved';});
+  return '<div class="g2" style="align-items:start;margin-top:0">'
+    +'<div><b class="section-title">🎫 地域のGX還元チケット</b>'
+    +(rws.length?rws.map(function(r){
+      var issued=db.user_rewards.filter(function(u){return u.reward_id===r.id;});
+      var used=issued.filter(function(u){return u.status==='used';}).length;
+      return '<div class="card card-p mt8"><div class="between"><b class="small">'+esc(r.title)+'</b>'+scopeBadge(r.usage_scope)+'</div>'
+        +'<div class="tiny muted mt8">'+esc(r.reward_value)+'｜発行元：'+esc(r.issuer_name)+'｜有効期限：'+fmtDate(r.valid_until)+'</div>'
+        +'<div class="small mt8">発行 <b>'+issued.length+'</b>枚 ／ 利用済み <b>'+used+'</b>枚</div></div>';
+    }).join(''):'<div class="card mt8"><div class="empty">チケットがまだありません。右のフォームから作成できます。</div></div>')
+    +'<div class="card card-p mt16"><b class="small">🔍 チケット照合（店舗利用の記録）</b><div class="tiny muted mt8">市民が提示したQRコードの値を入力すると、チケットを利用済みにできます。</div>'
+    +'<input class="input mt8" id="rd-code" placeholder="NAFT-RWD-XXXXXXXXXX"><button class="btn btn-p btn-sm mt8" onclick="redeemByCode()">照合して利用済みにする</button></div></div>'
+    +'<div><div class="card card-p"><b class="section-title">＋ 新しいチケットを作成</b>'
+    +'<span class="label">チケット名 *</span><input class="input" id="rw-title" placeholder="例：地域直売所GX還元チケット">'
+    +'<span class="label">内容（還元額・率） *</span><input class="input" id="rw-value" placeholder="例：100円分 / 加盟店5%還元">'
+    +'<span class="label">発行元名 *</span><input class="input" id="rw-issuer" value="'+esc((regionOf(rid)||{}).operator_name||'')+'">'
+    +'<span class="label">利用範囲</span><select class="select" id="rw-scope">'+Object.keys(SCOPE_MAP).map(function(s){return '<option value="'+s+'">'+SCOPE_MAP[s][0]+'</option>';}).join('')+'</select>'
+    +'<span class="label">関連プロジェクト（任意）</span><select class="select" id="rw-pj"><option value="">指定しない（地域共通）</option>'+pjs.map(function(p){return '<option value="'+p.id+'">'+esc(p.title)+'</option>';}).join('')+'</select>'
+    +'<span class="label">有効期限</span><input class="input" type="date" id="rw-until" value="'+daysFromNow(90).slice(0,10)+'">'
+    +'<span class="label">説明</span><textarea class="textarea" id="rw-desc" placeholder="このチケットの使い方・対象店舗など"></textarea>'
+    +'<button class="btn btn-p btn-block mt16" onclick="createReward()">チケットを作成する</button>'
+    +'<div class="tiny muted mt8">作成後、対象プロジェクトへ1,000pt以上の支援があった市民に自動発行されます。</div></div></div></div>';
+}
+async function createReward(){
+  var rid=adminRegionIds()[0]; var r=regionOf(rid);
+  var g=function(id){return document.getElementById(id).value.trim();};
+  if(!g('rw-title')||!g('rw-value')||!g('rw-issuer')){ toast('チケット名・内容・発行元は必須です',true); return; }
+  var scope=g('rw-scope');
+  var rw={id:uid('rw'),region_id:rid,related_project_id:g('rw-pj')||null,title:g('rw-title'),description:g('rw-desc'),issuer_name:g('rw-issuer'),
+    reward_type:'fixed_amount',reward_value:g('rw-value'),available_region_ids:scope==='nationwide'?[]:[rid],available_prefectures:scope==='nationwide'?[]:[r.prefecture],
+    nationwide_available:scope==='nationwide',usage_scope:scope,valid_from:nowISO(),valid_until:g('rw-until')?new Date(g('rw-until')).toISOString():daysFromNow(90),status:'active',created_at:nowISO()};
+  db.rewards.push(rw);
+  audit('reward_create','reward',rw.id,'GX還元チケット「'+rw.title+'」を作成');
+  await saveDB(); toast('チケットを作成しました'); render();
+}
+async function redeemByCode(){
+  var code=document.getElementById('rd-code').value.trim();
+  if(!code){ toast('QRコードの値を入力してください',true); return; }
+  var ur=db.user_rewards.find(function(u){return u.qr_code_value===code;});
+  if(!ur){ toast('該当するチケットが見つかりません',true); return; }
+  if(ur.status!=='available'){ toast('このチケットは'+RW_STATUS[ur.status][0]+'です',true); return; }
+  var rw=rewardOf(ur.reward_id);
+  ur.status='used'; ur.used_at=nowISO();
+  addTx({from_wallet_id:walletOf(ur.user_id).id,to_wallet_id:'MERCHANT',amount:1,token_type:'CARBON_REWARD',transaction_type:'reward_redeem',related_reward_id:rw.id,region_id:rw.region_id||adminRegionIds()[0],note:rw.title+'の利用'});
+  audit('reward_redeem','user_reward',ur.id,'チケット「'+rw.title+'」を利用済みに更新（照合コード：'+code+'）');
+  await saveDB(); toast('チケットを利用済みにしました');
+}
+function pgAuditLogs(regionIds){
+  var logs=db.audit_logs;
+  return '<p class="small muted mb16">審査・承認・付与・調整などの操作履歴です。ログは削除できません。</p>'
+    +'<div class="card"><div class="tbl-wrap"><table class="tbl"><thead><tr><th>日時</th><th>操作者</th><th>アクション</th><th>対象</th><th>内容</th></tr></thead><tbody>'
+    +(logs.length?logs.map(function(l){var u2=l.actor_user_id==='system'?null:findUser(l.actor_user_id);return '<tr><td class="small muted" style="white-space:nowrap">'+fmtDT(l.created_at)+'</td><td class="small">'+(u2?esc(u2.name):'システム')+'</td>'
+      +'<td><span class="badge b-outline mono tiny">'+esc(l.action)+'</span></td><td class="tiny muted">'+esc(l.entity_type)+'</td><td class="small">'+esc(l.note)+'</td></tr>';}).join(''):'<tr><td colspan="5" class="center small muted" style="padding:24px">ログがありません</td></tr>')
+    +'</tbody></table></div></div>';
+}
+function buildCSV(rows){
+  return rows.map(function(r){return r.map(function(c){c=String(c==null?'':c);return /[",\n]/.test(c)?'"'+c.replace(/"/g,'""')+'"':c;}).join(',');}).join('\n');
+}
+function txCSV(txs){
+  var rows=[['transaction_code','created_at','transaction_type','token_type','amount','from_wallet','to_wallet','project','region','prefecture','status','note','onchain_status']];
+  txs.forEach(function(t){var pj=t.related_project_id?projectOf(t.related_project_id):null;
+    rows.push([t.transaction_code,t.created_at,t.transaction_type,t.token_type,t.amount,t.from_wallet_id||'',t.to_wallet_id||'',pj?pj.title:'',t.region_id?regionName(t.region_id):'',t.prefecture||'',t.status,t.note||'',t.onchain_status]);});
+  return buildCSV(rows);
+}
+function pjCSV(pjs){
+  var rows=[['id','title','category','prefecture','municipality','producer','review_status','trust_score','estimated_co2_t','target_amount','current_amount','support_count','created_at']];
+  pjs.forEach(function(p){rows.push([p.id,p.title,p.category,p.prefecture,p.municipality,producerName(p.producer_id),p.review_status,p.trust_score,p.estimated_co2_reduction,p.target_amount,p.current_amount,p.support_count,p.created_at]);});
+  return buildCSV(rows);
+}
+function modalCSV(m){
+  return modalFrame('📄 CSVエクスポート：'+esc(m.title),
+    '<div class="tiny muted mb8">下のボタンでダウンロード、またはテキストをコピーしてご利用ください。</div>'
+    +'<textarea class="textarea mono" id="csv-body" style="min-height:220px;font-size:11px" readonly>'+esc(m.csv)+'</textarea>'
+    +'<div class="flex mt16"><button class="btn btn-p" onclick="downloadCSV(\''+esc(m.fname)+'\')">ダウンロード</button><button class="btn btn-o" onclick="var t=document.getElementById(\'csv-body\');t.select();document.execCommand(\'copy\');toast(\'コピーしました\')">全文コピー</button></div>');
+}
+function downloadCSV(fname){
+  try{
+    var body=document.getElementById('csv-body').value;
+    var blob=new Blob(['\uFEFF'+body],{type:'text/csv;charset=utf-8'});
+    var a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download=fname; document.body.appendChild(a); a.click(); a.remove();
+  }catch(e){ toast('ダウンロードできない環境のため、コピーをご利用ください',true); }
+}
+function reportBlock(title, st, scopeName){
+  return '<div class="card card-p"><b class="section-title">📄 PoC実証レポート（自動生成サマリー）</b>'
+    +'<div class="card card-p mt16" style="background:var(--g50);box-shadow:none;font-size:13px;line-height:2.1">'
+    +'<b>'+esc(title)+'</b><br>'
+    +'対象：'+esc(scopeName)+'／作成日：'+fmtDate(nowISO())+'<br>'
+    +'参加市民数：'+st.citizens+'人（居住・応援含む）／参加事業者数：'+st.producers+'者<br>'
+    +'登録プロジェクト：'+st.projects+'件（うち承認済み '+st.approved+'件）<br>'
+    +'累計支援額：'+fmtInt(st.supported)+' pt／ポイント流通量：'+fmtInt(st.circulation)+' pt<br>'
+    +'推定CO2削減量（進捗換算）：'+fmt(st.co2)+' t-CO2<br>'
+    +'GX還元チケット：発行 '+st.ticketsIssued+'枚／利用 '+st.ticketsUsed+'枚<br>'
+    +'<span class="tiny muted">※ 本レポートの数値はPoC用ポイントに基づく推定値であり、認証済みクレジット量・金銭価値を示すものではありません。</span></div></div>';
+}
+function pgAdminReports(){
+  var rid=adminRegionIds()[0]; var r=regionOf(rid); var st=regionStats(rid);
+  var pjs=db.projects.filter(function(p){return p.region_id===rid;});
+  return reportBlock('地域GX活動 実証レポート', st, r.name)
+    +'<div class="g2" style="align-items:start"><div class="card card-p"><b class="small">📒 取引台帳CSV</b><div class="tiny muted mt8">担当地域の全取引（'+st.txs.length+'件）をCSV出力します。自治体・金融機関への報告資料に利用できます。</div>'
+    +'<button class="btn btn-p btn-sm mt16" onclick="openModal({type:\'csv\',title:\'地域取引台帳\',fname:\'naft_transactions_region.csv\',csv:txCSV(regionStats(adminRegionIds()[0]).txs)})">CSVを生成する</button></div>'
+    +'<div class="card card-p"><b class="small">📁 プロジェクト一覧CSV</b><div class="tiny muted mt8">担当地域のプロジェクト（'+pjs.length+'件）をCSV出力します。</div>'
+    +'<button class="btn btn-p btn-sm mt16" onclick="openModal({type:\'csv\',title:\'地域プロジェクト一覧\',fname:\'naft_projects_region.csv\',csv:pjCSV(db.projects.filter(function(p){return p.region_id===adminRegionIds()[0];}))})">CSVを生成する</button></div></div>';
+}
+
+/* ---------- merchant ---------- */
+function merchantShell(content){
+  var nav=[{label:'加盟店メニュー'},{key:'home',href:'#/merchant',icon:'🏪',name:'チケット照合'}];
+  return shellFrame(nav,'home','加盟店：GX還元チケット照合',content);
+}
+function pgMerchant(){
+  var rid=(S.user.permitted_region_ids||[])[0]||S.user.home_region_id;
+  var rws=db.rewards.filter(function(r){return r.region_id===rid||r.nationwide_available;});
+  var redeems=db.transactions.filter(function(t){return t.transaction_type==='reward_redeem';}).slice(0,8);
+  return '<div class="g2" style="align-items:start;margin-top:0">'
+    +'<div class="card card-p"><b class="section-title">🔍 QRコード照合</b><p class="small muted mt8">お客さまが提示したチケットQRコードの値を入力し、利用済みとして記録します（PoCでは値の手入力で照合します）。</p>'
+    +'<input class="input mt8" id="rd-code" placeholder="NAFT-RWD-XXXXXXXXXX"><button class="btn btn-p btn-block mt8" onclick="redeemByCode()">照合して利用済みにする</button>'
+    +'<div class="notice-inline mt16">チケットは値引きの原資記録ではなく、地域GX活動への参加証としての還元記録です（PoC）。</div></div>'
+    +'<div><b class="section-title">この地域で使えるチケット</b>'
+    +rws.map(function(r){return '<div class="card card-p mt8"><div class="between"><b class="small">'+esc(r.title)+'</b>'+scopeBadge(r.usage_scope)+'</div><div class="tiny muted mt8">'+esc(r.reward_value)+'｜発行元：'+esc(r.issuer_name)+'</div></div>';}).join('')
+    +'</div></div>'
+    +'<div class="mt24"><b class="section-title">📒 最近の利用記録</b><div class="card mt8">'+txTable(redeems,null,false)+'</div></div>';
+}
+</script>
+<script>
+/* ---------- platform ---------- */
+var PLAT_TITLES = {home:'全国横断ダッシュボード',regions:'地域管理',projects:'全国プロジェクト',tx:'全国取引台帳',audit:'監査ログ',reports:'レポート・CSV出力',settings:'システム設定'};
+function platformShell(active, content){
+  var pending=db.projects.filter(function(p){return p.review_status==='pending_review';}).length;
+  var nav=[{label:'全国管理'},
+    {key:'home',href:'#/platform',icon:'🗾',name:'全国ダッシュボード'},
+    {key:'regions',href:'#/platform/regions',icon:'📍',name:'地域管理'},
+    {key:'projects',href:'#/platform/projects',icon:'📁',name:'全国プロジェクト'+(pending?' ('+pending+')':'')},
+    {key:'tx',href:'#/platform/transactions',icon:'📒',name:'全国取引台帳'},
+    {key:'audit',href:'#/platform/audit',icon:'🛡️',name:'監査ログ'},
+    {key:'reports',href:'#/platform/reports',icon:'📄',name:'レポート・CSV'},
+    {key:'settings',href:'#/platform/settings',icon:'⚙️',name:'システム設定'}];
+  return shellFrame(nav, active, PLAT_TITLES[active]||'全国管理', content);
+}
+function nationalStats(){
+  var citizens=db.users.filter(function(u){return u.role==='citizen';}).length;
+  var producers=db.producers.length;
+  var pjs=db.projects;
+  var approved=pjs.filter(function(p){return p.review_status==='approved';});
+  var txs=db.transactions;
+  var supported=txs.filter(function(t){return t.transaction_type==='support_project';}).reduce(function(s,t){return s+t.amount;},0);
+  var circulation=txs.filter(function(t){return t.token_type==='NAFT_POINT';}).reduce(function(s,t){return s+t.amount;},0);
+  var co2=approved.reduce(function(s,p){return s+p.estimated_co2_reduction*Math.min(1,p.current_amount/Math.max(1,p.target_amount));},0);
+  var issued=db.user_rewards.length, used=db.user_rewards.filter(function(u){return u.status==='used';}).length;
+  return {citizens:citizens,producers:producers,projects:pjs.length,approved:approved.length,pending:pjs.filter(function(p){return p.review_status==='pending_review';}).length,
+    supported:supported,circulation:circulation,co2:co2,ticketsIssued:issued,ticketsUsed:used,txs:txs,
+    operators:Array.from(new Set(db.regions.map(function(r){return r.operator_name;}))).length};
+}
+function pgPlatformHome(){
+  var st=nationalStats();
+  // prefecture ranking by supported amount
+  var byPref={};
+  db.transactions.filter(function(t){return t.transaction_type==='support_project'&&t.prefecture;}).forEach(function(t){ byPref[t.prefecture]=(byPref[t.prefecture]||0)+t.amount; });
+  var ranking=Object.keys(byPref).map(function(k){return [k,byPref[k]];}).sort(function(a,b){return b[1]-a[1];}).slice(0,8);
+  var maxV=ranking.length?ranking[0][1]:1;
+  var byCat={};
+  db.projects.filter(function(p){return p.review_status==='approved';}).forEach(function(p){ byCat[p.category]=(byCat[p.category]||0)+1; });
+  var alerts=db.transactions.filter(function(t){return t.token_type==='NAFT_POINT'&&t.amount>=50000;});
+  var pendings=db.projects.filter(function(p){return p.review_status==='pending_review';});
+  return '<div class="stats">'
+    +statCard('登録地域',db.regions.length,'エリア','運営団体 '+st.operators+'団体')
+    +statCard('参加市民',st.citizens,'人','全国合計')
+    +statCard('事業者',st.producers,'者','')
+    +statCard('プロジェクト',st.projects,'件','承認済み '+st.approved+'件・審査待ち '+st.pending+'件')
+    +'</div><div class="stats mt16">'
+    +statCard('累計支援額',fmtInt(st.supported),'pt','全国合計')
+    +statCard('ポイント流通量',fmtInt(st.circulation),'pt','NaFTポイント取引合計')
+    +statCard('推定CO2削減（進捗換算）',fmt(st.co2),'t-CO2','承認済みプロジェクト')
+    +statCard('チケット',st.ticketsIssued,'枚 発行','利用済み '+st.ticketsUsed+'枚')
+    +'</div>'
+    +'<div class="g2 mt24" style="align-items:start">'
+    +'<div class="card card-p"><b class="section-title">🗾 都道府県別 支援額ランキング</b><div class="mt16">'
+    +(ranking.length?ranking.map(function(r2,i){return '<div class="mt8"><div class="between small"><span><b>'+(i+1)+'.</b> '+esc(r2[0])+'</span><b>'+fmtInt(r2[1])+' pt</b></div><div class="rank-bar" style="width:'+Math.max(3,Math.round(r2[1]/maxV*100))+'%"></div></div>';}).join(''):'<div class="small muted">支援データがまだありません。</div>')+'</div></div>'
+    +'<div><div class="card card-p"><b class="section-title">📊 カテゴリ別 承認済みプロジェクト</b><div class="chips mt16">'
+    +Object.keys(byCat).map(function(c){return '<span class="chip" style="cursor:default">'+CATS[c][1]+' '+CATS[c][0]+'　<b>'+byCat[c]+'</b>件</span>';}).join('')+'</div></div>'
+    +'<div class="card card-p mt16"><b class="section-title">🔔 審査待ちプロジェクト（全国）</b>'
+    +(pendings.length?pendings.map(function(p){return '<div class="between small" style="padding:8px 0;border-bottom:1px dashed var(--line)"><span><b>'+esc(p.title)+'</b><div class="tiny muted">'+esc(p.prefecture)+'｜'+esc(regionName(p.region_id))+'</div></span><button class="btn btn-o btn-sm" onclick="openModal({type:\'review\',pjId:\''+p.id+'\'})">審査</button></div>';}).join(''):'<div class="small muted mt8">審査待ちはありません。</div>')+'</div>'
+    +'<div class="card card-p mt16"><b class="section-title">🚨 異常取引アラート</b><div class="tiny muted mt8">50,000pt以上の大口NaFTポイント取引を自動検知します。</div>'
+    +(alerts.length?alerts.map(function(t){return '<div class="between small mt8" style="background:var(--red-bg);border-radius:8px;padding:8px 12px"><span>'+fmtDT(t.created_at)+'｜'+(TT_MAP[t.transaction_type]||'')+'</span><b style="color:var(--red)">'+fmtInt(t.amount)+' pt</b></div>';}).join(''):'<div class="small mt8" style="color:var(--g700)">✓ 現在、異常な取引は検知されていません。</div>')+'</div>'
+    +'</div></div>';
+}
+function pgPlatformRegions(){
+  return '<div class="g2" style="align-items:start;margin-top:0"><div><b class="section-title">📍 登録地域（'+db.regions.length+'エリア）</b>'
+    +'<div class="card mt8"><div class="tbl-wrap"><table class="tbl"><thead><tr><th>地域</th><th>種別</th><th>運営</th><th style="text-align:right">PJ数</th><th style="text-align:right">支援額</th></tr></thead><tbody>'
+    +db.regions.map(function(r){var st=regionStats(r.id);return '<tr><td class="small"><b>'+esc(r.name)+'</b><div class="tiny muted">'+esc(r.prefecture)+'</div></td>'
+      +'<td><span class="badge b-outline">'+(REGION_TYPE_MAP[r.region_type]||r.region_type)+'</span></td>'
+      +'<td class="tiny">'+esc(r.operator_name)+'<div class="muted">'+(OP_TYPE_MAP[r.operator_type]||'')+'</div></td>'
+      +'<td class="right small">'+st.projects+'</td><td class="right small">'+fmtInt(st.supported)+' pt</td></tr>';}).join('')
+    +'</tbody></table></div></div></div>'
+    +'<div class="card card-p"><b class="section-title">＋ 新しい地域を登録（ホワイトラベル導入）</b>'
+    +'<p class="tiny muted mt8">自治体・地銀・信金・JA・商工会・大学・企業など、どの単位でも地域GXエリアを立ち上げられます。</p>'
+    +'<span class="label">地域名 *</span><input class="input" id="rg2-name" placeholder="例：〇〇県 〇〇地域GXエリア">'
+    +'<div class="form-grid"><div><span class="label">都道府県 *</span><input class="input" id="rg2-pref" placeholder="例：広島県"></div>'
+    +'<div><span class="label">対象エリア *</span><input class="input" id="rg2-muni" placeholder="例：尾道・しまなみ地域"></div>'
+    +'<div><span class="label">地域種別</span><select class="select" id="rg2-type">'+Object.keys(REGION_TYPE_MAP).map(function(k){return '<option value="'+k+'">'+REGION_TYPE_MAP[k]+'</option>';}).join('')+'</select></div>'
+    +'<div><span class="label">運営団体種別</span><select class="select" id="rg2-optype">'+Object.keys(OP_TYPE_MAP).map(function(k){return '<option value="'+k+'">'+OP_TYPE_MAP[k]+'</option>';}).join('')+'</select></div></div>'
+    +'<span class="label">運営団体名 *</span><input class="input" id="rg2-op" placeholder="例：〇〇GX推進協議会">'
+    +'<span class="label">エリア説明</span><textarea class="textarea" id="rg2-desc" placeholder="このエリアで取り組むGXの概要"></textarea>'
+    +'<span class="label">連絡先メール</span><input class="input" id="rg2-mail" placeholder="gx@example.jp">'
+    +'<button class="btn btn-p btn-block mt16" onclick="createRegion()">地域を登録する</button></div></div>';
+}
+async function createRegion(){
+  var g=function(id){return document.getElementById(id).value.trim();};
+  if(!g('rg2-name')||!g('rg2-pref')||!g('rg2-muni')||!g('rg2-op')){ toast('必須項目（*）を入力してください',true); return; }
+  var r={id:uid('r'),name:g('rg2-name'),region_type:g('rg2-type'),prefecture:g('rg2-pref'),municipality:g('rg2-muni'),
+    area_description:g('rg2-desc'),operator_name:g('rg2-op'),operator_type:g('rg2-optype'),contact_email:g('rg2-mail'),status:'active',created_at:nowISO()};
+  db.regions.push(r);
+  audit('region_create','region',r.id,'地域「'+r.name+'」を登録');
+  await saveDB(); toast('地域を登録しました'); render();
+}
+function pgPlatformProjects(){
+  var pjs=db.projects.slice().sort(function(a,b){return (a.review_status==='pending_review'?-1:0)-(b.review_status==='pending_review'?-1:0);});
+  return '<p class="small muted mb16">全国すべてのプロジェクトです。プラットフォーム管理者はどの地域のプロジェクトも審査できます。</p>'
+    +'<div class="card"><div class="tbl-wrap"><table class="tbl"><thead><tr><th>プロジェクト</th><th>地域</th><th>カテゴリ</th><th>状態</th><th style="text-align:right">支援額</th><th style="text-align:right">推定CO2</th><th></th></tr></thead><tbody>'
+    +pjs.map(function(p){return '<tr><td class="small"><b>'+esc(p.title)+'</b><div class="tiny muted">'+esc(producerName(p.producer_id))+'</div></td>'
+      +'<td class="tiny">'+esc(p.prefecture)+'<div class="muted">'+esc(p.municipality)+'</div></td><td>'+catBadge(p.category)+'</td><td>'+rsBadge(p.review_status)+'</td>'
+      +'<td class="right small">'+fmtInt(p.current_amount)+' pt</td><td class="right small">'+fmt(p.estimated_co2_reduction)+' t</td>'
+      +'<td class="right"><button class="btn btn-o btn-sm" onclick="openModal({type:\'review\',pjId:\''+p.id+'\'})">詳細・審査</button></td></tr>';}).join('')
+    +'</tbody></table></div></div>';
+}
+function pgPlatformTx(){
+  return '<p class="small muted mb16">全国すべての取引台帳です。50,000pt以上の大口取引は赤色でハイライトされます。</p><div class="card">'+txTable(db.transactions,null,true)+'</div>';
+}
+function pgPlatformReports(){
+  var st=nationalStats();
+  return reportBlock('全国GXプラットフォーム 実証レポート', Object.assign({},st,{txs:db.transactions}), '全国（'+db.regions.length+'エリア）')
+    +'<div class="g2" style="align-items:start"><div class="card card-p"><b class="small">📒 全国取引台帳CSV</b><div class="tiny muted mt8">全取引（'+db.transactions.length+'件）をCSV出力します。</div>'
+    +'<button class="btn btn-p btn-sm mt16" onclick="openModal({type:\'csv\',title:\'全国取引台帳\',fname:\'naft_transactions_all.csv\',csv:txCSV(db.transactions)})">CSVを生成する</button></div>'
+    +'<div class="card card-p"><b class="small">📁 全国プロジェクトCSV</b><div class="tiny muted mt8">全プロジェクト（'+db.projects.length+'件）をCSV出力します。</div>'
+    +'<button class="btn btn-p btn-sm mt16" onclick="openModal({type:\'csv\',title:\'全国プロジェクト一覧\',fname:\'naft_projects_all.csv\',csv:pjCSV(db.projects)})">CSVを生成する</button></div></div>';
+}
+function pgPlatformSettings(){
+  return '<div style="max-width:560px"><div class="card card-p"><b class="section-title">システム情報</b>'
+    +'<div class="small mt8" style="line-height:2.2"><b>バージョン：</b>NaFT PoC v1.0<br><b>データ保存：</b>'+(window.storage?'永続ストレージ（セッションをまたいで保存されます）':'メモリ内（このセッション限り）')+'<br>'
+    +'<b>オンチェーン連携：</b><span class="badge b-gray">未接続（Web3拡張用カラムは全取引に確保済み）</span><br>'
+    +'<b>登録データ：</b>ユーザー '+db.users.length+'／地域 '+db.regions.length+'／プロジェクト '+db.projects.length+'／取引 '+db.transactions.length+'／監査ログ '+db.audit_logs.length+'</div></div>'
+    +'<div class="card card-p mt16" style="border-color:#e5b8b4"><b class="section-title" style="color:var(--red)">デモデータのリセット</b>'
+    +'<p class="small muted mt8">すべてのデータを初期状態に戻します。登録したユーザー・プロジェクト・取引はすべて削除されます。</p>'
+    +'<button class="btn btn-red-o mt16" onclick="openModal({type:\'confirmReset\'})">初期データにリセットする</button></div></div>';
+}
+function modalConfirmReset(){
+  return modalFrame('⚠️ デモデータのリセット',
+    '<p class="small">本当にすべてのデータを初期状態に戻しますか？この操作は取り消せません。</p>'
+    +'<div class="flex mt24"><button class="btn btn-o" style="flex:1" onclick="closeModal()">キャンセル</button><button class="btn btn-danger" style="flex:1" onclick="execReset()">リセットする</button></div>');
+}
+async function execReset(){
+  await resetDB();
+  S.user=null; await store.del(SES_KEY);
+  S.modal=null; toast('初期データにリセットしました'); go('#/');
+}
+
+/* ---------- init ---------- */
+(async function init(){
+  try{
+    await loadDB();
+    var sid = await store.get(SES_KEY);
+    if(sid){ var u=db.users.find(function(x){return x.id===sid;}); if(u&&u.status==='active') S.user=u; }
+  }catch(e){ console.error(e); if(!db) db=seedDB(); }
+  render();
+})();
+</script>
+</body>
+</html>
