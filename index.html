@@ -1,0 +1,17 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta http-equiv="refresh" content="0; url=naft-app.html">
+  <title>NaFT</title>
+</head>
+<body>
+  <p><a id="continue" href="naft-app.html">NaFTを開く</a></p>
+  <script>
+    var destination='naft-app.html'+(location.hash||'');
+    document.getElementById('continue').href=destination;
+    location.replace(destination);
+  </script>
+</body>
+</html>

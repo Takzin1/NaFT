@@ -24,7 +24,7 @@ This repository is a **legal-review-pending PoC** of a citizen-participation GX 
 ## Verification for every change
 
 ```bash
-bash tests/run.sh   # extracts JS, runs node --check, then 46 smoke assertions — all must pass
+bash tests/run.sh   # extracts JS, runs node --check, then 63 smoke assertions — all must pass
 ```
 
 Add at least one assertion in `tests/smoke.test.js` for any new feature. See AGENTS.md and .github/ISSUES_BACKLOG.md for tasks.

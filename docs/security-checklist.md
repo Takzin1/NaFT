@@ -1,6 +1,6 @@
 # セキュリティチェックリスト
 
-## 1. 公開前スキャン結果（2026-07 実施・現リポジトリ）
+## 1. 公開前スキャン結果（2026-09-02 再実行・現リポジトリ）
 
 | 検査項目 | 結果 |
 |---|---|
@@ -10,6 +10,7 @@
 | `localStorage / sessionStorage / IndexedDB` | **不使用**（window.storage + メモリフォールバックのみ） |
 | 外部リソース参照 | qrcodejs 1.0.0（cdnjs）の`<script>`1件のみ（失敗時フォールバックあり） |
 | `.env` / 認証情報ファイル | 存在しない |
+| IEEE検証補助 | ローカル決定論的ルールのみ。外部AI API・秘密情報なし |
 
 再実行コマンド:
 ```bash
@@ -22,6 +23,8 @@ grep -rniE 'axios|supabase|firebase|openai|anthropic|alchemy|infura|walletconnec
 - 監査ログ削除UIなし／台帳は追記のみ（`unshift`）
 - パスワードは平文保存せずハッシュ化（※デモ用djb2。known-limitations参照）
 - 大口取引（50,000pt以上）の自動ハイライトとアラート
+- MRV補助実行と候補環境記録作成を監査ログに記録
+- `ABSTAIN` の人間上書きには20文字以上の理由を要求
 
 ## 3. 継続チェックリスト（PR毎 / docs/pr-checklist.md と連動）
 

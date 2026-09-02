@@ -1,6 +1,6 @@
 # NaFT データモデル
 
-単一JSONドキュメント（storage key: `naft_db_v1`）内の12コレクション。ID規約: `u_*`(users) / `w`(wallets) / `r`(regions) / `p`(producers) / `pj`(projects) / `ev` / `rw` / `ur` / `tx` / `rev` / `al` / `rsv`。シードデータはプレフィックス+連番（`u1`,`pj1`…）。
+単一JSONドキュメント（storage key: `naft_db_v1`）内の14コレクション。ID規約: `u_*`(users) / `w`(wallets) / `r`(regions) / `p`(producers) / `pj`(projects) / `ev` / `rw` / `ur` / `tx` / `rev` / `al` / `rsv` / `vr` / `er`。シードデータはプレフィックス+連番（`u1`,`pj1`…）。DB version 2で `verification_runs` と `environmental_records` を追加し、version 1の保存データは読込時に空配列を補完する。
 
 ## ER概略
 
@@ -8,6 +8,7 @@
 users 1─1 wallets            users 1─0..1 producers
 users *─* regions(support)   producers 1─* carbon_projects ─* project_evidences
 carbon_projects 1─* project_reviews      carbon_projects ─* reservations
+carbon_projects 1─* verification_runs    carbon_projects 1─* environmental_records
 regions 1─* carbon_projects  regions 1─* rewards
 rewards 1─* user_rewards(users)          transactions →(参照) projects/rewards/regions
 audit_logs →(参照) すべて
@@ -41,6 +42,22 @@ draft ──提出──▶ pending_review ──承認──▶ approved ──
 
 ### project_evidences
 `id, project_id, file_url(PoCでは空), file_name, file_type, description, uploaded_by, created_at` — **実ファイルは保存せずメタデータのみ**。
+
+### verification_runs（検証補助の実行記録）
+`id, project_id, requested_by, assistant_kind(local_demo_rules_v1), assistant_label, outcome, summary, checks[], missing_items[], risk_signals[], input_fingerprint, generated_at, final_decision, final_reviewer_id, final_decided_at`
+
+- **outcome**: `ready_for_human_review / needs_review / abstain`
+- `input_fingerprint` はプロジェクト定量値・算定方法・証憑メタデータから決定論的に生成する16桁hex。改変防止の暗号学的保証ではなく、PoC上の同一入力識別子。
+- 実行しても `carbon_projects.review_status` は変化しない。`final_decision` は人間の審査操作後にだけ記録する。
+
+### environmental_records（検証済み環境記録・候補）
+`id, project_id, verification_run_id, record_type, status, estimated_co2_reduction, unit, methodology_reference, input_fingerprint, verification_outcome, final_reviewer_id, final_comment, approved_at, previous_record_hash, record_hash, ledger_mode, credit_status, created_at`
+
+- **status**: `verified_candidate / suspended_candidate`
+- **ledger_mode**: `offchain_hash_chain`
+- **credit_status**: `candidate_not_issued` 固定。正式なカーボンクレジットの発行・移転・償却を表さない。
+- `record_hash` は `NAFT-ER-` + 16桁hex。新しい記録は直前の `record_hash` を `previous_record_hash` に保持する。
+- 作成条件は、管理者ロールによる `reviewAction(..., 'approve')` の明示操作。補助エンジンやバッチからは作成しない。
 
 ### transactions（台帳）
 `id, transaction_code(TX-YYYYMMDD-XXXXXX), from_wallet_id, to_wallet_id, amount, token_type, transaction_type, related_project_id, related_reward_id, region_id, prefecture, municipality, status, note, created_by, created_at`

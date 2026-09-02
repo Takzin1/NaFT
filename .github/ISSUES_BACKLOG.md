@@ -15,9 +15,13 @@
 | 8 | プロデューサー編集時の証憑削除UI | ★★ | `pgProjectForm()` / `saveProject()` | draft/差し戻しのみ削除可。audit記録。テスト1件 |
 | 9 | `esc()` のXSS回帰テスト | ★ | tests/smoke.test.js | `<img onerror>` 等を含む名前で登録→描画出力にタグが残らないことを検証 |
 | 10 | reset後の状態遷移テスト | ★ | tests/smoke.test.js | `execReset()` 後に db が10PJ/6ユーザーへ戻ることを検証 |
-| 11 | Phase A: ESモジュール分割の実施 | ★★★ | architecture.md §5 の表どおりに分割、index.html化 | ビルドなし(type=module)で同一挙動。46項目全通過が受入基準 |
+| 11 | Phase A: ESモジュール分割の実施 | ★★★ | architecture.md §5 の表どおりに分割、index.html化 | ビルドなし(type=module)で同一挙動。63項目全通過が受入基準 |
 | 12 | AI審査補助（HITL）プロトタイプ設計 | ★★★ | docs/human-in-the-loop.md 準拠の設計書作成（実装はサーバー版で） | 「AI提案あり/最終判断者」の監査ログ設計、UIモック、評価指標を含むdocs追加。**自動承認は設計に含めない** |
 | 13 | アクセシビリティ初期対応 | ★★ | モーダルのフォーカストラップ、aria-label | キーボードのみで支援フロー完走可能 |
 | 14 | 加盟店の利用履歴を自地域分に限定 | ★ | `pgMerchant()` | region_id一致の reward_redeem のみ表示。テスト1件 |
 
-**着手宣言の書式**: 「Issue #N に着手。基準線46/46確認済み。」→ 完了時に pr-checklist.md の結果を添付。
+## 完了済みハッカソン拡張
+
+- [x] **IEEE ClimateChain MRV縦断フロー（2026-09-02）**: Evidence → Assist → Deterministic Verification → Human Review → Verified Environmental Record。`READY / NEEDS REVIEW / ABSTAIN`、入力指紋、HITL、候補記録hash連結、英語デモ入口、63アサーションを実装。正式クレジット発行・オンチェーン連携は対象外。
+
+**着手宣言の書式**: 「Issue #N に着手。基準線63/63確認済み。」→ 完了時に pr-checklist.md の結果を添付。

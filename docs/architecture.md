@@ -18,11 +18,12 @@ naft-app.html
 └── <script> L7      … 全国プラットフォーム + 設定/リセット + init()
 ```
 
-## 2. コアとなる3つの不変条件（invariants）
+## 2. コアとなる4つの不変条件（invariants）
 
 1. **台帳原則** — あらゆる価値移動（付与・支援・チケット発行/利用・予約）は必ず `addTx()` を経由する。`addTx()` は取引コード、地域、Web3拡張カラム（`transaction_hash`/`chain_id`/`token_contract_address`/`credit_token_id`/`offchain_transaction_id`/`onchain_status`）を自動付与する。直接 `db.transactions.push()` してはならない。
 2. **監査原則** — ログイン・登録・審査・付与・作成・リセットなどの操作は `audit(action, entityType, entityId, note)` で記録する。監査ログを削除・改変するUIは存在しない（今後も追加しない）。
 3. **HITL原則** — `review_status` を `approved` に遷移できるのは人間の管理者ロールの操作のみ。AI・バッチ・自動処理による承認・ポイント付与は実装しない（docs/human-in-the-loop.md）。
+4. **MRV分離原則** — `buildVerificationAssessment()` は証憑メタデータを決定論的に検査し、`READY / NEEDS REVIEW / ABSTAIN` 相当の参考結果だけを返す。状態遷移と `environmental_records` 作成は `reviewAction()` 内の人間操作に限定する。
 
 ## 3. データフロー
 
@@ -34,6 +35,18 @@ UI操作(onclick) → ユースケース関数(execSupport 等)
   → await saveDB()（Storage Adapter経由で永続化）
   → render()（画面全体を state から再構築）
 ```
+
+IEEE ClimateChain向けMRVフローは価値移動と分離する。
+
+```
+Evidence metadata
+  → runVerificationAssist()（構造化・不足検知）
+  → buildVerificationAssessment()（決定論的チェック）
+  → reviewAction()（人間の最終判断）
+  → createEnvironmentalRecord()（候補記録＋前レコードhash）
+```
+
+補助実行だけではプロジェクト状態、残高、台帳は一切変化しない。候補記録も正式クレジットではなく、オフチェーンの来歴デモである。
 
 - `render()` は「状態 → HTML文字列 → innerHTML」の純粋な一方向。ページ関数（`pg*`）は**文字列を返すだけの純関数**に近く、副作用はユースケース関数に隔離。
 - フォームは再描画で値が消えるため、**送信時に `getElementById` で読む**方式（中間再描画をしない）。
@@ -66,6 +79,8 @@ store = { get(key), set(key,value), del(key) }   // すべて async
 | `features/rewards` | `rewardCardHTML/pgRewards/modalRewardDetail/createReward/redeemByCode` | 混在 |
 | `features/projects` | `pgProjectForm/saveProject/pgProjectDetail/producer*` | 混在 |
 | `features/review` | `pgAdminReviews/modalReview/reviewAction` | 混在 |
+| `features/verification` | `buildVerificationAssessment/runVerificationAssist/pgVerificationWorkbench/pgVerificationRecords` | 純粋＋監査付き副作用 |
+| `features/environmental-records` | `buildEnvironmentalRecord/createEnvironmentalRecord/environmentalRecordFor` | 純粋＋人間承認時のみ副作用 |
 | `features/dashboard` | `pgAdminHome/pgPlatformHome/reportBlock/txCSV/pjCSV` | 純粋寄り |
 | `ui/components` | `badge/statCard/projectCard/txTable/modalFrame/logoHTML/…` | 純粋 |
 | `app/router.ts` | `S`, `route`, `render`, `go`, `roleHome` | 副作用 |
