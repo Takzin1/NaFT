@@ -56,10 +56,4 @@
 
 ## 9. IEEE ClimateChain 4分デモ
 
-1. `#/ieee` を開く（30秒）: 対象を「分散した証憑を持つ地域GX事業者」と「説明可能な審査記録が必要な自治体・地域金融」に限定して説明。
-2. 事業者で `pj9` の **MRV検証ワークベンチ**を開く（60秒）: Evidence → Assist → Deterministic Verification → Human Review → Record の5段階、入力指紋、`NEEDS REVIEW`、未確定資料を示す。
-3. 地域管理者に切り替え、`pj9` の審査モーダルを開く（75秒）: 「AIによる参考情報」である表示、各チェック、原証憑、人間コメントを見せて承認。補助層は承認していないことを強調。
-4. **検証済み記録**を開く（45秒）: `NAFT-ER-*`、最終確認者、入力指紋、前レコードhash、`candidate_not_issued` の境界を示す。
-5. `pj10` の証憑なしケースを実行（30秒）: `ABSTAIN` となり自動承認されないことを示す。
-
-締め: “NaFT does not claim to issue a carbon credit. It makes the evidence-to-human-decision path inspectable, reproducible, and ready for later institutional connection.”
+最新の8段階シナリオとボタン名は [ieee-climatechain-demo.md](ieee-climatechain-demo.md) を使用してください。`#/ieee` で Evidence → Deterministic MRV Readiness → Human Review → Verified Environmental Record → Candidate Unit → Transfer → Retirement → Double-counting Block を提示します。全てSimulationであり、既存の市民ポイントやチケットとは独立しています。

@@ -25,3 +25,7 @@
 - [x] **IEEE ClimateChain MRV縦断フロー（2026-09-02）**: Evidence → Assist → Deterministic Verification → Human Review → Verified Environmental Record。`READY / NEEDS REVIEW / ABSTAIN`、入力指紋、HITL、候補記録hash連結、英語デモ入口、63アサーションを実装。正式クレジット発行・オンチェーン連携は対象外。
 
 **着手宣言の書式**: 「Issue #N に着手。基準線63/63確認済み。」→ 完了時に pr-checklist.md の結果を添付。
+
+## IEEE ClimateChain candidate lifecycle (PR #1)
+
+Implemented on `codex/ieee-climatechain-mrv`: deterministic naming, canonical SHA-256, human-approved Candidate Unit issuance, simulation transfer/retirement, exact-input duplicate guards, eight-stage judging UI and 137 smoke assertions (original 63 retained). Browser verification remains outstanding because the available Cloud Browser blocks local/file URLs. Contracts remain an unconnected Future testnet extension.

@@ -1,57 +1,51 @@
 # NaFT for IEEE ClimateChain Hackathon
 
-## One-line proposition
+## One Auditable Path
 
-**NaFT turns fragmented local climate-action evidence into a reviewable, hash-linked candidate environmental record without removing human accountability.**
+NaFT turns fragmented climate evidence into a human-reviewed, hash-linked candidate environmental record and tracks the lifecycle of demo climate units through issuance, transfer, retirement, and double-counting prevention.
 
-## Problem and stakeholder
+Local project operators hold photos, spreadsheets, plans and sensor summaries in different places. Reviewers need to know which evidence and human decision support a claim, then prevent the same reviewed input from generating two demo balances.
 
-Local climate-action operators—small farms, forestry groups, community energy projects, and local businesses—hold photos, spreadsheets, plans, and sensor summaries in different formats. Municipal and regional-finance reviewers must check whether the activity, period, quantification, method, and evidence are complete while retaining an explainable decision trail.
+## Four-minute demo (240 seconds)
 
-The hackathon build focuses on that bottleneck. Citizen rewards and the wider NaFT economy remain in the repository, but the IEEE judging path is deliberately narrower.
+Use `naft-app.html#/ieee`. A normal browser starts fresh on reload (memory-only storage); an Artifact environment may persist data. The default solar scenario `pj9` starts pending review. The existing `pj1`/`pj2` records are clearly seeded examples; no candidate units or transfers are pre-issued.
 
-## Implemented workflow
+| Time | Stage | Exact action / visible result |
+|---|---|---|
+| 0:00–0:20 | 1. Evidence / problem | Show **One Auditable Path**, fragmented field evidence and the Candidate / Simulation boundary. |
+| 0:20–1:00 | 2. Deterministic MRV Readiness | Click **1. Project Operator**, then **Run Deterministic MRV Readiness**. Show `NEEDS_REVIEW`, draft evidence, completeness and methodology checks. Optionally select the missing-evidence scenario, run it to show `ABSTAIN`, then return to solar. |
+| 1:00–1:35 | 3. Human Review | Click **2. Human Reviewer**. Inspect evidence metadata and activity/methodology details. Enter a human-authored review note in **Human review note / ABSTAIN override reason**; click **Human: approve evidence**. No approval occurs just by running checks. |
+| 1:35–1:55 | 4. Verified Environmental Record | Show the named reviewer, decision, SHA-256 input fingerprint and previous record hash. “Verified” means human-reviewed within this prototype, not certification. |
+| 1:55–2:20 | 5. Candidate Climate Unit | Click **Issue Candidate Unit**. Show total / available / retired and `candidate_not_formally_issued`. The quantity is the approved operator estimate, not independently verified abatement. |
+| 2:20–2:45 | 6. Transfer | Default **From: Demo operator**, **To: Demo partner**, full available quantity. Click **Record demo transfer**. The sender loses custody, partner gains it, aggregate available remains unchanged. |
+| 2:45–3:15 | 7. Retirement | The source now defaults to Demo partner. Type a reason, e.g. “Remove this simulated claim from the demonstration balance.” Click **Human: retire candidate quantity**. Show available 0, retired total, `fully_retired`. |
+| 3:15–3:40 | 8. Double-counting Block | Click **Try retired-unit transfer → BLOCKED**. Show `RETIRED_UNITS_CANNOT_BE_REUSED`. Click **Try duplicate issuance → BLOCKED** to show `DUPLICATE_ISSUANCE_BLOCKED`. Expand **Inspect provenance, transfer ledger, and blocked attempts**. |
+| 3:40–4:00 | Message | Deliver the two sentences below, with the guard-scope qualifier. |
 
-| Stage | System action | Output | Decision owner |
-|---|---|---|---|
-| Evidence | Receives project fields and evidence metadata | Review package | Project operator |
-| Assist | Structures evidence descriptions and detects gaps | Summary, missing items, risk signals | Reference only |
-| Verify | Runs deterministic checks | `READY_FOR_HUMAN_REVIEW`, `NEEDS_REVIEW`, or `ABSTAIN` | Rule engine cannot approve |
-| Human review | Shows the package, original metadata, checks, and history | Approve, return, reject, suspend | Named human reviewer |
-| Record | Links input fingerprint, final reviewer, and previous record hash | Candidate environmental record | Created only after human approval |
+NaFT does not decide whether climate action is real.
 
-## What is real in this prototype
+It makes the evidence, human decision, candidate unit lifecycle, and retirement traceable — and blocks the same claim from being counted twice.
 
-- Working project-operator MRV workbench.
-- Six deterministic checks: actor/location, activity period, quantification, methodology, evidence set, and traceability.
-- Risk detection for explicitly unfinished evidence such as “準備中” or “draft”.
-- Stable input fingerprint for unchanged inputs.
-- Automatic invalidation warning when project fields or evidence change after a run.
-- `ABSTAIN` behavior when critical evidence is missing.
-- Human-review override requiring a documented reason for an `ABSTAIN` case.
-- Hash-linked candidate environmental records with named final reviewer and audit-log entries.
-- Region-scoped and nationwide record views.
-- English IEEE entry page at `#/ieee`.
-- Dependency-free automated regression suite.
+Scope qualifier: identical environmental record or canonical input in this demo dataset. It does not discover semantically overlapping claims or duplicates across registries.
 
-## Prototype boundary
+## ABSTAIN branch
 
-This build does **not** perform payment, token transfer, formal carbon-credit issuance, transfer, or retirement. Evidence files are not uploaded; only their metadata is stored. The local assist engine is a deterministic demonstration adapter and does not call an external model. Record hashes are PoC identifiers, not cryptographic signatures or an on-chain ledger.
+Select `pj10`, sign in as Project Operator, click **Operator: submit for human review** and run readiness. Switch to Human Reviewer. A short override (under 20 trimmed characters) is blocked; only a human's explicit sufficiently long explanation can approve. The length gate records accountability; it does not establish the substantive adequacy of the justification. Issuance also requires a positive finite quantity, vintage and methodology reference. Do not present missing evidence as verified emission reductions.
 
-These boundaries are intentional: IEEE evaluation can inspect the complete evidence-to-decision path without confusing a hackathon prototype with a regulated market function.
+## Prototype Boundary
 
-## Four-minute judging demo
+- Candidate Climate Unit — Simulation only — Not a formally issued carbon credit.
+- Retirement in this prototype means permanent removal from the demo candidate-unit balance. It is not a formal carbon-credit retirement in any external registry.
+- Deterministic Verification Assist / Deterministic MRV Readiness Engine: no AI model or emissions-truth engine.
+- Hash-linked provenance prototype / tamper-evident design direction. SHA-256 is not a signature, blockchain connection, or protection against complete local state replacement.
+- Fixed demo custody accounts only. No connection to citizen points, wallets, money, tokens or external registries.
+- `contracts/` is a **Future testnet extension**, unconnected to this demo.
+- Browser roles are demo identities. Server enforcement, durable transactions and cross-client duplicate guards remain future work.
 
-1. Open `#/ieee` and state the two stakeholders and the evidence bottleneck.
-2. Click **Start as Project Operator**, open `営農型ソーラーシェアリング準備プロジェクト`, then open the MRV workbench. Show `NEEDS REVIEW`, the input fingerprint, and the unfinished permit evidence.
-3. Sign in as `admin@naft.demo`, open project review, compare the assist output with evidence metadata, enter a human comment, and approve.
-4. Open **検証済み記録**. Show the new `NAFT-ER-*` record, named reviewer, prior hash, and candidate-only disclaimer.
-5. Run the workbench for `会津 雪室活用・低温貯蔵省エネプロジェクト` without evidence. Show `ABSTAIN` and that the project is not automatically approved.
+## Repository metadata suggestions
 
-## Success measures for a field pilot
+Description: Human-in-the-loop climate MRV and candidate environmental-unit provenance prototype for the IEEE ClimateChain Hackathon.
 
-- Median operator time to prepare a reviewable package.
-- Missing-item detection precision and reviewer agreement.
-- Reviewer time per project with and without the workbench.
-- Rate and reasons for `ABSTAIN`, return, and human override.
-- Percentage of decisions with a complete provenance trail.
+Topics: `climate-tech`, `mrv`, `carbon-accounting`, `climatechain`, `human-in-the-loop`, `provenance`, `hackathon`.
+
+These are documented suggestions; repository metadata is not changed by the application.

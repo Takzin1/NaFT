@@ -94,3 +94,19 @@ store = { get(key), set(key,value), del(key) }   // すべて async
 | qrcodejs 1.0.0（cdnjs） | QRコード描画 | 読込失敗時はコード文字列表示 |
 
 ネットワーク呼び出し（fetch/XHR）はゼロ。API キー・秘密情報は存在しない（docs/security-checklist.md のスキャン結果参照）。
+
+## IEEE candidate lifecycle (v3)
+
+The executable application remains one HTML file, with no new SDK, external API or build requirement.
+
+`issueCandidateUnit(recordId)` checks scope/role, SHA-256 record integrity, current approved project and approved run, named human reviewer, current fingerprint, ABSTAIN justification, quantity and duplicate guards before issuing. Project owners or authorized reviewers may issue an already reviewed record. Transfer and retirement require an authorized regional or platform human reviewer controlling fixed demo accounts.
+
+`transferCandidateUnit(unitId, fromHolder, toHolder, quantity)` records simulation custody. `retireCandidateUnit(unitId, quantity, reason, holder)` removes spendable quantity; default holder is `demo_partner`. No citizen points or wallet balances move. Both use a per-unit hash-linked transfer ledger, a transaction entry and an audit entry.
+
+Canonical JSON sorts object keys and preserves arrays; evidence snapshots are separately sorted by content. UTF-8 canonical bytes feed SHA-256. `sha256Canonical()` prefers Web Crypto `crypto.subtle.digest('SHA-256', ...)`; the synchronous `digestText()` fallback computes the same standard SHA-256 for pure assessment/rendering/seed and transfer functions. Tests compare known vectors, Unicode/multiple blocks and the native Web Crypto output. These are hashes, not signatures.
+
+Readiness captures an input snapshot before awaiting Web Crypto and rechecks current input and actor before storing it. Human approval precomputes the record hash and rechecks actor, current run, pending status and predecessor before committing. Issuance rechecks integrity/actor/duplicates after its asynchronous hash. Balance and duplicate-check mutations contain no intermediate await, preventing same-event-loop double-click races. `saveDB()` still stores a single JSON document: this does **not** provide cross-tab, multi-user or database transaction safety. Concurrent approvals on different records require retry if the predecessor changed.
+
+`#/ieee` provides one 8-stage screen, role switching, two seeded scenarios, explicit human approval, full/partial quantity controls, persistent guard messages and expandable JSON provenance. Page rendering does not mutate lifecycle data. Human approval is never triggered by assist, seeding a new unit, routing or a timer.
+
+Before any distributed deployment: enforce authenticated permissions server-side, lock balances transactionally, add unique constraints on record/input/issuance fingerprints, preserve evidence files, and provide independently witnessed provenance. Current storage and hashes alone are not immutable or a blockchain registry.

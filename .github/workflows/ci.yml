@@ -13,6 +13,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - uses: actions/setup-node@v4
         with:
           node-version: 20
@@ -25,3 +27,5 @@ jobs:
             echo "Prohibited network dependency or secret-like token found."
             exit 1
           fi
+      - name: Check committed whitespace
+        run: git diff --check HEAD^ HEAD

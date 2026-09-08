@@ -1,36 +1,42 @@
-# テストレポート
+# Test report — IEEE candidate lifecycle
 
-## 方式
+## Results
 
-- **スモークテスト**: `tests/smoke.test.js`（63アサーション）。Node 18+ の `vm.runInThisContext` でアプリJS（`tests/extract-app-js.py` が naft-app.html から抽出）をグローバル文脈にロードし、`document/window/location` を最小スタブして全ユースケース関数を直接実行する。**依存パッケージゼロ**。
-- **構文チェック**: `node --check tests/_app.js`
-- 実行: `bash tests/run.sh`
-
-## 最新結果（2026-09-02）
+Baseline at `fe70f544436b520fceb9ef03f3ffc4adb894465f`: **63 passed, 0 failed**.
+Final local run (2026-09-08): **137 passed, 0 failed**; **74 added assertions**.
 
 ```
 syntax: OK
-RESULT: 63 passed, 0 failed / tx=13, audit=21
+RESULT: 137 passed, 0 failed / tx=11, audit=15
+security and whitespace: OK
 ```
 
-## カバレッジ（フロー単位）
+Run `bash tests/run.sh` (Node 18+ and Python 3, no dependency install). It extracts the seven HTML script blocks, runs `node --check`, executes all smoke assertions and checks prohibited network/secret patterns, tracked environment files and whitespace. CI additionally checks committed whitespace. CI status for the pushed commit is recorded in PR #1, rather than predicting a workflow result in this report.
 
-| 領域 | 検証内容 | 件数 |
-|---|---|---|
-| シード/公開/MRV純関数 | 10プロジェクト、通常LP・IEEE LP、検証run/候補記録、READY/ABSTAIN、入力指紋の決定性、変更後のrun失効 | 13 |
-| 市民 | ログイン、全7ページ描画 | 7 |
-| 支援 | 2段階確認、**残高減算**、支援額加算、**関連チケット優先発行(rw1)**、台帳記録 | 5 |
-| 購入予約 | 数量×3,000円の意思表示記録 | 1 |
-| 事業者 | 既存4ページ、MRVワークベンチ、**下書き→提出→ABSTAIN**、補助実行で自動承認されないこと | 8 |
-| 審査(HITL) | キュー、補助開示、**人間承認→候補記録**、hash連結、ABSTAIN上書きガード、各管理ページ、QR照合 | 14 |
-| 加盟店/金融 | 加盟店描画、**複数地域切替** | 3 |
-| 全国 | ダッシュボード、**地域新規作成**、候補記録台帳を含む全ページ、設定 | 8 |
-| 横断 | CSV行数一致、**新規登録→オンボーディング→初回5,000pt付与の台帳記録** | 4 |
+## Existing coverage retained
 
-## 未カバー（今後の追加候補 → ISSUES_BACKLOG #9）
+All 63 baseline cases remain: public pages, IEEE landing, seeded readiness runs/records, deterministic assessment and stale input, citizen login/wallet/support/rewards/reservations, producer submission, human review and ABSTAIN override rejection, region/platform dashboards, audit/transaction pages, QR redemption, CSV, registration and initial grant.
 
-異常系（残高不足・未承認プロジェクト支援拒否・重複メール登録・コメントなし却下拒否）／チケット期限切れ遷移／リセット後の再シード／`esc()` のXSS回帰テスト／storage永続化の実環境検証（Node上はメモリフォールバックのため）。MRVでは証憑不足ABSTAIN、自動承認拒否、短い上書き理由の拒否を追加済み。
+Only three baseline expectation values change with the requested interface: five → eight stages, AI disclosure → Deterministic Verification Assist, and 16 → 64 hexadecimal record-hash characters. Their assertions are retained, not removed or skipped.
 
-## リグレッション運用
+## Added coverage (74 assertions)
 
-すべてのPRは `bash tests/run.sh` の63/63通過が必須（docs/pr-checklist.md）。モジュール分割（Phase A）の際も本テストが受入基準となる。
+- Standard SHA-256 known vectors (empty/abc/Unicode/multiple blocks), canonical key order and delimiter ambiguity, Web Crypto equality with the offline fallback, evidence-order stability, input fingerprint independent of local project ID.
+- Activity dates, actor and location changes invalidate prior readiness; stale human approval and stale issuance are blocked.
+- Approval required before issue; citizen cannot approve; readiness cannot issue; canonical record integrity; changed approved quantity rejected.
+- Concurrent issue allows one unit; duplicate record and same input under another record blocked; fully retired claim cannot be reissued.
+- Transfer updates both holders, preserves aggregate available, hashes the full transfer, rejects zero/negative/NaN/infinite/overprecision/overavailable quantities, invalid holders and former-holder double spending.
+- Retirement requires scoped human action, positive quantity and reason; partial and full retirement preserve integer-millionth conservation; overavailable retirement, retransfer of retired quantity and full-retirement reuse are blocked.
+- Successful and rejected operations produce the expected audit logs; lifecycle transactions render simulated t-CO2, never points; malicious reason text is escaped; disclaimers and guard messages render.
+- ABSTAIN short reason rejected; explicit long human override accepted; v2 migration preserves legacy fingerprints, marks them stale and adds empty lifecycle collections.
+- The **actual generated IEEE button handlers** are executed in the DOM-stub harness: operator role → readiness → reviewer role → human approval → issue → transfer → retirement → retired reuse blocked → duplicate issue blocked.
+
+The last scenario reseeds the database. The final `tx=11, audit=15` counts describe that scenario, not cumulative counts across every test.
+
+## Verification limits
+
+These are Node smoke tests using a minimal DOM stub, including handler-binding checks. They are not actual browser E2E tests. Cloud Browser rejected localhost and file URLs under its URL policy; browser layout and real clicks were not verified. No workaround was used. The 240-second demo script is provided but no timed live rehearsal is claimed.
+
+`contracts/` was source-reviewed. `CarbonMarketplace` now inherits OpenZeppelin `ERC1155Holder`, addressing missing receiver support. Solidity compilation, deployments and contract tests were not run; the contracts are an unconnected Future testnet extension.
+
+Production security, concurrent clients, external persistence and global semantic/cross-registry duplicate detection remain outside this prototype. See `known-limitations.md`.

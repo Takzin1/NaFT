@@ -38,3 +38,7 @@ grep -rniE 'axios|supabase|firebase|openai|anthropic|alchemy|infura|walletconnec
 ## 4. 本番移行時の必須対応（未実装）
 
 サーバー側での認可強制（RLS）／Argon2id等によるパスワード保護／セッショントークン＋失効／CSP・SRI（CDN完全性検証）／レート制限／証憑ファイルのウイルススキャンとハッシュ保全／依存パッケージのSCA（脆弱性監査）
+
+## IEEE lifecycle regression checks
+
+`bash tests/run.sh` includes `tests/security.sh`: prohibited network/secret patterns, tracked `.env` rejection and working-tree whitespace. CI also checks committed whitespace. Candidate accounting is isolated under `CANDIDATE_SIMULATION`; no wallet, point or real-money movement is added. SHA-256 provenance is not a signature or protection against total local state replacement. The current result is 137 passing assertions; browser layout validation is explicitly outstanding (Cloud Browser URL policy).

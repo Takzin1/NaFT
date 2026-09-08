@@ -1,6 +1,6 @@
 # NaFT データモデル
 
-単一JSONドキュメント（storage key: `naft_db_v1`）内の14コレクション。ID規約: `u_*`(users) / `w`(wallets) / `r`(regions) / `p`(producers) / `pj`(projects) / `ev` / `rw` / `ur` / `tx` / `rev` / `al` / `rsv` / `vr` / `er`。シードデータはプレフィックス+連番（`u1`,`pj1`…）。DB version 2で `verification_runs` と `environmental_records` を追加し、version 1の保存データは読込時に空配列を補完する。
+単一JSONドキュメント（storage key: `naft_db_v1`）内の17コレクション。ID規約: `u_*`(users) / `w`(wallets) / `r`(regions) / `p`(producers) / `pj`(projects) / `ev` / `rw` / `ur` / `tx` / `rev` / `al` / `rsv` / `vr` / `er`。シードデータはプレフィックス+連番（`u1`,`pj1`…）。DB version 2で `verification_runs` と `environmental_records` を追加し、version 1の保存データは読込時に空配列を補完する。
 
 ## ER概略
 
@@ -44,19 +44,19 @@ draft ──提出──▶ pending_review ──承認──▶ approved ──
 `id, project_id, file_url(PoCでは空), file_name, file_type, description, uploaded_by, created_at` — **実ファイルは保存せずメタデータのみ**。
 
 ### verification_runs（検証補助の実行記録）
-`id, project_id, requested_by, assistant_kind(local_demo_rules_v1), assistant_label, outcome, summary, checks[], missing_items[], risk_signals[], input_fingerprint, generated_at, final_decision, final_reviewer_id, final_decided_at`
+`id, project_id, requested_by, assistant_kind(deterministic_mrv_v2), assistant_label, outcome, summary, checks[], missing_items[], risk_signals[], input_fingerprint, generated_at, final_decision, final_reviewer_id, final_decided_at`
 
 - **outcome**: `ready_for_human_review / needs_review / abstain`
-- `input_fingerprint` はプロジェクト定量値・算定方法・証憑メタデータから決定論的に生成する16桁hex。改変防止の暗号学的保証ではなく、PoC上の同一入力識別子。
+- `input_fingerprint` はcanonicalized input（主体・地域・活動期間・定量値・算定方法・説明・証憑メタデータ）から生成する64桁SHA-256 hex。意味的な同一性や排出削減量の真実性は証明しない。
 - 実行しても `carbon_projects.review_status` は変化しない。`final_decision` は人間の審査操作後にだけ記録する。
 
 ### environmental_records（検証済み環境記録・候補）
 `id, project_id, verification_run_id, record_type, status, estimated_co2_reduction, unit, methodology_reference, input_fingerprint, verification_outcome, final_reviewer_id, final_comment, approved_at, previous_record_hash, record_hash, ledger_mode, credit_status, created_at`
 
 - **status**: `verified_candidate / suspended_candidate`
-- **ledger_mode**: `offchain_hash_chain`
-- **credit_status**: `candidate_not_issued` 固定。正式なカーボンクレジットの発行・移転・償却を表さない。
-- `record_hash` は `NAFT-ER-` + 16桁hex。新しい記録は直前の `record_hash` を `previous_record_hash` に保持する。
+- **ledger_mode**: `offchain_hash_linked_prototype`
+- **credit_status**: `candidate_not_formally_issued` 固定。正式なカーボンクレジットの発行・移転・償却を表さない。
+- `record_hash` は `NAFT-ER-` + 64桁SHA-256 hex。新しい記録は直前の `record_hash` を `previous_record_hash` に保持する。
 - 作成条件は、管理者ロールによる `reviewAction(..., 'approve')` の明示操作。補助エンジンやバッチからは作成しない。
 
 ### transactions（台帳）
@@ -77,7 +77,7 @@ draft ──提出──▶ pending_review ──承認──▶ approved ──
 ### project_reviews
 `id, project_id, reviewer_id(null=システム/提出), action(submit/approve/request_revision/reject/suspend), comment, created_at`
 
-### audit_logs（削除不可）
+### audit_logs（編集・削除UIなし）
 `id, actor_user_id('system'可), action, entity_type, entity_id, note, created_at`
 
 ### reservations（購入予約=意思表示）
@@ -88,3 +88,45 @@ draft ──提出──▶ pending_review ──承認──▶ approved ──
 - **CO2貢献(kg)** = 支援額 ÷ 目標額 × 推定CO2削減量(t) × 1000（小数1位丸め）
 - **地域の推定CO2削減(進捗換算, t)** = Σ approved projects: `est_co2 × min(1, current/target)`
 - **異常取引アラート**: `token_type=NAFT_POINT AND amount ≥ 50,000`
+
+## IEEE v3 additions
+
+DB version 3 appends empty lifecycle collections to v1/v2 data without deleting prior records or silently rehashing old fingerprints. Legacy 16-character runs are stale and must be rerun with a fresh human decision. Historic record links remain unchanged.
+
+### Hash fields
+
+`verification_runs`: adds `evidence_set_hash`, `hash_algorithm: SHA-256`. New `assistant_kind` is `deterministic_mrv_v2`; displayed name is **Deterministic Verification Assist**.
+
+`environmental_records`: adds `evidence_set_hash`, `environmental_record_hash` (64 lowercase hex), `hash_algorithm`, `vintage`. `record_hash` is the display alias `NAFT-ER-` + uppercase hash. `recordPayload()` covers every stored field except the two hash aliases and mutable `status`, including quantity, unit, methodology, reviewer, full comment, approval time and previous hash. Status changes use audit logs. The previous link hashes the preceding approved payload, not its later status.
+
+`input_fingerprint` deliberately excludes the local project ID, so cloning the same payload under a new ID does not make a new claim. Evidence metadata arrays are sorted by canonical content. Metadata edits can yield another fingerprint: this is an exact-input guard, not semantic deduplication. `evidence_set_hash` hashes metadata, never file bytes.
+
+### candidate_units (`cu_*`)
+
+`id, project_id, environmental_record_id, input_fingerprint, issuance_fingerprint, vintage, quantity_total, quantity_available, quantity_retired, unit, methodology_reference, status, credit_status, created_by, created_at, holder_balances[]`
+
+- `status`: `active_candidate / fully_retired / voided_candidate` (voiding reserved; no UI creates it).
+- `credit_status`: `candidate_not_formally_issued` always.
+- `issuance_fingerprint`: SHA-256 of `{schema: naft-candidate-issuance-v1, input_fingerprint}`.
+- Duplicate checks include every existing unit, including retired and voided candidates. Match on record ID **or** input fingerprint **or** issuance fingerprint.
+- `holder_balances`: `{holder, quantity}` for `demo_operator` and `demo_partner`, fixed simulated custody accounts unrelated to citizen wallets or points.
+- `quantity_total = quantity_available + quantity_retired`; sum of holder balances equals available. Operations calculate integer millionths with a safe-integer limit; stored values use at most 6 decimals. No rounding of unsupported input quantities into an accepted amount.
+
+### unit_transfers (`ut_*`)
+
+`id, candidate_unit_id, from_holder, to_holder, quantity, transfer_type, reason, previous_transfer_hash, transfer_hash, created_by, created_at, ledger_mode`
+
+`transfer_type`: `demo_transfer / retirement_transfer`. Chain is per candidate unit; newest row first, genesis previous hash null. SHA-256 includes every field except `transfer_hash`. `demo_transfer` subtracts one holder and adds another; aggregate available stays constant. Retirement sends to `demo_retirement_sink`, which is not a spendable holder.
+
+### unit_retirements (`urc_*`)
+
+`id, candidate_unit_id, transfer_id, quantity, reason, holder, created_by, created_at, retirement_type: demo_only`
+
+Reason is required. Quantity must be positive, finite, within both global available and the retiring holder's balance. Only an explicit authorized reviewer action can retire. Full retirement sets `fully_retired`. No restore/unretire operation exists; reloading memory or replacing a dataset is outside the guard.
+
+### Ledger / audit extensions
+
+All successful lifecycle changes also use `addTx()` with `token_type: CANDIDATE_SIMULATION`, and `transaction_type: candidate_unit_issue / candidate_unit_transfer / candidate_unit_retirement`. Amount means simulated t-CO2 quantity, not points or money.
+
+Audit successes: `candidate_unit_issued`, `candidate_unit_transferred`, `candidate_unit_retired`.
+Audit rejections: `candidate_unit_issue_blocked`, `candidate_unit_transfer_blocked`, `candidate_unit_retirement_blocked`, with reason code. `DUPLICATE_ISSUANCE_BLOCKED`, `RETIRED_UNITS_CANNOT_BE_REUSED`, `AVAILABLE_QUANTITY_EXCEEDED`, `HOLDER_BALANCE_EXCEEDED`, stale/authorization/integrity failures persist without changing a unit balance.

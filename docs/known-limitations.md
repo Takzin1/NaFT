@@ -14,9 +14,9 @@ PoCとして意図的に許容している制約と、その影響・対応予�
 - 楽観ロック・競合解決なし（シングルユーザーデモ前提）。
 
 ## 機能
-- 証憑は**ファイル名のみ記録**（実ファイル・ハッシュ保存なし）。
+- 証憑は**メタデータのみ記録**（名称・型・説明・提供者・日時・URL等）。メタデータ集合のSHA-256は保持するが実ファイルの保管・本文解析・ファイル内容のハッシュ化は行わない。
 - IEEE版の検証補助は証憑メタデータとプロジェクト入力を対象にしたローカルルールであり、PDF・画像・表計算の本文解析、OCR、外部方法論データベース照合は行わない。
-- `input_fingerprint` と `record_hash` はPoC用の軽量ハッシュ。暗号学的署名、第三者タイムスタンプ、改ざん耐性ストレージではない。
+- `input_fingerprint`、`evidence_set_hash`、環境記録・移転記録はcanonical JSONに対するSHA-256。暗号学的署名、第三者タイムスタンプ、改ざん耐性ストレージではない。
 - `environmental_records` はオフチェーンの**候補記録**。正式なカーボンクレジット発行・移転・償却や、ブロックチェーンへの書込みは行わない。
 - メール認証・KYC・パスワードリセットなし。
 - チケットの期限切れ判定は表示時の遅延評価（バッチなし）。
@@ -25,9 +25,21 @@ PoCとして意図的に許容している制約と、その影響・対応予�
 - 通知・多言語・アクセシビリティ検証（スクリーンリーダー）は未対応。
 
 ## アーキテクチャ
-- 単一ファイル約1,700行。関数は責務分離済みだがモジュール境界は物理分割されていない（docs/architecture.md §5 が分割設計図）。
+- 単一HTMLファイル。関数は責務分離済みだがモジュール境界は物理分割されていない（docs/architecture.md §5 が分割設計図）。
 - `render()` は全画面再構築のため、入力途中の再描画でフォーカス喪失（設計上、送信時読取で回避）。
 - 監査ログは地域スコープでのフィルタ未実装（全ロールの管理者に全件表示）。
 
 ## スマートコントラクト
 - `contracts/` は**未接続の雛形**。コンパイル・テスト・監査未実施。メインネットデプロイ禁止をコメントで明記済み。
+
+## Candidate-unit lifecycle boundary
+
+- Simulation-only issuance, custody transfer and retirement are implemented. They do not issue, settle or retire a carbon credit in any external registry.
+- Duplicate prevention matches an exact record or canonical input within one dataset. Changed metadata, partially overlapping projects, differently worded claims and cross-registry duplicates are not detected. Browser reload/reset/import/state tampering can replace this dataset.
+- Hashes expose a tamper-evident design direction but are not cryptographic signatures, independently anchored timestamps or a decentralized consensus mechanism. Replacing all data and recomputing all hashes is possible.
+- Role buttons simulate identities. Client-side checks cannot provide production authorization, durable uniqueness or multi-client transaction isolation. Save failures may use the existing memory fallback.
+- Quantity is the operator's estimate (up to 6 decimals), without independent methodology validation, additionality, leakage, permanence or uncertainty calculations.
+- The 20-character ABSTAIN gate requires a documented reason but cannot establish its sufficiency. Full human evidence review remains necessary outside this metadata demo.
+- `voided_candidate` is reserved; there is no voiding or unretirement workflow. Retired quantities remain unavailable through all supported operations.
+- CarbonMarketplace now inherits OpenZeppelin `ERC1155Holder` to accept ERC1155 safe transfers. This addresses the missing receiver interface by source inspection only. No compiler, testnet deployment or Solidity audit is claimed; all contracts remain a Future testnet extension.
+- This environment's Cloud Browser URL policy blocked both localhost and file URLs, so actual browser layout/click verification was not completed. Node smoke tests exercise rendering and the full lifecycle, but do not substitute for browser interaction verification.

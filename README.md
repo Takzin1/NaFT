@@ -1,6 +1,15 @@
 # NaFT — Natural-Fungible Token（自然代替性トークン）
 
-**市民参加型GXプロトコルのPoC** — 地域の気候行動について、証憑取込、構造化・不足検知、決定論的チェック、人間審査、ハッシュ連結された検証済み候補記録までを一本化します。非換金ポイント／チケット還元、取引台帳、監査ログ、地域ダッシュボードも同じPoCに統合しています。
+**NaFT turns fragmented climate evidence into a human-reviewed, hash-linked candidate environmental record and tracks the lifecycle of demo climate units through issuance, transfer, retirement, and double-counting prevention.**
+
+IEEE demo: open `naft-app.html#/ieee` for **One Auditable Path**:
+Evidence → Deterministic MRV Readiness → Human Review → Verified Environmental Record → Candidate Climate Unit → Transfer → Retirement → Double-counting Block.
+
+**Prototype Boundary:** Candidate / Simulation / Demo / Off-chain / Not formally issued. A Candidate Climate Unit is **not a formally issued carbon credit**. The Deterministic Verification Assist checks evidence completeness, methodology presence, traceability, activity period, actor/location and quantification/review readiness. It does not prove emissions reductions or perform certified MRV. No external registry, real J-Credit, money, cryptoasset, signature, or blockchain integration.
+
+Retirement in this prototype means permanent removal from the demo candidate-unit balance. It is not a formal carbon-credit retirement in any external registry. Duplicate prevention is limited to identical records or canonical input in the current demo dataset; altered descriptions, different metadata, another browser or an external registry are outside this guard.
+
+The existing citizen reward, wallet and marketplace demos remain available alongside the IEEE flow.
 
 > 炭素を、まちで巡る価値に変える。
 
@@ -22,8 +31,8 @@
 | 購入予約（=意思表示の記録のみ） | 電子決済手段・ステーブルコインの発行 |
 | GX還元チケット（炭素配当）の発行・利用の**記録** | 認証済みカーボンクレジットの売買・償却 |
 | 取引台帳・監査ログ・ダッシュボード | 金融商品の勧誘・投資助言・利回りの提示 |
-| 証憑の不足検知・決定論的チェック・ハッシュ連結された候補記録 | 実ファイル保管・正式な第三者検証 |
-| **人間の管理者による審査**（AIは補助のみ） | AIによる承認・付与の自動化 |
+| 証憑の不足検知・決定論的チェック・SHA-256で連結された候補記録・デモUnitライフサイクル | 実ファイル保管・正式な第三者検証 |
+| **人間の管理者による審査**（決定論的補助は承認不可） | AIによる承認・付与の自動化 |
 
 詳細: [docs/legal-risk-map.md](docs/legal-risk-map.md) ／ [docs/human-in-the-loop.md](docs/human-in-the-loop.md)
 
@@ -47,7 +56,7 @@ IEEE審査用の英語ランディングは `#/ieee`。画面上の **IEEE Demo*
 **3. テスト実行**（Node 18+ / Python 3、依存パッケージなし）
 
 ```bash
-bash tests/run.sh   # 構文チェック + スモークテスト63項目
+bash tests/run.sh   # 構文チェック + スモークテスト137項目
 ```
 
 ロール別のデモ手順: [docs/demo-script.md](docs/demo-script.md)
@@ -66,7 +75,7 @@ naft/
 ├── index.html               # 静的ホスティング用エントリ（naft-app.htmlへhashを保持して遷移）
 ├── naft-app.html            # アプリ本体（単一HTML SPA・全ロール・全フロー実装済み）
 ├── contracts/               # Solidity雛形3種（テストネット専用・未接続・将来拡張）
-├── tests/                   # スモークテスト63項目（Node標準のみで実行可）
+├── tests/                   # スモークテスト137項目（Node標準のみで実行可）
 ├── docs/                    # アーキテクチャ／未踏ADV構想／法務リスクマップ 等
 ├── skills/                  # Claude Skills（戦略・法務レビュー・保守・未踏応募）
 ├── AGENTS.md                # AIエージェント（Opus/Sonnet/Codex）向け開発ガイド
@@ -85,7 +94,7 @@ naft/
 ```
 
 - **台帳原則**: すべての価値移動は `addTx()` を通り、取引コード・Web3拡張カラム（`transaction_hash`/`chain_id`/`onchain_status` 等）付きで記録
-- **監査原則**: すべての管理操作・審査・付与は `audit()` で監査ログに記録（削除不可）
+- **監査原則**: すべての管理操作・審査・付与は `audit()` で監査ログに記録（編集・削除UIなし。ブラウザ状態は改変可能）
 - **HITL原則**: 承認・却下・チケット利用確定は必ず人間のロールが実行
 - **MRV分離原則**: 補助層は証憑整理、決定論的層は適合性チェック、人間は最終判断、候補記録層は入力指紋と前レコードを保全
 
@@ -98,11 +107,11 @@ naft/
 | [docs/mitou-advanced-concept.md](docs/mitou-advanced-concept.md) | 未踏ADV向け構想（200/400/1000字説明文つき） |
 | [docs/ieee-climatechain-demo.md](docs/ieee-climatechain-demo.md) | IEEE向け課題定義・実装範囲・4分デモ手順 |
 | [docs/architecture.md](docs/architecture.md) | アーキテクチャ・責務分離・移植方針 |
-| [docs/data-model.md](docs/data-model.md) | 14コレクションのデータモデルと状態遷移 |
+| [docs/data-model.md](docs/data-model.md) | 17コレクションのデータモデルと状態遷移 |
 | [docs/legal-risk-map.md](docs/legal-risk-map.md) | 法務リスクマップと表現ガイドライン |
-| [docs/human-in-the-loop.md](docs/human-in-the-loop.md) | AI補助×人間審査の設計原則 |
+| [docs/human-in-the-loop.md](docs/human-in-the-loop.md) | 決定論的補助×人間審査の設計原則 |
 | [docs/demo-script.md](docs/demo-script.md) | ロール別デモシナリオ |
-| [docs/test-report.md](docs/test-report.md) | テスト方針と63項目の結果 |
+| [docs/test-report.md](docs/test-report.md) | テスト方針と137項目の結果 |
 | [docs/roadmap.md](docs/roadmap.md) | 開発ロードマップ（未踏期間の計画含む） |
 | [docs/known-limitations.md](docs/known-limitations.md) | 既知の制約 |
 | [docs/security-checklist.md](docs/security-checklist.md) | セキュリティチェックリストとスキャン結果 |
