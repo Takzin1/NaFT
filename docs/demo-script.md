@@ -53,3 +53,7 @@
 ## 8. 5分ピッチ版
 
 市民で支援→チケット発行（2分）→ 管理者で審査承認（1.5分）→ 全国ダッシュボード＋監査ログ（1.5分）。メッセージ:「登録→審査→支援→台帳→還元が一つのプロトコルで回っている」
+
+## 9. IEEE ClimateChain 4分デモ
+
+最新の8段階シナリオとボタン名は [ieee-climatechain-demo.md](ieee-climatechain-demo.md) を使用してください。`#/ieee` で Evidence → Deterministic MRV Readiness → Human Review → Verified Environmental Record → Candidate Unit → Transfer → Retirement → Double-counting Block を提示します。全てSimulationであり、既存の市民ポイントやチケットとは独立しています。

@@ -1,0 +1,31 @@
+name: NaFT CI
+
+on:
+  push:
+    branches: [main, "codex/**"]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  smoke-and-security:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Run syntax and smoke tests
+        run: bash tests/run.sh
+      - name: Reject network SDKs and embedded secrets
+        shell: bash
+        run: |
+          if grep -rniE 'axios|supabase|firebase|openai|anthropic|alchemy|infura|walletconnect|bearer|api[_-]?key|private[_ -]?key|client_secret|access_token|fetch\(' --include='*.html' --include='*.sol' .; then
+            echo "Prohibited network dependency or secret-like token found."
+            exit 1
+          fi
+      - name: Check committed whitespace
+        run: git diff --check HEAD^ HEAD

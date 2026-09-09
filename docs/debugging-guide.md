@@ -3,7 +3,7 @@
 ## 基本ループ
 
 ```bash
-bash tests/run.sh                       # 構文 + 46項目
+bash tests/run.sh                       # 構文 + 63項目
 python3 tests/extract-app-js.py         # JSだけ抽出 (tests/_app.js)
 node --check tests/_app.js              # 構文エラーの位置特定
 node tests/smoke.test.js                # 失敗アサーションの特定
@@ -13,7 +13,7 @@ node tests/smoke.test.js                # 失敗アサーションの特定
 
 ## 状態の全体像
 
-- `db` … 全データ（12コレクション）。`saveDB()` で永続化、`resetDB()` で初期化。
+- `db` … 全データ（14コレクション）。`saveDB()` で永続化、`resetDB()` で初期化。
 - `S` … UI状態 `{user, modal, toast, mf(検索フィルタ), ob(オンボーディング), rwTab, adminRegion}`。
 - 画面 = `render()` が `route()` の返すHTML文字列を `#root` に流し込むだけ。**表示がおかしい時は該当 `pg*()` 関数の戻り値を疑う**。
 

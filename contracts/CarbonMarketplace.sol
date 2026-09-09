@@ -13,6 +13,7 @@ pragma solidity ^0.8.20;
  */
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts/token/ERC1155/IERC1155.sol";
+import "@openzeppelin/contracts/token/ERC1155/utils/ERC1155Holder.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/utils/ReentrancyGuard.sol";
 
@@ -20,7 +21,7 @@ interface ICarbonCreditMock is IERC1155 {
     function retire(uint256 tokenId, uint256 amount, string calldata reason) external;
 }
 
-contract CarbonMarketplace is Ownable, ReentrancyGuard {
+contract CarbonMarketplace is Ownable, ReentrancyGuard, ERC1155Holder {
     IERC20 public immutable demoStable;        // NaFTDemoStableToken
     ICarbonCreditMock public immutable credit; // CarbonCreditMockToken
 

@@ -211,6 +211,10 @@ h1,h2,h3,h4{line-height:1.35;letter-spacing:.01em}
   .pub-nav{display:none}
   .hero h1{font-size:24px}
 }
+.ieee .g2>*,.ieee .g4>*,.ieee .stats>*{min-width:0}
+.ieee .mono,.ieee .tiny,.ieee .small{overflow-wrap:anywhere}
+.ieee button:disabled{opacity:.45;cursor:not-allowed}
+@media(max-width:600px){.ieee .stats{grid-template-columns:1fr!important}}
 </style>
 </head>
 <body>
@@ -242,13 +246,15 @@ var CAT_GRAD = {
   'Community Action':'linear-gradient(135deg,#fbe9e2,#f3cfc0)','Other':'linear-gradient(135deg,#e9eeec,#d3ddd8)'
 };
 var RS_MAP = {approved:['承認済み','b-green'],pending_review:['審査待ち','b-amber'],draft:['下書き','b-gray'],rejected:['却下','b-red'],revision_required:['差し戻し','b-amber'],suspended:['停止中','b-red'],archived:['アーカイブ','b-gray']};
-var TT_MAP = {initial_grant:'初回付与',support_project:'プロジェクト支援',reserve_credit:'クレジット購入予約',reward_issue:'炭素配当発行',reward_redeem:'GX還元チケット利用',merchant_reward:'加盟店還元',project_reward:'プロジェクト還元',admin_adjustment:'運営調整',revoke:'取消',refund:'返金'};
-var TOKEN_MAP = {NAFT_POINT:'NaFTポイント',DEMO_STABLE:'デモステーブル',CARBON_REWARD:'炭素配当',CREDIT_RESERVATION:'クレジット予約'};
+var TT_MAP = {candidate_unit_issue:'Candidate issue (simulation)',candidate_unit_transfer:'Candidate transfer (simulation)',candidate_unit_retirement:'Candidate retirement (simulation)',initial_grant:'初回付与',support_project:'プロジェクト支援',reserve_credit:'クレジット購入予約',reward_issue:'炭素配当発行',reward_redeem:'GX還元チケット利用',merchant_reward:'加盟店還元',project_reward:'プロジェクト還元',admin_adjustment:'運営調整',revoke:'取消',refund:'返金'};
+var TOKEN_MAP = {CANDIDATE_SIMULATION:'Candidate Climate Unit (simulation)',NAFT_POINT:'NaFTポイント',DEMO_STABLE:'デモステーブル',CARBON_REWARD:'炭素配当',CREDIT_RESERVATION:'クレジット予約'};
 var SCOPE_MAP = {local_only:['地域限定','b-green'],regional:['広域利用','b-blue'],prefecture_wide:['県内利用','b-blue'],multi_region:['複数地域連携','b-gold'],nationwide:['全国利用','b-gold']};
 var ROLE_MAP = {citizen:'市民',producer:'事業者・生産者',merchant:'加盟店',municipal_admin:'自治体管理者',financial_partner:'地域金融パートナー',local_operator:'地域運営者',platform_admin:'プラットフォーム管理者',super_admin:'スーパー管理者'};
 var REGION_TYPE_MAP = {prefecture:'都道府県',municipality:'市区町村',wide_area:'広域連携エリア',shopping_street:'商工会・商店街',ja_area:'JA管内',financial_institution_area:'地域金融機関エリア',decarbonization_area:'脱炭素先行地域',university_area:'大学エリア',corporate_area:'企業エリア',community:'コミュニティ'};
 var OP_TYPE_MAP = {municipality:'自治体',regional_bank:'地方銀行',credit_union:'信用組合',shinkin_bank:'信用金庫',ja:'JA',chamber_of_commerce:'商工会議所',shopping_street_association:'商店街振興組合',university:'大学',npo:'NPO',private_company:'民間企業',startup:'スタートアップ',community:'コミュニティ'};
 var RW_STATUS = {available:['利用可能','b-green'],used:['利用済み','b-gray'],expired:['期限切れ','b-red'],revoked:['取消済み','b-red']};
+var VR_STATUS = {ready_for_human_review:['人間審査へ','b-green'],needs_review:['要確認','b-amber'],abstain:['判定保留','b-red']};
+var ER_STATUS = {verified_candidate:['検証済み候補記録','b-blue'],suspended_candidate:['停止中','b-red']};
 
 /* ---------- utils ---------- */
 function uid(p){ return p+'_'+Date.now().toString(36)+Math.random().toString(36).slice(2,8); }
@@ -268,6 +274,8 @@ function pct(cur,tgt){ return Math.min(100, Math.round((cur/Math.max(1,tgt))*100
 function badge(pair){ return '<span class="badge '+pair[1]+'">'+pair[0]+'</span>'; }
 function rsBadge(s){ return badge(RS_MAP[s]||[s,'b-gray']); }
 function scopeBadge(s){ return badge(SCOPE_MAP[s]||[s,'b-gray']); }
+function verificationBadge(s){ return badge(VR_STATUS[s]||[s,'b-gray']); }
+function environmentalRecordBadge(s){ return badge(ER_STATUS[s]||[s,'b-gray']); }
 
 /* ---------- seed data ---------- */
 function seedDB(){
@@ -378,15 +386,32 @@ function seedDB(){
     {id:uid('al'),actor_user_id:'u2',action:'project_submit',entity_type:'carbon_project',entity_id:'pj9',note:'営農型ソーラーシェアリング準備プロジェクトを審査提出',created_at:daysAgo(6)},
     {id:uid('al'),actor_user_id:'u1',action:'support_project',entity_type:'transaction',entity_id:'TX-SEED-006',note:'草原再生プロジェクトへ800pt支援',created_at:daysAgo(8)}
   ];
-  return {version:1,users:users,regions:regions,wallets:wallets,producers:producers,projects:projects,evidences:evidences,
-    rewards:rewards,user_rewards:userRewards,transactions:transactions,reviews:reviews,audit_logs:auditLogs,reservations:[]};
+  var verificationRuns = ['pj1','pj2','pj9'].map(function(projectId,i){
+    var project=projects.find(function(x){return x.id===projectId;});
+    var result=buildVerificationAssessment(project,evidences.filter(function(e){return e.project_id===projectId;}));
+    result.generated_at=daysAgo(projectId==='pj1'?51:(projectId==='pj2'?45:5));
+    return Object.assign({id:'vr'+(i+1),project_id:projectId,requested_by:project.producer_id,assistant_kind:'deterministic_mrv_v2',assistant_label:'Deterministic Verification Assist',final_decision:projectId==='pj9'?'pending':'approved',final_reviewer_id:projectId==='pj9'?null:(projectId==='pj1'?'u4':'u3'),final_decided_at:projectId==='pj9'?null:daysAgo(projectId==='pj1'?50:44)},result);
+  });
+  var er1=buildEnvironmentalRecord(projects[0],verificationRuns[0],'u4','証憑・算定根拠を人間が確認しました。',null,daysAgo(50),'er1');
+  var er2=buildEnvironmentalRecord(projects[1],verificationRuns[1],'u3','施用記録と炭化炉の稼働状況を人間が確認しました。',er1.record_hash,daysAgo(44),'er2');
+  var environmentalRecords=[er2,er1];
+  return {version:3,candidate_units:[],unit_transfers:[],unit_retirements:[],users:users,regions:regions,wallets:wallets,producers:producers,projects:projects,evidences:evidences,
+    rewards:rewards,user_rewards:userRewards,transactions:transactions,reviews:reviews,audit_logs:auditLogs,reservations:[],
+    verification_runs:verificationRuns,environmental_records:environmentalRecords};
 }
 
 var db = null;
 async function loadDB(){
+  var migrated=false;
   var raw = await store.get(DB_KEY);
   if(raw){ try{ db = JSON.parse(raw); }catch(e){ db = null; } }
   if(!db || !db.version){ db = seedDB(); await saveDB(); }
+  if(!db.verification_runs){ db.verification_runs=[]; migrated=true; }
+  if(!db.environmental_records){ db.environmental_records=[]; migrated=true; }
+  ['candidate_units','unit_transfers','unit_retirements'].forEach(function(k){if(!db[k]){db[k]=[];migrated=true;}});
+  db.verification_runs.forEach(function(r){r.assistant_label='Deterministic Verification Assist';});
+  if(db.version<3){ db.version=3; migrated=true; }
+  if(migrated) await saveDB();
 }
 async function saveDB(){ await store.set(DB_KEY, JSON.stringify(db)); }
 async function resetDB(){ db = seedDB(); await saveDB(); }
@@ -414,6 +439,225 @@ function addTx(o){
   db.transactions.unshift(t);
   return t;
 }
+
+/* ---------- IEEE ClimateChain: evidence -> assist -> deterministic checks -> human decision ---------- */
+// Canonical JSON: sorted object keys, preserved arrays, UTF-8; no signatures.
+function canonicalize(value){
+  if(Array.isArray(value)) return '['+value.map(canonicalize).join(',')+']';
+  if(value&&typeof value==='object') return '{'+Object.keys(value).sort().filter(function(k){return value[k]!==undefined;}).map(function(k){return JSON.stringify(k)+':'+canonicalize(value[k]);}).join(',')+'}';
+  return JSON.stringify(value===undefined?null:value);
+}
+// Standard SHA-256 fallback keeps synchronous rendering and offline fixtures portable.
+function digestText(value){
+  var bytes=Array.from(new TextEncoder().encode(String(value))),bitLength=bytes.length*8;
+  bytes.push(128); while(bytes.length%64!==56) bytes.push(0);
+  for(var j=7;j>=0;j--) bytes.push(Math.floor(bitLength/Math.pow(256,j))&255);
+  var h=[0x6a09e667,0xbb67ae85,0x3c6ef372,0xa54ff53a,0x510e527f,0x9b05688c,0x1f83d9ab,0x5be0cd19];
+  var k=[0x428a2f98,0x71374491,0xb5c0fbcf,0xe9b5dba5,0x3956c25b,0x59f111f1,0x923f82a4,0xab1c5ed5,0xd807aa98,0x12835b01,0x243185be,0x550c7dc3,0x72be5d74,0x80deb1fe,0x9bdc06a7,0xc19bf174,0xe49b69c1,0xefbe4786,0x0fc19dc6,0x240ca1cc,0x2de92c6f,0x4a7484aa,0x5cb0a9dc,0x76f988da,0x983e5152,0xa831c66d,0xb00327c8,0xbf597fc7,0xc6e00bf3,0xd5a79147,0x06ca6351,0x14292967,0x27b70a85,0x2e1b2138,0x4d2c6dfc,0x53380d13,0x650a7354,0x766a0abb,0x81c2c92e,0x92722c85,0xa2bfe8a1,0xa81a664b,0xc24b8b70,0xc76c51a3,0xd192e819,0xd6990624,0xf40e3585,0x106aa070,0x19a4c116,0x1e376c08,0x2748774c,0x34b0bcb5,0x391c0cb3,0x4ed8aa4a,0x5b9cca4f,0x682e6ff3,0x748f82ee,0x78a5636f,0x84c87814,0x8cc70208,0x90befffa,0xa4506ceb,0xbef9a3f7,0xc67178f2];
+  function rr(x,n){return (x>>>n)|(x<<(32-n));}
+  for(var offset=0;offset<bytes.length;offset+=64){
+    var w=[]; for(var i=0;i<16;i++) w[i]=(bytes[offset+4*i]<<24)|(bytes[offset+4*i+1]<<16)|(bytes[offset+4*i+2]<<8)|bytes[offset+4*i+3];
+    for(i=16;i<64;i++) w[i]=(w[i-16]+(rr(w[i-15],7)^rr(w[i-15],18)^(w[i-15]>>>3))+w[i-7]+(rr(w[i-2],17)^rr(w[i-2],19)^(w[i-2]>>>10)))|0;
+    var v=h.slice();
+    for(i=0;i<64;i++){
+      var t1=(v[7]+(rr(v[4],6)^rr(v[4],11)^rr(v[4],25))+((v[4]&v[5])^(~v[4]&v[6]))+k[i]+w[i])|0;
+      var t2=((rr(v[0],2)^rr(v[0],13)^rr(v[0],22))+((v[0]&v[1])^(v[0]&v[2])^(v[1]&v[2])))|0;
+      v=[(t1+t2)|0,v[0],v[1],v[2],(v[3]+t1)|0,v[4],v[5],v[6]];
+    }
+    for(i=0;i<8;i++) h[i]=(h[i]+v[i])|0;
+  }
+  return h.map(function(n){return ('00000000'+(n>>>0).toString(16)).slice(-8);}).join('');
+}
+async function sha256Canonical(value){
+  var text=canonicalize(value);
+  if(typeof crypto!=='undefined'&&crypto.subtle){
+    try { var bytes=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(text)); return Array.from(new Uint8Array(bytes)).map(function(n){return ('0'+n.toString(16)).slice(-2);}).join(''); } catch(e) { /* Offline fallback, same SHA-256 output. */ }
+  }
+  return digestText(text);
+}
+function evidenceSnapshot(evs){
+  return (evs||[]).map(function(e){return {file_name:e.file_name||'',file_type:e.file_type||'',file_url:e.file_url||'',description:e.description||'',uploaded_by:e.uploaded_by||'',created_at:e.created_at||''};}).sort(function(a,b){var x=canonicalize(a),y=canonicalize(b);return x<y?-1:x>y?1:0;});
+}
+function verificationInput(p,evs){
+  var input={schema:'naft-mrv-v2',evidence:evidenceSnapshot(evs)};
+  ['title','producer_id','region_id','area_name','location','prefecture','municipality','start_date','end_date','estimated_co2_reduction','calculation_method','reduction_type','description'].forEach(function(k){input[k]=p&&p[k]!==undefined?p[k]:null;});
+  return input;
+}
+function recordPayload(record){
+  var payload=Object.assign({},record); delete payload.record_hash; delete payload.environmental_record_hash; delete payload.status;
+  return payload; // Mutable status is audited separately; approved claim remains hashed.
+}
+function buildVerificationAssessment(p,evs){
+  evs=evs||[];
+  var method=String(p&&p.calculation_method||'');
+  var described=evs.filter(function(e){return String(e.description||'').trim().length>=6;}).length;
+  var uniqueNames={}; evs.forEach(function(e){uniqueNames[String(e.file_name||'').toLowerCase()]=true;});
+  var suspicious=evs.filter(function(e){return /準備中|未確認|ドラフト|案\.|案_|draft/i.test((e.file_name||'')+' '+(e.description||''));}).map(function(e){return e.file_name;});
+  var checks=[
+    {key:'identity',label:'実施主体・地域',status:p&&p.producer_id&&p.region_id&&p.area_name?'pass':'fail',detail:p&&p.producer_id&&p.region_id?'主体と実施地域を特定':'主体または実施地域が不足'},
+    {key:'activity_period',label:'活動期間',status:p&&p.start_date&&p.end_date&&new Date(p.start_date)<new Date(p.end_date)?'pass':'warn',detail:p&&p.start_date&&p.end_date?'開始日・終了日を確認':'活動期間が不足'},
+    {key:'quantification',label:'定量値',status:p&&isFinite(Number(p.estimated_co2_reduction))&&Number(p.estimated_co2_reduction)>0?'pass':'fail',detail:p&&Number(p.estimated_co2_reduction)>0?fmt(p.estimated_co2_reduction)+' t-CO2（事業者推定）':'正の推定値が不足'},
+    {key:'methodology',label:'算定方法',status:method.length>=20&&/方法論|係数|算定|推計|実測|データ|methodology|factor|calculation|estimate|measured|data/i.test(method)?'pass':(method.length?'warn':'fail'),detail:method.length>=20?'算定式・参照方法を記載':'算定根拠の具体化が必要'},
+    {key:'evidence',label:'証憑セット',status:evs.length>=2&&described===evs.length?'pass':(evs.length?'warn':'fail'),detail:evs.length+'件／説明あり '+described+'件'},
+    {key:'traceability',label:'証憑の追跡性',status:evs.length&&Object.keys(uniqueNames).length===evs.length?'pass':(evs.length?'warn':'fail'),detail:evs.length?'ファイル名の重複 '+(evs.length-Object.keys(uniqueNames).length)+'件':'証憑なし'}
+  ];
+  if(suspicious.length) checks.push({key:'risk_signal',label:'未確定資料',status:'warn',detail:suspicious.join('、')});
+  var criticalFail=checks.some(function(c){return c.status==='fail'&&['identity','quantification','methodology','evidence'].indexOf(c.key)>=0;});
+  var hasReview=checks.some(function(c){return c.status!=='pass';});
+  var outcome=criticalFail?'abstain':(hasReview?'needs_review':'ready_for_human_review');
+  var missing=checks.filter(function(c){return c.status==='fail';}).map(function(c){return c.label;});
+  var summary=outcome==='ready_for_human_review'?'主要項目は揃っています。人間の審査者が原資料と算定妥当性を最終確認してください。':
+    (outcome==='needs_review'?'資料は審査可能ですが、未確定事項があります。人間による重点確認が必要です。':'根拠不足のため補助エンジンは結論を出しません。証憑を追加して再実行してください。');
+  return {outcome:outcome,summary:summary,checks:checks,missing_items:missing,risk_signals:suspicious,
+    hash_algorithm:'SHA-256',evidence_set_hash:digestText(canonicalize(evidenceSnapshot(evs))),input_fingerprint:digestText(canonicalize(verificationInput(p,evs))),generated_at:nowISO()};
+}
+function verificationRunsFor(projectId){ return (db.verification_runs||[]).filter(function(r){return r.project_id===projectId;}).sort(function(a,b){return new Date(b.generated_at)-new Date(a.generated_at);}); }
+function latestVerificationRun(projectId){ return verificationRunsFor(projectId)[0]||null; }
+function verificationRunIsCurrent(p,run){
+  if(!p||!run) return false;
+  var current=buildVerificationAssessment(p,db.evidences.filter(function(e){return e.project_id===p.id;}));
+  return current.input_fingerprint===run.input_fingerprint;
+}
+function environmentalRecordFor(projectId){ return (db.environmental_records||[]).find(function(r){return r.project_id===projectId&&r.status==='verified_candidate';})||null; }
+function buildEnvironmentalRecord(p,run,reviewerId,comment,previousHash,createdAt,id){
+  var at=createdAt||nowISO();
+  var record={id:id||uid('er'),project_id:p.id,verification_run_id:run?run.id:null,record_type:'VERIFIED_ENVIRONMENTAL_RECORD',status:'verified_candidate',
+    estimated_co2_reduction:p.estimated_co2_reduction,unit:'t-CO2',methodology_reference:p.calculation_method,input_fingerprint:run?run.input_fingerprint:null,
+    verification_outcome:run?run.outcome:'human_review_only',final_reviewer_id:reviewerId,final_comment:comment,approved_at:at,previous_record_hash:previousHash||null,
+    evidence_set_hash:run?run.evidence_set_hash:null,hash_algorithm:'SHA-256',vintage:p.start_date?String(p.start_date).slice(0,4):null,ledger_mode:'offchain_hash_linked_prototype',credit_status:'candidate_not_formally_issued',created_at:at};
+  record.environmental_record_hash=digestText(canonicalize(recordPayload(record)));
+  record.record_hash='NAFT-ER-'+record.environmental_record_hash.toUpperCase();
+  return record;
+}
+async function runVerificationAssist(projectId){
+  var p=projectOf(projectId); if(!p){ toast('プロジェクトが見つかりません',true); return; }
+  var pr=producerOfUser(S.user&&S.user.id);
+  var allowed=(pr&&pr.id===p.producer_id)||isAdminRole(S.user&&S.user.role)||isPlatformRole(S.user&&S.user.role);
+  if(!allowed){ toast('この検証補助を実行する権限がありません',true); return; }
+  var result=buildVerificationAssessment(p,db.evidences.filter(function(e){return e.project_id===p.id;}));
+  var actorId=S.user.id,inputSnapshot=verificationInput(p,db.evidences.filter(function(e){return e.project_id===p.id;}));
+  result.evidence_set_hash=await sha256Canonical(inputSnapshot.evidence);
+  result.input_fingerprint=await sha256Canonical(inputSnapshot);
+  if(!S.user||S.user.id!==actorId||result.input_fingerprint!==buildVerificationAssessment(p,db.evidences.filter(function(e){return e.project_id===p.id;})).input_fingerprint) return;
+  var run=Object.assign({id:uid('vr'),project_id:p.id,requested_by:S.user.id,assistant_kind:'deterministic_mrv_v2',assistant_label:'Deterministic Verification Assist',final_decision:'pending',final_reviewer_id:null,final_decided_at:null},result);
+  db.verification_runs.unshift(run);
+  audit('verification_assist_run','verification_run',run.id,'「'+p.title+'」の証憑整理・不足検知を実行（'+run.outcome+'）');
+  await saveDB(); toast('検証補助を実行しました。最終判断は人間の審査者が行います。'); render();
+}
+/* ---------- Off-chain candidate lifecycle: simulation only ---------- */
+var CANDIDATE_BOUNDARY='Candidate Climate Unit — Simulation only. Not a formally issued carbon credit.';
+var RETIREMENT_BOUNDARY='Retirement in this prototype means permanent removal from the demo candidate-unit balance. It is not a formal carbon-credit retirement in any external registry.';
+function canReviewProject(p){
+  return !!(p&&S.user&&(isPlatformRole(S.user.role)||(isAdminRole(S.user.role)&&(S.user.permitted_region_ids||[]).indexOf(p.region_id)>=0)));
+}
+function canOperateProject(p){
+  var producer=producerOfUser(S.user&&S.user.id);
+  return canReviewProject(p)||!!(p&&producer&&producer.id===p.producer_id);
+}
+function unitOf(id){return db.candidate_units.find(function(u){return u.id===id;});}
+function quantityAtoms(n){
+  if(typeof n!=='number'||!isFinite(n)||n<0) return null;
+  var atoms=Math.round(n*1000000);
+  return Number.isSafeInteger(atoms)&&n===atoms/1000000?atoms:null;
+}
+function holderBalance(u,holder){var h=u.holder_balances.find(function(b){return b.holder===holder;});return h?h.quantity:0;}
+function setHolderBalance(u,holder,atoms){
+  var h=u.holder_balances.find(function(b){return b.holder===holder;});
+  if(h) h.quantity=atoms/1000000; else u.holder_balances.push({holder:holder,quantity:atoms/1000000});
+}
+async function candidateBlocked(action,id,code){
+  var u=unitOf(id),r=db.environmental_records.find(function(x){return x.id===id;});
+  audit(action,'candidate_unit',id,code+' | Simulation only');
+  S.candidateMessage={code:code,blocked:true,project_id:u?u.project_id:r?r.project_id:null};
+  await saveDB(); toast(code,true); render(); return {ok:false,code:code};
+}
+function candidateTx(u,kind,quantity){
+  addTx({transaction_type:kind,token_type:'CANDIDATE_SIMULATION',amount:quantity,related_project_id:u.project_id,region_id:projectOf(u.project_id).region_id,note:CANDIDATE_BOUNDARY});
+}
+async function issueCandidateUnit(recordId){
+  var record=db.environmental_records.find(function(r){return r.id===recordId;}),p=record&&projectOf(record.project_id);
+  if(!canOperateProject(p)) return candidateBlocked('candidate_unit_issue_blocked',recordId,'HUMAN_ACTION_REQUIRED');
+  var actor=S.user.id;
+  if(!record||record.hash_algorithm!=='SHA-256') return candidateBlocked('candidate_unit_issue_blocked',recordId,'REVERIFY_LEGACY_RECORD');
+  var hash=await sha256Canonical(recordPayload(record));
+  // No await between final authorization/duplicate validation and the writes below.
+  if(!S.user||S.user.id!==actor||!canOperateProject(p)) return candidateBlocked('candidate_unit_issue_blocked',recordId,'HUMAN_ACTION_REQUIRED');
+  if(projectOf(p.id)!==p||db.environmental_records.indexOf(record)<0) return candidateBlocked('candidate_unit_issue_blocked',recordId,'STALE_VERIFICATION_BLOCKED');
+  if(hash!==digestText(canonicalize(recordPayload(record)))||hash!==record.environmental_record_hash||record.record_hash!=='NAFT-ER-'+hash.toUpperCase()) return candidateBlocked('candidate_unit_issue_blocked',recordId,'RECORD_INTEGRITY_BLOCKED');
+  var run=db.verification_runs.find(function(r){return r.id===record.verification_run_id;});
+  var reviewer=findUser(record.final_reviewer_id);
+  if(p.review_status!=='approved'||record.status!=='verified_candidate'||!run||run.final_decision!=='approved'||!reviewer||!(isAdminRole(reviewer.role)||isPlatformRole(reviewer.role))||run.final_reviewer_id!==reviewer.id)
+    return candidateBlocked('candidate_unit_issue_blocked',recordId,'HUMAN_APPROVAL_REQUIRED');
+  if(!verificationRunIsCurrent(p,run)||record.input_fingerprint!==run.input_fingerprint) return candidateBlocked('candidate_unit_issue_blocked',recordId,'STALE_VERIFICATION_BLOCKED');
+  if(run.outcome==='abstain'&&String(record.final_comment||'').trim().length<20) return candidateBlocked('candidate_unit_issue_blocked',recordId,'ABSTAIN_OVERRIDE_REQUIRED');
+  var fingerprint=digestText(canonicalize({schema:'naft-candidate-issuance-v1',input_fingerprint:record.input_fingerprint}));
+  if(db.candidate_units.some(function(u){return u.environmental_record_id===recordId||u.input_fingerprint===record.input_fingerprint||u.issuance_fingerprint===fingerprint;}))
+    return candidateBlocked('candidate_unit_issue_blocked',recordId,'DUPLICATE_ISSUANCE_BLOCKED');
+  var atoms=quantityAtoms(Number(record.estimated_co2_reduction));
+  if(!atoms||!record.vintage||!record.methodology_reference) return candidateBlocked('candidate_unit_issue_blocked',recordId,'QUANTIFICATION_REQUIRED');
+  var unit={id:uid('cu'),project_id:p.id,environmental_record_id:recordId,input_fingerprint:record.input_fingerprint,issuance_fingerprint:fingerprint,vintage:record.vintage,quantity_total:atoms/1000000,quantity_available:atoms/1000000,quantity_retired:0,unit:record.unit,methodology_reference:record.methodology_reference,status:'active_candidate',credit_status:'candidate_not_formally_issued',created_by:actor,created_at:nowISO(),holder_balances:[{holder:'demo_operator',quantity:atoms/1000000}]};
+  db.candidate_units.unshift(unit); candidateTx(unit,'candidate_unit_issue',unit.quantity_total);
+  audit('candidate_unit_issued','candidate_unit',unit.id,'Record '+recordId+' | '+fingerprint+' | Simulation only');
+  S.candidateMessage={code:'Candidate unit issued',blocked:false,project_id:p.id};
+  await saveDB(); render(); return {ok:true,unit:unit};
+}
+function transferPayload(t){var payload=Object.assign({},t);delete payload.transfer_hash;return payload;}
+function appendUnitTransfer(u,from,to,quantity,type,reason){
+  var previous=db.unit_transfers.find(function(t){return t.candidate_unit_id===u.id;});
+  var t={id:uid('ut'),candidate_unit_id:u.id,from_holder:from,to_holder:to,quantity:quantity,transfer_type:type,reason:reason||'',previous_transfer_hash:previous?previous.transfer_hash:null,created_by:S.user.id,created_at:nowISO(),ledger_mode:'offchain_simulation'};
+  t.transfer_hash=digestText(canonicalize(transferPayload(t))); db.unit_transfers.unshift(t);return t;
+}
+function unitOperationError(u,quantity,holder){
+  if(!u) return 'UNIT_NOT_FOUND';
+  if(!canReviewProject(projectOf(u.project_id))) return 'HUMAN_REVIEWER_REQUIRED';
+  if(u.status==='fully_retired'||u.quantity_available===0) return 'RETIRED_UNITS_CANNOT_BE_REUSED';
+  if(u.status!=='active_candidate'||projectOf(u.project_id).review_status!=='approved') return 'INACTIVE_CANDIDATE';
+  var atoms=quantityAtoms(quantity);
+  if(!atoms) return 'INVALID_QUANTITY';
+  if(atoms>quantityAtoms(u.quantity_available)) return 'AVAILABLE_QUANTITY_EXCEEDED';
+  if(atoms>quantityAtoms(holderBalance(u,holder))) return 'HOLDER_BALANCE_EXCEEDED';
+  return null;
+}
+async function transferCandidateUnit(unitId,fromHolder,toHolder,quantity){
+  var u=unitOf(unitId),error=unitOperationError(u,quantity,fromHolder);
+  if(error) return candidateBlocked('candidate_unit_transfer_blocked',unitId,error);
+  // Fixed simulated custody accounts; no money, wallets, or user-to-user points.
+  if(['demo_operator','demo_partner'].indexOf(fromHolder)<0||['demo_operator','demo_partner'].indexOf(toHolder)<0||fromHolder===toHolder)
+    return candidateBlocked('candidate_unit_transfer_blocked',unitId,'INVALID_DEMO_HOLDER');
+  var atoms=quantityAtoms(quantity);
+  setHolderBalance(u,fromHolder,quantityAtoms(holderBalance(u,fromHolder))-atoms);
+  setHolderBalance(u,toHolder,quantityAtoms(holderBalance(u,toHolder))+atoms);
+  var transfer=appendUnitTransfer(u,fromHolder,toHolder,quantity,'demo_transfer');
+  candidateTx(u,'candidate_unit_transfer',quantity);audit('candidate_unit_transferred','candidate_unit',u.id,transfer.id+' | '+quantity+' '+u.unit+' | simulation-only transfer');
+  S.candidateMessage={code:'Transfer recorded',blocked:false,project_id:u.project_id};
+  await saveDB();render();return {ok:true,transfer:transfer};
+}
+async function retireCandidateUnit(unitId,quantity,reason,holder){
+  holder=holder||'demo_partner';
+  var u=unitOf(unitId),error=unitOperationError(u,quantity,holder);
+  if(error) return candidateBlocked('candidate_unit_retirement_blocked',unitId,error);
+  if(typeof reason!=='string'||!reason.trim()) return candidateBlocked('candidate_unit_retirement_blocked',unitId,'RETIREMENT_REASON_REQUIRED');
+  var atoms=quantityAtoms(quantity);
+  setHolderBalance(u,holder,quantityAtoms(holderBalance(u,holder))-atoms);
+  u.quantity_available=(quantityAtoms(u.quantity_available)-atoms)/1000000;
+  u.quantity_retired=(quantityAtoms(u.quantity_retired)+atoms)/1000000;
+  if(u.quantity_available===0) u.status='fully_retired';
+  var transfer=appendUnitTransfer(u,holder,'demo_retirement_sink',quantity,'retirement_transfer',reason.trim());
+  var retirement={id:uid('urc'),candidate_unit_id:u.id,transfer_id:transfer.id,quantity:quantity,reason:reason.trim(),holder:holder,created_by:S.user.id,created_at:nowISO(),retirement_type:'demo_only'};
+  db.unit_retirements.unshift(retirement); candidateTx(u,'candidate_unit_retirement',quantity);
+  audit('candidate_unit_retired','candidate_unit',u.id,retirement.id+' | '+reason.trim()+' | Simulation only');
+  S.candidateMessage={code:'Retired — '+u.quantity_retired+' '+u.unit,blocked:false,project_id:u.project_id};
+  await saveDB();render();return {ok:true,retirement:retirement};
+}
+
+function createEnvironmentalRecord(p,run,comment,prepared){
+  var current=environmentalRecordFor(p.id); if(current&&current.input_fingerprint===run.input_fingerprint) return current;
+  var previous=(db.environmental_records||[])[0];
+  var record=prepared||buildEnvironmentalRecord(p,run,S.user.id,comment,previous?previous.record_hash:null,nowISO());
+  db.environmental_records.unshift(record);
+  audit('environmental_record_create','environmental_record',record.id,'「'+p.title+'」の検証済み環境記録（候補）を人間の承認に基づき作成');
+  return record;
+}
 </script>
 <script>
 /* ---------- app state & router ---------- */
@@ -439,12 +683,13 @@ function closeModal(){ S.modal=null; render(); }
 /* ---------- render loop ---------- */
 function render(){
   var h = location.hash || '#/';
+  var ieeeScroll=h==='#/ieee'?(window.scrollY||0):null;
   var parts = h.slice(2).split('?')[0].split('/').filter(Boolean);
   var html = '';
   try{ html = route(parts); }catch(e){ html = '<div class="container" style="padding:60px 24px">エラーが発生しました：'+esc(e.message)+'</div>'; console.error(e); }
   document.getElementById('root').innerHTML = html + renderModal() + (S.toast?'<div id="toast" class="toast'+(S.toast.err?' err':'')+'">'+esc(S.toast.msg)+'</div>':'');
   afterRender();
-  window.scrollTo(0, S._keepScroll ? window.scrollY : 0);
+  window.scrollTo(0, ieeeScroll!==null?ieeeScroll:(S._keepScroll ? window.scrollY : 0));
   S._keepScroll = false;
 }
 function afterRender(){
@@ -460,6 +705,7 @@ function route(p){
   if(seg===''||seg==='home') return pgLanding();
   if(seg==='market') return pgPublicMarket();
   if(seg==='project') return pgProjectDetail(p[1], true);
+  if(seg==='ieee') return pgIEEEDemo();
   if(seg==='login') return pgLogin();
   if(seg==='register') return pgRegister();
   if(seg==='onboarding') return S.user ? pgOnboarding() : pgLogin();
@@ -484,6 +730,7 @@ function route(p){
     if(sub2==='projects') return producerShell('projects', pgProducerProjects());
     if(sub2==='new') return producerShell('new', pgProjectForm(p[2]||null));
     if(sub2==='project') return producerShell('projects', pgProducerProjectDetail(p[2]));
+    if(sub2==='verification') return producerShell('verification', pgVerificationWorkbench(p[2]));
     if(sub2==='transactions') return producerShell('tx', pgProducerTx());
   }
   if(seg==='merchant'){
@@ -498,6 +745,7 @@ function route(p){
     if(sub3==='projects') return adminShell('projects', pgAdminProjects());
     if(sub3==='transactions') return adminShell('tx', pgAdminTx());
     if(sub3==='rewards') return adminShell('rewards', pgAdminRewards());
+    if(sub3==='records') return adminShell('records', pgVerificationRecords(adminRegionIds()));
     if(sub3==='audit') return adminShell('audit', pgAuditLogs(adminRegionIds()));
     if(sub3==='reports') return adminShell('reports', pgAdminReports());
   }
@@ -508,6 +756,7 @@ function route(p){
     if(sub4==='regions') return platformShell('regions', pgPlatformRegions());
     if(sub4==='projects') return platformShell('projects', pgPlatformProjects());
     if(sub4==='transactions') return platformShell('tx', pgPlatformTx());
+    if(sub4==='records') return platformShell('records', pgVerificationRecords(null));
     if(sub4==='audit') return platformShell('audit', pgAuditLogs(null));
     if(sub4==='reports') return platformShell('reports', pgPlatformReports());
     if(sub4==='settings') return platformShell('settings', pgPlatformSettings());
@@ -523,6 +772,24 @@ function statCard(k,v,u,s){ return '<div class="stat"><div class="k">'+k+'</div>
 function disclaimerBox(){ return '<div class="disclaimer">⚠️ '+esc(DISCLAIMER)+'</div>'; }
 function catBadge(c){ var m=CATS[c]||[c,'']; return '<span class="badge b-outline">'+m[1]+' '+m[0]+'</span>'; }
 function trustBadge(v){ var cls = v>=80?'b-green':(v>=60?'b-blue':'b-gray'); return '<span class="badge '+cls+'">信頼スコア '+v+'</span>'; }
+function checkStatusBadge(status){ return badge(status==='pass'?['適合','b-green']:(status==='warn'?['要確認','b-amber']:['不足','b-red'])); }
+function verificationPanelHTML(p,run,compact){
+  if(!run) return '<div class="notice-inline mt16" style="background:var(--amber-bg);border-color:#e8d3a0;color:var(--amber)"><b>検証補助は未実行です。</b><br>証憑を構造化し、決定論的チェックを実行してから人間が最終判断します。</div>';
+  var current=verificationRunIsCurrent(p,run);
+  var checks=(run.checks||[]).map(function(c){return '<div class="between small" style="padding:7px 0;border-bottom:1px dashed var(--line);gap:12px"><span><b>'+esc(c.label)+'</b><span class="tiny muted" style="display:block">'+esc(c.detail)+'</span></span>'+checkStatusBadge(c.status)+'</div>';}).join('');
+  return '<div class="card card-p mt16" style="background:var(--g50);box-shadow:none"><div class="between wrap"><span><b class="small">🧭 '+esc(run.assistant_label||'検証補助')+'</b><span class="tiny muted" style="display:block">入力指紋 '+esc(run.input_fingerprint)+'｜'+fmtDT(run.generated_at)+'</span></span>'+(current?verificationBadge(run.outcome):badge(['再実行が必要','b-red']))+'</div>'
+    +'<p class="small muted mt8" style="line-height:1.7">'+esc(run.summary)+'</p>'+(compact?'':'<div class="mt8">'+checks+'</div>')
+    +(current?'':'<div class="notice-inline mt8" style="background:var(--red-bg);border-color:#e5b8b4;color:var(--red)">入力または証憑が実行後に変更されています。最新データで再実行してください。</div>')
+    +'<div class="tiny muted mt8">この出力は参考情報です。承認・差し戻し・候補記録の確定は人間の審査者だけが行います。</div></div>';
+}
+function environmentalRecordPanelHTML(record){
+  if(!record) return '';
+  var reviewer=record.final_reviewer_id?findUser(record.final_reviewer_id):null;
+  return '<div class="card card-p mt16" style="border-color:#bfd9cc"><div class="between wrap"><b class="small">🔗 検証済み環境記録</b>'+environmentalRecordBadge(record.status)+'</div>'
+    +'<div class="mono small mt8" style="word-break:break-all;color:var(--g700)">'+esc(record.record_hash)+'</div>'
+    +'<div class="tiny muted mt8">人間の最終確認：'+esc(reviewer?reviewer.name:'—')+'｜'+fmtDT(record.approved_at)+'｜前レコード '+esc(record.previous_record_hash||'GENESIS')+'</div>'
+    +'<div class="tiny muted mt8">オフチェーン・ハッシュチェーン上の候補記録です。認証済みカーボンクレジットの発行・移転・償却ではありません。</div></div>';
+}
 
 function projectCard(p, base){
   var prog = pct(p.current_amount, p.target_amount);
@@ -539,6 +806,7 @@ function projectCard(p, base){
 }
 function txAmountCell(t, myWalletId){
   var neg = myWalletId ? (t.from_wallet_id===myWalletId) : (t.transaction_type==='support_project'||t.transaction_type==='reward_redeem');
+  if(t.token_type==='CANDIDATE_SIMULATION') return '<span class="badge b-outline">'+esc(t.amount)+' t-CO2 · simulation</span>';
   if(t.token_type==='CARBON_REWARD') return '<span class="badge b-gold">チケット×'+t.amount+'</span>';
   if(t.token_type==='CREDIT_RESERVATION') return '<span class="badge b-blue">予約 '+fmtInt(t.amount)+'円想定</span>';
   return '<span class="'+(neg?'amount-neg':'amount-pos')+'">'+(neg?'−':'+')+fmtInt(t.amount)+' pt</span>';
@@ -602,7 +870,7 @@ function modalQR(m){
 /* ---------- public: landing ---------- */
 function pubHeader(){
   return '<header class="pub-head"><div class="in">'+logoHTML(false)
-    +'<nav class="pub-nav"><a href="#/#problem">課題</a><a href="#/#solution">仕組み</a><a href="#/#features">機能</a><a href="#/#usecases">活用例</a><a href="#/market">マーケット</a><a href="#/#compliance">コンプライアンス</a></nav>'
+    +'<nav class="pub-nav"><a href="#/#problem">課題</a><a href="#/#solution">仕組み</a><a href="#/#features">機能</a><a href="#/#usecases">活用例</a><a href="#/market">マーケット</a><a href="#/ieee">IEEE Demo</a><a href="#/#compliance">コンプライアンス</a></nav>'
     +'<div class="flex">'+(S.user?'<a class="btn btn-p" href="'+roleHome(S.user.role)+'">マイページへ</a>':'<a class="btn btn-ghost" href="#/login">ログイン</a><a class="btn btn-p" href="#/register">無料で始める</a>')+'</div>'
     +'</div></header>';
 }
@@ -614,6 +882,63 @@ function pubFooter(){
     +'<div class="tiny mt24" style="border-top:1px solid rgba(255,255,255,.1);padding-top:18px;color:#6e8a7f;line-height:1.8">'+esc(DISCLAIMER)+'<br>© 2026 NaFT — Natural-Fungible Token（PoC版）</div>'
     +'</div></footer>';
 }
+async function ieeeLogin(email){
+  go('#/login');render();await quickLogin(email);go('#/ieee');render();
+}
+async function ieeeSubmit(){
+  var p=projectOf(S.ieeeProject||'pj9'),pr=producerOfUser(S.user&&S.user.id);
+  if(!pr||pr.id!==p.producer_id||['draft','revision_required'].indexOf(p.review_status)<0) return;
+  p.review_status='pending_review';audit('project_submit','carbon_project',p.id,'Explicit demo operator submission');
+  await saveDB();render();
+}
+function ieeeSelect(id){S.ieeeProject=id;render();}
+function ieeeTransfer(id){
+  return transferCandidateUnit(id,document.getElementById('ieee-from').value,document.getElementById('ieee-to').value,Number(document.getElementById('ieee-quantity').value));
+}
+function ieeeRetire(id){
+  return retireCandidateUnit(id,Number(document.getElementById('ieee-quantity').value),document.getElementById('ieee-reason').value,document.getElementById('ieee-from').value);
+}
+function ieeeButton(label,handler,disabled){return '<button class="btn btn-o" '+(disabled?'disabled ':'')+'onclick="'+handler+'">'+label+'</button>';}
+function pgIEEEDemo(){
+  var p=projectOf(S.ieeeProject||'pj9'),run=latestVerificationRun(p.id),record=environmentalRecordFor(p.id);
+  var unit=db.candidate_units.find(function(u){return record&&u.environmental_record_id===record.id;});
+  var evidences=db.evidences.filter(function(e){return e.project_id===p.id;});
+  var transfers=unit?db.unit_transfers.filter(function(t){return t.candidate_unit_id===unit.id;}):[];
+  var guards=db.audit_logs.filter(function(a){return /_blocked$/.test(a.action)&&((unit&&a.entity_id===unit.id)||(record&&a.entity_id===record.id));});
+  var doubleBlocked=guards.some(function(a){return /DUPLICATE_ISSUANCE_BLOCKED|RETIRED_UNITS_CANNOT_BE_REUSED/.test(a.note);});
+  var stages=[['Evidence',evidences.length?'✓ Evidence present':'Evidence missing'],['Deterministic MRV Readiness',run&&verificationRunIsCurrent(p,run)?run.outcome.toUpperCase():'Run readiness checks'],['Human Review',record?'✓ Human approved':'Explicit human action required'],['Verified Environmental Record',record?'✓ Hash-linked candidate record':'Awaiting human decision'],['Candidate Unit',unit?'✓ Candidate unit issued':'Not formally issued'],['Transfer',transfers.some(function(t){return t.transfer_type==='demo_transfer';})?'✓ Transfer recorded':'Simulation only'],['Retirement',unit&&unit.quantity_retired>0?'✓ Retired':'Human action + reason'],['Double-counting Block',doubleBlocked?'✓ Duplicate blocked / reuse blocked':'Try a duplicate or retired reuse']];
+  var allowed=canReviewProject(p),operate=canOperateProject(p),safeId=function(id){return /^[a-zA-Z0-9_]+$/.test(id||'')?id:'';};
+  var rid=record?safeId(record.id):'',uidv=unit?safeId(unit.id):'';
+  var message=S.candidateMessage&&S.candidateMessage.project_id===p.id?S.candidateMessage:null;
+  return pubHeader()+'<main class="ieee"><section class="sec" style="padding:32px 0"><div class="container"><span class="eyebrow">IEEE ClimateChain Hackathon · Off-chain Prototype</span>'
+    +'<h1 style="font-size:clamp(30px,4vw,48px);margin:12px 0">One Auditable Path</h1><p class="sec-lead">Fragmented climate evidence. One human decision. A traceable candidate-unit lifecycle.</p>'
+    +'<div class="notice-inline"><b>'+CANDIDATE_BOUNDARY+'</b><br>No real money, cryptoassets, external registry connection, or formal issuance. This engine checks review readiness; it does not prove emission reductions.</div>'
+    +'<div class="flex wrap mt16">'+ieeeButton('1. Project Operator',"ieeeLogin('producer@naft.demo')",false)+ieeeButton('2. Human Reviewer',"ieeeLogin('admin@naft.demo')",false)+'<span class="small">Active demo actor: <b>'+esc(S.user?S.user.name+' / '+S.user.role:'Not signed in')+'</b></span></div>'
+    +'<label class="label mt16" for="ieee-project">Demo scenario</label><select class="input" id="ieee-project" onchange="ieeeSelect(this.value)"><option value="pj9" '+(p.id==='pj9'?'selected':'')+'>Solar project — NEEDS_REVIEW → human decision → lifecycle</option><option value="pj10" '+(p.id==='pj10'?'selected':'')+'>Missing evidence — ABSTAIN (override reason required)</option></select>'
+    +(['draft','revision_required'].indexOf(p.review_status)>=0?'<div class="mt16">'+ieeeButton('Operator: submit for human review','ieeeSubmit()',!S.user||S.user.role!=='producer')+'</div>':'')
+    +'<h2 style="font-size:22px;margin-top:24px">Eight stages, with a hard human gate</h2><div class="g4 mt16">'+stages.map(function(stage,i){return '<div class="fcard" style="padding:16px"><span class="eyebrow">Stage '+(i+1)+'</span><h3 style="margin:8px 0">'+stage[0]+'</h3><p>'+stage[1]+'</p></div>';}).join('')+'</div>'
+    +'<div class="g2 mt24" style="align-items:start"><section class="card card-p"><h2 style="font-size:22px">Evidence → Human Verification</h2><p class="small mt8">'+esc(p.title)+'</p>'
+    +'<ul class="small mt8">'+(evidences.length?evidences.map(function(e){return '<li><b>'+esc(e.file_name)+'</b> — '+esc(e.description)+'</li>';}).join(''):'<li>No evidence metadata: the engine will ABSTAIN.</li>')+'</ul><p class="tiny muted">Metadata only; document contents are not stored or read.</p>'
+    +'<details class="small mt16"><summary>Activity / methodology / quantity</summary><p>'+esc(p.producer_id)+' · '+esc(p.area_name)+' · '+esc(p.start_date)+' → '+esc(p.end_date)+'</p><p>'+esc(p.calculation_method)+'</p><p>'+esc(p.estimated_co2_reduction)+' t-CO2 — operator estimate</p></details>'
+    +'<div class="mt16">'+ieeeButton('Run Deterministic MRV Readiness',"runVerificationAssist('"+p.id+"')",!operate)+'</div>'+verificationPanelHTML(p,run,false)
+    +'<label class="label mt16" for="rv-comment">Human review note / ABSTAIN override reason</label><textarea class="input" id="rv-comment" placeholder="Explain the evidence you reviewed and why you approve. ABSTAIN requires at least 20 characters."></textarea>'
+    +'<div class="flex wrap mt16">'+ieeeButton('Human: approve evidence',"reviewAction('"+p.id+"','approve')",!allowed||['pending_review','revision_required','suspended'].indexOf(p.review_status)<0)+ieeeButton('Human: request revision',"reviewAction('"+p.id+"','request_revision')",!allowed||p.review_status!=='pending_review')+'</div>'
+    +'<p class="tiny muted mt8">Approval is a named human decision in this prototype, not certification.</p>'+environmentalRecordPanelHTML(record)+'</section>'
+    +'<section class="card card-p"><h2 style="font-size:22px">Candidate Climate Unit lifecycle</h2><p class="small mt8">'+CANDIDATE_BOUNDARY+'</p>'
+    +(record?'<div class="mt16">'+ieeeButton(unit?'Try duplicate issuance → BLOCKED':'Issue Candidate Unit',"issueCandidateUnit('"+rid+"')",!operate||!rid)+'</div>':'<div class="notice-inline mt16">Human approval required before issuance.</div>')
+    +(unit?'<div class="stats mt16" style="grid-template-columns:repeat(3,1fr)">'+statCard('Total',unit.quantity_total,unit.unit,'Candidate')+statCard('Available',unit.quantity_available,unit.unit,'Unretired')+statCard('Retired',unit.quantity_retired,unit.unit,'Removed')+'</div><p class="mono small mt8">'+esc(unit.status)+'</p><p class="small">Operator: '+holderBalance(unit,'demo_operator')+' · Partner: '+holderBalance(unit,'demo_partner')+'</p>'
+    +'<label class="label mt16" for="ieee-from">From / retiring demo holder</label><select id="ieee-from" class="input"><option value="demo_operator" '+(holderBalance(unit,'demo_operator')>0?'selected':'')+'>Demo operator</option><option value="demo_partner" '+(holderBalance(unit,'demo_operator')===0?'selected':'')+'>Demo partner</option></select><label class="label mt8" for="ieee-to">To demo holder</label><select id="ieee-to" class="input"><option value="demo_partner">Demo partner</option><option value="demo_operator" '+(holderBalance(unit,'demo_operator')===0?'selected':'')+'>Demo operator</option></select>'
+    +'<label class="label mt8" for="ieee-quantity">Quantity ('+esc(unit.unit)+', up to 6 decimals)</label><input class="input" id="ieee-quantity" type="number" min="0.000001" step="0.000001" value="'+(unit.quantity_available||unit.quantity_total)+'">'
+    +'<div class="mt16">'+ieeeButton(unit.status==='fully_retired'?'Try retired-unit transfer → BLOCKED':'Record demo transfer',"ieeeTransfer('"+uidv+"')",!allowed||!uidv)+'</div>'
+    +'<label class="label mt16" for="ieee-reason">Retirement reason (required)</label><textarea class="input" id="ieee-reason" placeholder="Explain why these demo units are removed."></textarea><div class="mt16">'+ieeeButton('Human: retire candidate quantity',"ieeeRetire('"+uidv+"')",!allowed||!uidv||unit.status==='fully_retired')+'</div>':'')
+    +'<p class="small mt16">'+RETIREMENT_BOUNDARY+'</p><h3 class="mt24">Double-counting guard</h3>'
+    +(message?'<div role="status" class="notice-inline mt8" style="overflow-wrap:anywhere"><b>'+(message.blocked?'BLOCKED: ':'')+esc(message.code)+'</b></div>':'')
+    +(doubleBlocked?'<p class="mt8"><b>Duplicate issuance blocked / Retired units cannot be reused</b></p>':'<p class="small mt8">After issuance, try issuing the same record again. After full retirement, try a transfer again.</p>')
+    +'<p class="tiny muted mt8">Guard scope: identical record or canonical input in this demo dataset. No global or cross-registry detection.</p></section></div>'
+    +'<details class="card card-p mt24"><summary><b>Inspect provenance, transfer ledger, and blocked attempts</b></summary><pre style="white-space:pre-wrap;overflow-wrap:anywhere;font-size:12px">'+esc(JSON.stringify({environmental_record:record,candidate_unit:unit,unit_transfers:transfers,retirements:db.unit_retirements.filter(function(r){return unit&&r.candidate_unit_id===unit.id;}),blocked_attempts:guards},null,2))+'</pre></details>'
+    +'<p class="mt24" style="font-size:18px;line-height:1.7"><b>NaFT does not decide whether climate action is real.</b><br>It makes the evidence, human decision, candidate unit lifecycle, and retirement traceable — and blocks the same claim from being counted twice.</p><p class="tiny muted mt8">Within this prototype: identical input / record matching only. Hash-linked provenance prototype; tamper-evident design direction. Not a blockchain or a cryptographic signature.</p><div class="mt24">'+disclaimerBox()+'</div></div></section></main>'+pubFooter();
+}
+
 function pgLanding(){
   var approved = db.projects.filter(function(p){return p.review_status==='approved';});
   var totalSupport = approved.reduce(function(s,p){return s+p.current_amount;},0);
@@ -752,6 +1077,7 @@ function pgProjectDetail(id, isPublic){
   var txs = db.transactions.filter(function(t){return t.related_project_id===p.id && t.transaction_type==='support_project';}).slice(0,8);
   var rws = db.rewards.filter(function(r){return r.related_project_id===p.id || (r.region_id===p.region_id&&r.status==='active');});
   var resCount = db.reservations.filter(function(r){return r.project_id===p.id&&r.status!=='cancelled';}).length;
+  var environmentalRecord=environmentalRecordFor(p.id);
   var canSupport = S.user && S.user.role==='citizen' && p.review_status==='approved';
   var inner = '<div style="display:grid;grid-template-columns:1.6fr 1fr;gap:20px" class="pj-detail-grid">'
     +'<div><div class="card" style="overflow:hidden"><div class="ph" style="height:150px;background:'+(CAT_GRAD[p.category]||CAT_GRAD.Other)+';display:flex;align-items:center;justify-content:center;font-size:56px">'+(CATS[p.category]?CATS[p.category][1]:'🌍')+'</div>'
@@ -760,6 +1086,7 @@ function pgProjectDetail(id, isPublic){
     +'<div class="small muted mt8">📍 '+esc(p.prefecture)+'・'+esc(p.municipality)+'（'+esc(p.area_name)+'）｜実施：'+esc(producerName(p.producer_id))+'｜地域：'+esc(regionName(p.region_id))+'</div>'
     +'<p class="mt16" style="line-height:1.9">'+esc(p.description)+'</p>'
     +'<div class="mt24"><b class="section-title">推定CO2削減量と算定方法</b><div class="card card-p mt8" style="background:var(--g50);box-shadow:none"><div class="between"><span class="small muted">推定CO2削減・吸収量（'+esc(p.reduction_type||'削減・吸収')+'）</span><b style="font-size:18px;color:var(--g700)">'+fmt(p.estimated_co2_reduction)+' t-CO2</b></div><div class="small muted mt8" style="line-height:1.8">'+esc(p.calculation_method)+'</div><div class="tiny muted mt8">※ 数値は事業者による推定値であり、審査で根拠資料を確認していますが、認証済みカーボンクレジットではありません。</div></div></div>'
+    +environmentalRecordPanelHTML(environmentalRecord)
     +'<div class="mt24"><b class="section-title">証憑・根拠資料</b>'+(evs.length?'<div class="mt8">'+evs.map(function(e){return '<div class="flex" style="padding:9px 0;border-bottom:1px dashed var(--line)"><span>📎</span><div><div class="small"><b>'+esc(e.file_name)+'</b></div><div class="tiny muted">'+esc(e.description)+'</div></div></div>';}).join('')+'</div>':'<div class="small muted mt8">証憑は審査時に管理者が確認しています。</div>')+'</div>'
     +'<div class="mt24"><b class="section-title">地域還元予定</b><p class="small muted mt8" style="line-height:1.8">'+esc(p.regional_return_plan)+'</p></div>'
     +'<div class="mt24"><b class="section-title">タイムライン・審査ログ</b><div class="mt8">'
@@ -1142,7 +1469,7 @@ async function execReserve(){
 </script>
 <script>
 /* ---------- producer ---------- */
-var PRODUCER_TITLES = {home:'事業者ホーム',projects:'マイプロジェクト',new:'プロジェクト登録',tx:'関連取引'};
+var PRODUCER_TITLES = {home:'事業者ホーム',projects:'マイプロジェクト',new:'プロジェクト登録',verification:'MRV検証ワークベンチ',tx:'関連取引'};
 function producerShell(active, content){
   var nav=[{label:'事業者メニュー'},
     {key:'home',href:'#/producer',icon:'🏠',name:'ホーム'},
@@ -1265,6 +1592,7 @@ function pgProducerProjectDetail(id){
     +'<div class="card card-p mt16"><div class="between"><div><div class="flex wrap mb8">'+catBadge(p.category)+rsBadge(p.review_status)+trustBadge(p.trust_score)+'</div>'
     +'<h2 style="font-size:18px;font-weight:800">'+esc(p.title)+'</h2><div class="small muted mt8">📍 '+esc(p.prefecture)+'・'+esc(p.municipality)+'｜推定 '+fmt(p.estimated_co2_reduction)+' t-CO2</div></div>'
     +'<div class="flex wrap">'+(editable?'<a class="btn btn-o" href="#/producer/new/'+p.id+'">編集する</a>':'')
+    +'<a class="btn btn-o" href="#/producer/verification/'+p.id+'">🧭 証憑を検証する</a>'
     +(p.review_status==='approved'?'<a class="btn btn-p" href="#/project/'+p.id+'">公開ページを見る</a>':'')+'</div></div>'
     +'<div class="stats mt16" style="grid-template-columns:repeat(3,1fr)">'
     +statCard('支援額',fmtInt(p.current_amount)+' / '+fmtInt(p.target_amount),'pt','進捗 '+pct(p.current_amount,p.target_amount)+'%')
@@ -1273,8 +1601,27 @@ function pgProducerProjectDetail(id){
     +'</div></div>'
     +'<div class="card card-p mt16"><b class="section-title">審査コメント・履歴</b>'
     +(revs.length?'<div class="mt8">'+revs.map(function(r){var u2=r.reviewer_id?findUser(r.reviewer_id):null;return '<div class="flow-step"><div class="n" style="background:var(--g100);color:var(--g800)">'+(r.action==='approve'?'✓':(r.action==='submit'?'↑':'!'))+'</div><div class="small"><b>'+({approve:'承認',reject:'却下',request_revision:'差し戻し',suspend:'停止',submit:'審査提出'}[r.action]||r.action)+'</b> <span class="tiny muted">'+fmtDT(r.created_at)+(u2?'・'+esc(u2.name):'')+'</span><div class="muted">'+esc(r.comment||'')+'</div></div></div>';}).join('')+'</div>':'<div class="small muted mt8">まだ審査履歴はありません。</div>')
-    +'</div>'
+    +'</div>'+verificationPanelHTML(p,latestVerificationRun(p.id),true)+environmentalRecordPanelHTML(environmentalRecordFor(p.id))
     +'<div class="mt16"><b class="section-title">📒 このプロジェクトへの支援（台帳）</b><div class="card mt8">'+txTable(txs,null,false)+'</div></div>';
+}
+function pgVerificationWorkbench(id){
+  var pr=myProducer(),p=projectOf(id);
+  if(!p||!pr||p.producer_id!==pr.id) return '<div class="empty">プロジェクトが見つかりません。</div>';
+  var evs=db.evidences.filter(function(e){return e.project_id===p.id;});
+  var runs=verificationRunsFor(p.id),run=runs[0]||null,record=environmentalRecordFor(p.id);
+  return '<a class="small" href="#/producer/project/'+p.id+'">← プロジェクト管理へ戻る</a>'
+    +'<div class="card card-p mt16"><span class="eyebrow">IEEE ClimateChain workflow</span><h2 style="font-size:19px;font-weight:800;margin-top:6px">'+esc(p.title)+'</h2>'
+    +'<p class="small muted mt8">証拠取込 → 構造化・不足検知 → 決定論的チェック → 人間審査 → 検証済み環境記録、の一本線を実行します。</p>'
+    +'<div class="flow-step"><div class="n">1</div><div class="small"><b>Evidence</b><div class="muted">証憑 '+evs.length+'件を受領。実ファイルではなくメタデータを扱うPoCです。</div></div></div>'
+    +'<div class="flow-step"><div class="n">2</div><div class="small"><b>Assist & Structure</b><div class="muted">証憑説明を整理し、不足・未確定資料を提示します。</div></div></div>'
+    +'<div class="flow-step"><div class="n">3</div><div class="small"><b>Deterministic Verification</b><div class="muted">同じ入力には同じルールでREADY / NEEDS REVIEW / ABSTAINを返します。</div></div></div>'
+    +'<div class="flow-step"><div class="n">4</div><div class="small"><b>Human Review</b><div class="muted">最終承認は地域管理者。補助エンジンは状態を変更しません。</div></div></div>'
+    +'<div class="flow-step"><div class="n">5</div><div class="small"><b>Verified Environmental Record</b><div class="muted">承認後、入力指紋と前レコードをつないだ候補記録を作成します。</div></div></div>'
+    +'<div class="flex mt16 wrap"><button class="btn btn-p" onclick="runVerificationAssist(\''+p.id+'\')">証憑整理・検証補助を実行</button>'+(p.review_status==='draft'||p.review_status==='revision_required'?'<a class="btn btn-o" href="#/producer/new/'+p.id+'">証憑・項目を編集</a>':'')+'</div></div>'
+    +'<div class="g2 mt16" style="align-items:start"><div><b class="section-title">証憑セット</b><div class="card card-p mt8">'
+    +(evs.length?evs.map(function(e){return '<div class="small" style="padding:8px 0;border-bottom:1px dashed var(--line)"><b>📎 '+esc(e.file_name)+'</b><div class="tiny muted">'+esc(e.description||'説明なし')+'</div></div>';}).join(''):'<div class="empty">証憑がありません。編集画面から追加してください。</div>')
+    +'</div></div><div><b class="section-title">最新の検証結果</b>'+verificationPanelHTML(p,run,false)+environmentalRecordPanelHTML(record)+'</div></div>'
+    +(runs.length>1?'<div class="card card-p mt16"><b class="small">実行履歴（'+runs.length+'回）</b>'+runs.slice(1).map(function(r){return '<div class="between small mt8"><span>'+fmtDT(r.generated_at)+'｜<span class="mono tiny">'+esc(r.input_fingerprint)+'</span></span>'+verificationBadge(r.outcome)+'</div>';}).join('')+'</div>':'');
 }
 function pgProducerTx(){
   var pr=myProducer();
@@ -1291,7 +1638,7 @@ function adminRegionIds(){
   if(ids.length>1 && !S.adminRegion) return [ids[0]];
   return ids.length?[ids[0]]:[];
 }
-var ADMIN_TITLES = {home:'地域GXダッシュボード',reviews:'プロジェクト審査',projects:'地域プロジェクト',tx:'取引台帳',rewards:'GX還元チケット管理',audit:'監査ログ',reports:'レポート・CSV出力'};
+var ADMIN_TITLES = {home:'地域GXダッシュボード',reviews:'プロジェクト審査',projects:'地域プロジェクト',tx:'取引台帳',rewards:'GX還元チケット管理',records:'検証済み環境記録',audit:'監査ログ',reports:'レポート・CSV出力'};
 function adminShell(active, content){
   var ids=S.user.permitted_region_ids||[];
   var pending = db.projects.filter(function(p){return p.review_status==='pending_review'&&ids.indexOf(p.region_id)>=0;}).length;
@@ -1301,6 +1648,7 @@ function adminShell(active, content){
     {key:'projects',href:'#/admin/projects',icon:'📁',name:'地域プロジェクト'},
     {key:'tx',href:'#/admin/transactions',icon:'📒',name:'取引台帳'},
     {key:'rewards',href:'#/admin/rewards',icon:'🎫',name:'チケット管理'},
+    {key:'records',href:'#/admin/records',icon:'🔗',name:'検証済み記録'},
     {key:'audit',href:'#/admin/audit',icon:'🛡️',name:'監査ログ'},
     {key:'reports',href:'#/admin/reports',icon:'📄',name:'レポート・CSV'}];
   var switcher = ids.length>1 ? '<select class="select" style="width:auto" onchange="S.adminRegion=this.value;render()">'+ids.map(function(id){return '<option value="'+id+'"'+(adminRegionIds()[0]===id?' selected':'')+'>'+esc(regionName(id))+'</option>';}).join('')+'</select>' : '<span class="badge b-green">'+esc(regionName(adminRegionIds()[0]))+'</span>';
@@ -1366,6 +1714,7 @@ function modalReview(m){
   var pr2=producerOf(p.producer_id);
   var evs=db.evidences.filter(function(e){return e.project_id===p.id;});
   var revs=db.reviews.filter(function(r){return r.project_id===p.id;}).sort(function(a,b){return new Date(b.created_at)-new Date(a.created_at);});
+  var run=latestVerificationRun(p.id),record=environmentalRecordFor(p.id);
   return modalFrame('✅ プロジェクト審査', 
     '<div class="flex wrap mb8">'+catBadge(p.category)+rsBadge(p.review_status)+trustBadge(p.trust_score)+'</div>'
     +'<b>'+esc(p.title)+'</b><div class="tiny muted">'+esc(p.prefecture)+'・'+esc(p.municipality)+'（'+esc(p.area_name)+'）｜実施：'+esc(pr2?pr2.organization_name:'—')+'</div>'
@@ -1378,6 +1727,8 @@ function modalReview(m){
     +'<b>地域還元予定：</b>'+esc(p.regional_return_plan||'—')+'<br>'
     +'<b>連絡先：</b>'+esc(p.contact_email||'—')+(p.related_url?'<br><b>関連URL：</b>'+esc(p.related_url):'')+'</div>'
     +'<div class="mt16"><b class="small">📎 証憑・根拠資料（'+evs.length+'件）</b>'+(evs.length?evs.map(function(e){return '<div class="small" style="padding:6px 0;border-bottom:1px dashed var(--line)">📎 <b>'+esc(e.file_name)+'</b><span class="tiny muted">　'+esc(e.description)+'</span></div>';}).join(''):'<div class="tiny muted">証憑が登録されていません。差し戻しを検討してください。</div>')+'</div>'
+    +verificationPanelHTML(p,run,false)+environmentalRecordPanelHTML(record)
+    +'<button class="btn btn-o btn-sm mt8" onclick="runVerificationAssist(\''+p.id+'\')">検証補助を再実行</button>'
     +(revs.length?'<div class="mt16"><b class="small">過去の審査履歴</b>'+revs.slice(0,3).map(function(r){return '<div class="tiny muted" style="padding:4px 0">・'+fmtDT(r.created_at)+'　'+({approve:'承認',reject:'却下',request_revision:'差し戻し',suspend:'停止',submit:'提出'}[r.action]||r.action)+'：'+esc(r.comment||'')+'</div>';}).join('')+'</div>':'')
     +'<span class="label">審査コメント（事業者に表示されます）</span><textarea class="textarea" id="rv-comment" placeholder="例：証憑を確認しました。算定方法も妥当と判断し承認します。"></textarea>'
     +'<div class="flex mt16 wrap">'
@@ -1388,16 +1739,42 @@ function modalReview(m){
 }
 async function reviewAction(pjId, action){
   var p=projectOf(pjId);
+  if(!canReviewProject(p)||!({approve:1,request_revision:1,reject:1,suspend:1})[action]){toast('Human reviewer permission required',true);return;}
   var comment=document.getElementById('rv-comment').value.trim();
   if(action!=='approve'&&!comment){ toast('差し戻し・却下・停止にはコメントが必要です',true); return; }
+  var run=latestVerificationRun(p.id);
+  if(action==='approve'&&!run){ toast('承認前に証憑整理・検証補助を実行してください',true); return; }
+  if(action==='approve'&&!verificationRunIsCurrent(p,run)){ toast('入力または証憑が更新されています。検証補助を再実行してください',true); return; }
+  if(action==='approve'&&run.outcome==='abstain'&&comment.length<20){ toast('判定保留を上書きする理由を20文字以上で記録してください',true); return; }
+  if(action==='approve'){
+    if(['pending_review','revision_required','suspended'].indexOf(p.review_status)<0) return;
+    var actorId=S.user.id;
+    var prepared=buildEnvironmentalRecord(p,run,actorId,comment||'人間の審査者が証憑と算定根拠を確認しました。',(db.environmental_records[0]||{}).record_hash);
+    var checkedHash=await sha256Canonical(recordPayload(prepared));
+    if(!S.user||S.user.id!==actorId||!canReviewProject(p)||!verificationRunIsCurrent(p,run)||latestVerificationRun(p.id)!==run||['pending_review','revision_required','suspended'].indexOf(p.review_status)<0||checkedHash!==prepared.environmental_record_hash||prepared.previous_record_hash!==((db.environmental_records[0]||{}).record_hash||null)) return;
+  }
   var map={approve:'approved',request_revision:'revision_required',reject:'rejected',suspend:'suspended'};
   p.review_status=map[action]; p.status = action==='approve'?'active':'inactive';
   if(action==='approve'&&p.trust_score<70) p.trust_score=70;
   db.reviews.push({id:uid('rev'),project_id:p.id,reviewer_id:S.user.id,action:action,comment:comment||'承認します。',created_at:nowISO()});
+  if(run){ run.final_decision=map[action]; run.final_reviewer_id=S.user.id; run.final_decided_at=nowISO(); }
+  if(action==='approve') createEnvironmentalRecord(p,run,comment||'人間の審査者が証憑と算定根拠を確認しました。',prepared);
+  if(action==='suspend'){
+    var current=environmentalRecordFor(p.id); if(current) current.status='suspended_candidate';
+  }
   var lbl={approve:'承認',request_revision:'差し戻し',reject:'却下',suspend:'停止'}[action];
   audit('project_'+action,'carbon_project',p.id,'「'+p.title+'」を'+lbl+(comment?'（'+comment.slice(0,40)+'）':''));
   await saveDB();
   closeModal(); toast('プロジェクトを'+lbl+'しました');
+}
+function pgVerificationRecords(regionIds){
+  var records=(db.environmental_records||[]).filter(function(r){
+    var p=projectOf(r.project_id); return p&&(!regionIds||regionIds.indexOf(p.region_id)>=0);
+  });
+  return '<div class="notice-inline mb16"><b>Verified Environmental Record</b><br>証憑の入力指紋・検証結果・人間の最終判断・前レコードのハッシュを結びます。これは候補記録であり、正式なクレジット発行・移転・償却ではありません。</div>'
+    +'<div class="card"><div class="tbl-wrap"><table class="tbl"><thead><tr><th>記録</th><th>プロジェクト</th><th>検証結果</th><th>人間の最終確認</th><th>状態</th></tr></thead><tbody>'
+    +(records.length?records.map(function(r){var p=projectOf(r.project_id),u=r.final_reviewer_id?findUser(r.final_reviewer_id):null;return '<tr><td><div class="mono tiny" style="word-break:break-all">'+esc(r.record_hash)+'</div><div class="tiny muted">前: '+esc(r.previous_record_hash||'GENESIS')+'</div></td><td class="small"><b>'+esc(p.title)+'</b><div class="tiny muted">'+esc(p.prefecture)+'｜'+fmt(r.estimated_co2_reduction)+' t-CO2</div></td><td>'+verificationBadge(r.verification_outcome)+'</td><td class="small">'+esc(u?u.name:'—')+'<div class="tiny muted">'+fmtDT(r.approved_at)+'</div></td><td>'+environmentalRecordBadge(r.status)+'</td></tr>';}).join(''):'<tr><td colspan="5"><div class="empty">検証済み環境記録はまだありません。</div></td></tr>')
+    +'</tbody></table></div></div>';
 }
 function pgAdminProjects(){
   var rid=adminRegionIds()[0];
@@ -1541,7 +1918,7 @@ function pgMerchant(){
 </script>
 <script>
 /* ---------- platform ---------- */
-var PLAT_TITLES = {home:'全国横断ダッシュボード',regions:'地域管理',projects:'全国プロジェクト',tx:'全国取引台帳',audit:'監査ログ',reports:'レポート・CSV出力',settings:'システム設定'};
+var PLAT_TITLES = {home:'全国横断ダッシュボード',regions:'地域管理',projects:'全国プロジェクト',tx:'全国取引台帳',records:'検証済み環境記録',audit:'監査ログ',reports:'レポート・CSV出力',settings:'システム設定'};
 function platformShell(active, content){
   var pending=db.projects.filter(function(p){return p.review_status==='pending_review';}).length;
   var nav=[{label:'全国管理'},
@@ -1549,6 +1926,7 @@ function platformShell(active, content){
     {key:'regions',href:'#/platform/regions',icon:'📍',name:'地域管理'},
     {key:'projects',href:'#/platform/projects',icon:'📁',name:'全国プロジェクト'+(pending?' ('+pending+')':'')},
     {key:'tx',href:'#/platform/transactions',icon:'📒',name:'全国取引台帳'},
+    {key:'records',href:'#/platform/records',icon:'🔗',name:'検証済み記録'},
     {key:'audit',href:'#/platform/audit',icon:'🛡️',name:'監査ログ'},
     {key:'reports',href:'#/platform/reports',icon:'📄',name:'レポート・CSV'},
     {key:'settings',href:'#/platform/settings',icon:'⚙️',name:'システム設定'}];
@@ -1588,7 +1966,7 @@ function pgPlatformHome(){
     +statCard('累計支援額',fmtInt(st.supported),'pt','全国合計')
     +statCard('ポイント流通量',fmtInt(st.circulation),'pt','NaFTポイント取引合計')
     +statCard('推定CO2削減（進捗換算）',fmt(st.co2),'t-CO2','承認済みプロジェクト')
-    +statCard('チケット',st.ticketsIssued,'枚 発行','利用済み '+st.ticketsUsed+'枚')
+    +statCard('検証済み候補記録',(db.environmental_records||[]).filter(function(r){return r.status==='verified_candidate';}).length,'件','人間承認＋ハッシュ連結')
     +'</div>'
     +'<div class="g2 mt24" style="align-items:start">'
     +'<div class="card card-p"><b class="section-title">🗾 都道府県別 支援額ランキング</b><div class="mt16">'
@@ -1653,7 +2031,7 @@ function pgPlatformReports(){
 }
 function pgPlatformSettings(){
   return '<div style="max-width:560px"><div class="card card-p"><b class="section-title">システム情報</b>'
-    +'<div class="small mt8" style="line-height:2.2"><b>バージョン：</b>NaFT PoC v1.0<br><b>データ保存：</b>'+(window.storage?'永続ストレージ（セッションをまたいで保存されます）':'メモリ内（このセッション限り）')+'<br>'
+    +'<div class="small mt8" style="line-height:2.2"><b>バージョン：</b>NaFT PoC v2.0 IEEE MRV<br><b>データ保存：</b>'+(window.storage?'永続ストレージ（セッションをまたいで保存されます）':'メモリ内（このセッション限り）')+'<br>'
     +'<b>オンチェーン連携：</b><span class="badge b-gray">未接続（Web3拡張用カラムは全取引に確保済み）</span><br>'
     +'<b>登録データ：</b>ユーザー '+db.users.length+'／地域 '+db.regions.length+'／プロジェクト '+db.projects.length+'／取引 '+db.transactions.length+'／監査ログ '+db.audit_logs.length+'</div></div>'
     +'<div class="card card-p mt16" style="border-color:#e5b8b4"><b class="section-title" style="color:var(--red)">デモデータのリセット</b>'

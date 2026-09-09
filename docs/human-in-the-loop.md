@@ -1,6 +1,6 @@
 # Human-in-the-loop 設計原則
 
-NaFTにおけるAIの役割は「**人間の判断を補助する**」ことに限定されます。意思決定の自動化は行いません。
+IEEE実装は **Deterministic Verification Assist** であり、AIモデルを実行しません。将来導入するAIの役割は「**人間の判断を補助する**」ことに限定されます。意思決定の自動化は行いません。
 
 ## 原則
 
@@ -20,8 +20,22 @@ NaFTにおけるAIの役割は「**人間の判断を補助する**」ことに�
 | 文章補助 | プロジェクト説明・審査コメントの下書き | 内容の確認・確定 |
 | レポート補助 | PoCレポート草稿の生成 | 数値検証・提出判断 |
 
+## IEEE ClimateChain PoCでの実装
+
+- `runVerificationAssist()` は外部AI APIを呼ばない Deterministic Verification Assist。証憑メタデータを構造化し、不足・未確定資料を提示する。
+- `buildVerificationAssessment()` は同一入力から同一の `input_fingerprint` とチェック結果を作る。結果は `ready_for_human_review / needs_review / abstain` の3段階。
+- `abstain` は「不合格」ではなく「補助層が結論を出さない」。人間が上書き承認する場合は20文字以上の理由を必須とする。
+- 補助実行後も `review_status` は変化しない。`verification_runs.final_decision` と `environmental_records` は、人間が審査ボタンを押した時だけ更新・作成する。
+- 画面には常に「Deterministic Verification Assist」と表示し、最終判断者・日時・コメントを記録する。
+
 ## 実装ガードレール（AIエージェント向け）
 
 - `reviewAction()` を UI 操作以外から呼ぶコードを追加しない。
 - `addTx()` / `w.naft_point_balance` を変更する新規コードパスには、必ず対応する人間操作（ボタン等）と `audit()` を伴わせる。
 - 「AI審査済み」「自動承認」等のラベル・状態を追加しない。
+
+## Candidate issuance and retirement gate
+
+Human approval is enforced at the action boundary, including reviewer role and permitted region. Stale input requires another readiness run and explicit human decision. `NEEDS_REVIEW` never silently passes; `ABSTAIN` approval requires at least 20 trimmed characters explaining the human override. Character count cannot judge substantive adequacy and is disclosed as a prototype limitation.
+
+Candidate issuance requires the approved record and approved run, a current input fingerprint, record-hash integrity, and the human reviewer identity. Readiness alone cannot issue. An operator may issue only their own approved project; simulated transfers and retirements require a scoped human reviewer. Retirement additionally requires a reason and positive available holder balance. There is no automatic review, issuance, transfer or retirement timer.
