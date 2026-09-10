@@ -1,23 +1,20 @@
-# 開発ロードマップ
+# NaFT roadmap — Primary Industry MRV Infrastructure
 
-## フェーズ概観
+## Implemented prototype
 
-| Phase | 期間目安 | 内容 | 法務ゲート |
-|---|---|---|---|
-| **0. PoC** | 完了 | 単一HTML SPA・全ロール全フロー・テスト46項目・ドキュメント整備 | — |
-| **0.5 IEEE ClimateChain MRV** | 完了 | 証憑整理・不足検知・決定論的3値判定・HITL・ハッシュ連結候補記録・英語デモ入口・テスト63項目 | — |
-| **1. 構造化・公開** | 〜1ヶ月 | GitHub公開、ISSUES_BACKLOG消化、モジュール分割（architecture §5） | — |
-| **2. サーバー実装** | 2〜3ヶ月 | Next.js + PostgreSQL(RLS)へ移行。権限・残高検証のサーバー側強制、証憑ファイル+ハッシュ保存 | — |
-| **3. AI審査補助（HITL）** | 2ヶ月 | IEEE版のローカル補助アダプタを、サーバー側の文書解析・方法論照合へ置換。AI関与の監査ログと有効性を評価（human-in-the-loop.md準拠） | — |
-| **4. 地域クローズド実証** | 2〜3ヶ月 | 1地域・市民50〜100名。参加動機・継続率・チケット利用率・審査工数を計測しPoCレポート化 | ゲート1（弁護士レビュー） |
-| **5. 制度接続設計** | 実証と並行 | J-クレジット等の手前工程としての接続設計、MRV連携仕様 | ゲート2〜3 |
-| **6. Web3テストネット検証** | 法務レビュー後 | contracts/ 雛形のテストネット検証（メインネット・実価値接続は行わない） | ゲート4 |
+Generic IEEE evidence/readiness/human review/candidate record/unit transfer/retirement with local duplicate guards remains available at `#/ieee`. The separate `#/primary-mrv` adds AG-005 reference checks, actual-byte evidence hashes, field/activity identity, audit verification, reviewed draft Monitoring Package JSON and Program aggregation. See [implementation scope](primary-industry-mrv.md) and [test report](test-report.md).
 
-## 未踏アドバンスト期間（約9ヶ月）へのマッピング
+## Partial / configuration required
 
-- **前半（〜中間報告）**: Phase 1–2 完了 + Phase 3 プロトタイプ。中間デモ = サーバー版 + AI審査補助の初版。
-- **後半（〜成果報告）**: Phase 4 実証実施と計測、Phase 5 設計書、成果報告 = 実証データに基づく「市民参加型GXプロトコル」の有効性評価。
+The AG-005 pack references an official public-comment v3.1 document. Current adopted status and coefficient applicability are unconfirmed. Calculated reduction `result` stays null; supplied parameters can only produce an arithmetic preview. Land changes and a complete methodology implementation are absent. Draft package acceptance by a third-party verifier has not been demonstrated.
 
-## 計測するKPI（実証時）
+## Mitou research and development
 
-参加市民数／支援実行率／一人当たり支援回数／チケット発行→利用転換率／事業者の登録所要時間／審査1件あたり所要時間（AI補助あり/なし比較）／管理者の差し戻し理由分布／ダッシュボード閲覧による自治体側の意思決定事例数
+1. Versioned multi-methodology rules (including AG-004), DSL/configuration and expert-reviewed coefficients/exception semantics.
+2. Provenance graph, secure evidence storage and independent audit anchors.
+3. Server-side authorization, tenant isolation, transactional uniqueness and concurrent balance/accounting guarantees.
+4. Large Program aggregation, amendment/rejection workflows and cross-project/field-alias/geometry duplicate detection.
+5. External verifier interface and conditionally authorized registry-adapter specification.
+6. Quantitative evaluation and consent-based field PoC, using the KPIs in [Mitou concept](mitou-advanced-concept.md).
+
+These are research/deployment requirements, not implemented features or commitments to issue credits. Framework/database choices remain open; a full Next.js/PostgreSQL migration is not part of this change. Blockchain, crypto, payments, tokenomics and autonomous certification are not objectives.

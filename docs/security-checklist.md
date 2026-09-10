@@ -41,4 +41,12 @@ grep -rniE 'axios|supabase|firebase|openai|anthropic|alchemy|infura|walletconnec
 
 ## IEEE lifecycle regression checks
 
-`bash tests/run.sh` includes `tests/security.sh`: prohibited network/secret patterns, tracked `.env` rejection and working-tree whitespace. CI also checks committed whitespace. Candidate accounting is isolated under `CANDIDATE_SIMULATION`; no wallet, point or real-money movement is added. SHA-256 provenance is not a signature or protection against total local state replacement. The current result is 137 passing assertions; browser layout validation is explicitly outstanding (Cloud Browser URL policy).
+`bash tests/run.sh` includes `tests/security.sh`: prohibited network/secret patterns, tracked `.env` rejection and working-tree whitespace. CI also checks committed whitespace. Candidate accounting is isolated under `CANDIDATE_SIMULATION`; no wallet, point or real-money movement is added. SHA-256 provenance is not a signature or protection against total local state replacement. The IEEE baseline is 137 passing assertions; browser layout validation is explicitly outstanding (Cloud Browser URL policy).
+
+## Primary MRV checks (2026-09-10)
+
+Implemented: actual-byte SHA-256 and metadata-bound manifests; MATCH/MISMATCH rechecks; mismatch/stale/record-integrity gates; active-user/role/ownership checks; after-await actor/snapshot revalidation; exact/overlapping field-activity guards; refusal of duplicate candidate decisions; historical audit anchor and event-chain verification. JSON rendering escapes untrusted data; internal IDs are generated rather than imported. Audit proof exports do not disclose unrelated programs' event histories.
+
+`bash tests/run.sh` verifies existing IEEE behavior plus positive/negative methodology cases, including mismatched files, altered events/checkpoints, broken-chain action/export refusal and another producer's access attempt. No new network request, SDK, storage backend, secrets or contract features were added. CI now also triggers on `feat/**` pushes.
+
+Production requirements remain server authentication/authorization, evidence access control/storage and retention, transactional uniqueness, independent audit witnessing, tenant isolation and a verifier-reviewed methodology configuration. Client role checks and hashes are prototype controls, not a production trust boundary. See [test-report.md](test-report.md) for the actual final count.

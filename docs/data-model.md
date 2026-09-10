@@ -1,6 +1,6 @@
 # NaFT データモデル
 
-単一JSONドキュメント（storage key: `naft_db_v1`）内の17コレクション。ID規約: `u_*`(users) / `w`(wallets) / `r`(regions) / `p`(producers) / `pj`(projects) / `ev` / `rw` / `ur` / `tx` / `rev` / `al` / `rsv` / `vr` / `er`。シードデータはプレフィックス+連番（`u1`,`pj1`…）。DB version 2で `verification_runs` と `environmental_records` を追加し、version 1の保存データは読込時に空配列を補完する。
+単一JSONドキュメント（storage key: `naft_db_v1`）内の26コレクション（DB version 3 + primary_schema_version 1）。ID規約: `u_*`(users) / `w`(wallets) / `r`(regions) / `p`(producers) / `pj`(projects) / `ev` / `rw` / `ur` / `tx` / `rev` / `al` / `rsv` / `vr` / `er`。シードデータはプレフィックス+連番（`u1`,`pj1`…）。DB version 2で `verification_runs` と `environmental_records` を追加し、version 1の保存データは読込時に空配列を補完する。
 
 ## ER概略
 
@@ -130,3 +130,25 @@ All successful lifecycle changes also use `addTx()` with `token_type: CANDIDATE_
 
 Audit successes: `candidate_unit_issued`, `candidate_unit_transferred`, `candidate_unit_retired`.
 Audit rejections: `candidate_unit_issue_blocked`, `candidate_unit_transfer_blocked`, `candidate_unit_retirement_blocked`, with reason code. `DUPLICATE_ISSUANCE_BLOCKED`, `RETIRED_UNITS_CANNOT_BE_REUSED`, `AVAILABLE_QUANTITY_EXCEEDED`, `HOLDER_BALANCE_EXCEEDED`, stale/authorization/integrity failures persist without changing a unit balance.
+
+## Primary schema 1 (additive to DB v3)
+
+| Collection | Key fields / relation |
+|---|---|
+| programs | id, name, owner_user_id, created_at |
+| farmers | id, name, program_id |
+| fields | id, field_id (normalized external identity), farmer_id, program_id, area_ha, region |
+| activities | id, program_id, farmer_id, field_ref, field_id, field_area_ha, region, methodology_id/version, activity_year, crop_year, project_start_year, activity_type, activity_start/end, baseline_periods[], project_drainage, sustainability_confirmed, land_change, calculation_parameters, created_by/at |
+| evidence_manifests | evidence_id, activity_id, hash, hash_algorithm, byte_length, actor, created_at, activity_period, field_id, methodology_id, evidence_type, crop_year, original_filename, source, review_status, content_storage, manifest_hash |
+| evidence_content_checks | id, evidence_id, hash of reselected bytes, result (MATCH/MISMATCH), actor, created_at |
+| methodology_runs | id, activity_id, created_by/at, methodology/rule versions, checks[], eligibility_status, baseline/project/extension days, evidence_completeness, calculation_readiness, calculation, reviewer_status (pending assist result), warnings, input_fingerprint, run_hash |
+| primary_reviews | id, activity_id, run_id, reviewer, decision, note, created_at; separate human decision history |
+| primary_records | id, activity_id, program_id, field/method/activity/period identity, field_identity_hash, input_fingerprint, run_id, reviewer, review_timestamp/note, reviewer_status, status, credit_status, snapshot, assessment, audit_chain_reference, candidate_record_hash |
+
+Baseline/project drainage periods contain start, end and heading_date; baseline rows additionally contain crop_year. Calculation parameters contain baseline_ef, project_ef, gwp_ch4, coefficient_source, coefficient_version and stratum. No official coefficient defaults are stored. Calculation output preserves inputs, rule_version, calculation_version, formula, result (null), optional arithmetic_preview, unit, warnings and missing_parameters.
+
+`primary_records.status = candidate_reviewed_draft`; `credit_status = candidate_not_formally_issued`. Manifest review_status stays pending as ingestion metadata; the separate human decision/record and exported evidence_review identify the review. No approval is inferred from file ingestion or a readiness PASS.
+
+`audit_logs` keep prior names: created_at is timestamp, actor_user_id is actor, entity_type/entity_id are target. New fields are sequence, previous_hash, payload_digest and event_hash. Root `audit_chain` contains legacy_count, legacy_digest, event_count and head_hash. Legacy rows are unchanged. Root `primary_schema_version` marks the one-time migration.
+
+Monitoring Package JSON is an export, not an additional collection. It contains the reviewed snapshot, manifests, field identity, rule reference, checks, calculation, decision, warnings, missing items, audit reference/current verification and candidate hash. Original file bodies and unrelated audit events are excluded. Program area sums distinct field rows once, not annual activity rows.

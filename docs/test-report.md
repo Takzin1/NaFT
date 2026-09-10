@@ -1,6 +1,24 @@
-# Test report — IEEE candidate lifecycle
+# Test report — Primary Industry MRV and IEEE lifecycle
 
-## Results
+## Primary Industry MRV result (2026-09-10)
+
+Starting main: `3c4008c3427938b313cb2a752b558fee2b7ce2e1`, **137 passed / 0 failed**.
+Final: **231 passed / 0 failed**, **94 additional assertions**. All original 137 assertions are retained unchanged.
+
+```
+syntax: OK
+RESULT: 231 passed, 0 failed / tx=8, audit=21
+security and whitespace: OK
+```
+
+The added assertions cover reference AG-005 threshold/rounding, missing evidence, invalid dates, leap years, heading cutoff, invalid/replayed baseline intervals, unsupported land changes, field/activity exact and partial overlaps, different crop years, 100-farmer/500-ha aggregation, SHA-256 of binary content and Web Crypto parity, manifest binding, correct evidence year/period, changed-byte rechecks, empty/oversized files, async role change, human/ownership gates, stale/tampered runs and records, rejection replay, duplicate approval, deterministic arithmetic/export, unresolved configuration, monitoring contents, event/legacy/checkpoint tampering and broken-chain refusal.
+
+Rendered primary-route handlers are exercised for role switches, draft registration, actual selected-file hashing, explicitly synthetic demo files, readiness, human approval, JSON export, one-click duplicate BLOCK and VALID/BROKEN display. This is a Node DOM stub, not a real browser or external-verifier acceptance test. Existing IEEE handlers still complete issuance, transfer, retirement and both double-counting blocks.
+
+Run `bash tests/run.sh`; it checks syntax, all assertions, prohibited network/secret patterns, tracked environment files and whitespace. The index redirect is separately syntax-checked during final review. No dependencies were added. CI runs the same gate on pull requests and main/codex/feat pushes; the final pushed commit's actual CI result is recorded in the PR.
+
+## Historical IEEE results
+
 
 Baseline at `fe70f544436b520fceb9ef03f3ffc4adb894465f`: **63 passed, 0 failed**.
 Final local run (2026-09-08): **137 passed, 0 failed**; **74 added assertions**.

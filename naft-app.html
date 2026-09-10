@@ -395,9 +395,9 @@ function seedDB(){
   var er1=buildEnvironmentalRecord(projects[0],verificationRuns[0],'u4','証憑・算定根拠を人間が確認しました。',null,daysAgo(50),'er1');
   var er2=buildEnvironmentalRecord(projects[1],verificationRuns[1],'u3','施用記録と炭化炉の稼働状況を人間が確認しました。',er1.record_hash,daysAgo(44),'er2');
   var environmentalRecords=[er2,er1];
-  return {version:3,candidate_units:[],unit_transfers:[],unit_retirements:[],users:users,regions:regions,wallets:wallets,producers:producers,projects:projects,evidences:evidences,
+  return ensurePrimarySchema({version:3,candidate_units:[],unit_transfers:[],unit_retirements:[],users:users,regions:regions,wallets:wallets,producers:producers,projects:projects,evidences:evidences,
     rewards:rewards,user_rewards:userRewards,transactions:transactions,reviews:reviews,audit_logs:auditLogs,reservations:[],
-    verification_runs:verificationRuns,environmental_records:environmentalRecords};
+    verification_runs:verificationRuns,environmental_records:environmentalRecords});
 }
 
 var db = null;
@@ -411,6 +411,7 @@ async function loadDB(){
   ['candidate_units','unit_transfers','unit_retirements'].forEach(function(k){if(!db[k]){db[k]=[];migrated=true;}});
   db.verification_runs.forEach(function(r){r.assistant_label='Deterministic Verification Assist';});
   if(db.version<3){ db.version=3; migrated=true; }
+  if(!db.primary_schema_version){ensurePrimarySchema(db);migrated=true;}
   if(migrated) await saveDB();
 }
 async function saveDB(){ await store.set(DB_KEY, JSON.stringify(db)); }
@@ -427,7 +428,9 @@ function rewardOf(id){ return db.rewards.find(function(r){return r.id===id;}); }
 function regionName(id){ var r=regionOf(id); return r?r.name:'—'; }
 function producerName(id){ var p=producerOf(id); return p?p.organization_name:'—'; }
 function audit(action,entityType,entityId,note){
-  db.audit_logs.unshift({id:uid('al'),actor_user_id:S.user?S.user.id:'system',action:action,entity_type:entityType,entity_id:entityId,note:note,created_at:nowISO()});
+  ensurePrimarySchema(db);
+  var e={id:uid('al'),actor_user_id:S.user?S.user.id:'system',action:action,entity_type:entityType,entity_id:entityId,note:note,created_at:nowISO(),previous_hash:db.audit_chain.head_hash,sequence:db.audit_chain.event_count+1,payload_digest:primaryHash(note)};
+  e.event_hash=primaryHash(e);db.audit_logs.unshift(e);db.audit_chain.event_count++;db.audit_chain.head_hash=e.event_hash;return e;
 }
 function addTx(o){
   var r = o.region_id ? regionOf(o.region_id) : null;
@@ -449,7 +452,10 @@ function canonicalize(value){
 }
 // Standard SHA-256 fallback keeps synchronous rendering and offline fixtures portable.
 function digestText(value){
-  var bytes=Array.from(new TextEncoder().encode(String(value))),bitLength=bytes.length*8;
+  return digestBytes(new TextEncoder().encode(String(value)));
+}
+function digestBytes(input){
+  var bytes=Array.from(input),bitLength=bytes.length*8;
   bytes.push(128); while(bytes.length%64!==56) bytes.push(0);
   for(var j=7;j>=0;j--) bytes.push(Math.floor(bitLength/Math.pow(256,j))&255);
   var h=[0x6a09e667,0xbb67ae85,0x3c6ef372,0xa54ff53a,0x510e527f,0x9b05688c,0x1f83d9ab,0x5be0cd19];
@@ -706,6 +712,7 @@ function route(p){
   if(seg==='market') return pgPublicMarket();
   if(seg==='project') return pgProjectDetail(p[1], true);
   if(seg==='ieee') return pgIEEEDemo();
+  if(seg==='primary-mrv') return pgPrimaryMRV();
   if(seg==='login') return pgLogin();
   if(seg==='register') return pgRegister();
   if(seg==='onboarding') return S.user ? pgOnboarding() : pgLogin();
@@ -870,7 +877,7 @@ function modalQR(m){
 /* ---------- public: landing ---------- */
 function pubHeader(){
   return '<header class="pub-head"><div class="in">'+logoHTML(false)
-    +'<nav class="pub-nav"><a href="#/#problem">課題</a><a href="#/#solution">仕組み</a><a href="#/#features">機能</a><a href="#/#usecases">活用例</a><a href="#/market">マーケット</a><a href="#/ieee">IEEE Demo</a><a href="#/#compliance">コンプライアンス</a></nav>'
+    +'<nav class="pub-nav"><a href="#/#problem">課題</a><a href="#/#solution">仕組み</a><a href="#/#features">機能</a><a href="#/#usecases">活用例</a><a href="#/market">マーケット</a><a href="#/ieee">IEEE Demo</a><a href="#/primary-mrv">Primary MRV</a><a href="#/#compliance">コンプライアンス</a></nav>'
     +'<div class="flex">'+(S.user?'<a class="btn btn-p" href="'+roleHome(S.user.role)+'">マイページへ</a>':'<a class="btn btn-ghost" href="#/login">ログイン</a><a class="btn btn-p" href="#/register">無料で始める</a>')+'</div>'
     +'</div></header>';
 }
@@ -1475,6 +1482,7 @@ function producerShell(active, content){
     {key:'home',href:'#/producer',icon:'🏠',name:'ホーム'},
     {key:'projects',href:'#/producer/projects',icon:'📁',name:'マイプロジェクト'},
     {key:'new',href:'#/producer/new',icon:'➕',name:'プロジェクト登録'},
+    {key:'primary',href:'#/primary-mrv',icon:'🌾',name:'Primary MRV'},
     {key:'tx',href:'#/producer/transactions',icon:'📒',name:'関連取引'},
     {label:'マーケット'},
     {key:'market',href:'#/market',icon:'🌏',name:'全国マーケット'}];
@@ -1924,6 +1932,7 @@ function platformShell(active, content){
   var nav=[{label:'全国管理'},
     {key:'home',href:'#/platform',icon:'🗾',name:'全国ダッシュボード'},
     {key:'regions',href:'#/platform/regions',icon:'📍',name:'地域管理'},
+    {key:'primary',href:'#/primary-mrv',icon:'🌾',name:'Primary MRV'},
     {key:'projects',href:'#/platform/projects',icon:'📁',name:'全国プロジェクト'+(pending?' ('+pending+')':'')},
     {key:'tx',href:'#/platform/transactions',icon:'📒',name:'全国取引台帳'},
     {key:'records',href:'#/platform/records',icon:'🔗',name:'検証済み記録'},
@@ -2047,6 +2056,264 @@ async function execReset(){
   await resetDB();
   S.user=null; await store.del(SES_KEY);
   S.modal=null; toast('初期データにリセットしました'); go('#/');
+}
+
+/* ---------- Primary Industry MRV: reference-snapshot prototype, not certification ---------- */
+var AG005_RULE = Object.freeze({methodology_id:'AG-005',methodology_version:'3.1-reference',rule_version:'naft-ag005-0.1',
+  source:'https://public-comment.e-gov.go.jp/pcm/download?seqNo=0000281460',source_checked_at:'2026-09-10',
+  source_status:'public_comment_reference_adoption_unconfirmed',current_version_verified:false,minimum_extension_days:7,minimum_baseline_years:2});
+var METHODOLOGY_RULE_PACKS = {'AG-005':AG005_RULE};
+var PRIMARY_BOUNDARY = 'Methodology-aware Demo / Off-chain Prototype. PASS means NaFT internal readiness only. Not J-Credit certification. No external registry, issuance, sale or formal retirement.';
+function primaryHash(v){return digestText(canonicalize(v));}
+function primaryClone(v){return JSON.parse(JSON.stringify(v));}
+function ensurePrimarySchema(d){
+  ['programs','farmers','fields','activities','evidence_manifests','methodology_runs','primary_records','primary_reviews','evidence_content_checks'].forEach(function(k){if(!d[k]) d[k]=[];});
+  // Historical events are anchored as legacy bytes; this does not attest their original creation.
+  if(!d.primary_schema_version){
+    d.primary_schema_version=1;
+    d.audit_chain={legacy_count:d.audit_logs.length,legacy_digest:primaryHash(d.audit_logs),event_count:0,head_hash:primaryHash(d.audit_logs)};
+  }
+  return d;
+}
+function auditEventPayload(e){var p=Object.assign({},e);delete p.event_hash;return p;}
+function verifyAuditChain(d){
+  d=d||db;var c=d.audit_chain;
+  if(!c||!Array.isArray(d.audit_logs)) return {status:'BROKEN',reason:'MISSING_ANCHOR'};
+  var logs=d.audit_logs, n=c.event_count;
+  if(!Number.isInteger(n)||n<0||!Number.isInteger(c.legacy_count)||c.legacy_count<0||logs.length!==n+c.legacy_count) return {status:'BROKEN',reason:'COUNT_MISMATCH'};
+  var legacy=logs.slice(n),head=primaryHash(legacy);
+  if(head!==c.legacy_digest) return {status:'BROKEN',reason:'LEGACY_CHANGED'};
+  for(var i=n-1;i>=0;i--){var e=logs[i];
+    if(!e||typeof e!=='object'||e.sequence!==n-i||e.previous_hash!==head||e.payload_digest!==primaryHash(e.note)||e.event_hash!==primaryHash(auditEventPayload(e))) return {status:'BROKEN',reason:'EVENT_CHANGED',event_id:e.id};
+    head=e.event_hash;
+  }
+  return head===c.head_hash?{status:'VALID',event_count:n,legacy_count:c.legacy_count,head_hash:head}:{status:'BROKEN',reason:'HEAD_MISMATCH'};
+}
+async function hashEvidenceBytes(bytes){
+  var copy=new Uint8Array(bytes); // Copy before awaiting, so caller cannot alter an in-flight digest.
+  if(typeof crypto!=='undefined'&&crypto.subtle){try{
+    var result=await crypto.subtle.digest('SHA-256',copy);
+    return Array.from(new Uint8Array(result)).map(function(n){return ('0'+n.toString(16)).slice(-2);}).join('');
+  }catch(e){ /* Identical standard SHA-256 fallback. */ }}
+  return digestBytes(copy);
+}
+function primaryUser(){var u=S.user&&findUser(S.user.id);return u&&u.status==='active'&&u.role===S.user.role?u:null;}
+function primaryCanReview(){var u=primaryUser();return !!(u&&isPlatformRole(u.role));}
+function primaryCanOperate(program){var u=primaryUser();return !!(u&&(isPlatformRole(u.role)||(u.role==='producer'&&program&&program.owner_user_id===u.id)));}
+function primaryActivity(id){return db.activities.find(function(a){return a.id===id;});}
+function primaryProgram(a){return a&&db.programs.find(function(p){return p.id===a.program_id;});}
+function primaryGuard(a,review){
+  if(!a||primaryActivity(a.id)!==a) throw new Error('ACTIVITY_NOT_FOUND');
+  if(!(review?primaryCanReview():primaryCanOperate(primaryProgram(a)))) throw new Error('ROLE_BLOCKED');
+  if(verifyAuditChain().status!=='VALID') throw new Error('AUDIT_CHAIN_BROKEN');
+}
+function primaryIdentity(a){
+  var p={};['field_id','methodology_id','crop_year','activity_type','activity_start','activity_end'].forEach(function(k){p[k]=a[k];});
+  return {canonical:p,hash:primaryHash(p)};
+}
+function primaryConflict(a,collection){return (collection||db.activities).find(function(b){return b.id!==a.id&&b.field_id===a.field_id&&b.methodology_id===a.methodology_id&&b.activity_type===a.activity_type&&
+  (primaryIdentity(a).hash===(b.field_identity_hash||primaryIdentity(b).hash)||(a.activity_start<=b.activity_end&&a.activity_end>=b.activity_start));});}
+function isoDay(s){if(typeof s!=='string'||!/^\d{4}-\d{2}-\d{2}$/.test(s)) return null;var n=Date.parse(s+'T00:00:00Z');return Number.isFinite(n)&&new Date(n).toISOString().slice(0,10)===s?n:null;}
+function inclusiveDays(start,end){var s=isoDay(start),e=isoDay(end);return s===null||e===null||e<s?null:(e-s)/86400000+1;}
+function drainageDays(p){
+  if(!p||isoDay(p.heading_date)===null||inclusiveDays(p.start,p.end)===null||p.heading_date<=p.start) return null;
+  var end=p.end<p.heading_date?p.end:new Date(isoDay(p.heading_date)-86400000).toISOString().slice(0,10);
+  return inclusiveDays(p.start,end);
+}
+function primaryEvidence(a){return db.evidence_manifests.filter(function(e){return e.activity_id===a.id;}).sort(function(x,y){return x.evidence_id.localeCompare(y.evidence_id);});}
+function manifestPayload(e){var p=Object.assign({},e);delete p.manifest_hash;return p;}
+function evidenceMismatches(a){return primaryEvidence(a).filter(function(e){var last=db.evidence_content_checks.filter(function(c){return c.evidence_id===e.evidence_id;}).slice(-1)[0];return last&&last.result==='MISMATCH';}).map(function(e){return e.evidence_id;});}
+function primarySnapshot(a){return {content_mismatches:evidenceMismatches(a),activity:primaryClone(a),field:primaryClone(db.fields.find(function(f){return f.id===a.field_ref;})||null),farmer:primaryClone(db.farmers.find(function(f){return f.id===a.farmer_id;})||null),program:primaryClone(primaryProgram(a)||null),evidence:primaryClone(primaryEvidence(a)),rule:AG005_RULE};}
+function calculateAG005(a){
+  // Reference equations 1, 2, 4; no invented emission factors or GWP default.
+  var c=a.calculation_parameters||{}, missing=['baseline_ef','project_ef','gwp_ch4','coefficient_source','coefficient_version','stratum'].filter(function(k){return c[k]===undefined||c[k]===null||c[k]==='';});
+  var invalid=['baseline_ef','project_ef','gwp_ch4'].some(function(k){return c[k]!==undefined&&c[k]!==null&&(typeof c[k]!=='number'||!Number.isFinite(c[k])||c[k]<=0);});
+  if(c.baseline_ef<c.project_ef) invalid=true;
+  if(typeof a.field_area_ha!=='number'||!Number.isFinite(a.field_area_ha)||a.field_area_ha<=0) invalid=true;
+  var preview=null;
+  if(!missing.length&&!invalid){preview=a.field_area_ha*(c.baseline_ef-c.project_ef)*(16/12)*c.gwp_ch4*0.001;if(!Number.isFinite(preview)){preview=null;invalid=true;}}
+  return {label:'Calculation Assist / Pre-verification Estimate',inputs:{area_ha:a.field_area_ha,parameters:primaryClone(c)},rule_version:AG005_RULE.rule_version,calculation_version:'naft-ag005-equations-0.1',
+    formula:'ER = A_ha * (EF_baseline - EF_project) * (16/12) * GWP_CH4 * 0.001; EF in kg-CH4-C/ha/year',
+    result:null,arithmetic_preview:preview,unit:'tCO2e/year',status:invalid?'INVALID':'CONFIG REQUIRED',
+    warnings:['Latest adopted methodology and applicable coefficients are not confirmed. Arithmetic preview uses supplied parameters only; it is not an eligible reduction or certified quantity.'],
+    missing_parameters:missing.concat(['current_adopted_methodology_confirmation','coefficient_applicability_review'])};
+}
+function assessAG005(a){
+  var ev=primaryEvidence(a), checks=[],missing=[];
+  function check(id,status,note){checks.push({id:id,status:status,note:note});}
+  var required=['methodology_id','methodology_version','field_id','farmer_id','activity_year','crop_year','project_start_year','region','activity_type','activity_start','activity_end'];
+  var absent=required.filter(function(k){return a[k]===undefined||a[k]===null||a[k]==='';});
+  check('identity',absent.length?'MISSING':'PASS',absent.join(', '));
+  check('methodology',a.methodology_id==='AG-005'&&a.methodology_version===AG005_RULE.methodology_version?'PASS':'FAIL','Reference snapshot only; adopted version requires confirmation.');
+  var period=inclusiveDays(a.activity_start,a.activity_end),yearOK=Number.isInteger(a.crop_year)&&Number.isInteger(a.activity_year)&&Number.isInteger(a.project_start_year)&&a.project_start_year<=a.crop_year&&a.activity_year===a.crop_year&&String(a.activity_start||'').slice(0,4)===String(a.crop_year)&&String(a.activity_end||'').slice(0,4)===String(a.crop_year);
+  var pd=drainageDays(a.project_drainage);
+  check('activity_period',period&&yearOK&&pd!==null&&a.project_drainage.start>=a.activity_start&&a.project_drainage.end<=a.activity_end&&a.project_drainage.heading_date<=a.activity_end?'PASS':'FAIL','Dates inclusive; drainage stops before heading.');
+  check('area',typeof a.field_area_ha==='number'&&Number.isFinite(a.field_area_ha)&&a.field_area_ha>0?'PASS':'FAIL','ha');
+  var rows=Array.isArray(a.baseline_periods)?a.baseline_periods:[],years=Array.from(new Set(rows.map(function(p){return p.crop_year;}))).sort(),baseDays=rows.map(drainageDays);
+  var baseOK=years.length>=2&&years.every(function(y,i){return Number.isInteger(y)&&y===a.project_start_year-years.length+i;})&&rows.every(function(p){return String(p.crop_year)===String(p.start||'').slice(0,4)&&String(p.crop_year)===String(p.end||'').slice(0,4)&&String(p.crop_year)===String(p.heading_date||'').slice(0,4);})&&baseDays.every(function(n){return n!==null;});
+  var overlaps=rows.some(function(p,i){return rows.some(function(q,j){return j<i&&p.start<=q.end&&p.end>=q.start;});});
+  baseOK=baseOK&&!overlaps;
+  var average=baseOK?Math.ceil(baseDays.reduce(function(s,n){return s+n;},0)/rows.length):null,extension=average!==null&&pd!==null?pd-average:null;
+  check('baseline',!rows.length?'MISSING':baseOK?'PASS':'FAIL','Recent consecutive pre-project years; average over crop cycles rounded up.');
+  check('extension',extension===null?'MISSING':extension>=AG005_RULE.minimum_extension_days?'PASS':'FAIL','Reference threshold: at least 7 days.');
+  check('sustainability',a.sustainability_confirmed===true?'REVIEW':a.sustainability_confirmed===false?'FAIL':'MISSING','Human must review environmental/social compliance; declaration is not proof.');
+  check('land_changes',a.land_change===false?'PASS':a.land_change===true?'FAIL':'MISSING','Land consolidation/split/merge special cases NOT IMPLEMENTED.');
+  var needs=years.map(function(y){return {type:'baseline_record',year:y};}).concat(['project_record','drainage_start','drainage_end','heading_record','area_record','sustainability_record'].map(function(t){return {type:t,year:a.crop_year};}));
+  needs.forEach(function(n){if(!ev.some(function(e){return e.evidence_type===n.type&&e.crop_year===n.year&&e.hash_algorithm==='SHA-256'&&/^[a-f0-9]{64}$/.test(e.hash)&&e.manifest_hash===primaryHash(manifestPayload(e))&&e.field_id===a.field_id&&e.methodology_id===a.methodology_id;})) missing.push(n.type+':'+n.year);});
+  check('evidence',missing.length?'MISSING':'PASS',missing.join(', '));
+  check('content_recheck',evidenceMismatches(a).length?'FAIL':'PASS','A mismatched reselected file requires a matching original before review/export.');
+  check('manifest_integrity',ev.every(function(e){return e.manifest_hash===primaryHash(manifestPayload(e));})?'PASS':'FAIL','Content hashes bind selected bytes; authenticity requires human inspection.');
+  check('official_configuration','REVIEW','CONFIG REQUIRED: current adopted version and coefficient applicability.');
+  var calculation=calculateAG005(a);
+  check('calculation',calculation.status==='INVALID'?'FAIL':'REVIEW',calculation.status);
+  var status=checks.some(function(c){return c.status==='FAIL';})?'FAIL':checks.some(function(c){return c.status==='MISSING';})?'MISSING':'REVIEW';
+  return {methodology_id:a.methodology_id,methodology_version:a.methodology_version,rule_version:AG005_RULE.rule_version,eligibility_status:status,checks:checks,
+    baseline_days:average,project_days:pd,extension_days:extension,evidence_completeness:{present:needs.length-missing.length,required:needs.length,missing:missing},calculation_readiness:calculation.status,calculation:calculation,
+    reviewer_status:'pending',warnings:(ev.some(function(e){return e.source.indexOf('SYNTHETIC DEMO')>=0;})?['SYNTHETIC evidence: no real field observation.']:[]).concat(['Internal readiness only; no certification.', 'CONFIG REQUIRED: latest adopted methodology not established.', 'Monitoring Package remains an incomplete reviewed draft.']),input_fingerprint:primaryHash(primarySnapshot(a))};
+}
+function primaryExample(){return {program_name:'Demo rice program',farmer_name:'Demo farmer 001',field_id:'DEMO-FIELD-001',field_area_ha:5,region:'埼玉県',methodology_id:'AG-005',methodology_version:AG005_RULE.methodology_version,activity_year:2026,crop_year:2026,project_start_year:2026,activity_type:'midseason_drainage_extension',activity_start:'2026-04-01',activity_end:'2026-10-31',baseline_periods:[{crop_year:2024,start:'2024-06-01',end:'2024-06-07',heading_date:'2024-08-01'},{crop_year:2025,start:'2025-06-01',end:'2025-06-08',heading_date:'2025-08-01'}],project_drainage:{start:'2026-06-01',end:'2026-06-15',heading_date:'2026-08-01'},sustainability_confirmed:true,land_change:false,calculation_parameters:{}};}
+async function registerPrimaryActivity(input){
+  var u=primaryUser();if(!u||!(u.role==='producer'||isPlatformRole(u.role))) throw new Error('ROLE_BLOCKED');
+  if(verifyAuditChain().status!=='VALID') throw new Error('AUDIT_CHAIN_BROKEN');
+  if(!input||typeof input!=='object'||JSON.stringify(input).length>65536) throw new Error('INVALID_ACTIVITY');
+  var a=primaryClone(input);
+  if(a.baseline_periods!==undefined&&(!Array.isArray(a.baseline_periods)||a.baseline_periods.some(function(p){return !p||typeof p!=='object';}))) throw new Error('INVALID_BASELINE');
+  ['program_name','farmer_name','field_id','region'].forEach(function(k){if(typeof a[k]!=='string'||!a[k].trim()||a[k].length>160) throw new Error('INVALID_'+k);a[k]=a[k].normalize('NFKC').trim();});
+  if(a.methodology_id!=='AG-005'||a.methodology_version!==AG005_RULE.methodology_version||a.activity_type!=='midseason_drainage_extension'||!inclusiveDays(a.activity_start,a.activity_end)||!Number.isInteger(a.crop_year)||typeof a.field_area_ha!=='number'||!Number.isFinite(a.field_area_ha)||a.field_area_ha<=0) throw new Error('INVALID_ACTIVITY');
+  var program=db.programs.find(function(p){return p.name===a.program_name&&p.owner_user_id===u.id;})||{id:uid('prg'),name:a.program_name,owner_user_id:u.id,created_at:nowISO()};
+  var farmer=db.farmers.find(function(f){return f.program_id===program.id&&f.name===a.farmer_name;})||{id:uid('far'),name:a.farmer_name,program_id:program.id};
+  var field=db.fields.find(function(f){return f.field_id===a.field_id;});
+  if(field&&(field.farmer_id!==farmer.id||field.area_ha!==a.field_area_ha||field.region!==a.region)) throw new Error('FIELD_IDENTITY_CONFLICT');
+  field=field||{id:uid('fld'),field_id:a.field_id,farmer_id:farmer.id,program_id:program.id,area_ha:a.field_area_ha,region:a.region};
+  // Never import approval, run IDs or caller-selected internal IDs.
+  var clean={id:uid('act'),program_id:program.id,farmer_id:farmer.id,field_ref:field.id,created_by:u.id,created_at:nowISO()};
+  ['field_id','field_area_ha','region','methodology_id','methodology_version','activity_year','crop_year','project_start_year','activity_type','activity_start','activity_end','baseline_periods','project_drainage','sustainability_confirmed','land_change','calculation_parameters'].forEach(function(k){clean[k]=a[k];});
+  if(primaryConflict(clean)) {audit('primary_duplicate_blocked','activity',clean.field_id,'FIELD_ACTIVITY_OVERLAP');await saveDB();throw new Error('DUPLICATE_FIELD_ACTIVITY_BLOCKED');}
+  if(!db.programs.some(function(p){return p.id===program.id;})) db.programs.push(program);
+  if(!db.farmers.some(function(f){return f.id===farmer.id;})) db.farmers.push(farmer);
+  if(!db.fields.some(function(f){return f.id===field.id;})) db.fields.push(field);
+  db.activities.push(clean);audit('primary_activity_created','activity',clean.id,primaryHash(clean));await saveDB();return clean;
+}
+async function attachPrimaryEvidence(activityId,file,type,year,source){
+  var a=primaryActivity(activityId);primaryGuard(a,false);
+  if(db.primary_records.some(function(r){return r.activity_id===activityId;})) throw new Error('REVIEWED_ACTIVITY_LOCKED');
+  if(!file||typeof file.arrayBuffer!=='function'||!Number.isFinite(file.size)||file.size<=0||file.size>5*1024*1024) throw new Error('FILE_REQUIRED_MAX_5_MIB');
+  var allowed=['baseline_record','project_record','drainage_start','drainage_end','heading_record','area_record','sustainability_record'];
+  if(allowed.indexOf(type)<0||!Number.isInteger(year)||!String(source||'').trim()||String(source).length>2000) throw new Error('INVALID_MANIFEST');
+  var periods=type==='baseline_record'?(a.baseline_periods||[]).filter(function(p){return p.crop_year===year;}):[];
+  if(type==='baseline_record'?!periods.length:year!==a.crop_year) throw new Error('EVIDENCE_YEAR_MISMATCH');
+  var evidencePeriod=type==='baseline_record'?{start:periods.map(function(p){return p.start;}).sort()[0],end:periods.map(function(p){return p.end;}).sort().slice(-1)[0]}:{start:a.activity_start,end:a.activity_end};
+  var actor=primaryUser().id,before=primaryHash(primarySnapshot(a)),name=String(file.name||'evidence'),size=file.size;
+  var bytes=new Uint8Array(await file.arrayBuffer());if(bytes.length!==size) throw new Error('FILE_SIZE_CHANGED');
+  var hash=await hashEvidenceBytes(bytes);
+  primaryGuard(a,false);
+  if(primaryUser().id!==actor||primaryActivity(activityId)!==a||primaryHash(primarySnapshot(a))!==before||db.primary_records.some(function(r){return r.activity_id===activityId;})) throw new Error('STALE_EVIDENCE_OPERATION');
+  var e={evidence_id:uid('em'),activity_id:a.id,hash:hash,hash_algorithm:'SHA-256',byte_length:size,actor:actor,created_at:nowISO(),activity_period:evidencePeriod,field_id:a.field_id,methodology_id:a.methodology_id,evidence_type:type,crop_year:year,original_filename:name,source:String(source),review_status:'pending',content_storage:'not_stored'};
+  e.manifest_hash=primaryHash(e);db.evidence_manifests.push(e);audit('evidence_content_hashed','evidence',e.evidence_id,e.manifest_hash);await saveDB();return e;
+}
+async function verifyEvidenceContent(evidenceId,file){
+  var e=db.evidence_manifests.find(function(x){return x.evidence_id===evidenceId;});if(!e) throw new Error('EVIDENCE_NOT_FOUND');
+  var a=primaryActivity(e.activity_id);primaryGuard(a,false);var actor=primaryUser().id,snapshot=primaryHash(e);
+  if(!file||!Number.isFinite(file.size)||file.size>5*1024*1024||typeof file.arrayBuffer!=='function') throw new Error('FILE_REQUIRED_MAX_5_MIB');
+  var hash=await hashEvidenceBytes(new Uint8Array(await file.arrayBuffer()));primaryGuard(a,false);
+  if(actor!==primaryUser().id||snapshot!==primaryHash(e)) throw new Error('STALE_EVIDENCE_OPERATION');
+  var result=hash===e.hash&&e.manifest_hash===primaryHash(manifestPayload(e))?'MATCH':'MISMATCH';
+  db.evidence_content_checks.push({id:uid('ecc'),evidence_id:e.evidence_id,hash:hash,result:result,actor:actor,created_at:nowISO()});
+  audit('evidence_content_checked','evidence',e.evidence_id,result+':'+hash);await saveDB();return result;
+}
+async function runAG005(activityId){var a=primaryActivity(activityId);primaryGuard(a,false);var result=assessAG005(a);
+  var run=Object.assign({id:uid('mr'),activity_id:a.id,created_by:primaryUser().id,created_at:nowISO()},result);run.run_hash=primaryHash(run);
+  db.methodology_runs.push(run);audit('methodology_readiness_run','activity',a.id,run.run_hash);await saveDB();return run;
+}
+function primaryRunCurrent(a,r){var p=r&&Object.assign({},r);if(!p) return false;delete p.run_hash;return r.run_hash===primaryHash(p)&&r.input_fingerprint===primaryHash(primarySnapshot(a));}
+async function reviewPrimaryActivity(activityId,decision,note){
+  var a=primaryActivity(activityId);primaryGuard(a,true);note=String(note||'').trim();
+  if(['approved','rejected'].indexOf(decision)<0||note.length<20) throw new Error('EXPLICIT_HUMAN_REASON_REQUIRED');
+  var run=db.methodology_runs.filter(function(r){return r.activity_id===activityId;}).slice(-1)[0];
+  if(!primaryRunCurrent(a,run)) throw new Error('STALE_READINESS_BLOCKED');
+  if(db.primary_records.some(function(r){return r.activity_id===activityId||r.field_identity_hash===primaryIdentity(a).hash||r.input_fingerprint===run.input_fingerprint;})||primaryConflict(a,db.primary_records)) {audit('primary_duplicate_blocked','activity',a.id,'DUPLICATE_RECORD');await saveDB();throw new Error('DUPLICATE_RECORD_BLOCKED');}
+  if(db.primary_reviews.some(function(r){return r.run_id===run.id;})) throw new Error('REVIEW_ALREADY_DECIDED_RERUN_REQUIRED');
+  if(decision==='rejected'){db.primary_reviews.push({id:uid('prv'),activity_id:a.id,run_id:run.id,reviewer:primaryUser().id,decision:decision,note:note,created_at:nowISO()});audit('primary_human_rejected','activity',a.id,note);await saveDB();return {decision:decision};}
+  if(run.eligibility_status==='FAIL'||run.eligibility_status==='MISSING') throw new Error('READINESS_INCOMPLETE_BLOCKED');
+  var r={id:uid('per'),activity_id:a.id,program_id:a.program_id,field_id:a.field_id,methodology_id:a.methodology_id,crop_year:a.crop_year,activity_type:a.activity_type,activity_start:a.activity_start,activity_end:a.activity_end,
+    field_identity_hash:primaryIdentity(a).hash,input_fingerprint:run.input_fingerprint,run_id:run.id,reviewer:primaryUser().id,review_timestamp:nowISO(),review_note:note,reviewer_status:'approved',status:'candidate_reviewed_draft',credit_status:'candidate_not_formally_issued',snapshot:primarySnapshot(a),assessment:primaryClone(run),audit_chain_reference:verifyAuditChain().head_hash};
+  r.candidate_record_hash=primaryHash(r);db.primary_records.push(r);db.primary_reviews.push({id:uid('prv'),activity_id:a.id,run_id:run.id,reviewer:r.reviewer,decision:decision,note:note,created_at:r.review_timestamp});audit('primary_human_approved','primary_record',r.id,r.candidate_record_hash);await saveDB();return r;
+}
+function monitoringPackage(recordId){
+  var r=db.primary_records.find(function(x){return x.id===recordId;});if(!r) throw new Error('RECORD_NOT_FOUND');var a=primaryActivity(r.activity_id);primaryGuard(a,false);
+  var payload=Object.assign({},r);delete payload.candidate_record_hash;
+  var reviewer=findUser(r.reviewer);
+  if(primaryHash(payload)!==r.candidate_record_hash||r.reviewer_status!=='approved'||!reviewer||!isPlatformRole(reviewer.role)) throw new Error('RECORD_INTEGRITY_BLOCKED');
+  if(r.input_fingerprint!==primaryHash(primarySnapshot(a))) throw new Error('STALE_RECORD_BLOCKED');
+  return {schema:'naft-monitoring-package-0.1',status:'incomplete_reviewed_draft',boundary:PRIMARY_BOUNDARY,project_activity:r.snapshot.activity,program:r.snapshot.program,farmer:r.snapshot.farmer,field:r.snapshot.field,methodology:AG005_RULE,field_identity:primaryIdentity(a),activity_period:{start:a.activity_start,end:a.activity_end},evidence_inventory:r.snapshot.evidence,eligibility_result:r.assessment,calculation_inputs:r.assessment.calculation.inputs,calculation_result:r.assessment.calculation,reviewer:r.reviewer,review_timestamp:r.review_timestamp,review_note:r.review_note,warnings:r.assessment.warnings,missing_evidence:r.assessment.evidence_completeness.missing,missing_parameters:r.assessment.calculation.missing_parameters,audit_chain_reference:r.audit_chain_reference,audit_verification:verifyAuditChain(),evidence_review:{status:'human_reviewed_in_candidate_record',reviewer:r.reviewer},candidate_record_hash:r.candidate_record_hash};
+}
+function exportMonitoringJSON(recordId){return JSON.stringify(monitoringPackage(recordId),null,2);}
+function programAggregate(programId){
+  var p=db.programs.find(function(x){return x.id===programId;});if(!p||!primaryCanOperate(p)) throw new Error('ROLE_BLOCKED');
+  var fields=db.fields.filter(function(f){return f.program_id===programId;}),acts=db.activities.filter(function(a){return a.program_id===programId;}),ids=new Set(acts.map(function(a){return a.id;}));
+  return {program_id:programId,farmers:db.farmers.filter(function(f){return f.program_id===programId;}).length,fields:fields.length,area_ha:fields.reduce(function(s,f){return s+f.area_ha;},0),activities:acts.length,evidence:db.evidence_manifests.filter(function(e){return ids.has(e.activity_id);}).length,candidate_records:db.primary_records.filter(function(r){return r.program_id===programId;}).length,certified_quantity:null};
+}
+
+function primarySelected(){var visible=db.activities.filter(function(a){return primaryCanOperate(primaryProgram(a));});return visible.find(function(a){return a.id===S.primaryActivityId;})||visible.slice(-1)[0];}
+async function primaryLogin(email){await ieeeLogin(email);go('#/primary-mrv');render();}
+function primarySelect(id){S.primaryActivityId=id;S.primaryMessage='';render();}
+async function primaryUI(action){
+  try{
+    var a=primarySelected(),result;
+    if(action==='register'){result=await registerPrimaryActivity(JSON.parse(document.getElementById('pm-json').value));S.primaryActivityId=result.id;}
+    if(action==='evidence'){var spec=document.getElementById('pm-type').value.split(':');result=await attachPrimaryEvidence(a.id,document.getElementById('pm-file').files[0],spec[0],Number(spec[1]),document.getElementById('pm-source').value);}
+    if(action==='sample'){
+      if(!a) throw new Error('ACTIVITY_REQUIRED');
+      var needs=assessAG005(a).evidence_completeness.missing;
+      for(var i=0;i<needs.length;i++){
+        var parts=needs[i].split(':'),bytes=new TextEncoder().encode('SYNTHETIC DEMO — not field evidence\n'+canonicalize({activity:a,evidence_type:parts[0],year:parts[1]}));
+        var file={name:'synthetic-'+parts[0]+'-'+parts[1]+'.txt',size:bytes.length,arrayBuffer:(function(b){return async function(){return b.buffer;};})(bytes)};
+        await attachPrimaryEvidence(a.id,file,parts[0],Number(parts[1]),'SYNTHETIC DEMO generated bytes; no real field observation');
+      }
+    }
+    if(action==='verify'){result=await verifyEvidenceContent(document.getElementById('pm-evidence-id').value,document.getElementById('pm-check-file').files[0]);}
+    if(action==='run') result=await runAG005(a.id);
+    if(action==='approve'||action==='reject') result=await reviewPrimaryActivity(a.id,action==='approve'?'approved':'rejected',document.getElementById('pm-note').value);
+    if(action==='duplicate'){var existing=db.primary_records.find(function(r){return r.activity_id===a.id;});if(!existing) throw new Error('REVIEWED_RECORD_REQUIRED');result=await reviewPrimaryActivity(a.id,'approved',existing.review_note);}
+    if(action==='audit') result=verifyAuditChain();
+    if(action==='export'){
+      var record=db.primary_records.find(function(r){return r.activity_id===a.id;});if(!record) throw new Error('HUMAN_APPROVAL_REQUIRED');
+      var json=exportMonitoringJSON(record.id),url=URL.createObjectURL(new Blob([json],{type:'application/json'})),link=document.createElement('a');
+      link.href=url;link.download='naft-monitoring-'+record.id+'.json';document.body.appendChild(link);link.click();link.remove();if(URL.revokeObjectURL) URL.revokeObjectURL(url);
+      audit('monitoring_package_exported','primary_record',record.id,primaryHash(JSON.parse(json)));await saveDB();result='Monitoring Package exported: incomplete_reviewed_draft';
+    }
+    S.primaryMessage=typeof result==='string'?result:action==='audit'?result.status:action+' completed';
+  }catch(e){
+    S.primaryMessage='BLOCKED: '+e.message;
+    if(db&&verifyAuditChain().status==='VALID'){audit('primary_action_blocked','primary_action',action,String(e.message));await saveDB();}
+  }
+  render();
+}
+function pgPrimaryMRV(){
+  var html=pubHeader()+'<main class="container" style="padding:28px 24px"><span class="eyebrow">Primary Industry MRV Infrastructure</span><h1>AG-005 · Methodology-aware Demo</h1>'
+    +'<p>一次産業の環境活動を、第三者検証へ渡す前段階のデータへ。</p><div class="notice mt16">'+esc(PRIMARY_BOUNDARY)+'<br><b>CONFIG REQUIRED</b> — AG-005 v3.1 public-comment reference; latest adoption and applicable coefficients unconfirmed. No certified quantity is calculated.</div>'
+    +'<div class="flex mt16"><button class="btn btn-o" onclick="primaryLogin(\'producer@naft.demo\')">1. Project Operator</button><button class="btn btn-o" onclick="primaryLogin(\'platform@naft.demo\')">2. Human Reviewer</button><a class="btn btn-o" href="#/ieee">IEEE: One Auditable Path</a></div>'
+    +'<p class="small mt8">Evidence → Methodology Readiness → Human Review → Candidate Record → Monitoring Package. '+esc(S.user?S.user.name+' / '+S.user.role:'Sign in with a demo role.')+'</p>'
+    +'<div role="status" class="notice mt16">'+esc(S.primaryMessage||'Select an operator, register an activity, then add evidence.')+'</div>';
+  if(!primaryUser()||!(primaryUser().role==='producer'||primaryCanReview())) return html+'</main>'+pubFooter();
+  var a=primarySelected(),visible=db.activities.filter(function(x){return primaryCanOperate(primaryProgram(x));});
+  html+='<details class="card card-p mt16"'+(!a?' open':'')+'><summary>Register Program / Farmer / Field / Activity (JSON)</summary><p class="small">Same program and farmer names reuse their records within this operator account. Field IDs are shared across this dataset. Dates and names below are synthetic examples; edit before registration. Fields with changed ownership or area require review outside this prototype.</p>'
+    +'<textarea id="pm-json" rows="13" style="width:100%" aria-label="Activity JSON">'+esc(JSON.stringify(primaryExample(),null,2))+'</textarea><button class="btn btn-p mt8" onclick="primaryUI(\'register\')">Register activity draft</button></details>';
+  if(!a) return html+'</main>'+pubFooter();
+  var run=db.methodology_runs.filter(function(r){return r.activity_id===a.id;}).slice(-1)[0],record=db.primary_records.find(function(r){return r.activity_id===a.id;}),ev=primaryEvidence(a),assessment=assessAG005(a),agg=programAggregate(a.program_id),chain=verifyAuditChain();
+  html+='<label class="mt16" style="display:block">Activity <select onchange="primarySelect(this.value)">'+visible.map(function(x){return '<option value="'+esc(x.id)+'"'+(a.id===x.id?' selected':'')+'>'+esc(x.field_id+' / '+x.crop_year)+'</option>';}).join('')+'</select></label>'
+    +'<div class="card card-p mt16"><b>Program → Farmers → Fields → Activities → Evidence → Candidate Records</b><p>'+esc(agg.farmers+' farmers / '+agg.fields+' fields / '+agg.area_ha+' ha / '+agg.activities+' activities / '+agg.evidence+' evidence / '+agg.candidate_records+' candidate records')+'</p><p class="small">Area counts each field once. No certified quantity or income forecast.</p><code style="overflow-wrap:anywhere">Field/activity identity: '+esc(primaryIdentity(a).hash)+'</code></div>'
+    +'<div class="card card-p mt16"><h2>1. Evidence content → SHA-256 manifest</h2><p class="small">Select actual bytes; file content stays on your device and is not stored. Keep originals for human inspection. Maximum 5 MiB per file.</p><label>Evidence type / year <select id="pm-type">'+assessment.evidence_completeness.missing.map(function(t){return '<option>'+esc(t)+'</option>';}).join('')+'</select></label> <input id="pm-file" type="file" aria-label="Evidence file"><label>Source <input id="pm-source" value="Operator-provided original" aria-label="Evidence source"></label>'
+    +'<button class="btn btn-p mt8" onclick="primaryUI(\'evidence\')">Hash selected file</button> <button class="btn btn-o mt8" onclick="primaryUI(\'sample\')">Add SYNTHETIC demo evidence</button><p class="small">Synthetic evidence exercises the hash pipeline; it does not document climate activity.</p>'
+    +'<details><summary>Evidence inventory ('+ev.length+')</summary><pre style="white-space:pre-wrap;overflow-wrap:anywhere">'+esc(JSON.stringify(ev,null,2))+'</pre></details>'
+    +'<label>Recheck original <select id="pm-evidence-id">'+ev.map(function(e){return '<option value="'+esc(e.evidence_id)+'">'+esc(e.original_filename)+'</option>';}).join('')+'</select></label><input id="pm-check-file" type="file" aria-label="File for integrity recheck"><button class="btn btn-o mt8" onclick="primaryUI(\'verify\')">Compare content hash</button></div>'
+    +'<div class="card card-p mt16"><h2>2. Deterministic MRV Readiness</h2><button class="btn btn-p" onclick="primaryUI(\'run\')">Run AG-005 readiness</button><p><b>'+esc(run?(primaryRunCurrent(a,run)?run.eligibility_status:'STALE — rerun required'):'Not run')+'</b> · PASS / REVIEW / FAIL / MISSING are internal checks only.</p>'
+    +'<p>'+esc('Baseline '+assessment.baseline_days+' days / Project '+assessment.project_days+' days / Extension '+assessment.extension_days+' days')+'</p><table><thead><tr><th>Check</th><th>Status</th><th>Detail</th></tr></thead><tbody>'+assessment.checks.map(function(c){return '<tr><td>'+esc(c.id)+'</td><td>'+esc(c.status)+'</td><td>'+esc(c.note)+'</td></tr>';}).join('')+'</tbody></table><details class="mt8"><summary>Calculation Assist — CONFIG REQUIRED</summary><pre style="white-space:pre-wrap;overflow-wrap:anywhere">'+esc(JSON.stringify(assessment.calculation,null,2))+'</pre></details></div>'
+    +'<div class="card card-p mt16"><h2>3. Human Review → Candidate Record</h2><p>Inspect original files and rule gaps. Approval records a reviewed draft; it does not resolve CONFIG REQUIRED or certify a reduction. FAIL / MISSING cannot be approved. Explain the remaining limitations in at least 20 characters.</p><textarea id="pm-note" rows="3" style="width:100%" aria-label="Human review reason"></textarea><div class="flex mt8"><button class="btn btn-p" onclick="primaryUI(\'approve\')">Human: approve draft</button><button class="btn btn-o" onclick="primaryUI(\'reject\')">Human: reject</button><button class="btn btn-o" onclick="primaryUI(\'duplicate\')">Try duplicate record → BLOCKED</button></div><p>'+esc(record?'Human approved / candidate_not_formally_issued':'No candidate record')+'</p></div>'
+    +'<div class="card card-p mt16"><h2>4. Monitoring Package</h2><p>JSON includes the reviewed snapshot, evidence hashes, eligibility, calculation inputs, reviewer, missing parameters, audit reference and candidate record hash. Status: incomplete_reviewed_draft. External verifier acceptance is not established.</p><button class="btn btn-p" onclick="primaryUI(\'export\')">Export Monitoring Package JSON</button>'
+    +(record?'<details><summary>Candidate record</summary><pre style="white-space:pre-wrap;overflow-wrap:anywhere">'+esc(JSON.stringify(record,null,2))+'</pre></details>':'')+'</div>'
+    +'<div class="card card-p mt16"><h2>Audit chain: '+esc(chain.status)+'</h2><button class="btn btn-o" onclick="primaryUI(\'audit\')">Verify audit chain</button><p class="small">Detects changed, missing or reordered events against this local checkpoint. Complete state replacement and recomputed hashes cannot be detected without an independent anchor.</p></div></main>'+pubFooter();
+  return html;
 }
 
 /* ---------- init ---------- */
