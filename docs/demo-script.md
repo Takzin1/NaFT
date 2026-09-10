@@ -57,3 +57,7 @@
 ## 9. IEEE ClimateChain 4分デモ
 
 最新の8段階シナリオとボタン名は [ieee-climatechain-demo.md](ieee-climatechain-demo.md) を使用してください。`#/ieee` で Evidence → Deterministic MRV Readiness → Human Review → Verified Environmental Record → Candidate Unit → Transfer → Retirement → Double-counting Block を提示します。全てSimulationであり、既存の市民ポイントやチケットとは独立しています。
+
+## Primary Industry MRV
+
+追加した方法論デモは `naft-app.html#/primary-mrv`。[操作手順](primary-industry-mrv.md#methodology-aware-demo) の通り、登録、ファイル本文hash、Readiness、人間審査、Monitoring Package、重複BLOCKを順に示す。既存IEEEの4分デモは [ieee-climatechain-demo.md](ieee-climatechain-demo.md) を使用する。

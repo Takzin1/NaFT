@@ -17,7 +17,7 @@ Claude (Opus/Sonnet)・OpenAI Codex・GitHub Copilot 等のコーディングエ
 | パス | 内容 | 触るときの注意 |
 |---|---|---|
 | `naft-app.html` | アプリ本体（唯一の実行コード） | 下記§2の内部レイアウト参照 |
-| `tests/` | スモークテスト63項目 | 変更後は必ず `bash tests/run.sh` |
+| `tests/` | スモークテスト（IEEE基準137項目＋Primary MRV追加分） | 変更後は必ず `bash tests/run.sh` |
 | `contracts/` | Solidity雛形（未接続） | メインネット前提のコードにしない |
 | `docs/` | 設計・法務・運用文書 | 挙動変更時は該当文書も更新 |
 | `skills/` | Claude Skills | 各SKILL.mdの手順に従う |
@@ -51,7 +51,7 @@ Claude (Opus/Sonnet)・OpenAI Codex・GitHub Copilot 等のコーディングエ
 
 ```bash
 # 1) 編集前に現状確認
-bash tests/run.sh                      # 63/63 が基準線
+bash tests/run.sh                      # 既存全項目が基準線
 # 2) 編集（str_replace等で最小差分）
 # 3) 検証
 python3 tests/extract-app-js.py && node --check tests/_app.js

@@ -14,7 +14,7 @@ PoCとして意図的に許容している制約と、その影響・対応予�
 - 楽観ロック・競合解決なし（シングルユーザーデモ前提）。
 
 ## 機能
-- 証憑は**メタデータのみ記録**（名称・型・説明・提供者・日時・URL等）。メタデータ集合のSHA-256は保持するが実ファイルの保管・本文解析・ファイル内容のハッシュ化は行わない。
+- Generic IEEE証憑はメタデータのみ。Primary MRVでは実ファイル本文のSHA-256とManifestを記録し再選択照合できるが、ファイル保管・本文解析・真正性確認は行わない。
 - IEEE版の検証補助は証憑メタデータとプロジェクト入力を対象にしたローカルルールであり、PDF・画像・表計算の本文解析、OCR、外部方法論データベース照合は行わない。
 - `input_fingerprint`、`evidence_set_hash`、環境記録・移転記録はcanonical JSONに対するSHA-256。暗号学的署名、第三者タイムスタンプ、改ざん耐性ストレージではない。
 - `environmental_records` はオフチェーンの**候補記録**。正式なカーボンクレジット発行・移転・償却や、ブロックチェーンへの書込みは行わない。
@@ -43,3 +43,14 @@ PoCとして意図的に許容している制約と、その影響・対応予�
 - `voided_candidate` is reserved; there is no voiding or unretirement workflow. Retired quantities remain unavailable through all supported operations.
 - CarbonMarketplace now inherits OpenZeppelin `ERC1155Holder` to accept ERC1155 safe transfers. This addresses the missing receiver interface by source inspection only. No compiler, testnet deployment or Solidity audit is claimed; all contracts remain a Future testnet extension.
 - This environment's Cloud Browser URL policy blocked both localhost and file URLs, so actual browser layout/click verification was not completed. Node smoke tests exercise rendering and the full lifecycle, but do not substitute for browser interaction verification.
+
+## Primary Industry MRV limitations
+
+- AG-005 `3.1-reference` is based on an official public-comment attachment, with adopted/current status unconfirmed. CONFIG REQUIRED is deliberate. The reference check subset, single project crop, operator sustainability declaration and NaFT inventory are not exhaustive J-Credit eligibility. Land changes fail closed.
+- Formula arithmetic is implemented; coefficient selection/defaults, applicability, current GWP, methodology exceptions and officially usable reduction calculation are not. Supplied-parameter preview is illustrative; result stays null.
+- Monitoring Package is an incomplete reviewed draft. It is not a registered submission, external-verifier-approved report or formal certification. It contains a local audit reference, not a self-contained selective audit proof. CSV/PDF exports are not implemented for this package.
+- Evidence originals remain on the user's device. File hashing accepts up to 5 MiB; declared type/year/source may be false. Synthetic generated evidence proves only pipeline behavior. A matching hash does not prove climate activity.
+- A local audit anchor detects ordinary alteration/deletion/reordering. Replacement of the full dataset/checkpoint and recomputation of hashes is outside detection. Legacy anchor creation attests current stored bytes only. New methodology actions fail on a broken chain; existing generic actions retain their original behavior.
+- Field identity is caller-provided and normalized; no cadastral, GIS or registry reconciliation. Overlap detection is scoped to identical field ID, methodology and activity type in this dataset. Aliases, different methodologies, partial geometry overlap, external datasets and concurrent clients remain outside the guard.
+- The Program test covers model aggregation of 100 farmers/500 ha, not live multi-user scale. Names are local grouping labels, not legal identity. Field ownership/area changes and approved-record amendments need workflows not implemented here.
+- No live field PoC, third-party verifier acceptance, measured administrative cost reduction or income increase is demonstrated. Browser layout/click verification remains uncompleted under the previously observed browser URL restriction; tests execute generated handlers in a DOM stub.

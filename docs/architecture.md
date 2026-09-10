@@ -110,3 +110,13 @@ Readiness captures an input snapshot before awaiting Web Crypto and rechecks cur
 `#/ieee` provides one 8-stage screen, role switching, two seeded scenarios, explicit human approval, full/partial quantity controls, persistent guard messages and expandable JSON provenance. Page rendering does not mutate lifecycle data. Human approval is never triggered by assist, seeding a new unit, routing or a timer.
 
 Before any distributed deployment: enforce authenticated permissions server-side, lock balances transactionally, add unique constraints on record/input/issuance fingerprints, preserve evidence files, and provide independently witnessed provenance. Current storage and hashes alone are not immutable or a blockchain registry.
+
+## Primary Industry MRV extension
+
+The application adds a logically separate domain section and `#/primary-mrv`; the seven script blocks and existing generic IEEE flow remain intact. `METHODOLOGY_RULE_PACKS` reserves the methodology boundary; the only executable pack is AG-005's reference subset. There is no rule DSL or automatic official-source update.
+
+`registerPrimaryActivity` validates and creates/reuses Program → Farmer → Field, then registers a draft activity. `attachPrimaryEvidence` hashes actual file bytes using Web Crypto or the identical byte-oriented fallback, creates a manifest and rechecks actor/snapshot after awaits. `assessAG005` and `calculateAG005` are deterministic read-only functions; `runAG005` persists their hash-bound result. `reviewPrimaryActivity` is the explicit platform-human gate. `monitoringPackage` and `exportMonitoringJSON` verify current input, reviewed record integrity and audit chain before export.
+
+The new collections use `primary_schema_version:1` alongside DB version 3. Audit migration anchors original historical entries without changing them. The existing `audit()` write entry now chains all new events; `verifyAuditChain()` checks count, order, event payloads and checkpoint. Only new methodology actions fail closed on a broken chain; the generic IEEE action behavior is preserved. No independent anchor or cross-client transaction protocol is present.
+
+See [source selection, sequence, security boundaries](primary-industry-mrv.md). AG-005 draft records are separate from IEEE `environmental_records` and cannot issue units. Shared primitives are canonical SHA-256, storage, users, audit and UI conventions. This separation prevents unresolved methodology configuration from becoming a demo quantity.

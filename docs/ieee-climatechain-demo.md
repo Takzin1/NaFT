@@ -49,3 +49,9 @@ Description: Human-in-the-loop climate MRV and candidate environmental-unit prov
 Topics: `climate-tech`, `mrv`, `carbon-accounting`, `climatechain`, `human-in-the-loop`, `provenance`, `hackathon`.
 
 These are documented suggestions; repository metadata is not changed by the application.
+
+## Optional methodology-aware extension
+
+The four-minute generic flow above is unchanged. A separate `#/primary-mrv` screen demonstrates AG-005 reference checks, actual-byte evidence manifests, field/activity identity, human-reviewed candidate drafts, audit-chain verification and draft Monitoring Package JSON. Use the [separate scenario](primary-industry-mrv.md#methodology-aware-demo) after the IEEE demo; do not attempt to squeeze both demonstrations into the same four minutes.
+
+AG-005 drafts do not feed IEEE unit issuance. They retain CONFIG REQUIRED and do not calculate an officially usable reduction quantity. The audit function now chains new generic and methodology events, while preserving the original historical entries through a disclosed legacy anchor.

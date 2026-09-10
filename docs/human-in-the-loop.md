@@ -39,3 +39,11 @@ IEEE実装は **Deterministic Verification Assist** であり、AIモデルを�
 Human approval is enforced at the action boundary, including reviewer role and permitted region. Stale input requires another readiness run and explicit human decision. `NEEDS_REVIEW` never silently passes; `ABSTAIN` approval requires at least 20 trimmed characters explaining the human override. Character count cannot judge substantive adequacy and is disclosed as a prototype limitation.
 
 Candidate issuance requires the approved record and approved run, a current input fingerprint, record-hash integrity, and the human reviewer identity. Readiness alone cannot issue. An operator may issue only their own approved project; simulated transfers and retirements require a scoped human reviewer. Retirement additionally requires a reason and positive available holder balance. There is no automatic review, issuance, transfer or retirement timer.
+
+## AG-005 methodology review
+
+`#/primary-mrv` uses a separate human gate. Producers manage their own Program activities; only active platform/super-admin demo identities can approve or reject this prototype's methodology records. Regional admin permission does not automatically extend to these programs. A matching active stored user and session role is checked at the action boundary and after evidence hashing awaits.
+
+A run must match its original snapshot and hash. FAIL/MISSING cannot produce a candidate record. A 20-character human reason is required for both approval and rejection; this is an accountability prompt, not a substantive-quality metric. Rejection is retained in `primary_reviews`; another decision requires a new run. An approved activity cannot receive further attachments or another candidate record. Amendment/revocation workflows remain unimplemented.
+
+Unconfirmed adopted methodology and coefficients remain CONFIG REQUIRED even after approval. The human approves only a reviewed draft, not an eligible/certified reduction. Synthetic evidence warnings survive into the record and Monitoring Package. Original files require human inspection outside the app. No machine action finalizes a record or unit; AG-005 drafts cannot enter generic IEEE unit issuance.
