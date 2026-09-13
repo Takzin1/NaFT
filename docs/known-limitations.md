@@ -26,7 +26,7 @@ PoCとして意図的に許容している制約と、その影響・対応予�
 
 ## アーキテクチャ
 - 単一HTMLファイル。関数は責務分離済みだがモジュール境界は物理分割されていない（docs/architecture.md §5 が分割設計図）。
-- `render()` は全画面再構築のため、入力途中の再描画でフォーカス喪失（設計上、送信時読取で回避）。
+- `render()` は全画面再構築。Primary MRVのページ送り・詳細表示は同一ユーザー/圃場の入力を保持するが、全画面のフォーカス維持を保証する実装ではない。
 - 監査ログは地域スコープでのフィルタ未実装（全ロールの管理者に全件表示）。
 
 ## スマートコントラクト
@@ -54,3 +54,7 @@ PoCとして意図的に許容している制約と、その影響・対応予�
 - Field identity is caller-provided and normalized; no cadastral, GIS or registry reconciliation. Overlap detection is scoped to identical field ID, methodology and activity type in this dataset. Aliases, different methodologies, partial geometry overlap, external datasets and concurrent clients remain outside the guard.
 - The Program test covers model aggregation of 100 farmers/500 ha, not live multi-user scale. Names are local grouping labels, not legal identity. Field ownership/area changes and approved-record amendments need workflows not implemented here.
 - No live field PoC, third-party verifier acceptance, measured administrative cost reduction or income increase is demonstrated. Browser layout/click verification remains uncompleted under the previously observed browser URL restriction; tests execute generated handlers in a DOM stub.
+
+## Visibility/performance limits
+
+Measured improvement is Node HTML-string generation for synthetic data, not browser paint/FPS, mobile latency, heap profiling or concurrent-user throughput. The full dataset remains in memory. Ten-row paging bounds the default DOM payload; an explicitly requested full candidate record can still be large. Audit history verification remains linear at authoritative action boundaries. The view shows the last explicit audit result as historical, and the queue shows saved statuses. Real browser layout and file-node behavior have not been verified in this restricted environment; regression tests use a DOM stub.

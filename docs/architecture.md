@@ -120,3 +120,11 @@ The application adds a logically separate domain section and `#/primary-mrv`; th
 The new collections use `primary_schema_version:1` alongside DB version 3. Audit migration anchors original historical entries without changing them. The existing `audit()` write entry now chains all new events; `verifyAuditChain()` checks count, order, event payloads and checkpoint. Only new methodology actions fail closed on a broken chain; the generic IEEE action behavior is preserved. No independent anchor or cross-client transaction protocol is present.
 
 See [source selection, sequence, security boundaries](primary-industry-mrv.md). AG-005 draft records are separate from IEEE `environmental_records` and cannot issue units. Shared primitives are canonical SHA-256, storage, users, audit and UI conventions. This separation prevents unresolved methodology configuration from becoming a demo quantity.
+
+## MRV view projections and render budget
+
+`primaryPortfolio()` builds per-call lookup maps and a paginated projection of authorized programs. Its status is explicitly the saved workflow state, not a live integrity result for every field. Selecting a field builds one fresh `primarySnapshot`; `assessAG005Snapshot` and run comparison reuse that snapshot during the same render. Manifest checks run once per manifest and latest rechecks use a map. No authorization or integrity result is cached across actions.
+
+Primary record/manifest/calculation JSON and IEEE provenance are materialized only after an explicit inspection action. Activity/evidence tables and the recheck selector use ten-row pages. Text drafts and selected file DOM nodes are retained only in transient UI state for the same user and activity during view-only changes; changing fields clears them. Program data is not duplicated into a new persistent collection.
+
+The passive view no longer verifies the entire audit history on every render. Its audit badge says **Last explicit verification**, with time and a historical-result qualifier. `primaryGuard`, approval and export retain their full authoritative verification. The typed-array SHA-256 fallback eliminates per-round arrays while preserving standard byte output; padding boundary vectors are checked against Node crypto.

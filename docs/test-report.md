@@ -1,5 +1,13 @@
 # Test report — Primary Industry MRV and IEEE lifecycle
 
+## Visibility/performance result (2026-09-13)
+
+Baseline main `51b8ade`: **231 passed / 0 failed**. Final: **276 passed / 0 failed**, **45 added assertions**; all earlier assertions retained unchanged. `bash tests/run.sh` also checks benchmark-script syntax, security patterns and whitespace.
+
+Added gates cover read-only progress, visible missing items, stale/tampered run and record display, a single selected-field snapshot per render, no passive full-history audit, work-queue search/filter/paging/scope, bounded evidence tables/selectors, lazy JSON, note/file-node restoration, unchanged authoritative broken-chain refusal and standard SHA-256 at 13 padding/binary sizes. The default large-fixture HTML is constrained to under 50 KB without a hardware-dependent timing assertion.
+
+The reproducible synthetic timing report is [mrv-visibility-performance.md](mrv-visibility-performance.md). CI results for the final commit are recorded in its PR. This remains DOM-stub verification, not an actual browser session.
+
 ## Primary Industry MRV result (2026-09-10)
 
 Starting main: `3c4008c3427938b313cb2a752b558fee2b7ce2e1`, **137 passed / 0 failed**.

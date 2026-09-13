@@ -152,3 +152,7 @@ Baseline/project drainage periods contain start, end and heading_date; baseline 
 `audit_logs` keep prior names: created_at is timestamp, actor_user_id is actor, entity_type/entity_id are target. New fields are sequence, previous_hash, payload_digest and event_hash. Root `audit_chain` contains legacy_count, legacy_digest, event_count and head_hash. Legacy rows are unchanged. Root `primary_schema_version` marks the one-time migration.
 
 Monitoring Package JSON is an export, not an additional collection. It contains the reviewed snapshot, manifests, field identity, rule reference, checks, calculation, decision, warnings, missing items, audit reference/current verification and candidate hash. Original file bodies and unrelated audit events are excluded. Program area sums distinct field rows once, not annual activity rows.
+
+## View-only state (no schema migration)
+
+The visibility update adds transient `S` fields for search/status filters, activity/evidence page positions, inspection selection, a same-user/activity form draft, selected file DOM nodes and the last explicit audit result. None is written through `saveDB()`. The saved-status work queue is derived from existing activities/runs/reviews/records. No new balance, credit, workflow state or automatic human decision is introduced.

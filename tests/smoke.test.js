@@ -448,5 +448,76 @@ const assert = (cond, msg) => { if(!cond){ console.error('  FAIL:', msg); fail++
   await primaryClick('Verify audit chain');assert(S.primaryMessage==='VALID','rendered audit verifier shows VALID');
   db.audit_logs[0].note='tampered';await primaryClick('Verify audit chain');assert(S.primaryMessage==='BROKEN','rendered audit verifier shows BROKEN');
 
+  // Visibility and render-cost regression gates (no wall-clock threshold).
+  db=seedDB();S.user=findUser('u2');S.primaryActivityId=null;S.primaryDraft=null;S.primaryInspection=null;S.primaryAuditResult=null;S.primarySearch='';S.primaryFilter='all';S.primaryListPage=0;S.primaryEvidencePage=0;location.hash='#/primary-mrv';
+  const viewActivity=await registerPrimaryActivity(primaryExample());S.primaryActivityId=viewActivity.id;
+  const viewRun=await runAG005(viewActivity.id);
+  const untouched=JSON.stringify(db),viewHTML=pgPrimaryMRV();
+  assert(viewHTML.includes('One field · One review trail')&&viewHTML.includes('Next human action:'),'selected activity has visible progress and next human action');
+  assert(viewHTML.includes('Missing: baseline_record:2024')&&viewHTML.includes('CONFIG REQUIRED'),'missing evidence and unresolved configuration are visible without opening JSON');
+  assert(JSON.stringify(db)===untouched,'summary rendering creates no record or mutation');
+  assert(viewHTML.includes('Last explicit verification: NOT CHECKED'),'passive render does not claim audit chain was checked');
+  let viewAuditCalls=0,viewSnapshotCalls=0;
+  const originalAuditVerify=verifyAuditChain,originalPrimarySnapshot=primarySnapshot;
+  verifyAuditChain=function(){viewAuditCalls++;return originalAuditVerify.apply(null,arguments);};
+  primarySnapshot=function(){viewSnapshotCalls++;return originalPrimarySnapshot.apply(null,arguments);};
+  try {pgPrimaryMRV();assert(viewAuditCalls===0&&viewSnapshotCalls===1,'passive view avoids full-history audit and duplicate snapshot computation');}
+  finally {verifyAuditChain=originalAuditVerify;primarySnapshot=originalPrimarySnapshot;}
+  const originalViewRegion=viewActivity.region;viewActivity.region='Changed field region';
+  assert(pgPrimaryMRV().includes('STALE — rerun required'),'view detects input mutation without relying on a saved cache');viewActivity.region=originalViewRegion;
+  const oldRunOutcome=viewRun.eligibility_status;viewRun.eligibility_status='PASS';
+  assert(pgPrimaryMRV().includes('STALE — rerun required'),'view detects changed stored run outcome');viewRun.eligibility_status=oldRunOutcome;
+  for(let i=2;i<=25;i++){const item=primaryExample();item.field_id='VISIBLE-'+String(i).padStart(3,'0');item.farmer_name='Farmer '+i;await registerPrimaryActivity(item);}
+  assert(primaryPortfolio().rows.length===25&&primaryPortfolio().shown.length===10,'work queue paginates a multi-field program');
+  const initialQueueHTML=primaryPortfolioHTML(primaryPortfolio());
+  assert(!initialQueueHTML.includes('VISIBLE-025'),'off-page activities are absent from the generated table');
+  S.primaryListPage=2;assert(primaryPortfolio().shown.length===5&&primaryPortfolio().page===2,'last activity page includes remainder');
+  document.getElementById('pm-search').value='VISIBLE-025';document.getElementById('pm-filter').value='all';primaryFilterList();
+  assert(primaryPortfolio().filtered===1&&primaryPortfolio().shown[0].activity.field_id==='VISIBLE-025','rendered filter reads field search and resets paging');
+  document.getElementById('pm-search').value='';document.getElementById('pm-filter').value='missing';primaryFilterList();
+  assert(primaryPortfolio().filtered===1&&primaryPortfolio().shown[0].activity.id===viewActivity.id,'status filter finds saved missing-evidence runs');
+  S.primarySearch='unmatched';assert(primaryPortfolioHTML(primaryPortfolio()).includes('No matching activities.'),'empty work-queue filter shows explicit empty state');
+  S.primarySearch='';S.primaryFilter='all';S.primaryListPage=0;
+  S.user=findUser('u1');assert(primaryPortfolio().rows.length===0,'citizen sees no program activities');S.user=findUser('u2');
+  const originalViewFarmer=db.farmers[0].name;db.farmers[0].name='<script>queue attack</script>';
+  assert(primaryPortfolioHTML(primaryPortfolio()).includes('&lt;script&gt;queue attack&lt;/script&gt;'),'work queue escapes displayed farmer names');db.farmers[0].name=originalViewFarmer;
+  await primaryUI('sample');await runAG005(viewActivity.id);S.user=findUser('u4');
+  const viewRecord=await reviewPrimaryActivity(viewActivity.id,'approved','I reviewed the synthetic evidence and acknowledge unresolved configuration.');
+  assert(pgPrimaryMRV().includes('Draft export available')&&!pgPrimaryMRV().includes('&quot;candidate_record_hash&quot;'),'reviewed draft appears in progress without materializing record JSON');
+  document.getElementById('pm-note').value='Keep my human review draft across inspection.';primaryInspect('record');
+  assert(pgPrimaryMRV().includes('&quot;candidate_record_hash&quot;')&&document.getElementById('pm-note').value.includes('Keep my human review draft'),'requested detail loads and preserves typed review note');
+  primaryInspect('record');assert(!pgPrimaryMRV().includes('&quot;candidate_record_hash&quot;'),'closing record inspection removes JSON from render output');
+  viewRecord.review_note+='tamper';assert(pgPrimaryMRV().includes('STALE / changed candidate record'),'record integrity failure is visible in the summary');viewRecord.review_note=viewRecord.review_note.slice(0,-6);
+  const originalManifest=db.evidence_manifests[0];
+  for(let i=0;i<250;i++){const e=primaryClone(originalManifest);e.evidence_id='visibility_'+String(i).padStart(4,'0');e.original_filename='visibility-file-'+i+'.bin';e.source='SYNTHETIC DEMO '+('large metadata '.repeat(80));e.manifest_hash=primaryHash(manifestPayload(e));db.evidence_manifests.push(e);}
+  const largeViewHTML=pgPrimaryMRV();
+  assert(Buffer.byteLength(largeViewHTML)<50000,'large evidence inventory remains below 50KB in closed default view');
+  assert(!largeViewHTML.includes('visibility-file-249.bin'),'off-page evidence is absent from table and file selector');
+  assert(primaryEvidencePage(primaryEvidence(viewActivity)).rows.length===10,'evidence table and selector share ten-row page');
+  S.primaryEvidencePage=999;assert(primaryEvidencePage(primaryEvidence(viewActivity)).rows.length===8,'out-of-range evidence page clamps to last page');S.primaryEvidencePage=0;
+  primaryInspect('evidence');
+  assert(pgPrimaryMRV().includes('&quot;manifest_hash&quot;')&&!pgPrimaryMRV().includes('visibility-file-249.bin'),'manifest inspection loads only current evidence page');primaryInspect('evidence');
+  await primaryUI('audit');assert(pgPrimaryMRV().includes('Last explicit verification: VALID')&&pgPrimaryMRV().includes('historical result, not a live integrity verdict'),'audit badge labels its timestamped historical scope');
+  db.audit_logs[0].note='tampered after explicit check';
+  assert(pgPrimaryMRV().includes('historical result, not a live integrity verdict'),'a previous audit result is never labeled live');
+  await expectBlocked(()=>runAG005(viewActivity.id),'AUDIT_CHAIN_BROKEN','render optimization does not bypass authoritative audit gate');
+  await primaryUI('audit');assert(pgPrimaryMRV().includes('Last explicit verification: BROKEN'),'explicit audit recheck surfaces post-check tampering');
+  const paddingLengths=[0,1,55,56,63,64,65,119,120,127,128,129,100000];
+  for(const length of paddingLengths){const bytes=Uint8Array.from({length},(_,i)=>(i*137+11)&255);assert(digestBytes(bytes)===nodeCrypto.createHash('sha256').update(bytes).digest('hex'),'optimized SHA-256 matches native at '+length+' bytes');}
+  db=seedDB();S.user=findUser('u2');S.primaryActivityId=null;S.primaryDraft=null;S.primaryInspection=null;S.primarySearch='';S.primaryFilter='all';S.primaryEvidencePage=0;S.primaryListPage=0;
+  const first=await registerPrimaryActivity(primaryExample());const secondInput=primaryExample();secondInput.field_id='ANOTHER-FIELD';const second=await registerPrimaryActivity(secondInput);S.primaryActivityId=first.id;
+  document.getElementById('pm-note').value='This note belongs to the first field';primaryInspect('record');
+  primarySelect(second.id);assert(S.primaryDraft===null&&S.primaryInspection===null&&S.primaryEvidencePage===0,'switching fields clears field-specific view drafts and paging');
+  // Real DOM restoration contract: file input nodes stay transient and are not serialized.
+  S.primaryActivityId=first.id;const fileNode={value:'',files:[fakeFile(new Uint8Array([3]))]},originalGetElement=document.getElementById;
+  let replacedFile=false;
+  document.getElementById=function(id){if(id==='pm-file')return fileNode;return originalGetElement.call(this,id);};primaryRememberInputs();
+  document.getElementById=function(id){if(id==='pm-file')return {parentNode:{replaceChild(old){replacedFile=old===fileNode;}}};return originalGetElement.call(this,id);};
+  primaryRestoreInputs();document.getElementById=originalGetElement;assert(replacedFile,'view-only re-render restores original selected-file node');S.primaryDraft=null;
+  S.ieeeProject='pj9';S.ieeeInspectionProject=null;location.hash='#/ieee';
+  assert(!pgIEEEDemo().includes('&quot;environmental_record&quot;'),'IEEE provenance JSON is deferred');
+  document.getElementById('rv-comment').value='Keep IEEE review note';ieeeInspectProvenance();
+  assert(pgIEEEDemo().includes('&quot;environmental_record&quot;')&&document.getElementById('rv-comment').value==='Keep IEEE review note','IEEE inspection opens provenance without losing human note');
+
   console.log(`\nRESULT: ${pass} passed, ${fail} failed / tx=${db.transactions.length}, audit=${db.audit_logs.length}`);
 })().catch(e => { console.error('RUNTIME ERROR:', e); process.exit(1); });

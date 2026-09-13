@@ -7,6 +7,8 @@
 
 Methodology-aware demo: `naft-app.html#/primary-mrv`. AG-005参照版の期間・証憑チェック、実ファイルSHA-256 Manifest、圃場/活動identity、人間審査、監査チェーン、Program集約、Monitoring Package JSONを実装しています。**最新採択版と適用係数は未確認のため CONFIG REQUIRED**。算定式の補助はありますが、制度上の削減量resultはnull、出力は `incomplete_reviewed_draft` です。正式J-クレジットの認証・発行システムではありません。
 
+**Appでの見える化**：圃場別の進捗・不足証憑・次の人間操作、検索できるProgram作業一覧、10件ずつの証憑表示を追加。詳細JSONは要求時に表示します。[軽量化の実測と範囲](docs/mrv-visibility-performance.md)
+
 [実装範囲・公式資料・操作手順](docs/primary-industry-mrv.md) · [未踏アドバンスト構想](docs/mitou-advanced-concept.md) · [テスト結果](docs/test-report.md)
 
 IEEE demo: open `naft-app.html#/ieee` for **One Auditable Path**:
@@ -63,7 +65,7 @@ IEEE審査用の英語ランディングは `#/ieee`。画面上の **IEEE Demo*
 **3. テスト実行**（Node 18+ / Python 3、依存パッケージなし）
 
 ```bash
-bash tests/run.sh   # 構文チェック + スモークテスト231項目
+bash tests/run.sh   # 構文チェック + スモークテスト276項目
 ```
 
 ロール別のデモ手順: [docs/demo-script.md](docs/demo-script.md)
@@ -82,7 +84,7 @@ naft/
 ├── index.html               # 静的ホスティング用エントリ（naft-app.htmlへhashを保持して遷移）
 ├── naft-app.html            # アプリ本体（単一HTML SPA・全ロール・全フロー実装済み）
 ├── contracts/               # Solidity雛形3種（テストネット専用・未接続・将来拡張）
-├── tests/                   # スモークテスト231項目（Node標準のみで実行可）
+├── tests/                   # スモークテスト276項目（Node標準のみで実行可）
 ├── docs/                    # アーキテクチャ／未踏ADV構想／法務リスクマップ 等
 ├── skills/                  # Claude Skills（戦略・法務レビュー・保守・未踏応募）
 ├── AGENTS.md                # AIエージェント（Opus/Sonnet/Codex）向け開発ガイド
@@ -118,7 +120,7 @@ naft/
 | [docs/legal-risk-map.md](docs/legal-risk-map.md) | 法務リスクマップと表現ガイドライン |
 | [docs/human-in-the-loop.md](docs/human-in-the-loop.md) | 決定論的補助×人間審査の設計原則 |
 | [docs/demo-script.md](docs/demo-script.md) | ロール別デモシナリオ |
-| [docs/test-report.md](docs/test-report.md) | テスト方針と231項目の結果 |
+| [docs/test-report.md](docs/test-report.md) | テスト方針と276項目の結果 |
 | [docs/roadmap.md](docs/roadmap.md) | 開発ロードマップ（未踏期間の計画含む） |
 | [docs/known-limitations.md](docs/known-limitations.md) | 既知の制約 |
 | [docs/security-checklist.md](docs/security-checklist.md) | セキュリティチェックリストとスキャン結果 |
