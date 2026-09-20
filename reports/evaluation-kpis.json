@@ -1,6 +1,6 @@
 {
   "schema": "naft-corpus-kpi-1",
-  "scope": "36 synthetic cases; no field accuracy, time, cost, income or verifier acceptance claims",
+  "scope": "Synthetic conformance corpus: 36 labeled synthetic engineering cases; no field, production, institutional or real-world MRV accuracy claim",
   "cases": 36,
   "confusion": {
     "missing": {
@@ -29,24 +29,24 @@
     }
   },
   "missing": {
-    "accuracy": 1,
-    "precision": 1,
-    "recall": 1
+    "synthetic_conformance_rate": 1,
+    "synthetic_precision": 1,
+    "synthetic_recall": 1
   },
   "tamper": {
-    "accuracy": 1,
-    "precision": 1,
-    "recall": 1
+    "synthetic_conformance_rate": 1,
+    "synthetic_precision": 1,
+    "synthetic_recall": 1
   },
   "mismatch": {
-    "accuracy": 1,
-    "precision": 1,
-    "recall": 1
+    "synthetic_conformance_rate": 1,
+    "synthetic_precision": 1,
+    "synthetic_recall": 1
   },
   "duplicate": {
-    "accuracy": 1,
-    "precision": 1,
-    "recall": 1
+    "synthetic_conformance_rate": 1,
+    "synthetic_precision": 1,
+    "synthetic_recall": 1
   },
   "calculation_reproducibility": {
     "matched": 36,
