@@ -3,7 +3,7 @@
 ## Before / After
 
 Baseline: `8747ca889cb2412778e47ee6115bda3ff060574e`, **182 passed / 0 failed**.
-After: **515 passed / 0 failed** = original 182 + Compiler 333 assertions. GitHub Actions run on Node.js 20.20.2 confirmed both suites with 0 failures. No existing MRV assertions were deleted, changed or skipped.
+After: **525 passed / 0 failed** = original 182 + Compiler 333 + Mitou impact experiment 10 assertions. GitHub Actions executes all three suites. No existing MRV assertions were deleted, changed or skipped.
 
 Run `bash tests/run.sh`. It checks all runtime syntax, the original suite, the new suite, static links, prohibited dependency/secret patterns and whitespace. There is no timing threshold. `node tests/measure.js` records physical LOC, actual six routes, stored-array collections and roles; see [baseline](../reports/baseline.json) and [after](../reports/size-after.json). LOC includes comments/blank lines; JSON fixtures and prose are excluded. Counts are not a maintainability or performance score.
 
@@ -14,6 +14,12 @@ Run `bash tests/run.sh`. It checks all runtime syntax, the original suite, the n
 ## Added Compiler suite
 
 333 assertions cover Pack schema/deep-freeze/version coexistence, Diff categories and removals, unknown operations, 36 labeled Corpus cases with independent expected results, JSON adapter parsing, unknown applicability, graph node/edge integrity and determinism, transitive dependency traversal, evidence ordering, all four change types, conditional added rules, unused parameters, no-op changes, exact scope and full-recomputation comparison. They also cover stale packages/reviews, material overrides, non-overridable errors, Pack release/final acknowledgement, exception-level `ACCEPT / REJECT / NEED_MORE_EVIDENCE / ABSTAIN`, stale decisions after input/Pack change, hard-error override refusal, decision-hash tamper detection, package-hash reproducibility, stored tampering, sequential changes, duplicate stored activities, round-trip persistence, all six full-runtime renderers, XSS and Demo A/B/C through actual handlers with DOM stubs.
+
+## 100-Claim selective re-verification experiment
+
+`tests/mitou-impact.test.js` deterministically generates 100 synthetic Claims and applies `NAFT-SYNTHETIC@1 → @2`. Expected result: 100 potentially affected candidates, 30 requiring re-verification, 70 unaffected, 15 `AUTO_REEVALUATED`, 15 `EVIDENCE_REQUIRED`, and no Human Review or Unsupported result. The test also verifies source Claim immutability, deterministic replay, linked successor packages and absence of successor packages for unaffected Claims.
+
+The generated [Mitou impact report](../reports/mitou-impact-experiment.json) records a **0.70 count-based scope reduction ratio**. This is a ratio of Claims excluded from successor re-verification, not a runtime, cost, accuracy or field-effect estimate.
 
 ## Automatically measured KPIs
 
