@@ -117,19 +117,36 @@ function compileEvidence(input,pack,options) {
   if(issues.some(function(e) { return e.status==='UNSUPPORTED'; })) evaluation.status='UNSUPPORTED';
   else if(issues.some(function(e) { return e.status==='EVIDENCE_REQUIRED'; })) evaluation.status='EVIDENCE_REQUIRED';
   else if(issues.length) evaluation.status='HUMAN_REVIEW_REQUIRED';
-  var fingerprint=inputFingerprint(input),packHash=hashObject(pack);
+  var fingerprint=inputFingerprint(input),packHash=hashObject(pack),reviewDecisions=[];
   if(options.review) {
-    var review=options.review;
-    if(review.input_fingerprint!==fingerprint||review.pack_hash!==packHash||!Array.isArray(review.accepted_codes)||typeof review.note!=='string'||review.note.trim().length<20) throw new Error('STALE_REVIEW');
-    if(review.accepted_codes.some(function(code) { return !issues.some(function(e) { return e.code===code&&e.status==='HUMAN_REVIEW_REQUIRED'; }); })) throw new Error('BLOCKING_EXCEPTION_NOT_OVERRIDABLE');
-    evaluation.resolved_by_human=review.accepted_codes.slice().sort();
-    evaluation.outstanding_issues=evaluation.issues.filter(function(e) { return !review.accepted_codes.includes(e.code); });
-    if(!evaluation.outstanding_issues.length) evaluation.status='AUTO_REEVALUATED';
-  } else evaluation.outstanding_issues=evaluation.issues;
+    reviewDecisions=Array.isArray(options.review)?options.review.slice():[options.review];
+    var seenDecisionCodes=new Set();
+    reviewDecisions.forEach(function(review) {
+      if(!review||typeof review!=='object'||review.claim_id!==a.id||typeof review.run_id!=='string'||!review.run_id||review.input_fingerprint!==fingerprint||review.pack_hash!==packHash) throw new Error('STALE_REVIEW');
+      if(typeof review.exception_code!=='string'||!review.exception_code||typeof review.reviewer!=='string'||!review.reviewer||typeof review.reason!=='string'||review.reason.trim().length<20) throw new Error('INVALID_HUMAN_DECISION');
+      if(!['ACCEPT','REJECT','NEED_MORE_EVIDENCE','ABSTAIN'].includes(review.decision)) throw new Error('INVALID_HUMAN_DECISION');
+      if(seenDecisionCodes.has(review.exception_code)) throw new Error('DUPLICATE_EXCEPTION_DECISION');seenDecisionCodes.add(review.exception_code);
+      var target=issues.find(function(e) { return e.code===review.exception_code; });
+      if(!target||target.status!=='HUMAN_REVIEW_REQUIRED') throw new Error('BLOCKING_EXCEPTION_NOT_OVERRIDABLE');
+      var binding={claim_id:review.claim_id,run_id:review.run_id,exception_code:review.exception_code,input_fingerprint:review.input_fingerprint,pack_hash:review.pack_hash,reviewer:review.reviewer,reason:review.reason,decision:review.decision};
+      if(review.decision_hash!==hashObject(binding)) throw new Error('DECISION_INTEGRITY_BLOCKED');
+    });
+  }
+  evaluation.human_decisions=stableSort(reviewDecisions.map(function(d) { return clone(d); }));
+  evaluation.resolved_by_human=reviewDecisions.filter(function(d) { return d.decision==='ACCEPT'; }).map(function(d) { return d.exception_code; }).sort();
+  evaluation.outstanding_issues=evaluation.issues.filter(function(e) {
+    if(e.status!=='HUMAN_REVIEW_REQUIRED') return true;
+    var decision=reviewDecisions.find(function(d) { return d.exception_code===e.code; });
+    return !decision||decision.decision!=='ACCEPT';
+  });
+  if(evaluation.outstanding_issues.some(function(e) { return e.status==='UNSUPPORTED'; })) evaluation.status='UNSUPPORTED';
+  else if(evaluation.outstanding_issues.some(function(e) { return e.status==='EVIDENCE_REQUIRED'; })) evaluation.status='EVIDENCE_REQUIRED';
+  else if(evaluation.outstanding_issues.some(function(e) { return e.status==='HUMAN_REVIEW_REQUIRED'; })) evaluation.status='HUMAN_REVIEW_REQUIRED';
+  else evaluation.status='AUTO_REEVALUATED';
 
   var calculation={id:'calculation:'+a.id,input_fingerprint:fingerprint,inputs:{paths:spec.inputs||[],values:values.map(function(v) { return v===undefined?null:v; }),parameters:params},spec:clone(spec),status:evaluation.status==='AUTO_REEVALUATED'?'SYNTHETIC_PASS':evaluation.status,result:null,arithmetic_preview:preview,unit:spec.unit||'UNKNOWN'};
   var graph=buildProvenanceGraph(input,pack,manifests,evaluation,calculation,options);
-  var document={schema:'naft-evidence-compiler-package-1',claim_id:a.id,methodology:{methodology_id:pack.methodology_id,methodology_version:pack.methodology_version,rule_pack_version:pack.rule_pack_version,pack_hash:packHash,source:{url:pack.source_url,hash:pack.source_hash,checked_at:pack.source_checked_at,status:pack.status}},field_identity:clone(f),activity_identity:clone(a),evidence_manifests:manifests,calculation_inputs:calculation.inputs,calculation:calculation,evaluation:evaluation,exceptions:evaluation.issues,human_decision:options.review||null,provenance_graph_reference:hashObject(graph),provenance_graph:graph,input_fingerprint:fingerprint,unresolved_items:stableSort(evaluation.outstanding_issues.concat([{code:'formal_external_verification',status:'NOT_PERFORMED',detail:'No formal certification or acceptance asserted'}])),status:'DRAFT',data_provenance:input.provenance||'UNKNOWN',formal_certification:false};
+  var document={schema:'naft-evidence-compiler-package-1',claim_id:a.id,methodology:{methodology_id:pack.methodology_id,methodology_version:pack.methodology_version,rule_pack_version:pack.rule_pack_version,pack_hash:packHash,source:{url:pack.source_url,hash:pack.source_hash,checked_at:pack.source_checked_at,status:pack.status}},field_identity:clone(f),activity_identity:clone(a),evidence_manifests:manifests,calculation_inputs:calculation.inputs,calculation:calculation,evaluation:evaluation,exceptions:evaluation.issues,human_decisions:evaluation.human_decisions,provenance_graph_reference:hashObject(graph),provenance_graph:graph,input_fingerprint:fingerprint,unresolved_items:stableSort(evaluation.outstanding_issues.concat([{code:'formal_external_verification',status:'NOT_PERFORMED',detail:'No formal certification or acceptance asserted'}])),status:'DRAFT',data_provenance:input.provenance||'UNKNOWN',formal_certification:false};
   return {package_hash:hashObject(document),document:document};
 }
 function buildProvenanceGraph(input,pack,manifests,evaluation,calculation,options) {
@@ -142,7 +159,8 @@ function buildProvenanceGraph(input,pack,manifests,evaluation,calculation,option
   var evNodes=manifests.map(function(e) { var n=node('evidence',e.id,e);edge(n,activity,'derived_from');return n; });
   Object.keys(calculation.inputs.parameters).sort().forEach(function(k) { var n=node('parameter',compilerKey(pack)+':'+k,{definition:pack.parameters[k],value:calculation.inputs.parameters[k]});if((pack.calculation_spec.parameters||[]).includes(k)) edge(n,calc,'uses_parameter'); });
   evaluation.rules.forEach(function(r) { var id=node('rule',compilerKey(pack)+':'+r.id,pack.rules[r.id]);edge(method,id,'derived_from');edge(activity,id,'evaluated_by');evNodes.forEach(function(e) { edge(e,id,'derived_from'); });edge(id,calc,'derived_from');if(pack.rules[r.id].parameter) edge('parameter:'+compilerKey(pack)+':'+pack.rules[r.id].parameter,id,'uses_parameter'); });
-  if(options.review) { var rev=node('review',hashObject(options.review),options.review);edge(calc,rev,'reviewed_by');edge(rev,pkg,'included_in'); }
+  var reviewNodes=options.review?(Array.isArray(options.review)?options.review:[options.review]):[];
+  reviewNodes.forEach(function(decision) { var rev=node('review',decision.exception_code+':'+decision.decision_hash,decision);edge(calc,rev,'reviewed_by');edge(rev,pkg,'included_in'); });
   if(options.supersedes) { var old=node('package',options.supersedes,{package_hash:options.supersedes});edge(old,pkg,'supersedes'); }
   return {schema:'naft-provenance-1',edge_direction:'dependency_to_dependent',nodes:stableSort(nodes),edges:stableSort(edges)};
 }
