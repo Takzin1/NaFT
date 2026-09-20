@@ -40,7 +40,7 @@ async function handleAction(action,el){
   if(['previous','next','inspect'].indexOf(action)>=0){var ids=['activity-json','evidence-spec','evidence-file','evidence-source','recheck-id','recheck-file'],nodes={};ids.forEach(function(id){var node=document.getElementById(id);if(node)nodes[id]=node;});if(action==='inspect')UI.inspect=!UI.inspect;else UI.evidencePage=Math.max(0,UI.evidencePage+(action==='next'?1:-1));render();Object.keys(nodes).forEach(function(id){var fresh=document.getElementById(id);if(fresh&&id!=='recheck-id')fresh.replaceWith(nodes[id]);});return;}
   UI.busy=true;document.querySelectorAll('button,#actor,#activity').forEach(function(node){node.disabled=true;});
   try{
-    if(action.indexOf('compiler-')===0&&typeof handleCompilerAction==='function')await handleCompilerAction(action);
+    if(action.indexOf('compiler-')===0&&typeof handleCompilerAction==='function')await handleCompilerAction(action,el);
     if(action==='release'){await approvePack('AG-005@3.1-reference',readValue('pack-note'));UI.message='Reference Rule Pack approved for prototype use.';}
     if(action==='register'){a=await registerActivity(JSON.parse(readValue('activity-json')));UI.activityId=a.id;UI.message='Activity registered.';}
     if(action==='attach'){var spec=readValue('evidence-spec').split(':');await attachEvidence(a.id,document.getElementById('evidence-file').files[0],spec[0],Number(spec[1]),readValue('evidence-source'));UI.message='Evidence manifest recorded; evaluate current inputs.';}
