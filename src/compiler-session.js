@@ -39,7 +39,8 @@ function compilerDecisions(r) {
   var seen=new Set(),fingerprint=inputFingerprint(r.input),packHash=hashObject(r.pack);
   list.forEach(function(d) {
     var u=db.users.find(function(x) { return x.id===d.reviewer&&x.role==='reviewer'&&x.status==='active'; });
-    if(!u||!sealed(d,'decision_hash')||!eventBinds('compiler_decision',d.id,{hash:d.decision_hash})) throw new Error('DECISION_INTEGRITY_BLOCKED');
+    var binding={claim_id:d.claim_id,run_id:d.run_id,exception_code:d.exception_code,input_fingerprint:d.input_fingerprint,pack_hash:d.pack_hash,reviewer:d.reviewer,reason:d.reason,decision:d.decision};
+    if(!u||d.decision_hash!==hashObject(binding)||!eventBinds('compiler_decision',d.id,{hash:d.decision_hash})) throw new Error('DECISION_INTEGRITY_BLOCKED');
     if(d.claim_id!==r.input.activity.id||d.input_fingerprint!==fingerprint||d.pack_hash!==packHash) throw new Error('STALE_REVIEW');
     if(!['ACCEPT','REJECT','NEED_MORE_EVIDENCE','ABSTAIN'].includes(d.decision)||seen.has(d.exception_code)) throw new Error('DECISION_INTEGRITY_BLOCKED');seen.add(d.exception_code);
     if(!r.package.document.evaluation.issues.some(function(e) { return e.code===d.exception_code&&e.status==='HUMAN_REVIEW_REQUIRED'; })) throw new Error('BLOCKING_EXCEPTION_NOT_OVERRIDABLE');
