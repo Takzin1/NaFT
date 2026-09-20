@@ -5,8 +5,8 @@
 - **Problem**：方法論の版・証憑・係数・圃場情報が変わると、どのClaimの再検証が必要か追跡しにくい。
 - **Current Prototype**：ビルド不要のJavaScript研究プロトタイプ。入力Evidenceを正規化し、版を固定した評価・依存graph・Monitoring Packageを生成する。
 - **Research Question**：「頻繁に改定されるMRV方法論と異種Evidenceを第三者が再計算・再検証可能な構造へ変換し、変更時に影響を受けるClaimだけを特定できるか？」
-- **Implemented**：Versioned Pack registry、決定論的diff、JSON provenance graph、4種の変更の影響分析・再評価、例外判断、最終宣誓、hash付きJSON export、36ケースの合成Corpusと自動KPI。従来のAG-005参照評価と182件の回帰テストも維持。
-- **Not Implemented**：AG-005最新採択版・AG-004本文の確認と完全な制度ルール翻訳、現場での正確性・費用削減・検証機関受入れ。公式要件不明は`UNKNOWN / CONFIG_REQUIRED / UNSUPPORTED`で停止。正式削減量`result`は常に`null`。
+- **Implemented**：Versioned Pack registry、決定論的diff、JSON provenance graph、4種の変更の影響分析・再評価、exception単位の`ACCEPT / REJECT / NEED_MORE_EVIDENCE / ABSTAIN`、最終宣誓、hash付きJSON export、36件のSynthetic conformance corpusと自動KPI。従来のAG-005参照評価と182件の回帰テストも維持。
+- **Not Implemented**：AG-005 v3.5一次資料byte snapshot/hashの独立検証、AG-004本文の確認、完全な制度ルール翻訳、現場での正確性・費用削減・検証機関受入れ。公式要件不明は`UNKNOWN / CONFIG_REQUIRED / UNSUPPORTED`で停止。正式削減量`result`は常に`null`。
 - **How to Run Demo**：`naft-app.html`をブラウザで開き、**Demo A / B / C**を順に押す。A＝自動draft、B＝版変更と影響Claim、C＝曖昧なidentityから人間判断。[3分操作手順](docs/demo-script.md)。
 
 内部PASS、Pack release approval、最終宣誓は正式認証ではありません。外部登録簿へ接続しません。
@@ -25,11 +25,12 @@ bash tests/run.sh
 
 | Pack | 実装上の扱い |
 |---|---|
-| AG-005 `3.1-reference` | 既存版を保持。公開意見募集PDFを再取得しSHA-256確認。最新採択・適用係数・完全なCompiler翻訳は未確認 |
+| AG-005 `3.1-reference` | 既存版を保持。公開意見募集PDFの保存済みSHA-256を固定。採択状態・適用係数・完全なCompiler翻訳は未確認 |
+| AG-005 `3.5` | **NOT REGISTERED**。2026-09-21の修正時点で一次資料byte列とSHA-256を独立検証できず、制度内容を推測してPack化していない |
 | AG-004 `UNKNOWN` | 本文取得403。版・制度パラメータを推測せずUNSUPPORTED |
 | NAFT-SYNTHETIC `1` / `2` | 差分・再検証実験の明示的合成ルール。公式方法論改定でも実農家データでもない |
 
-最新の公式AG-005新版を確認できなかったため、公式新版Packは追加していません。[出典確認記録](docs/methodology-sources.md)。
+新しい公式AG-005 Packは、一次資料の原文byte列・出典・versionを検証できるまで追加しません。[出典確認記録](docs/methodology-sources.md)。
 
 ## Six routes
 
@@ -42,7 +43,7 @@ bash tests/run.sh
 | `#/review` | 明示的例外判断、最終Package attestation |
 | `#/packages` | 再現可能なJSON、graph、Program集計 |
 
-通常案件：Evidence → evaluation → draftまで途中承認なし。人間は例外、Pack公開承認、最終宣誓を担当します。Operator / Reviewer / Maintainerはローカルデモ役割で、本番認証ではありません。
+通常案件：Evidence → evaluation → draftまで途中承認なし。人間は各`HUMAN_REVIEW_REQUIRED`例外を個別に判断し、Pack公開承認、最終宣誓を担当します。hard error（`UNSUPPORTED / EVIDENCE_REQUIRED / tamper / methodology mismatch / deterministic failure`）はHuman override不可です。Operator / Reviewer / Maintainerはローカルデモ役割で、本番認証ではありません。
 
 ## Reproduction and data
 
