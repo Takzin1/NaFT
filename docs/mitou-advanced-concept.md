@@ -6,9 +6,15 @@ Can heterogeneous environmental evidence and frequently revised methodologies be
 
 ## Already implemented
 
-Versioned Pack schema/registry; source/hash boundaries; old reference retention; deterministic structured Diff; evidence normalization; rule evaluation; JSON dependency graph; methodology/evidence/parameter/field impact analysis; selective re-evaluation; exception-level four-state Human Decisions; final attestation; reproducible Monitoring Package; append-only successors and stale export prevention. Three synthetic demo flows and a Synthetic conformance corpus of 36 labeled synthetic engineering cases with automatic KPIs. Reference AG-005 functions remain regression tested.
+Versioned Pack schema/registry; source/hash boundaries; old reference retention; deterministic structured Diff; evidence normalization; rule evaluation; JSON dependency graph; methodology/evidence/parameter/field impact analysis; selective re-evaluation; exception-level four-state Human Decisions; final attestation; reproducible Monitoring Package; append-only successors and stale export prevention. Three synthetic demo flows and a Synthetic conformance corpus of 36 labeled synthetic engineering cases with automatic KPIs. A separate deterministic 100-Claim synthetic revision experiment places all 100 Claims in the candidate set while limiting actual successor re-verification to 30 Claims; 70 remain unaffected. This is a count-based scope result, not measured time/cost reduction. Reference AG-005 functions remain regression tested.
 
 The official reference and synthetic executable protocols are deliberately separate. Multi-version execution is demonstrated with NAFT-SYNTHETIC 1/2. No newer official AG-005 Pack is registered: the requested v3.5 primary-source bytes/hash were not independently verified in the 2026-09-21 repair environment, so no institutional delta is inferred. AG-004 requirements are not guessed.
+
+## Evidence for the core technical claim
+
+The current reproducible experiment applies `NAFT-SYNTHETIC@1 → @2` to 100 Claims: 70 standard Claims and 30 intensive Claims. All 100 reference the changed methodology version, but per-Claim active dependency projections select only the 30 intensive Claims for re-verification. Of those, 15 auto-reevaluate and 15 stop at `EVIDENCE_REQUIRED` because the new synthetic version requires sensor Evidence. The remaining 70 generate no successor package. Replay is deterministic and source Claims remain immutable. See `reports/mitou-impact-experiment.json`.
+
+This establishes only the mechanism under a controlled synthetic transition. It does not establish completeness/minimality for arbitrary institutional methodologies, runtime savings, verifier acceptance or AG-005 applicability.
 
 ## Research during Mitou
 
