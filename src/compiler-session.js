@@ -34,24 +34,34 @@ async function approveVersionedPack(key,note) {
   var r=seal({id:uid('release'),pack_key:key,pack_hash:hashObject(pack),approved_by:u.id,approved_at:nowISO(),note:humanNote(note),scope:'research_only',official_adoption_confirmed:false},'release_hash');
   db.pack_releases.push(r);audit('pack_release',r.id,{hash:r.release_hash});await saveDB();return r;
 }
-function compilerDecision(r) {
-  var d=db.compiler_decisions.filter(function(x) { return x.run_id===r.id; }).slice(-1)[0];
-  if(d) { var u=db.users.find(function(x) { return x.id===d.reviewer&&x.role==='reviewer'&&x.status==='active'; });if(!u||!sealed(d,'decision_hash')||!eventBinds('compiler_decision',d.id,{hash:d.decision_hash})) throw new Error('DECISION_INTEGRITY_BLOCKED'); }
-  return d;
+function compilerDecisions(r) {
+  var list=db.compiler_decisions.filter(function(x) { return x.run_id===r.id; }).slice().sort(function(a,b) { return a.exception_code<b.exception_code?-1:a.exception_code>b.exception_code?1:0; });
+  var seen=new Set(),fingerprint=inputFingerprint(r.input),packHash=hashObject(r.pack);
+  list.forEach(function(d) {
+    var u=db.users.find(function(x) { return x.id===d.reviewer&&x.role==='reviewer'&&x.status==='active'; });
+    if(!u||!sealed(d,'decision_hash')||!eventBinds('compiler_decision',d.id,{hash:d.decision_hash})) throw new Error('DECISION_INTEGRITY_BLOCKED');
+    if(d.claim_id!==r.input.activity.id||d.input_fingerprint!==fingerprint||d.pack_hash!==packHash) throw new Error('STALE_REVIEW');
+    if(!['ACCEPT','REJECT','NEED_MORE_EVIDENCE','ABSTAIN'].includes(d.decision)||seen.has(d.exception_code)) throw new Error('DECISION_INTEGRITY_BLOCKED');seen.add(d.exception_code);
+    if(!r.package.document.evaluation.issues.some(function(e) { return e.code===d.exception_code&&e.status==='HUMAN_REVIEW_REQUIRED'; })) throw new Error('BLOCKING_EXCEPTION_NOT_OVERRIDABLE');
+  });
+  return list;
 }
-async function reviewCompilerRun(id,note) {
+async function reviewCompilerRun(id,exceptionCode,decision,reason) {
   requireRole('reviewer');var r=currentCompilerRun(id),issues=r.package.document.evaluation.issues;
-  var codes=issues.filter(function(e) { return e.status==='HUMAN_REVIEW_REQUIRED'; }).map(function(e) { return e.code; });
-  if(!codes.length||issues.some(function(e) { return e.status!=='HUMAN_REVIEW_REQUIRED'; })) throw new Error('BLOCKING_EXCEPTION_NOT_OVERRIDABLE');
-  if(compilerDecision(r)) throw new Error('EXCEPTION_ALREADY_DECIDED');
-  var d=seal({id:uid('compilerdecision'),run_id:id,reviewer:actorId,input_fingerprint:inputFingerprint(r.input),pack_hash:hashObject(r.pack),accepted_codes:codes,note:humanNote(note)},'decision_hash');
+  if(!['ACCEPT','REJECT','NEED_MORE_EVIDENCE','ABSTAIN'].includes(decision)) throw new Error('INVALID_HUMAN_DECISION');
+  var target=issues.find(function(e) { return e.code===exceptionCode; });
+  if(!target||target.status!=='HUMAN_REVIEW_REQUIRED') throw new Error('BLOCKING_EXCEPTION_NOT_OVERRIDABLE');
+  if(compilerDecisions(r).some(function(d) { return d.exception_code===exceptionCode; })) throw new Error('EXCEPTION_ALREADY_DECIDED');
+  var binding={claim_id:r.input.activity.id,run_id:id,exception_code:exceptionCode,input_fingerprint:inputFingerprint(r.input),pack_hash:hashObject(r.pack),reviewer:actorId,reason:humanNote(reason),decision:decision};
+  var d=Object.assign({id:uid('compilerdecision')},binding,{decision_hash:hashObject(binding)});
   db.compiler_decisions.push(d);audit('compiler_decision',d.id,{hash:d.decision_hash});await saveDB();return d;
 }
-function compilerDraft(id) { var r=currentCompilerRun(id),d=compilerDecision(r);return compileEvidence(r.input,r.pack,{supersedes:r.supersedes||undefined,review:d||undefined}); }
+function compilerDraft(id) { var r=currentCompilerRun(id),decisions=compilerDecisions(r);return compileEvidence(r.input,r.pack,{supersedes:r.supersedes||undefined,review:decisions.length?decisions:undefined}); }
 async function attestCompilerRun(id,note,ack) {
   requireRole('reviewer');var r=currentCompilerRun(id);if(ack!==true) throw new Error('ATTESTATION_ACKNOWLEDGEMENT_REQUIRED');note=humanNote(note);
   if(!validRelease(r.pack)) throw new Error('PACK_RELEASE_APPROVAL_REQUIRED');
-  var pkg=compilerDraft(id);if(pkg.document.evaluation.status!=='AUTO_REEVALUATED') throw new Error('UNRESOLVED_EXCEPTIONS');
+  var decisions=compilerDecisions(r);if(decisions.some(function(d) { return d.decision!=='ACCEPT'; })) throw new Error('UNRESOLVED_EXCEPTIONS');
+  var pkg=compilerDraft(id);if(pkg.document.evaluation.status!=='AUTO_REEVALUATED'||pkg.document.evaluation.outstanding_issues.some(function(e) { return e.status==='UNSUPPORTED'||e.status==='EVIDENCE_REQUIRED'||e.status==='HUMAN_REVIEW_REQUIRED'; })) throw new Error('UNRESOLVED_EXCEPTIONS');
   if(db.compiler_attestations.some(function(a) { return a.run_id===id; })) throw new Error('DUPLICATE_ATTESTATION_BLOCKED');
   var document=Object.assign({},pkg.document,{status:'ATTESTED_RESEARCH_PACKAGE',attestation:{reviewer:actorId,note:note,acknowledged:true,scope:'not_formal_certification'}});
   var att=seal({id:uid('compilerattestation'),run_id:id,document:document,package_hash:hashObject(document)},'attestation_hash');
