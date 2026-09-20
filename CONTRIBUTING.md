@@ -1,8 +1,7 @@
-# Contributing to NaFT
+# Contributing to NaFT MRV Core
 
-PoC段階のため、貢献は Issue / PR ベースで受け付けます。
+Read [AGENTS.md](AGENTS.md), [architecture](docs/architecture.md) and [human boundaries](docs/human-in-the-loop.md). Changes must stay within the ten MRV responsibilities and the explicitly authorized branch.
 
-1. 着手前に [.github/ISSUES_BACKLOG.md](.github/ISSUES_BACKLOG.md) と [AGENTS.md](AGENTS.md) を読んでください。
-2. 変更後は必ず `bash tests/run.sh` を実行し、46項目すべて通過させてください。
-3. PR提出前に [docs/pr-checklist.md](docs/pr-checklist.md) を確認してください。
-4. **禁止事項**: 実決済・換金機能・実クレジット売買機能の追加、免責文言の削除・弱体化、AIによる審査自動化。詳細は [docs/legal-risk-map.md](docs/legal-risk-map.md)。
+Run `bash tests/run.sh`; all assertions and gates must pass. Add meaningful boundary coverage for changed behavior. Update the actual count and limitations in [test report](docs/test-report.md). Do not keep obsolete domain code solely to preserve tests.
+
+[PR checklist](docs/pr-checklist.md)

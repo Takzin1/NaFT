@@ -1,34 +1,11 @@
-# 法務リスクマップ
+# MRV representation and data boundaries
 
-> ⚠️ 本書は開発チーム内の設計指針であり、**法的助言ではありません**。各段階の移行前に金融規制・環境法務に通じた弁護士のレビュー、および必要に応じ金融庁・財務局・関係省庁への事前相談を行ってください。
+This is a product-design boundary document, not a legal opinion.
 
-## 1. 論点マップ
+1. Internal PASS, reference-Pack approval and human package attestation must not be described as formal certification, proven climate impact or institutional acceptance.
+2. Preserve CONFIG REQUIRED, current-adoption uncertainty and calculation.result=null. Illustrative arithmetic uses supplied parameters only.
+3. Evidence hash equality establishes byte equality, not observation truth or ownership. Confirm consent, purpose, access, retention and sharing arrangements before using real personal/field data.
+4. Export includes program/farmer/field metadata and human decisions. User-controlled download is not authorization for onward disclosure.
+5. Formal external verification and official methodology interpretation remain with the appropriate human professionals and institutions.
 
-| # | 論点 | 関連法令・制度 | 現PoCの実装制約（法的判定ではない） | 将来拡張時に必要なこと |
-|---|---|---|---|---|
-| 1 | ポイントの前払式支払手段該当性 | 資金決済法（前払式） | 対価徴収なし（無償付与のみ）・換金不可・払戻なし → 法的該当性の結論は未確認 | 有償発行するなら自家型/第三者型の判定・届出/登録・供託 |
-| 2 | 為替取引・資金移動 | 資金決済法（資金移動業）・銀行法 | 法定通貨の移動なし。ポイントのユーザー間送付機能も**実装しない** | 送金的機能を持たせるなら資金移動業登録の検討 |
-| 3 | ステーブルコイン | 改正資金決済法（電子決済手段） | 「デモステーブル」は表示のみ・発行/移転/償還なし。名称にDEMO明記 | 発行主体は銀行・資金移動業者・信託会社等に限定。仲介は電子決済手段等取引業 |
-| 4 | 暗号資産該当性 | 資金決済法（暗号資産交換業） | 不特定者への譲渡・決済利用不可、オンチェーン未接続 | トークン化時は1号/2号暗号資産該当性の精査、交換業登録の要否 |
-| 5 | 集団投資スキーム | 金融商品取引法 | 収益分配・利回り・値上がり期待を一切約束しない。「支援」= 応援の意思表示 | クレジット収益の分配を行うなら第二項有価証券該当性の精査 |
-| 6 | カーボンクレジット取引 | J-クレジット制度規程・東証カーボン市場ルール | 「候補」の可視化と**購入予約=意思表示**。IEEE版のCandidate Unitは固定デモ保有者間の数量記録・Simulation償却のみ。実クレジット売買・移転・償却なし | 制度クレジットの扱いは制度規程準拠、価格表示・仲介の位置づけ整理 |
-| 7 | KYC/AML | 犯罪収益移転防止法 | 金銭・暗号資産を扱わない。法的該当性は別途確認が必要 | 決済導入時は取引時確認・疑わしい取引の届出体制 |
-| 8 | 表示・景品 | 景品表示法・特定商取引法 | チケットは「還元の記録」。推定CO2値に「認証済みクレジットではない」旨を常時表示 | 還元原資・上限の整理、打消し表示の適正化 |
-| 9 | 個人情報 | 個人情報保護法 | PoCはデモデータ前提。実証時は最小収集・目的明示 | プライバシーポリシー・委託管理・自治体連携時の条例対応 |
-| 10 | 環境価値の表示 | エコ表示ガイドライン等 | 「推定値」「進捗換算」を明記しグリーンウォッシュ表現を回避 | 第三者検証（MRV）との接続 |
-
-## 2. 表現ガイドライン（コード・文書・LP共通）
-
-**使用禁止**: 儲かる／稼げる／利回り／リターン／投資／配当（金銭の意味で）／換金／出金／売却益／値上がり／確実に／保証
-**注意して使用**: 「炭素配当」→ 必ず「GX還元チケット（地域内で使える還元の記録）」の意味で用い、金銭配当と誤認させない文脈を維持する。「購入予約」→ 必ず「意思表示であり決済を伴わない」注記を併記。
-**必須表示**（削除・弱体化禁止）: 全画面フッター・LP・登録画面の免責文（`DISCLAIMER` 定数）。
-
-## 3. Primary Industry MRVの境界
-
-AG-005参照版のReadiness、Calculation Assist、人間審査、候補記録、Monitoring Packageを実装する。PASSはNaFT内部の項目充足、VerifiedはPrototype内の人間確認を指す。Certified、正式Credit、外部Registry発行、正式Retirementを実装したという意味では使用しない。
-
-公式公開資料を確認したが最新採択版・適用係数を確定できていないためCONFIG REQUIREDとする。出典と未実装範囲は [primary-industry-mrv.md](primary-industry-mrv.md) に記載する。第三者検証へ渡す前段階の独自JSONであり、制度申請様式への適合・受入れを主張しない。
-
-Double-counting protectionは同一データセット内のID/入力/対象期間照合とDemo残高の再利用防止に限定する。外部登録簿や物理圃場の別名まで検知したという表現は禁止する。環境価値の価格、売上、所得増加を保証しない。
-
-実証データの取得・保管・共有は農家等の同意、目的、アクセス権限、保存期間を整理する必要がある。制度接続は専門家・検証機関・制度運営者との確認を要する。実決済、Crypto、ステーブルコインを本開発の移行目標に置かない。既存の法令論点表はレビュー対象の棚卸しであり、適法性の判定や現行法の網羅的解説ではない。
+All routes retain the `DISCLAIMER` boundary. Do not promise financial returns, certification, verified reductions or production security. The application does not perform financial or external registry operations.

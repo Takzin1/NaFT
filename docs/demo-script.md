@@ -1,63 +1,10 @@
-# ロール別デモシナリオ
+# MRV Core demonstration
 
-全アカウントのパスワードは `demo1234`。ログイン画面のワンクリックボタン利用可。所要: 通しで約15分／5分版は §8。
+1. Open `naft-app.html#/methodologies`. Select **Demo pack maintainer**. Inspect the reference Pack/version/hash, enter a rationale of at least 20 characters and approve prototype release. This does not confirm official adoption.
+2. Select **Demo operator**. Open Evidence. Review the synthetic Activity JSON, register it, then attach originals with category/year/source or explicitly choose **Add SYNTHETIC demo evidence**. The latter is never field evidence.
+3. Open Evaluation and click **Evaluate activity**. Inspect deterministic checks and CONFIG REQUIRED. Evaluation makes no human decision and supports automatic draft construction.
+4. Open Exception. Normal complete reference data has no per-case judgement exception. Missing/invalid data remains blocking. Two different hashes in one evidence category/year require a reviewer to document their relationship or reject them. Hard failures cannot be waived.
+5. Select **Demo reviewer**, reselect the activity, and open Human Review. Inspect original files outside the app. Record a statement of at least 20 characters and acknowledge the configuration/prototype boundary. Click **Attest final package** once.
+6. Open Monitoring Package. Export draft or attested JSON, inspect saved Program aggregation and explicitly verify the audit chain. Repeated exports of the same saved state are identical; stale inputs and broken integrity are refused.
 
-## 1. 市民（citizen@naft.demo / 佐藤みどり）
-
-1. LP「デモを開始する」→ ログイン → **ホーム**: 残高8,200pt・累計CO2貢献49.8kg・チケット2枚を確認
-2. **GXウォレット**: 深緑のウォレットカード（ウォレットコード・QR表示）、デモステーブル表示の注意書き
-3. **全国マーケット**: 「バイオ炭」でキーワード検索 → 会津のプロジェクト詳細へ
-4. **支援**: 1,000pt支援 → 確認 → 実行。✅残高減算 ✅推定CO2貢献表示 ✅**炭素配当チケット自動発行**
-5. **GX還元チケット**: 発行されたチケットのQR表示。`origin_note`（由来プロジェクト+CO2貢献の説明文）を読む
-6. **取引履歴**: 支援とチケット発行が台帳に記録されていることを確認
-7. **購入予約**: 任意プロジェクトで1.5t-CO2を予約 →「意思表示であり決済なし」の注記を見せる
-
-## 2. 事業者（producer@naft.demo / 会津グリーンファーム）
-
-1. **ホーム**: 承認済み1件・審査待ち1件・下書き1件と支援合計
-2. **プロジェクト登録**: 下書き「雪室省エネ」を開き、必須項目を確認して**審査に提出**
-3. 証憑欄「ファイル名のみ記録（PoC）」の注記を見せる
-4. **マイプロジェクト**: `pending_review` に遷移したことを確認
-
-## 3. 地域管理者（admin@naft.demo / 会津地域）＝ Human-in-the-loop の核
-
-1. **ダッシュボード**: 審査待ちバナー → **プロジェクト審査**へ
-2. 審査モーダル: 説明・算定根拠・証憑一覧・過去履歴を確認
-3. コメントを書いて**承認**（または差し戻し/却下）→ ✅信頼スコア更新 ✅審査ログ ✅監査ログ
-4. マーケットに掲載されたことを確認（承認済みのみ掲載の原則）
-5. **チケット管理**: 新規チケット作成、市民のQR値を貼り付けて**照合→利用済み**
-6. **レポート・CSV**: PoC実証レポート自動生成とCSV出力
-
-## 4. 加盟店（merchant@naft.demo）
-
-1. 市民の「GX還元チケット」QR画面からコード文字列を控える
-2. 加盟店画面で**QR照合**→ 利用済み記録 → 利用履歴（台帳）に反映
-
-## 5. 自治体・地域運営／地域金融（bank@naft.demo / 金融桜）
-
-1. ログイン → **地域切替セレクタ**（会津⇄瀬戸内）で複数エリア管理を実演
-2. 各地域のダッシュボード指標（参加者・流通量・推定CO2・チケット利用率）
-3. 「地銀・信金・JAが自エリア単位で導入できる」ホワイトラベル性を説明
-
-## 6. 全国プラットフォーム（platform@naft.demo）
-
-1. **全国ダッシュボード**: 都道府県別支援ランキング・カテゴリ別・全国審査待ち・**異常取引アラート**
-2. **地域管理**: 新地域を登録（10種の地域種別×12種の運営団体種別）→ 即座に全画面の地域選択へ反映
-3. **監査ログ**: いままでのデモ操作がすべて記録されていることを見せる（透明性の締め）
-4. **設定**: デモデータリセット（次のデモに備える）
-
-## 7. 新規登録フロー（任意）
-
-新規登録（市民）→ 3ステップオンボーディング → **初回5,000pt付与が台帳に記録**される瞬間を見せる
-
-## 8. 5分ピッチ版
-
-市民で支援→チケット発行（2分）→ 管理者で審査承認（1.5分）→ 全国ダッシュボード＋監査ログ（1.5分）。メッセージ:「登録→審査→支援→台帳→還元が一つのプロトコルで回っている」
-
-## 9. IEEE ClimateChain 4分デモ
-
-最新の8段階シナリオとボタン名は [ieee-climatechain-demo.md](ieee-climatechain-demo.md) を使用してください。`#/ieee` で Evidence → Deterministic MRV Readiness → Human Review → Verified Environmental Record → Candidate Unit → Transfer → Retirement → Double-counting Block を提示します。全てSimulationであり、既存の市民ポイントやチケットとは独立しています。
-
-## Primary Industry MRV
-
-追加した方法論デモは `naft-app.html#/primary-mrv`。[操作手順](primary-industry-mrv.md#methodology-aware-demo) の通り、登録、ファイル本文hash、Readiness、人間審査、Monitoring Package、重複BLOCKを順に示す。既存IEEEの4分デモは [ieee-climatechain-demo.md](ieee-climatechain-demo.md) を使用する。
+The normal path uses one Pack-level release approval and one package-level attestation. Memory-only sessions reset on reload. No timed browser rehearsal is claimed by this document.
