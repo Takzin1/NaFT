@@ -10,6 +10,10 @@ const corpus=JSON.parse(fs.readFileSync('fixtures/evaluation-corpus.json','utf8'
 let calculationMatched=0,reproductionMatched=0;
 const counts={missing:{tp:0,fp:0,fn:0,tn:0},tamper:{tp:0,fp:0,fn:0,tn:0},mismatch:{tp:0,fp:0,fn:0,tn:0},duplicate:{tp:0,fp:0,fn:0,tn:0}};
 function confusion(name,expected,actual) { counts[name][expected?(actual?'tp':'fn'):(actual?'fp':'tn')]++; }
+function humanDecision(input,pack,code,decision,reason,runId,reviewer) {
+  var binding={claim_id:input.activity.id,run_id:runId||'RUN-TEST',exception_code:code,input_fingerprint:inputFingerprint(input),pack_hash:hashObject(pack),reviewer:reviewer||'reviewer',reason:reason||'Synthetic reviewer rationale with sufficient detail for deterministic testing.',decision:decision};
+  return Object.assign({},binding,{decision_hash:hashObject(binding)});
+}
 (async function() {
   for(const p of VERSIONED_PACKS) check(validatePack(p)===p,'valid Pack schema '+compilerKey(p));
   check(Object.isFrozen(COMPILER_REGISTRY['NAFT-SYNTHETIC@1'].rules),'registry deep frozen');
@@ -76,10 +80,10 @@ function confusion(name,expected,actual) { counts[name][expected?(actual?'tp':'f
   const ag=syntheticClaim('ag');ag.activity.methodology_id='AG-005';ag.activity.methodology_version='3.1-reference';eq(compileEvidence(ag,COMPILER_REGISTRY['AG-005@3.1-reference']).document.evaluation.status,'UNSUPPORTED','reference cannot masquerade as fully compiled official Pack');
   const unknown=clone(ag);unknown.activity.methodology_id='AG-004';unknown.activity.methodology_version='UNKNOWN';eq(compileEvidence(unknown,COMPILER_REGISTRY['AG-004@UNKNOWN']).document.calculation.result,null,'AG004 quantity remains null');
   const expert=syntheticClaim('review','expert'),expertResult=compileEvidence(expert,p1);
-  const decision={input_fingerprint:inputFingerprint(expert),pack_hash:hashObject(p1),accepted_codes:['exceptions:expert'],note:'Inspected synthetic evidence and resolved the explicit judgement condition.'};
-  const reviewed=compileEvidence(expert,p1,{review:decision});eq(reviewed.document.evaluation.status,'AUTO_REEVALUATED','judgement resolution only');check(reviewed.document.provenance_graph.nodes.some(n=>n.type==='review'),'review node');check(reviewed.document.provenance_graph.edges.some(e=>e.type==='reviewed_by'),'review edge');
-  const staleDecision=clone(decision);staleDecision.input_fingerprint='stale';await blocks(()=>compileEvidence(expert,p1,{review:staleDecision}),'STALE_REVIEW','stale decision refused');
-  const override=clone(decision);override.accepted_codes=['content_hash:review-record'];await blocks(()=>compileEvidence(expert,p1,{review:override}),'BLOCKING_EXCEPTION_NOT_OVERRIDABLE','hard issue cannot be waived');
+  const decision=humanDecision(expert,p1,'exceptions:expert','ACCEPT','Inspected synthetic evidence and resolved the explicit judgement condition.');
+  const reviewed=compileEvidence(expert,p1,{review:[decision]});eq(reviewed.document.evaluation.status,'AUTO_REEVALUATED','judgement resolution only');check(reviewed.document.provenance_graph.nodes.some(n=>n.type==='review'),'review node');check(reviewed.document.provenance_graph.edges.some(e=>e.type==='reviewed_by'),'review edge');
+  const staleDecision=clone(decision);staleDecision.input_fingerprint='stale';await blocks(()=>compileEvidence(expert,p1,{review:[staleDecision]}),'STALE_REVIEW','stale decision refused');
+  const override=humanDecision(expert,p1,'content_hash:review-record','ACCEPT','Attempted override of deterministic hash failure is not permitted.');await blocks(()=>compileEvidence(expert,p1,{review:[override]}),'BLOCKING_EXCEPTION_NOT_OVERRIDABLE','hard issue cannot be waived');
   db=seedDB();actorId='operator';const run=await compileAndSave(normal);check(run.package.document.evaluation.status==='AUTO_REEVALUATED','one input creates draft automatically');
   setActor('reviewer');await blocks(()=>compileAndSave(normal),'ROLE_BLOCKED','reviewer cannot ingest');
   const note='I inspected this synthetic research package and acknowledge all limitations.';
@@ -89,9 +93,26 @@ function confusion(name,expected,actual) { counts[name][expected?(actual?'tp':'f
   const attested=await attestCompilerRun(run.id,note,true),exported=exportCompilerRun(run.id,true);eq(JSON.parse(exported).package_hash,attested.package_hash,'attested export');
   audit('unrelated','other',{});eq(exportCompilerRun(run.id,true),exported,'unrelated audit does not change bytes');
   setActor('operator');await compileAndSave(changedInput);await blocks(()=>exportCompilerRun(run.id,true),'STALE_PACKAGE','successor invalidates old attestation export');
-  const er=await compileAndSave(expert);setActor('reviewer');await reviewCompilerRun(er.id,note);eq(compilerDraft(er.id).document.evaluation.status,'AUTO_REEVALUATED','audited exception resolution');await attestCompilerRun(er.id,note,true);check(JSON.parse(exportCompilerRun(er.id,true)).document.human_decision.reviewer==='reviewer','human decision exported');
-  setActor('operator');const unsupportedRun=await compileAndSave(syntheticClaim('bad','unsupported'));setActor('reviewer');await blocks(()=>reviewCompilerRun(unsupportedRun.id,note),'BLOCKING_EXCEPTION_NOT_OVERRIDABLE','unsupported remains blocked');
+  const er=await compileAndSave(expert);setActor('reviewer');await reviewCompilerRun(er.id,'exceptions:expert','ACCEPT',note);eq(compilerDraft(er.id).document.evaluation.status,'AUTO_REEVALUATED','audited exception resolution');await attestCompilerRun(er.id,note,true);check(JSON.parse(exportCompilerRun(er.id,true)).document.human_decisions[0].reviewer==='reviewer','human decision exported');
+  setActor('operator');const unsupportedRun=await compileAndSave(syntheticClaim('bad','unsupported'));setActor('reviewer');await blocks(()=>reviewCompilerRun(unsupportedRun.id,'unsupported_conditions:special_process','ACCEPT',note),'BLOCKING_EXCEPTION_NOT_OVERRIDABLE','unsupported remains blocked');
   await blocks(()=>attestCompilerRun(unsupportedRun.id,note,true),'UNRESOLVED_EXCEPTIONS','unsupported attestation refused');
+  // Individual Human Decision and attestation-gate regression matrix A-I.
+  setActor('operator');const multiA=syntheticClaim('multi-a','expert');multiA.field.ambiguous=true;const runA=await compileAndSave(multiA);setActor('reviewer');
+  const aAccept=await reviewCompilerRun(runA.id,'identity_ambiguity','ACCEPT',note);const aReject=await reviewCompilerRun(runA.id,'exceptions:expert','REJECT',note);
+  eq(aAccept.claim_id,'multi-a','A decision binds claim');eq(aAccept.exception_code,'identity_ambiguity','A decision binds exact exception');check(aAccept.decision_hash===hashObject({claim_id:aAccept.claim_id,run_id:aAccept.run_id,exception_code:aAccept.exception_code,input_fingerprint:aAccept.input_fingerprint,pack_hash:aAccept.pack_hash,reviewer:aAccept.reviewer,reason:aAccept.reason,decision:aAccept.decision}),'A decision hash binding');
+  eq(compilerDraft(runA.id).document.evaluation.status,'HUMAN_REVIEW_REQUIRED','A ACCEPT plus REJECT blocks package');await blocks(()=>attestCompilerRun(runA.id,note,true),'UNRESOLVED_EXCEPTIONS','A attestation blocked');
+  setActor('operator');const multiB=syntheticClaim('multi-b','expert');multiB.field.ambiguous=true;const runB=await compileAndSave(multiB);setActor('reviewer');
+  await reviewCompilerRun(runB.id,'identity_ambiguity','ACCEPT',note);await reviewCompilerRun(runB.id,'exceptions:expert','NEED_MORE_EVIDENCE',note);eq(compilerDraft(runB.id).document.evaluation.status,'HUMAN_REVIEW_REQUIRED','B NEED_MORE_EVIDENCE blocks package');await blocks(()=>attestCompilerRun(runB.id,note,true),'UNRESOLVED_EXCEPTIONS','B attestation blocked');
+  setActor('operator');const multiC=syntheticClaim('multi-c','expert');multiC.field.ambiguous=true;const runC=await compileAndSave(multiC);setActor('reviewer');
+  await reviewCompilerRun(runC.id,'identity_ambiguity','ACCEPT',note);await reviewCompilerRun(runC.id,'exceptions:expert','ACCEPT',note);eq(compilerDraft(runC.id).document.evaluation.status,'AUTO_REEVALUATED','C all human exceptions accepted');const attC=await attestCompilerRun(runC.id,note,true);check(!!attC.package_hash,'C attestation allowed');
+  const pureMulti=syntheticClaim('pure-multi','expert');pureMulti.field.ambiguous=true;const dIdentity=humanDecision(pureMulti,p1,'identity_ambiguity','ACCEPT',note,'PURE-RUN');const dExpert=humanDecision(pureMulti,p1,'exceptions:expert','ACCEPT',note,'PURE-RUN');
+  const changedEvidence=clone(pureMulti);changedEvidence.field.area_ha=3;await blocks(()=>compileEvidence(changedEvidence,p1,{review:[dIdentity,dExpert]}),'STALE_REVIEW','D evidence/input change makes old decisions stale');
+  const changedPack=clone(p1);changedPack.rule_pack_version='synthetic-rules-1b';await blocks(()=>compileEvidence(pureMulti,changedPack,{review:[dIdentity,dExpert]}),'STALE_REVIEW','E Pack change makes old decisions stale');
+  const tampered=syntheticClaim('hard-tamper');tampered.evidence[0].content+='x';const hardAccept=humanDecision(tampered,p1,'content_hash:hard-tamper-record','ACCEPT',note,'HARD-RUN');await blocks(()=>compileEvidence(tampered,p1,{review:[hardAccept]}),'BLOCKING_EXCEPTION_NOT_OVERRIDABLE','F UNSUPPORTED cannot be human accepted');
+  const missingInput=syntheticClaim('hard-missing','intensive');missingInput.evidence=missingInput.evidence.filter(e=>e.category!=='photo');const missingAccept=humanDecision(missingInput,p1,'missing_evidence:photo','ACCEPT',note,'MISS-RUN');await blocks(()=>compileEvidence(missingInput,p1,{review:[missingAccept]}),'BLOCKING_EXCEPTION_NOT_OVERRIDABLE','G EVIDENCE_REQUIRED cannot be human accepted');
+  const hashTamper=clone(dIdentity);hashTamper.reason='Tampered decision reason that no longer matches the committed decision hash.';await blocks(()=>compileEvidence(pureMulti,p1,{review:[hashTamper,dExpert]}),'DECISION_INTEGRITY_BLOCKED','H single decision hash tamper blocked');
+  const packageOne=compileEvidence(pureMulti,p1,{review:[dIdentity,dExpert]}),packageTwo=compileEvidence(clone(pureMulti),clone(p1),{review:[clone(dIdentity),clone(dExpert)]});eq(packageOne.package_hash,packageTwo.package_hash,'I final package hash reproducibility with same input decisions Pack');
+  setActor('operator');
   const saved=clone(db);db.compiler_runs[0].input.field.area_ha=100;await blocks(()=>compilerRun(run.id),'COMPILER_RUN_INTEGRITY','saved input tamper detected');db=saved;
   setActor('operator');const latest=await compileAndSave(syntheticClaim('apply'));const applied=await applyCompilerChange({type:'field',field_id:'FIELD-apply',patch:{area_ha:4}});eq(applied.counts.require_reverification,1,'applied change exact scope');await blocks(()=>exportCompilerRun(latest.id,false),'STALE_PACKAGE','applied metadata invalidates prior');
   const latestFieldRun=latestCompilerRun('apply');await applyCompilerChange({type:'parameter',pack_key:compilerKey(p1),parameter:'factor',value:4});await blocks(()=>exportCompilerRun(latestFieldRun.id,false),'STALE_PACKAGE','sequential parameter change invalidates updated field package');
@@ -109,8 +130,8 @@ function confusion(name,expected,actual) { counts[name][expected?(actual?'tp':'f
   await handleAction('compiler-demo-b',{});eq(CompilerUI.impact.counts.total,6,'Demo B real dispatcher');
   await handleAction('compiler-demo-c',{});check(CompilerUI.message.includes('HUMAN_REVIEW_REQUIRED'),'Demo C real dispatcher');
   const xss=syntheticClaim('<img src=x onerror=alert(1)>');await compileAndSave(xss);CompilerUI.runId=latestCompilerRun(xss.activity.id).id;check(!compilerPanel('packages').includes('<img src=x'),'compiler output XSS escaped');
-  const metrics={schema:'naft-corpus-kpi-1',scope:'36 synthetic cases; no field accuracy, time, cost, income or verifier acceptance claims',cases:corpus.cases.length,confusion:counts};
-  for(const [name,c] of Object.entries(counts)) { metrics[name]={accuracy:(c.tp+c.tn)/corpus.cases.length,precision:c.tp+c.fp?c.tp/(c.tp+c.fp):null,recall:c.tp+c.fn?c.tp/(c.tp+c.fn):null};check(c.fp===0&&c.fn===0,'KPI oracle '+name); }
+  const metrics={schema:'naft-corpus-kpi-1',scope:'Synthetic conformance corpus: 36 labeled synthetic engineering cases; no field, production, institutional or real-world MRV accuracy claim',cases:corpus.cases.length,confusion:counts};
+  for(const [name,c] of Object.entries(counts)) { metrics[name]={synthetic_conformance_rate:(c.tp+c.tn)/corpus.cases.length,synthetic_precision:c.tp+c.fp?c.tp/(c.tp+c.fp):null,synthetic_recall:c.tp+c.fn?c.tp/(c.tp+c.fn):null};check(c.fp===0&&c.fn===0,'KPI oracle '+name); }
   metrics.calculation_reproducibility={matched:calculationMatched,total:corpus.cases.length};metrics.deterministic_reevaluation={matched:reproductionMatched,total:corpus.cases.length};
   // Differential oracle: full recompilation's semantic result vs incremental scope, not self-declared coverage.
   let covered=0,required=0;
