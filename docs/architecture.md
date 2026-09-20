@@ -32,7 +32,7 @@ Graph nodes use content hashes; graph reference is its canonical SHA-256. The pa
 
 ## Integrity / persistence
 
-Pure APIs are computation APIs, not authorization endpoints. Session APIs reuse role, scope, audit and store guards. Decision records bind exact input fingerprint and Pack hash; hard errors cannot be waived. Pack release approval is required before final attestation. New runs invalidate old current exports; old records remain historical. Export validates the current run, decision, release, attestation and full audit chain. No automatic official certification occurs.
+Pure APIs are computation APIs, not authorization endpoints. Session APIs reuse role, scope, audit and store guards. Each Human Decision binds claim/run ID, exact exception code, input fingerprint, Pack hash, reviewer, reason and decision hash. Only `ACCEPT` resolves that exception; `REJECT / NEED_MORE_EVIDENCE / ABSTAIN` keep attestation blocked. Hard errors cannot be waived. Pack release approval is required before final attestation. New runs invalidate old current exports; old records remain historical. Export validates the current run, all decision bindings, release, attestation and full audit chain. No automatic official certification occurs.
 
 Twelve existing arrays plus compiler_runs, compiler_decisions, compiler_attestations; optional Compiler arrays initialize for older local snapshots. No production database migration. The AG-005 reference flow stays usable with its unchanged 182 regression assertions. Its legacy registry is a compatibility path; multi-Pack compilation uses COMPILER_REGISTRY.
 
