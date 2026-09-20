@@ -6,9 +6,9 @@ Can heterogeneous environmental evidence and frequently revised methodologies be
 
 ## Already implemented
 
-Versioned Pack schema/registry; source/hash boundaries; old reference retention; deterministic structured Diff; evidence normalization; rule evaluation; JSON dependency graph; methodology/evidence/parameter/field impact analysis; selective re-evaluation; explicit exceptions; final attestation; reproducible Monitoring Package; append-only successors and stale export prevention. Three synthetic demo flows and 36 labeled synthetic evaluation cases with automatic KPIs. Reference AG-005 functions remain regression tested.
+Versioned Pack schema/registry; source/hash boundaries; old reference retention; deterministic structured Diff; evidence normalization; rule evaluation; JSON dependency graph; methodology/evidence/parameter/field impact analysis; selective re-evaluation; exception-level four-state Human Decisions; final attestation; reproducible Monitoring Package; append-only successors and stale export prevention. Three synthetic demo flows and a Synthetic conformance corpus of 36 labeled synthetic engineering cases with automatic KPIs. Reference AG-005 functions remain regression tested.
 
-The official reference and synthetic executable protocols are deliberately separate. Multi-version execution is demonstrated with NAFT-SYNTHETIC 1/2. A confirmed new official AG-005 version was not obtainable; AG-004 requirements are not guessed.
+The official reference and synthetic executable protocols are deliberately separate. Multi-version execution is demonstrated with NAFT-SYNTHETIC 1/2. No newer official AG-005 Pack is registered: the requested v3.5 primary-source bytes/hash were not independently verified in the 2026-09-21 repair environment, so no institutional delta is inferred. AG-004 requirements are not guessed.
 
 ## Research during Mitou
 
