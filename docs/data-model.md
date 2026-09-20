@@ -20,6 +20,6 @@ Graph IDs are typed and deterministic. Edges point dependency to dependent. Revi
 
 Existing: users, programs, farmers, fields, activities, evidence_manifests, evidence_content_checks, evaluations, exception_decisions, pack_releases, attestations, audit_events.
 
-Added: compiler_runs (input/Pack/draft snapshots with owner/hash), compiler_decisions (reviewer, accepted judgement codes, note, input/Pack hashes), compiler_attestations (immutable document/hash). All are audit-bound. Three demo roles: operator, reviewer, maintainer.
+Added: compiler_runs (input/Pack/draft snapshots with owner/hash), compiler_decisions (one record per exact exception: claim_id, run_id, exception_code, input_fingerprint, pack_hash, reviewer, reason, decision, decision_hash), compiler_attestations (immutable document/hash). Decision values are `ACCEPT / REJECT / NEED_MORE_EVIDENCE / ABSTAIN`. All are audit-bound. Three demo roles: operator, reviewer, maintainer.
 
-Run IDs and audit timestamps may vary. They are outside the pure draft hash. Supplying a different human decision or supersedes reference is a different input and deliberately changes the Package hash. The legacy AG-005 path retains its historical ID/time behavior.
+Run IDs and audit timestamps may vary. They are outside the undecided pure draft hash. Supplying an explicit Human Decision set or supersedes reference is a different compilation input and deliberately changes the Package hash; the same input, same Pack and same explicit decision objects reproduce the same Package hash. The legacy AG-005 path retains its historical ID/time behavior.
