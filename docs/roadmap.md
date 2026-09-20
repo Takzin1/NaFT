@@ -2,7 +2,7 @@
 
 | Stage | Status |
 |---|---|
-| Current prototype | Evidence Compiler, immutable Pack registry, structured Diff, JSON provenance, impact/re-verification, exception-only review, final attestation, synthetic Corpus/KPI and three demos implemented |
+| Current prototype | Evidence Compiler, immutable Pack registry, structured Diff, JSON provenance, impact/re-verification, exception-level four-state review, final attestation, 36-case Synthetic conformance corpus/KPI and three demos implemented |
 | Mitou research | Institutional rule translation soundness, real heterogeneous evidence semantics, minimal safe re-verification and independent replay remain research questions |
 | Social implementation | Production identity/security/concurrency, evidence custody and external verifier/field acceptance remain unimplemented |
 
