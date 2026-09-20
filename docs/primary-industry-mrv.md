@@ -1,6 +1,6 @@
 # AG-005 reference Rule Pack
 
-The only implemented methodology is AG-005 `3.1-reference`, an explicit reference subset. The source recorded by the previous implementation is the [public-comment attachment](https://public-comment.e-gov.go.jp/pcm/download?seqNo=0000281460), checked on 2026-09-10. That record does not establish the currently adopted edition. This refactoring does not claim a new source verification.
+The retained institutional reference flow is AG-005 `3.1-reference`, an explicit subset. The [public-comment attachment](https://public-comment.e-gov.go.jp/pcm/download?seqNo=0000281460) was re-retrieved on 2026-09-20 and hashed; this does not establish the currently adopted edition. See [source verification](methodology-sources.md). Multi-Pack Compiler execution is separate: AG-004 remains unsupported and NAFT-SYNTHETIC 1/2 demonstrate version transitions without inventing official revisions.
 
 Pinned versions: rule `naft-ag005-0.1`, calculation `naft-ag005-equations-0.1`, evidence adapter `file-manifest-1`. Manifests and packages include the exact Pack hash. Maintainer release approval permits prototype reference use only.
 

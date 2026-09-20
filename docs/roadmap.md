@@ -1,17 +1,9 @@
-# Research scope and implementation status
+# Research / implementation boundary
 
-## Implemented research baseline
+| Stage | Status |
+|---|---|
+| Current prototype | Evidence Compiler, immutable Pack registry, structured Diff, JSON provenance, impact/re-verification, exception-only review, final attestation, synthetic Corpus/KPI and three demos implemented |
+| Mitou research | Institutional rule translation soundness, real heterogeneous evidence semantics, minimal safe re-verification and independent replay remain research questions |
+| Social implementation | Production identity/security/concurrency, evidence custody and external verifier/field acceptance remain unimplemented |
 
-The branch is an MRV-only prototype with a version-pinned reference Pack, evidence byte hashes and manifests, identity/overlap guards, deterministic checks/arithmetic, exception routing, Pack release approval, one final package attestation, auditable provenance and repeatable structured export.
-
-## Unresolved research questions
-
-| Question | Present evidence | Not implemented / not demonstrated |
-|---|---|---|
-| Can a package retain meaning when a methodology changes? | Exact rule/version/hash snapshots | Cross-version equivalence, diff impact, selective re-evaluation |
-| How much human work can be limited to exceptions? | Conflict routing, hard failure refusal, single normal-case attestation | Field-measured exception frequency, review time and error costs |
-| Can heterogeneous source material be made reproducible? | File-byte manifest and declared metadata | Semantic adapters, parser validation, original retention |
-| Can independent verifiers replay a package? | Canonical JSON and pinned local provenance | Official format mapping, external-verifier acceptance, independent witness |
-| Can regional programs aggregate safely? | Scoped grouping and unique-field area | Concurrent transactional updates, real tenant isolation, verified field identity |
-
-This document distinguishes research questions from delivered features. It is not a commitment to production readiness or institutional acceptance.
+No cost, review-time, income or acceptance improvement is asserted. See [research stages](mitou-advanced-concept.md), [limitations](known-limitations.md) and [source verification](methodology-sources.md).

@@ -1,27 +1,39 @@
-# MRV Core test report
+# Compiler test report
 
-## Refactoring result
+## Before / After
 
-Baseline `cd06ba0c6eb96db5684dd7126cf113b023322dad`: **276 passed / 0 failed**.
-MRV-only working tree: **182 passed / 0 failed** with Node.js v24.19.0.
+Baseline: `8747ca889cb2412778e47ee6115bda3ff060574e`, **182 passed / 0 failed**.
+After: **500 passed / 0 failed** = original 182 + Compiler 318 assertions, on local Node.js v24.19.0. No existing MRV assertions were deleted, changed or skipped. GitHub Actions runs the same suite on Node.js 20. CI must be checked against the published commit; local PASS is not a CI claim.
 
-The old combined-domain suite was replaced with Core-specific assertions. Removed-domain tests were deleted with their runtime; no skip mechanism or dead feature was retained to preserve the count. Counts represent assertions, including distinct hash boundary cases, not independent user sessions.
+Run `bash tests/run.sh`. It checks all runtime syntax, the original suite, the new suite, static links, prohibited dependency/secret patterns and whitespace. There is no timing threshold. `node tests/measure.js` records physical LOC, actual six routes, stored-array collections and roles; see [baseline](../reports/baseline.json) and [after](../reports/size-after.json). LOC includes comments/blank lines; JSON fixtures and prose are excluded. Counts are not a maintainability or performance score.
 
-## Covered boundaries
+## Original regression suite
 
-- Native SHA-256 parity: empty input, padding boundaries, binary/multiblock, UTF-8 and maximum 5 MiB input; canonical ordering and ambiguity; asynchronous/fallback parity.
-- Inclusive dates, leap years, heading cutoff, baseline averaging/consecutive years/overlap, extension threshold and explicitly supplied arithmetic; unknown coefficients never invented.
-- Exact methodology version, adapter/rule hash and evidence binding; Program/farmer/field identity; duplicate/overlapping activity refusal and scope guards.
-- Empty/oversized/changed-size uploads; changed actor/input during async upload; metadata tampering, wrong years, original-content mismatch and recheck recovery.
-- Stale/tampered evaluations and rehashed-but-unanchored evaluation refusal.
-- Maintainer-only Pack release, reviewer-only exception decisions and final attestation, hard-failure refusal, rejection, stale decision isolation and duplicate attestation refusal.
-- Reproducible draft/attested JSON, unchanged output after unrelated audit events, document hash parity, stale input/mismatched original/altered attestation/inactive reviewer export refusal.
-- Audit payload tampering, event removal/reordering and changed head; broken-chain action/export refusal.
-- All six route renderers, escaping, read-only rendering and UI action dispatch through register/evidence/evaluate/release/attest/export.
-- Independent storage namespace, schema rejection, removed-domain absence and no remaining contract dependency.
+182 assertions retained byte-for-byte in tests/smoke.test.js: SHA-256 native parity including padding/UTF-8/5 MiB, canonicalization, dates/baselines, AG-005 supplied-factor preview/null certified output, Manifest byte/hash/version/field binding, actor/snapshot checks after async hashing, duplicates, stale/tampered inputs, scope, audit chains, exception decisions, Pack release, explicit attestation, export reproducibility, UI escaping, six renderers, action dispatch and store/schema checks.
 
-`bash tests/run.sh` checks Core/UI/test syntax, the assertions, local HTML/doc references, prohibited network/secret patterns and whitespace. CI runs it on Node.js 20. No timing threshold is imposed.
+## Added Compiler suite
 
-## Verification limits
+318 assertions cover Pack schema/deep-freeze/version coexistence, Diff categories and removals, unknown operations, 36 labeled Corpus cases with independent expected results, JSON adapter parsing, unknown applicability, graph node/edge integrity and determinism, transitive dependency traversal, evidence ordering, all four change types, conditional added rules, unused parameters, no-op changes, exact scope and full-recomputation comparison. They also cover stale packages/reviews, material overrides, non-overridable errors, Pack release/final acknowledgement, audited human resolution, stored tampering, sequential changes, duplicate stored activities, round-trip persistence, all six full-runtime renderers, XSS and Demo A/B/C through actual handlers with DOM stubs.
 
-The UI tests use Node DOM stubs, not an actual browser. A real-browser attempt was blocked by the Cloud Browser URL policy for local file URLs; no alternate browser workaround was attempted. They do not establish layout, actual file dialogs, real node replacement or download completion. There is no live field dataset, external verification, original-file storage or concurrent-client claim. The previous mixed-domain rendering benchmark does not describe this rewritten UI and was removed.
+## Automatically measured KPIs
+
+[36-case Corpus](../fixtures/evaluation-corpus.json), metadata origin=synthetic, real_farmer_data=false. Twelve categories × three deterministic input variants. Expected status/flags/arithmetic are fixture labels, not compiler-generated predictions. Label source is synthetic engineering design, not institutional expertise or a held-out field study.
+
+[Generated report](../reports/evaluation-kpis.json):
+
+| Metric | Result on this Corpus |
+|---|---|
+| Evidence completeness / usable evidence detection accuracy | 36/36 |
+| Missing evidence precision / recall | 9/9 and 9/9 |
+| Methodology binding mismatch | 3/3 positive, 33/33 negative |
+| Tamper detection | 3/3 positive, 33/33 negative |
+| Duplicate/overlap detection | 3/3 positive, 33/33 negative |
+| Calculation arithmetic oracle | 36/36 |
+| Deterministic compilation repeat | 36/36 |
+| Impact coverage, conditional transition vs full recomputation | 3/3 affected Claims |
+
+Tampered/version-mismatched evidence is not usable evidence and is labeled missing for completeness purposes. The separate three ambiguous-field cases are human-review tests, not overlap true positives. Impact coverage is a narrow synthetic oracle; it is not proof of completeness/minimality for arbitrary institutional methodologies. False negatives/positives are exported as confusion counts. Field MRV cost, review time, income and verifier acceptance remain null, not estimated.
+
+## Validation limits
+
+DOM stubs are not actual browser execution. Layout, File chooser, browser download and accessibility are unverified. The previous Cloud Browser attempt rejected the local file URL; no actual-browser PASS is asserted. There is no production authentication, independent audit witness, concurrent-client transaction guarantee or real farmer/verifier validation. No mixed-domain UI performance result is reused.

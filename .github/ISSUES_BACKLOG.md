@@ -1,22 +1,22 @@
-# MRV Core implementation status
+# MRV Compiler implementation status
 
 ## Completed
 
-- [x] MRV-only runtime and six-route UI.
-- [x] Version/hash-pinned AG-005 reference Pack and prototype release approval.
-- [x] File-byte Manifest, identity/overlap, deterministic rule/calculation primitives.
-- [x] Human-on-the-exception and one final package attestation.
-- [x] Canonical reproducible export and audit-bound integrity checks.
-- [x] Dedicated schema, synchronized documentation and Core test suite.
+- [x] MRV-only six-route UI and shared cryptographic/audit primitives.
+- [x] Immutable Versioned Pack schema, old AG-005 reference retention and AG-004 fail-closed placeholder.
+- [x] Synthetic old/new version coexistence and deterministic structured methodology diff.
+- [x] Evidence JSON normalization, dependency graph and reproducible package hashes.
+- [x] Methodology / evidence / parameter / field impact analysis and selective re-verification.
+- [x] Audited exception-only review, Pack release approval, final attestation and stale current export guards.
+- [x] Thirty-six synthetic Corpus cases, automatic KPIs and three demo flows.
+- [x] Original 182 MRV regression assertions preserved.
 
 ## Unresolved technical debt
 
-- [ ] Official adopted methodology and coefficient applicability.
-- [ ] Multi-version diffs, effective dates and selective re-evaluation.
-- [ ] Evidence semantic adapters, originals and independent audit witness.
-- [ ] Input correction, manifest replacement and attestation amendment/revocation.
-- [ ] Server authorization, tenant isolation and concurrent transactions.
-- [ ] Browser/file-input/download/accessibility verification.
-- [ ] Field and external-verifier validation; large-dataset profiling.
-
-These are explicitly unimplemented requirements, not completed features.
+- [ ] Latest adopted AG-005, AG-004 source confirmation and full institutional translation.
+- [ ] Real semantic evidence adapters, authoritative identity, calibration and original custody.
+- [ ] Proof of impact-analysis soundness/minimality beyond the tested interpreter and synthetic Corpus.
+- [ ] Authenticated multi-party decisions, independent witness, concurrent transactions and cross-owner field changes.
+- [ ] Formal amendment/revocation, signatures and legacy-to-Compiler conversion.
+- [ ] Actual browser/file/download/accessibility verification.
+- [ ] Field MRV cost/review time/income measurements and external verifier acceptance.

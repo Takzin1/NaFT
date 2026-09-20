@@ -1,4 +1,4 @@
-name: NaFT MRV Core CI
+name: NaFT MRV Compiler CI
 on:
   push:
     branches: [main, "feat/**"]
@@ -15,7 +15,9 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20
-      - name: Run MRV correctness, syntax and security checks
+      - name: Run Core regression, Compiler Corpus, syntax and security checks
         run: bash tests/run.sh
+      - name: Verify reproducible Corpus KPI report
+        run: git diff --exit-code -- reports/evaluation-kpis.json
       - name: Check committed whitespace
         run: git diff --check HEAD^ HEAD

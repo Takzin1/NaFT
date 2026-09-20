@@ -1,23 +1,19 @@
-# 未踏アドバンスト向け技術問い
+# NaFT — research stages
 
-**NaFT = Version-aware MRV Evidence Infrastructure**
+## Research question
 
-NaFT transforms heterogeneous environmental evidence into methodology-aware, reproducible, human-reviewable MRV packages.
+Can heterogeneous environmental evidence and frequently revised methodologies be compiled into independently reproducible, reviewable Claims, while identifying only the Claims affected by a change?
 
-## 問い
+## Already implemented
 
-環境証憑・圃場／活動identity・方法論の版・評価結果・人間判断を、再現可能なパッケージとして結び付けられるか。方法論や入力が変化したとき、何が再評価を要し、どの判断を再利用できず、誰が例外に責任を持つべきか。
+Versioned Pack schema/registry; source/hash boundaries; old reference retention; deterministic structured Diff; evidence normalization; rule evaluation; JSON dependency graph; methodology/evidence/parameter/field impact analysis; selective re-evaluation; explicit exceptions; final attestation; reproducible Monitoring Package; append-only successors and stale export prevention. Three synthetic demo flows and 36 labeled synthetic evaluation cases with automatic KPIs. Reference AG-005 functions remain regression tested.
 
-## 現時点の実装
+The official reference and synthetic executable protocols are deliberately separate. Multi-version execution is demonstrated with NAFT-SYNTHETIC 1/2. A confirmed new official AG-005 version was not obtainable; AG-004 requirements are not guessed.
 
-AG-005参照Packの版・hash固定、証憑実バイトSHA-256とManifest、日付・必要証憑・重複／期間重なりチェック、決定論的算術、入力変更の失効検知、証憑競合の例外判断、Packのprototype release approval、最終パッケージ宣誓、監査チェーン、canonical JSON export、Program集計。
+## Research during Mitou
 
-正常案件は機械評価から最終宣誓へ進む。人間は例外の判断と最終証明責任に集中する。正式な外部検証はアプリ外に残る。
+Questions still unproven: completeness and soundness of institutional rule translation; semantic normalization across real evidence; minimal safe re-verification under interacting rule changes; reliable temporal applicability; version-dependent identity/field restructuring; external reproducibility under independent implementations; human interpretation and attestation cost. Synthetic tests are not evidence that these research questions are solved.
 
-## 未解決
+## Future social implementation
 
-方法論は参照Pack 1件であり、複数版にわたる差分解析や影響範囲の追跡は未実装。正式採択版・係数は未確定のため削減量result=null。証憑の意味解析・原本保管・独立監査証跡・複数利用者の整合性・外部検証者の受入れは未実証。
-
-## 評価対象
-
-再評価の再現性、古い判断の誤再利用防止、変更影響の検出、例外の見逃し／過検知、人間の操作数・確認時間、原資料からパッケージへの追跡可能性。現在のテストは合成データ上のソフトウェア挙動を検証し、現場での価値や制度適合性を証明するものではない。
+Operational evidence custody, authenticated organizations, independent witnesses/signatures, production concurrency, external verifier acceptance and field trials. MRV cost, human review time, income and verifier acceptance are unmeasured future field-PoC KPIs, not projected numerical results.

@@ -1,28 +1,25 @@
-# MRV Core data model
+# Data model
 
-Root schema: `naft-mrv-core-1`. Storage key: `naft_mrv_core_v1`.
+## Versioned Methodology Pack
 
-| Collection | Contents |
-|---|---|
-| users | Active demo operator, reviewer and maintainer identities |
-| programs | Name, owner_user_id |
-| farmers | Name, program_id |
-| fields | Normalized field_id, farmer_id, program_id, area_ha, region |
-| activities | Program/farmer/field references, exact methodology/version, activity/crop/start years, periods, drainage, declarations, calculation parameters |
-| evidence_manifests | Actual-byte SHA-256, size, original filename, source, period, field/activity IDs, methodology/version, rule_pack_hash, adapter_version, metadata hash |
-| evidence_content_checks | Reselected-byte hash, MATCH/MISMATCH, actor/time, check_hash |
-| evaluations | Frozen input/rule snapshot, deterministic result, exceptions, versions, fingerprint, evaluation_hash, historical audit anchor |
-| exception_decisions | Evaluation ID/fingerprint, exception ID, accept_with_reason or reject, reviewer/reason/time, decision_hash |
-| pack_releases | Exact pack_hash, maintainer/rationale/time, prototype-only scope, release_hash; official_adoption_confirmed=false |
-| attestations | Activity/evaluation reference, fingerprint, immutable document, package_hash, attestation_hash |
-| audit_events | Sequence, predecessor hash, actor/action/target/payload/time, event_hash |
+Required fields: methodology_id, methodology_version, rule_pack_version, effective_from, effective_to, source_url, source_hash, source_checked_at, status, parameters, evidence_requirements, rules, calculation_spec, exceptions, unsupported_conditions. Keys are exact `id@version`, never “latest”. Registry entries are deep-frozen copies. Unknown official data is explicit and blocks successful compilation.
 
-`audit_head` is checked against the entire sequence, including event payloads and order. No legacy audit anchor is imported. Empty chain begins with SHA-256 of canonical `[]`.
+## Compiler input
 
-Program → Farmer → Field → Activity → Evidence / Evaluation → Exception decisions → Attestation. Field area is aggregated once per field, not once per crop year. Duplicate matching uses normalized field ID, methodology, activity type and exact or overlapping period. It does not establish cadastral identity.
+A Claim is one Activity (id, field_id, farmer_id, program_id, methodology id/version, start/end, type and declared observations), Field metadata, raw Evidence records, optional known peer activities and parameter overrides. Dataset provenance is public / synthetic / derived. Shipped Corpus data are all synthetic; no real farmer data.
 
-Runtime-only UI state: selected activity, route, evidence page, inspection and status message. It is not persisted. File input nodes are retained for evidence-only view toggles; actual file bodies are not stored.
+Evidence carries id, category, adapter, content string or byte array, expected_hash, activity/field identity, methodology version, period, source and provenance. SHA-256 covers original bytes. JSON adapters preserve parsed JSON in normalized_data; text/photo bytes stay opaque. Manifest hash binds metadata, content hash and parse/binding checks. Methodology migration derives a new manifest binding only for previously matching evidence versions; original inputs remain in the old run.
 
-The static Methodology Registry contains one frozen AG-005 `3.1-reference` descriptor. Evidence, evaluation and packages carry the descriptor/version/hash. There is no remote registry sync or arbitrary Rule Pack upload/execution.
+## Package and graph
 
-Monitoring Package statuses: `draft_incomplete_configuration` and `attested_incomplete_configuration`. Both disclose formal_verification=not_performed and calculation.result=null. The latter includes a copied human attestation and Pack release record. Canonical exports do not add a new timestamp per download.
+Envelope: `{package_hash, document}`. Hash is SHA-256(canonical JSON(document)), excluding the envelope's own hash. The document includes methodology/rule version, source, Pack hash, Field/Activity identity, evidence manifests, calculation inputs and result/status, exceptions, optional human decision, graph reference plus full graph, input fingerprint and unresolved items. `formal_certification=false`; certified result is null. Synthetic arithmetic_preview is an experimental index.
+
+Graph IDs are typed and deterministic. Edges point dependency to dependent. Review node identities bind decision content. Successor packages retain a supersedes edge to the previous hash. Sorting makes graph construction independent of evidence input ordering. No graph database.
+
+## Stored arrays
+
+Existing: users, programs, farmers, fields, activities, evidence_manifests, evidence_content_checks, evaluations, exception_decisions, pack_releases, attestations, audit_events.
+
+Added: compiler_runs (input/Pack/draft snapshots with owner/hash), compiler_decisions (reviewer, accepted judgement codes, note, input/Pack hashes), compiler_attestations (immutable document/hash). All are audit-bound. Three demo roles: operator, reviewer, maintainer.
+
+Run IDs and audit timestamps may vary. They are outside the pure draft hash. Supplying a different human decision or supersedes reference is a different input and deliberately changes the Package hash. The legacy AG-005 path retains its historical ID/time behavior.
