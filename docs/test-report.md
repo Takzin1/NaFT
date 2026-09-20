@@ -3,7 +3,7 @@
 ## Before / After
 
 Baseline: `8747ca889cb2412778e47ee6115bda3ff060574e`, **182 passed / 0 failed**.
-After: **500 passed / 0 failed** = original 182 + Compiler 318 assertions, on local Node.js v24.19.0. No existing MRV assertions were deleted, changed or skipped. GitHub Actions runs the same suite on Node.js 20. CI must be checked against the published commit; local PASS is not a CI claim.
+After: **515 passed / 0 failed** = original 182 + Compiler 333 assertions. GitHub Actions run on Node.js 20.20.2 confirmed both suites with 0 failures. No existing MRV assertions were deleted, changed or skipped.
 
 Run `bash tests/run.sh`. It checks all runtime syntax, the original suite, the new suite, static links, prohibited dependency/secret patterns and whitespace. There is no timing threshold. `node tests/measure.js` records physical LOC, actual six routes, stored-array collections and roles; see [baseline](../reports/baseline.json) and [after](../reports/size-after.json). LOC includes comments/blank lines; JSON fixtures and prose are excluded. Counts are not a maintainability or performance score.
 
@@ -13,17 +13,19 @@ Run `bash tests/run.sh`. It checks all runtime syntax, the original suite, the n
 
 ## Added Compiler suite
 
-318 assertions cover Pack schema/deep-freeze/version coexistence, Diff categories and removals, unknown operations, 36 labeled Corpus cases with independent expected results, JSON adapter parsing, unknown applicability, graph node/edge integrity and determinism, transitive dependency traversal, evidence ordering, all four change types, conditional added rules, unused parameters, no-op changes, exact scope and full-recomputation comparison. They also cover stale packages/reviews, material overrides, non-overridable errors, Pack release/final acknowledgement, audited human resolution, stored tampering, sequential changes, duplicate stored activities, round-trip persistence, all six full-runtime renderers, XSS and Demo A/B/C through actual handlers with DOM stubs.
+333 assertions cover Pack schema/deep-freeze/version coexistence, Diff categories and removals, unknown operations, 36 labeled Corpus cases with independent expected results, JSON adapter parsing, unknown applicability, graph node/edge integrity and determinism, transitive dependency traversal, evidence ordering, all four change types, conditional added rules, unused parameters, no-op changes, exact scope and full-recomputation comparison. They also cover stale packages/reviews, material overrides, non-overridable errors, Pack release/final acknowledgement, exception-level `ACCEPT / REJECT / NEED_MORE_EVIDENCE / ABSTAIN`, stale decisions after input/Pack change, hard-error override refusal, decision-hash tamper detection, package-hash reproducibility, stored tampering, sequential changes, duplicate stored activities, round-trip persistence, all six full-runtime renderers, XSS and Demo A/B/C through actual handlers with DOM stubs.
 
 ## Automatically measured KPIs
 
 [36-case Corpus](../fixtures/evaluation-corpus.json), metadata origin=synthetic, real_farmer_data=false. Twelve categories × three deterministic input variants. Expected status/flags/arithmetic are fixture labels, not compiler-generated predictions. Label source is synthetic engineering design, not institutional expertise or a held-out field study.
 
+**36/36 synthetic conformance cases matched expected outputs.** This is an engineering conformance result only; it is not field, production, institutional or real-world MRV accuracy.
+
 [Generated report](../reports/evaluation-kpis.json):
 
 | Metric | Result on this Corpus |
 |---|---|
-| Evidence completeness / usable evidence detection accuracy | 36/36 |
+| Synthetic conformance: evidence completeness / usable evidence detection | 36/36 |
 | Missing evidence precision / recall | 9/9 and 9/9 |
 | Methodology binding mismatch | 3/3 positive, 33/33 negative |
 | Tamper detection | 3/3 positive, 33/33 negative |
