@@ -1,16 +1,22 @@
 # Human-on-the-exception + Human-at-the-attestation
 
-A normal synthetic Claim compiles from Evidence to evaluation and Package draft in one operation, without intermediate approval. The same pure pipeline reports incomplete official configuration rather than pretending success.
+A normal synthetic Claim compiles from Evidence to evaluation and Package draft without intermediate approval. Human review is scoped to explicit `HUMAN_REVIEW_REQUIRED` exceptions; institutional unknowns remain fail-closed.
 
-| Machine | Human |
-|---|---|
-| Completeness, hash/JSON/identity/version/date checks, duplicate detection | Contradictory evidence and ambiguous identity |
-| Supported deterministic arithmetic | Used parameter override or declared methodology judgement exception |
-| Provenance, diff, impact analysis and successor draft | Pack release approval and final Package attestation |
-| Stale export invalidation and audit verification | Formal external verification remains outside this prototype |
+## Individual exception decisions
 
-`UNSUPPORTED` is blocking and cannot be waived: unknown official configuration, missing applicability input, unknown operation, invalid dates, tampering or deterministic failure require correction or a supported rule implementation. `EVIDENCE_REQUIRED` requires evidence. Human review can accept only explicit `HUMAN_REVIEW_REQUIRED` codes with a reason bound to the current input fingerprint and Pack hash. It does not authorize missing evidence or failed calculations.
+Each exception is decided separately with exactly one of:
 
-Normal claims go directly to one final attestation after the Pack's one-time research release approval. Attestation needs the reviewer role, a >=20-character statement and explicit acknowledgement. Decisions and attestations are audited. Changed input/Pack/new run makes prior decisions unusable and prior packages stale for current export. Historical packages remain retained.
+- `ACCEPT` — resolves only that exact `HUMAN_REVIEW_REQUIRED` exception.
+- `REJECT` — package attestation is blocked.
+- `NEED_MORE_EVIDENCE` — package attestation is blocked until evidence changes and the Claim is re-evaluated.
+- `ABSTAIN` — package attestation is blocked pending expert judgement.
 
-The actor selector is a local demonstration, not authenticated real-world identity. A package attestation is not certification or verifier acceptance. Reference AG-005 retains its existing exception/attestation workflow and null certified result.
+A decision binds `claim_id`, `run_id`, exact `exception_code`, current input fingerprint, current methodology Pack hash, reviewer, reason and decision. `decision_hash` is SHA-256 over that binding payload. A new run, changed Evidence/input, changed Pack or methodology version makes the old decision unusable.
+
+`UNSUPPORTED`, `EVIDENCE_REQUIRED`, tamper/hash failure, methodology mismatch and deterministic rule/calculation failure are not human-overridable. Attempting to record an `ACCEPT` against those codes is blocked.
+
+## Final attestation gate
+
+Final research-package attestation requires all of the following: valid audit chain; current run; exact current input and Pack; Pack release approval; no blocking `UNSUPPORTED`; no unresolved `EVIDENCE_REQUIRED`; every `HUMAN_REVIEW_REQUIRED` exception individually decided `ACCEPT`; no remaining `REJECT / NEED_MORE_EVIDENCE / ABSTAIN`; explicit reviewer acknowledgement and reason.
+
+The resulting attestation is `ATTESTED_RESEARCH_PACKAGE`, not formal certification, verifier acceptance or J-Credit registration. The actor selector is a local demonstration identity, not production authentication.
