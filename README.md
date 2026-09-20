@@ -5,7 +5,7 @@
 - **Problem**：方法論の版・証憑・係数・圃場情報が変わると、どのClaimの再検証が必要か追跡しにくい。
 - **Current Prototype**：ビルド不要のJavaScript研究プロトタイプ。入力Evidenceを正規化し、版を固定した評価・依存graph・Monitoring Packageを生成する。
 - **Research Question**：「頻繁に改定されるMRV方法論と異種Evidenceを第三者が再計算・再検証可能な構造へ変換し、変更時に影響を受けるClaimだけを特定できるか？」
-- **Implemented**：Versioned Pack registry、決定論的diff、JSON provenance graph、4種の変更の影響分析・再評価、exception単位の`ACCEPT / REJECT / NEED_MORE_EVIDENCE / ABSTAIN`、最終宣誓、hash付きJSON export、36件のSynthetic conformance corpusと自動KPI。従来のAG-005参照評価と182件の回帰テストも維持。
+- **Implemented**：Versioned Pack registry、決定論的diff、JSON provenance graph、4種の変更の影響分析・再評価、exception単位の`ACCEPT / REJECT / NEED_MORE_EVIDENCE / ABSTAIN`、最終宣誓、hash付きJSON export、36件のSynthetic conformance corpusと自動KPI、100 Claimの合成版変更実験。従来のAG-005参照評価と182件の回帰テストも維持。
 - **Not Implemented**：AG-005 v3.5一次資料byte snapshot/hashの独立検証、AG-004本文の確認、完全な制度ルール翻訳、現場での正確性・費用削減・検証機関受入れ。公式要件不明は`UNKNOWN / CONFIG_REQUIRED / UNSUPPORTED`で停止。正式削減量`result`は常に`null`。
 - **How to Run Demo**：`naft-app.html`をブラウザで開き、**Demo A / B / C**を順に押す。A＝自動draft、B＝版変更と影響Claim、C＝曖昧なidentityから人間判断。[3分操作手順](docs/demo-script.md)。
 
@@ -19,7 +19,13 @@ Node.js 20+、Python 3、bashを使用します。ビルド、外部CDN、実行
 bash tests/run.sh
 ```
 
-**515 passed / 0 failed**（既存182＋Compiler333）。DOM stub検証を含みますが、実ブラウザ検証ではありません。[Test report](docs/test-report.md)と[自動生成KPI](reports/evaluation-kpis.json)を参照。
+**525 passed / 0 failed**（既存182＋Compiler333＋Mitou impact experiment 10）。DOM stub検証を含みますが、実ブラウザ検証ではありません。[Test report](docs/test-report.md)、[自動生成KPI](reports/evaluation-kpis.json)、[100 Claim影響解析実験](reports/mitou-impact-experiment.json)を参照。
+
+## 100-Claim selective re-verification experiment
+
+`NAFT-SYNTHETIC@1 → @2` の明示的な合成方法論改定を100 Claimへ適用する決定論的実験をCIに固定しています。100件すべてが変更版の候補集合に入る一方、active dependency projectionにより**30件だけを再検証対象として抽出し、70件はsuccessorを生成せず非影響として残します**。30件の内訳は15件が自動再評価、15件が新規Evidence不足で停止です。
+
+これは**件数ベースの再検証スコープ70%削減**であり、処理時間70%短縮、MRV費用70%削減、実制度での精度・受入れを意味しません。元Claimの不変性、再実行決定性、reverified successorの`supersedes`連結もテストします。
 
 ## Packs and boundaries
 
