@@ -19,7 +19,7 @@ Node.js 20+、Python 3、bashを使用します。ビルド、外部CDN、実行
 bash tests/run.sh
 ```
 
-**500 passed / 0 failed**（既存182＋Compiler318）。DOM stub検証を含みますが、実ブラウザ検証ではありません。[Test report](docs/test-report.md)と[自動生成KPI](reports/evaluation-kpis.json)を参照。
+**515 passed / 0 failed**（既存182＋Compiler333）。DOM stub検証を含みますが、実ブラウザ検証ではありません。[Test report](docs/test-report.md)と[自動生成KPI](reports/evaluation-kpis.json)を参照。
 
 ## Packs and boundaries
 
