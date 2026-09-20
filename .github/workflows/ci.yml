@@ -18,6 +18,6 @@ jobs:
       - name: Run Core regression, Compiler Corpus, syntax and security checks
         run: bash tests/run.sh
       - name: Verify reproducible Corpus KPI report
-        run: git diff --exit-code -- reports/evaluation-kpis.json
+        run: git diff --exit-code -- reports/evaluation-kpis.json reports/mitou-impact-experiment.json
       - name: Check committed whitespace
         run: git diff --check HEAD^ HEAD
