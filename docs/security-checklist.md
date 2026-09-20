@@ -50,3 +50,7 @@ Implemented: actual-byte SHA-256 and metadata-bound manifests; MATCH/MISMATCH re
 `bash tests/run.sh` verifies existing IEEE behavior plus positive/negative methodology cases, including mismatched files, altered events/checkpoints, broken-chain action/export refusal and another producer's access attempt. No new network request, SDK, storage backend, secrets or contract features were added. CI now also triggers on `feat/**` pushes.
 
 Production requirements remain server authentication/authorization, evidence access control/storage and retention, transactional uniqueness, independent audit witnessing, tenant isolation and a verifier-reviewed methodology configuration. Client role checks and hashes are prototype controls, not a production trust boundary. See [test-report.md](test-report.md) for the actual final count.
+
+## Visibility optimization review
+
+The display reuses a snapshot only within one render. Approval/export re-read and validate current state; no persistent validation cache was introduced. Default tables exclude off-page data, and all displayed names, metadata and requested JSON remain escaped. Work queues use authorized Program IDs. The audit badge is explicitly historical and is not used to authorize actions. Standard SHA-256 parity is tested at padding boundaries and on binary data after the allocation reduction.

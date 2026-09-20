@@ -19,7 +19,7 @@ Use `naft-app.html#/ieee`. A normal browser starts fresh on reload (memory-only 
 | 1:55–2:20 | 5. Candidate Climate Unit | Click **Issue Candidate Unit**. Show total / available / retired and `candidate_not_formally_issued`. The quantity is the approved operator estimate, not independently verified abatement. |
 | 2:20–2:45 | 6. Transfer | Default **From: Demo operator**, **To: Demo partner**, full available quantity. Click **Record demo transfer**. The sender loses custody, partner gains it, aggregate available remains unchanged. |
 | 2:45–3:15 | 7. Retirement | The source now defaults to Demo partner. Type a reason, e.g. “Remove this simulated claim from the demonstration balance.” Click **Human: retire candidate quantity**. Show available 0, retired total, `fully_retired`. |
-| 3:15–3:40 | 8. Double-counting Block | Click **Try retired-unit transfer → BLOCKED**. Show `RETIRED_UNITS_CANNOT_BE_REUSED`. Click **Try duplicate issuance → BLOCKED** to show `DUPLICATE_ISSUANCE_BLOCKED`. Expand **Inspect provenance, transfer ledger, and blocked attempts**. |
+| 3:15–3:40 | 8. Double-counting Block | Click **Try retired-unit transfer → BLOCKED**. Show `RETIRED_UNITS_CANNOT_BE_REUSED`. Click **Try duplicate issuance → BLOCKED** to show `DUPLICATE_ISSUANCE_BLOCKED`. Click **Inspect provenance, transfer ledger, and blocked attempts**. |
 | 3:40–4:00 | Message | Deliver the two sentences below, with the guard-scope qualifier. |
 
 NaFT does not decide whether climate action is real.
@@ -55,3 +55,7 @@ These are documented suggestions; repository metadata is not changed by the appl
 The four-minute generic flow above is unchanged. A separate `#/primary-mrv` screen demonstrates AG-005 reference checks, actual-byte evidence manifests, field/activity identity, human-reviewed candidate drafts, audit-chain verification and draft Monitoring Package JSON. Use the [separate scenario](primary-industry-mrv.md#methodology-aware-demo) after the IEEE demo; do not attempt to squeeze both demonstrations into the same four minutes.
 
 AG-005 drafts do not feed IEEE unit issuance. They retain CONFIG REQUIRED and do not calculate an officially usable reduction quantity. The audit function now chains new generic and methodology events, while preserving the original historical entries through a disclosed legacy anchor.
+
+## Lightweight provenance inspection
+
+The eight-stage lifecycle remains unchanged. Detailed provenance is generated only when its inspection button is clicked; review/retirement text remains in place during that toggle. The latest retirement reason remains visible as a short escaped summary. Primary MRV's separate progress and Program work queue are described in [visibility notes](mrv-visibility-performance.md).

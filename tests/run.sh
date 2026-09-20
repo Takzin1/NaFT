@@ -4,5 +4,6 @@ set -euo pipefail
 cd "$(dirname "$0")/.."
 python3 tests/extract-app-js.py
 node --check tests/_app.js && echo "syntax: OK"
+node --check tests/render-benchmark.js
 node tests/smoke.test.js
 bash tests/security.sh

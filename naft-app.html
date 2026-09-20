@@ -215,6 +215,13 @@ h1,h2,h3,h4{line-height:1.35;letter-spacing:.01em}
 .ieee .mono,.ieee .tiny,.ieee .small{overflow-wrap:anywhere}
 .ieee button:disabled{opacity:.45;cursor:not-allowed}
 @media(max-width:600px){.ieee .stats{grid-template-columns:1fr!important}}
+/* MRV summaries use the existing visual system. */
+.mrv-stages{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.mrv-stage{padding:14px;border:1px solid #ccd8d1;border-radius:12px;overflow-wrap:anywhere}
+.mrv-complete{border-left:4px solid var(--g700)}.mrv-review{border-left:4px solid #b58a32}.mrv-pending{border-left:4px solid #9ca6a0}
+.mrv-table{overflow-x:auto}.mrv-table table{min-width:540px;width:100%}.mrv-table td{max-width:250px;overflow-wrap:anywhere}
+.mrv-json{white-space:pre-wrap;overflow-wrap:anywhere;max-height:420px;overflow:auto;font-size:12px}
+@media(max-width:640px){.mrv-stages{grid-template-columns:repeat(2,minmax(0,1fr))}}
 </style>
 </head>
 <body>
@@ -455,22 +462,24 @@ function digestText(value){
   return digestBytes(new TextEncoder().encode(String(value)));
 }
 function digestBytes(input){
-  var bytes=Array.from(input),bitLength=bytes.length*8;
-  bytes.push(128); while(bytes.length%64!==56) bytes.push(0);
-  for(var j=7;j>=0;j--) bytes.push(Math.floor(bitLength/Math.pow(256,j))&255);
+  var bitLength=input.length*8,bytes=new Uint8Array(Math.ceil((input.length+9)/64)*64);
+  bytes.set(input);bytes[input.length]=128;
+  for(var j=7;j>=0;j--) bytes[bytes.length-1-j]=Math.floor(bitLength/Math.pow(256,j))&255;
   var h=[0x6a09e667,0xbb67ae85,0x3c6ef372,0xa54ff53a,0x510e527f,0x9b05688c,0x1f83d9ab,0x5be0cd19];
   var k=[0x428a2f98,0x71374491,0xb5c0fbcf,0xe9b5dba5,0x3956c25b,0x59f111f1,0x923f82a4,0xab1c5ed5,0xd807aa98,0x12835b01,0x243185be,0x550c7dc3,0x72be5d74,0x80deb1fe,0x9bdc06a7,0xc19bf174,0xe49b69c1,0xefbe4786,0x0fc19dc6,0x240ca1cc,0x2de92c6f,0x4a7484aa,0x5cb0a9dc,0x76f988da,0x983e5152,0xa831c66d,0xb00327c8,0xbf597fc7,0xc6e00bf3,0xd5a79147,0x06ca6351,0x14292967,0x27b70a85,0x2e1b2138,0x4d2c6dfc,0x53380d13,0x650a7354,0x766a0abb,0x81c2c92e,0x92722c85,0xa2bfe8a1,0xa81a664b,0xc24b8b70,0xc76c51a3,0xd192e819,0xd6990624,0xf40e3585,0x106aa070,0x19a4c116,0x1e376c08,0x2748774c,0x34b0bcb5,0x391c0cb3,0x4ed8aa4a,0x5b9cca4f,0x682e6ff3,0x748f82ee,0x78a5636f,0x84c87814,0x8cc70208,0x90befffa,0xa4506ceb,0xbef9a3f7,0xc67178f2];
   function rr(x,n){return (x>>>n)|(x<<(32-n));}
+  var w=new Int32Array(64);
   for(var offset=0;offset<bytes.length;offset+=64){
-    var w=[]; for(var i=0;i<16;i++) w[i]=(bytes[offset+4*i]<<24)|(bytes[offset+4*i+1]<<16)|(bytes[offset+4*i+2]<<8)|bytes[offset+4*i+3];
+    for(var i=0;i<16;i++) w[i]=(bytes[offset+4*i]<<24)|(bytes[offset+4*i+1]<<16)|(bytes[offset+4*i+2]<<8)|bytes[offset+4*i+3];
     for(i=16;i<64;i++) w[i]=(w[i-16]+(rr(w[i-15],7)^rr(w[i-15],18)^(w[i-15]>>>3))+w[i-7]+(rr(w[i-2],17)^rr(w[i-2],19)^(w[i-2]>>>10)))|0;
-    var v=h.slice();
+    var va=h[0],vb=h[1],vc=h[2],vd=h[3],ve=h[4],vf=h[5],vg=h[6],vh=h[7];
     for(i=0;i<64;i++){
-      var t1=(v[7]+(rr(v[4],6)^rr(v[4],11)^rr(v[4],25))+((v[4]&v[5])^(~v[4]&v[6]))+k[i]+w[i])|0;
-      var t2=((rr(v[0],2)^rr(v[0],13)^rr(v[0],22))+((v[0]&v[1])^(v[0]&v[2])^(v[1]&v[2])))|0;
-      v=[(t1+t2)|0,v[0],v[1],v[2],(v[3]+t1)|0,v[4],v[5],v[6]];
+      var t1=(vh+(rr(ve,6)^rr(ve,11)^rr(ve,25))+((ve&vf)^(~ve&vg))+k[i]+w[i])|0;
+      var t2=((rr(va,2)^rr(va,13)^rr(va,22))+((va&vb)^(va&vc)^(vb&vc)))|0;
+      vh=vg;vg=vf;vf=ve;ve=(vd+t1)|0;vd=vc;vc=vb;vb=va;va=(t1+t2)|0;
     }
-    for(i=0;i<8;i++) h[i]=(h[i]+v[i])|0;
+    h[0]=(h[0]+va)|0;h[1]=(h[1]+vb)|0;h[2]=(h[2]+vc)|0;h[3]=(h[3]+vd)|0;
+    h[4]=(h[4]+ve)|0;h[5]=(h[5]+vf)|0;h[6]=(h[6]+vg)|0;h[7]=(h[7]+vh)|0;
   }
   return h.map(function(n){return ('00000000'+(n>>>0).toString(16)).slice(-8);}).join('');
 }
@@ -689,7 +698,7 @@ function closeModal(){ S.modal=null; render(); }
 /* ---------- render loop ---------- */
 function render(){
   var h = location.hash || '#/';
-  var ieeeScroll=h==='#/ieee'?(window.scrollY||0):null;
+  var ieeeScroll=(h==='#/ieee'||h==='#/primary-mrv')?(window.scrollY||0):null;
   var parts = h.slice(2).split('?')[0].split('/').filter(Boolean);
   var html = '';
   try{ html = route(parts); }catch(e){ html = '<div class="container" style="padding:60px 24px">エラーが発生しました：'+esc(e.message)+'</div>'; console.error(e); }
@@ -699,6 +708,7 @@ function render(){
   S._keepScroll = false;
 }
 function afterRender(){
+  primaryRestoreInputs();
   document.querySelectorAll('.qr-target').forEach(function(el){
     el.innerHTML='';
     if(window.QRCode){ try{ new QRCode(el,{text:el.dataset.v,width:168,height:168,correctLevel:QRCode.CorrectLevel.M}); return; }catch(e){} }
@@ -906,6 +916,11 @@ function ieeeRetire(id){
   return retireCandidateUnit(id,Number(document.getElementById('ieee-quantity').value),document.getElementById('ieee-reason').value,document.getElementById('ieee-from').value);
 }
 function ieeeButton(label,handler,disabled){return '<button class="btn btn-o" '+(disabled?'disabled ':'')+'onclick="'+handler+'">'+label+'</button>';}
+function ieeeInspectProvenance(){
+  var values={};['rv-comment','ieee-from','ieee-to','ieee-quantity','ieee-reason'].forEach(function(id){var el=document.getElementById(id);if(el)values[id]=el.value;});
+  var id=S.ieeeProject||'pj9';S.ieeeInspectionProject=S.ieeeInspectionProject===id?null:id;render();
+  Object.keys(values).forEach(function(id){var el=document.getElementById(id);if(el)el.value=values[id];});
+}
 function pgIEEEDemo(){
   var p=projectOf(S.ieeeProject||'pj9'),run=latestVerificationRun(p.id),record=environmentalRecordFor(p.id);
   var unit=db.candidate_units.find(function(u){return record&&u.environmental_record_id===record.id;});
@@ -916,6 +931,7 @@ function pgIEEEDemo(){
   var stages=[['Evidence',evidences.length?'✓ Evidence present':'Evidence missing'],['Deterministic MRV Readiness',run&&verificationRunIsCurrent(p,run)?run.outcome.toUpperCase():'Run readiness checks'],['Human Review',record?'✓ Human approved':'Explicit human action required'],['Verified Environmental Record',record?'✓ Hash-linked candidate record':'Awaiting human decision'],['Candidate Unit',unit?'✓ Candidate unit issued':'Not formally issued'],['Transfer',transfers.some(function(t){return t.transfer_type==='demo_transfer';})?'✓ Transfer recorded':'Simulation only'],['Retirement',unit&&unit.quantity_retired>0?'✓ Retired':'Human action + reason'],['Double-counting Block',doubleBlocked?'✓ Duplicate blocked / reuse blocked':'Try a duplicate or retired reuse']];
   var allowed=canReviewProject(p),operate=canOperateProject(p),safeId=function(id){return /^[a-zA-Z0-9_]+$/.test(id||'')?id:'';};
   var rid=record?safeId(record.id):'',uidv=unit?safeId(unit.id):'';
+  var latestRetirement=unit&&db.unit_retirements.find(function(r){return r.candidate_unit_id===unit.id;});
   var message=S.candidateMessage&&S.candidateMessage.project_id===p.id?S.candidateMessage:null;
   return pubHeader()+'<main class="ieee"><section class="sec" style="padding:32px 0"><div class="container"><span class="eyebrow">IEEE ClimateChain Hackathon · Off-chain Prototype</span>'
     +'<h1 style="font-size:clamp(30px,4vw,48px);margin:12px 0">One Auditable Path</h1><p class="sec-lead">Fragmented climate evidence. One human decision. A traceable candidate-unit lifecycle.</p>'
@@ -938,11 +954,12 @@ function pgIEEEDemo(){
     +'<label class="label mt8" for="ieee-quantity">Quantity ('+esc(unit.unit)+', up to 6 decimals)</label><input class="input" id="ieee-quantity" type="number" min="0.000001" step="0.000001" value="'+(unit.quantity_available||unit.quantity_total)+'">'
     +'<div class="mt16">'+ieeeButton(unit.status==='fully_retired'?'Try retired-unit transfer → BLOCKED':'Record demo transfer',"ieeeTransfer('"+uidv+"')",!allowed||!uidv)+'</div>'
     +'<label class="label mt16" for="ieee-reason">Retirement reason (required)</label><textarea class="input" id="ieee-reason" placeholder="Explain why these demo units are removed."></textarea><div class="mt16">'+ieeeButton('Human: retire candidate quantity',"ieeeRetire('"+uidv+"')",!allowed||!uidv||unit.status==='fully_retired')+'</div>':'')
+    +(latestRetirement?'<p class="small mt8">Last retirement reason: '+esc(String(latestRetirement.reason).slice(0,200))+'</p>':'')
     +'<p class="small mt16">'+RETIREMENT_BOUNDARY+'</p><h3 class="mt24">Double-counting guard</h3>'
     +(message?'<div role="status" class="notice-inline mt8" style="overflow-wrap:anywhere"><b>'+(message.blocked?'BLOCKED: ':'')+esc(message.code)+'</b></div>':'')
     +(doubleBlocked?'<p class="mt8"><b>Duplicate issuance blocked / Retired units cannot be reused</b></p>':'<p class="small mt8">After issuance, try issuing the same record again. After full retirement, try a transfer again.</p>')
     +'<p class="tiny muted mt8">Guard scope: identical record or canonical input in this demo dataset. No global or cross-registry detection.</p></section></div>'
-    +'<details class="card card-p mt24"><summary><b>Inspect provenance, transfer ledger, and blocked attempts</b></summary><pre style="white-space:pre-wrap;overflow-wrap:anywhere;font-size:12px">'+esc(JSON.stringify({environmental_record:record,candidate_unit:unit,unit_transfers:transfers,retirements:db.unit_retirements.filter(function(r){return unit&&r.candidate_unit_id===unit.id;}),blocked_attempts:guards},null,2))+'</pre></details>'
+    +'<section class="card card-p mt24"><button class="btn btn-o" onclick="ieeeInspectProvenance()">Inspect provenance, transfer ledger, and blocked attempts</button>'+(S.ieeeInspectionProject===p.id?'<pre class="mrv-json">'+esc(JSON.stringify({environmental_record:record,candidate_unit:unit,unit_transfers:transfers,retirements:db.unit_retirements.filter(function(r){return unit&&r.candidate_unit_id===unit.id;}),blocked_attempts:guards},null,2))+'</pre>':'<p class="small">Open the detailed record and ledger when needed.</p>')+'</section>'
     +'<p class="mt24" style="font-size:18px;line-height:1.7"><b>NaFT does not decide whether climate action is real.</b><br>It makes the evidence, human decision, candidate unit lifecycle, and retirement traceable — and blocks the same claim from being counted twice.</p><p class="tiny muted mt8">Within this prototype: identical input / record matching only. Hash-linked provenance prototype; tamper-evident design direction. Not a blockchain or a cryptographic signature.</p><div class="mt24">'+disclaimerBox()+'</div></div></section></main>'+pubFooter();
 }
 
@@ -2122,8 +2139,11 @@ function drainageDays(p){
 }
 function primaryEvidence(a){return db.evidence_manifests.filter(function(e){return e.activity_id===a.id;}).sort(function(x,y){return x.evidence_id.localeCompare(y.evidence_id);});}
 function manifestPayload(e){var p=Object.assign({},e);delete p.manifest_hash;return p;}
-function evidenceMismatches(a){return primaryEvidence(a).filter(function(e){var last=db.evidence_content_checks.filter(function(c){return c.evidence_id===e.evidence_id;}).slice(-1)[0];return last&&last.result==='MISMATCH';}).map(function(e){return e.evidence_id;});}
-function primarySnapshot(a){return {content_mismatches:evidenceMismatches(a),activity:primaryClone(a),field:primaryClone(db.fields.find(function(f){return f.id===a.field_ref;})||null),farmer:primaryClone(db.farmers.find(function(f){return f.id===a.farmer_id;})||null),program:primaryClone(primaryProgram(a)||null),evidence:primaryClone(primaryEvidence(a)),rule:AG005_RULE};}
+function evidenceMismatches(a,evidence){
+  var latest=primaryLatestMap(db.evidence_content_checks,'evidence_id');
+  return (evidence||primaryEvidence(a)).filter(function(e){var c=latest.get(e.evidence_id);return c&&c.result==='MISMATCH';}).map(function(e){return e.evidence_id;});
+}
+function primarySnapshot(a){var ev=primaryEvidence(a);return {content_mismatches:evidenceMismatches(a,ev),activity:primaryClone(a),field:primaryClone(db.fields.find(function(f){return f.id===a.field_ref;})||null),farmer:primaryClone(db.farmers.find(function(f){return f.id===a.farmer_id;})||null),program:primaryClone(primaryProgram(a)||null),evidence:primaryClone(ev),rule:AG005_RULE};}
 function calculateAG005(a){
   // Reference equations 1, 2, 4; no invented emission factors or GWP default.
   var c=a.calculation_parameters||{}, missing=['baseline_ef','project_ef','gwp_ch4','coefficient_source','coefficient_version','stratum'].filter(function(k){return c[k]===undefined||c[k]===null||c[k]==='';});
@@ -2138,8 +2158,9 @@ function calculateAG005(a){
     warnings:['Latest adopted methodology and applicable coefficients are not confirmed. Arithmetic preview uses supplied parameters only; it is not an eligible reduction or certified quantity.'],
     missing_parameters:missing.concat(['current_adopted_methodology_confirmation','coefficient_applicability_review'])};
 }
-function assessAG005(a){
-  var ev=primaryEvidence(a), checks=[],missing=[];
+function assessAG005(a){return assessAG005Snapshot(a,primarySnapshot(a));}
+function assessAG005Snapshot(a,snapshot){
+  var ev=snapshot.evidence, checks=[],missing=[];
   function check(id,status,note){checks.push({id:id,status:status,note:note});}
   var required=['methodology_id','methodology_version','field_id','farmer_id','activity_year','crop_year','project_start_year','region','activity_type','activity_start','activity_end'];
   var absent=required.filter(function(k){return a[k]===undefined||a[k]===null||a[k]==='';});
@@ -2159,17 +2180,21 @@ function assessAG005(a){
   check('sustainability',a.sustainability_confirmed===true?'REVIEW':a.sustainability_confirmed===false?'FAIL':'MISSING','Human must review environmental/social compliance; declaration is not proof.');
   check('land_changes',a.land_change===false?'PASS':a.land_change===true?'FAIL':'MISSING','Land consolidation/split/merge special cases NOT IMPLEMENTED.');
   var needs=years.map(function(y){return {type:'baseline_record',year:y};}).concat(['project_record','drainage_start','drainage_end','heading_record','area_record','sustainability_record'].map(function(t){return {type:t,year:a.crop_year};}));
-  needs.forEach(function(n){if(!ev.some(function(e){return e.evidence_type===n.type&&e.crop_year===n.year&&e.hash_algorithm==='SHA-256'&&/^[a-f0-9]{64}$/.test(e.hash)&&e.manifest_hash===primaryHash(manifestPayload(e))&&e.field_id===a.field_id&&e.methodology_id===a.methodology_id;})) missing.push(n.type+':'+n.year);});
+  var inventory=new Set(),integrity=true;
+  ev.forEach(function(e){var valid=e.manifest_hash===primaryHash(manifestPayload(e));if(!valid) integrity=false;
+    if(valid&&Number.isInteger(e.crop_year)&&typeof e.evidence_type==='string'&&e.hash_algorithm==='SHA-256'&&/^[a-f0-9]{64}$/.test(e.hash)&&e.field_id===a.field_id&&e.methodology_id===a.methodology_id) inventory.add(e.evidence_type+':'+e.crop_year);
+  });
+  needs.forEach(function(n){if(!inventory.has(n.type+':'+n.year))missing.push(n.type+':'+n.year);});
   check('evidence',missing.length?'MISSING':'PASS',missing.join(', '));
-  check('content_recheck',evidenceMismatches(a).length?'FAIL':'PASS','A mismatched reselected file requires a matching original before review/export.');
-  check('manifest_integrity',ev.every(function(e){return e.manifest_hash===primaryHash(manifestPayload(e));})?'PASS':'FAIL','Content hashes bind selected bytes; authenticity requires human inspection.');
+  check('content_recheck',snapshot.content_mismatches.length?'FAIL':'PASS','A mismatched reselected file requires a matching original before review/export.');
+  check('manifest_integrity',integrity?'PASS':'FAIL','Content hashes bind selected bytes; authenticity requires human inspection.');
   check('official_configuration','REVIEW','CONFIG REQUIRED: current adopted version and coefficient applicability.');
   var calculation=calculateAG005(a);
   check('calculation',calculation.status==='INVALID'?'FAIL':'REVIEW',calculation.status);
   var status=checks.some(function(c){return c.status==='FAIL';})?'FAIL':checks.some(function(c){return c.status==='MISSING';})?'MISSING':'REVIEW';
   return {methodology_id:a.methodology_id,methodology_version:a.methodology_version,rule_version:AG005_RULE.rule_version,eligibility_status:status,checks:checks,
     baseline_days:average,project_days:pd,extension_days:extension,evidence_completeness:{present:needs.length-missing.length,required:needs.length,missing:missing},calculation_readiness:calculation.status,calculation:calculation,
-    reviewer_status:'pending',warnings:(ev.some(function(e){return e.source.indexOf('SYNTHETIC DEMO')>=0;})?['SYNTHETIC evidence: no real field observation.']:[]).concat(['Internal readiness only; no certification.', 'CONFIG REQUIRED: latest adopted methodology not established.', 'Monitoring Package remains an incomplete reviewed draft.']),input_fingerprint:primaryHash(primarySnapshot(a))};
+    reviewer_status:'pending',warnings:(ev.some(function(e){return e.source.indexOf('SYNTHETIC DEMO')>=0;})?['SYNTHETIC evidence: no real field observation.']:[]).concat(['Internal readiness only; no certification.', 'CONFIG REQUIRED: latest adopted methodology not established.', 'Monitoring Package remains an incomplete reviewed draft.']),input_fingerprint:primaryHash(snapshot)};
 }
 function primaryExample(){return {program_name:'Demo rice program',farmer_name:'Demo farmer 001',field_id:'DEMO-FIELD-001',field_area_ha:5,region:'埼玉県',methodology_id:'AG-005',methodology_version:AG005_RULE.methodology_version,activity_year:2026,crop_year:2026,project_start_year:2026,activity_type:'midseason_drainage_extension',activity_start:'2026-04-01',activity_end:'2026-10-31',baseline_periods:[{crop_year:2024,start:'2024-06-01',end:'2024-06-07',heading_date:'2024-08-01'},{crop_year:2025,start:'2025-06-01',end:'2025-06-08',heading_date:'2025-08-01'}],project_drainage:{start:'2026-06-01',end:'2026-06-15',heading_date:'2026-08-01'},sustainability_confirmed:true,land_change:false,calculation_parameters:{}};}
 async function registerPrimaryActivity(input){
@@ -2225,7 +2250,8 @@ async function runAG005(activityId){var a=primaryActivity(activityId);primaryGua
   var run=Object.assign({id:uid('mr'),activity_id:a.id,created_by:primaryUser().id,created_at:nowISO()},result);run.run_hash=primaryHash(run);
   db.methodology_runs.push(run);audit('methodology_readiness_run','activity',a.id,run.run_hash);await saveDB();return run;
 }
-function primaryRunCurrent(a,r){var p=r&&Object.assign({},r);if(!p) return false;delete p.run_hash;return r.run_hash===primaryHash(p)&&r.input_fingerprint===primaryHash(primarySnapshot(a));}
+function primaryRunMatches(r,fingerprint){var p=r&&Object.assign({},r);if(!p)return false;delete p.run_hash;return r.run_hash===primaryHash(p)&&r.input_fingerprint===fingerprint;}
+function primaryRunCurrent(a,r){return primaryRunMatches(r,primaryHash(primarySnapshot(a)));}
 async function reviewPrimaryActivity(activityId,decision,note){
   var a=primaryActivity(activityId);primaryGuard(a,true);note=String(note||'').trim();
   if(['approved','rejected'].indexOf(decision)<0||note.length<20) throw new Error('EXPLICIT_HUMAN_REASON_REQUIRED');
@@ -2254,10 +2280,11 @@ function programAggregate(programId){
   return {program_id:programId,farmers:db.farmers.filter(function(f){return f.program_id===programId;}).length,fields:fields.length,area_ha:fields.reduce(function(s,f){return s+f.area_ha;},0),activities:acts.length,evidence:db.evidence_manifests.filter(function(e){return ids.has(e.activity_id);}).length,candidate_records:db.primary_records.filter(function(r){return r.program_id===programId;}).length,certified_quantity:null};
 }
 
-function primarySelected(){var visible=db.activities.filter(function(a){return primaryCanOperate(primaryProgram(a));});return visible.find(function(a){return a.id===S.primaryActivityId;})||visible.slice(-1)[0];}
+function primarySelected(){var visible=primaryVisibleActivities();return visible.find(function(a){return a.id===S.primaryActivityId;})||visible.slice(-1)[0];}
 async function primaryLogin(email){await ieeeLogin(email);go('#/primary-mrv');render();}
-function primarySelect(id){S.primaryActivityId=id;S.primaryMessage='';render();}
+function primarySelect(id){S.primaryActivityId=id;S.primaryMessage='';S.primaryInspection=null;S.primaryDraft=null;S.primaryEvidencePage=0;render();}
 async function primaryUI(action){
+  primaryRememberInputs();
   try{
     var a=primarySelected(),result;
     if(action==='register'){result=await registerPrimaryActivity(JSON.parse(document.getElementById('pm-json').value));S.primaryActivityId=result.id;}
@@ -2275,7 +2302,7 @@ async function primaryUI(action){
     if(action==='run') result=await runAG005(a.id);
     if(action==='approve'||action==='reject') result=await reviewPrimaryActivity(a.id,action==='approve'?'approved':'rejected',document.getElementById('pm-note').value);
     if(action==='duplicate'){var existing=db.primary_records.find(function(r){return r.activity_id===a.id;});if(!existing) throw new Error('REVIEWED_RECORD_REQUIRED');result=await reviewPrimaryActivity(a.id,'approved',existing.review_note);}
-    if(action==='audit') result=verifyAuditChain();
+    if(action==='audit'){result=verifyAuditChain();S.primaryAuditResult={status:result.status,checked_at:nowISO(),dataset:db};}
     if(action==='export'){
       var record=db.primary_records.find(function(r){return r.activity_id===a.id;});if(!record) throw new Error('HUMAN_APPROVAL_REQUIRED');
       var json=exportMonitoringJSON(record.id),url=URL.createObjectURL(new Blob([json],{type:'application/json'})),link=document.createElement('a');
@@ -2296,24 +2323,88 @@ function pgPrimaryMRV(){
     +'<p class="small mt8">Evidence → Methodology Readiness → Human Review → Candidate Record → Monitoring Package. '+esc(S.user?S.user.name+' / '+S.user.role:'Sign in with a demo role.')+'</p>'
     +'<div role="status" class="notice mt16">'+esc(S.primaryMessage||'Select an operator, register an activity, then add evidence.')+'</div>';
   if(!primaryUser()||!(primaryUser().role==='producer'||primaryCanReview())) return html+'</main>'+pubFooter();
-  var a=primarySelected(),visible=db.activities.filter(function(x){return primaryCanOperate(primaryProgram(x));});
-  html+='<details class="card card-p mt16"'+(!a?' open':'')+'><summary>Register Program / Farmer / Field / Activity (JSON)</summary><p class="small">Same program and farmer names reuse their records within this operator account. Field IDs are shared across this dataset. Dates and names below are synthetic examples; edit before registration. Fields with changed ownership or area require review outside this prototype.</p>'
+  var a=primarySelected();
+  var queueHTML=primaryPortfolioHTML(primaryPortfolio());
+  var registrationHTML='<details class="card card-p mt16"'+(!a?' open':'')+'><summary>Register Program / Farmer / Field / Activity (JSON)</summary><p class="small">Same program and farmer names reuse their records within this operator account. Field IDs are shared across this dataset. Dates and names below are synthetic examples; edit before registration. Fields with changed ownership or area require review outside this prototype.</p>'
     +'<textarea id="pm-json" rows="13" style="width:100%" aria-label="Activity JSON">'+esc(JSON.stringify(primaryExample(),null,2))+'</textarea><button class="btn btn-p mt8" onclick="primaryUI(\'register\')">Register activity draft</button></details>';
-  if(!a) return html+'</main>'+pubFooter();
-  var run=db.methodology_runs.filter(function(r){return r.activity_id===a.id;}).slice(-1)[0],record=db.primary_records.find(function(r){return r.activity_id===a.id;}),ev=primaryEvidence(a),assessment=assessAG005(a),agg=programAggregate(a.program_id),chain=verifyAuditChain();
-  html+='<label class="mt16" style="display:block">Activity <select onchange="primarySelect(this.value)">'+visible.map(function(x){return '<option value="'+esc(x.id)+'"'+(a.id===x.id?' selected':'')+'>'+esc(x.field_id+' / '+x.crop_year)+'</option>';}).join('')+'</select></label>'
-    +'<div class="card card-p mt16"><b>Program → Farmers → Fields → Activities → Evidence → Candidate Records</b><p>'+esc(agg.farmers+' farmers / '+agg.fields+' fields / '+agg.area_ha+' ha / '+agg.activities+' activities / '+agg.evidence+' evidence / '+agg.candidate_records+' candidate records')+'</p><p class="small">Area counts each field once. No certified quantity or income forecast.</p><code style="overflow-wrap:anywhere">Field/activity identity: '+esc(primaryIdentity(a).hash)+'</code></div>'
+  if(!a) return html+queueHTML+registrationHTML+'</main>'+pubFooter();
+  var run=db.methodology_runs.filter(function(r){return r.activity_id===a.id;}).slice(-1)[0],record=db.primary_records.find(function(r){return r.activity_id===a.id;}),snapshot=primarySnapshot(a),ev=snapshot.evidence,assessment=assessAG005Snapshot(a,snapshot),agg=programAggregate(a.program_id);
+  var current=primaryRunMatches(run,assessment.input_fingerprint),recordPayload=record&&Object.assign({},record);if(recordPayload)delete recordPayload.candidate_record_hash;
+  var recordReviewer=record&&findUser(record.reviewer);
+  var recordCurrent=!!(record&&record.reviewer_status==='approved'&&recordReviewer&&isPlatformRole(recordReviewer.role)&&current&&record.input_fingerprint===assessment.input_fingerprint&&record.candidate_record_hash===primaryHash(recordPayload));
+  var chain=S.primaryAuditResult&&S.primaryAuditResult.dataset===db?S.primaryAuditResult:null;
+  html+=primaryProgressHTML(a,assessment,run,record,current,recordCurrent)+queueHTML+registrationHTML;
+  html+='<div class="card card-p mt16"><b>Program → Farmers → Fields → Activities → Evidence → Candidate Records</b><p>'+esc(agg.farmers+' farmers / '+agg.fields+' fields / '+agg.area_ha+' ha / '+agg.activities+' activities / '+agg.evidence+' evidence / '+agg.candidate_records+' candidate records')+'</p><p class="small">Area counts each field once. No certified quantity or income forecast.</p><code style="overflow-wrap:anywhere">Field/activity identity: '+esc(primaryIdentity(a).hash)+'</code></div>'
     +'<div class="card card-p mt16"><h2>1. Evidence content → SHA-256 manifest</h2><p class="small">Select actual bytes; file content stays on your device and is not stored. Keep originals for human inspection. Maximum 5 MiB per file.</p><label>Evidence type / year <select id="pm-type">'+assessment.evidence_completeness.missing.map(function(t){return '<option>'+esc(t)+'</option>';}).join('')+'</select></label> <input id="pm-file" type="file" aria-label="Evidence file"><label>Source <input id="pm-source" value="Operator-provided original" aria-label="Evidence source"></label>'
     +'<button class="btn btn-p mt8" onclick="primaryUI(\'evidence\')">Hash selected file</button> <button class="btn btn-o mt8" onclick="primaryUI(\'sample\')">Add SYNTHETIC demo evidence</button><p class="small">Synthetic evidence exercises the hash pipeline; it does not document climate activity.</p>'
-    +'<details><summary>Evidence inventory ('+ev.length+')</summary><pre style="white-space:pre-wrap;overflow-wrap:anywhere">'+esc(JSON.stringify(ev,null,2))+'</pre></details>'
-    +'<label>Recheck original <select id="pm-evidence-id">'+ev.map(function(e){return '<option value="'+esc(e.evidence_id)+'">'+esc(e.original_filename)+'</option>';}).join('')+'</select></label><input id="pm-check-file" type="file" aria-label="File for integrity recheck"><button class="btn btn-o mt8" onclick="primaryUI(\'verify\')">Compare content hash</button></div>'
-    +'<div class="card card-p mt16"><h2>2. Deterministic MRV Readiness</h2><button class="btn btn-p" onclick="primaryUI(\'run\')">Run AG-005 readiness</button><p><b>'+esc(run?(primaryRunCurrent(a,run)?run.eligibility_status:'STALE — rerun required'):'Not run')+'</b> · PASS / REVIEW / FAIL / MISSING are internal checks only.</p>'
-    +'<p>'+esc('Baseline '+assessment.baseline_days+' days / Project '+assessment.project_days+' days / Extension '+assessment.extension_days+' days')+'</p><table><thead><tr><th>Check</th><th>Status</th><th>Detail</th></tr></thead><tbody>'+assessment.checks.map(function(c){return '<tr><td>'+esc(c.id)+'</td><td>'+esc(c.status)+'</td><td>'+esc(c.note)+'</td></tr>';}).join('')+'</tbody></table><details class="mt8"><summary>Calculation Assist — CONFIG REQUIRED</summary><pre style="white-space:pre-wrap;overflow-wrap:anywhere">'+esc(JSON.stringify(assessment.calculation,null,2))+'</pre></details></div>'
-    +'<div class="card card-p mt16"><h2>3. Human Review → Candidate Record</h2><p>Inspect original files and rule gaps. Approval records a reviewed draft; it does not resolve CONFIG REQUIRED or certify a reduction. FAIL / MISSING cannot be approved. Explain the remaining limitations in at least 20 characters.</p><textarea id="pm-note" rows="3" style="width:100%" aria-label="Human review reason"></textarea><div class="flex mt8"><button class="btn btn-p" onclick="primaryUI(\'approve\')">Human: approve draft</button><button class="btn btn-o" onclick="primaryUI(\'reject\')">Human: reject</button><button class="btn btn-o" onclick="primaryUI(\'duplicate\')">Try duplicate record → BLOCKED</button></div><p>'+esc(record?'Human approved / candidate_not_formally_issued':'No candidate record')+'</p></div>'
+    +primaryEvidenceHTML(ev)
+    +'<label>Recheck original (this page) <select id="pm-evidence-id">'+primaryEvidencePage(ev).rows.map(function(e){return '<option value="'+esc(e.evidence_id)+'">'+esc(e.original_filename)+'</option>';}).join('')+'</select></label><input id="pm-check-file" type="file" aria-label="File for integrity recheck"><button class="btn btn-o mt8" onclick="primaryUI(\'verify\')">Compare content hash</button></div>'
+    +'<div class="card card-p mt16"><h2>2. Deterministic MRV Readiness</h2><button class="btn btn-p" onclick="primaryUI(\'run\')">Run AG-005 readiness</button><p><b>'+esc(run?(current?run.eligibility_status:'STALE — rerun required'):'Not run')+'</b> · PASS / REVIEW / FAIL / MISSING are internal checks only.</p>'
+    +'<p>'+esc('Baseline '+assessment.baseline_days+' days / Project '+assessment.project_days+' days / Extension '+assessment.extension_days+' days')+'</p><table><thead><tr><th>Check</th><th>Status</th><th>Detail</th></tr></thead><tbody>'+assessment.checks.map(function(c){return '<tr><td>'+esc(c.id)+'</td><td>'+esc(c.status)+'</td><td>'+esc(c.note)+'</td></tr>';}).join('')+'</tbody></table>'+primaryInspectHTML('calculation','Calculation Assist — CONFIG REQUIRED',assessment.calculation)+'</div>'
+    +'<div class="card card-p mt16"><h2>3. Human Review → Candidate Record</h2><p>Inspect original files and rule gaps. Approval records a reviewed draft; it does not resolve CONFIG REQUIRED or certify a reduction. FAIL / MISSING cannot be approved. Explain the remaining limitations in at least 20 characters.</p><textarea id="pm-note" rows="3" style="width:100%" aria-label="Human review reason"></textarea><div class="flex mt8"><button class="btn btn-p" onclick="primaryUI(\'approve\')">Human: approve draft</button><button class="btn btn-o" onclick="primaryUI(\'reject\')">Human: reject</button><button class="btn btn-o" onclick="primaryUI(\'duplicate\')">Try duplicate record → BLOCKED</button></div><p>'+esc(record?(recordCurrent?'Human approved / candidate_not_formally_issued':'STALE / changed candidate record'):'No candidate record')+'</p></div>'
     +'<div class="card card-p mt16"><h2>4. Monitoring Package</h2><p>JSON includes the reviewed snapshot, evidence hashes, eligibility, calculation inputs, reviewer, missing parameters, audit reference and candidate record hash. Status: incomplete_reviewed_draft. External verifier acceptance is not established.</p><button class="btn btn-p" onclick="primaryUI(\'export\')">Export Monitoring Package JSON</button>'
-    +(record?'<details><summary>Candidate record</summary><pre style="white-space:pre-wrap;overflow-wrap:anywhere">'+esc(JSON.stringify(record,null,2))+'</pre></details>':'')+'</div>'
-    +'<div class="card card-p mt16"><h2>Audit chain: '+esc(chain.status)+'</h2><button class="btn btn-o" onclick="primaryUI(\'audit\')">Verify audit chain</button><p class="small">Detects changed, missing or reordered events against this local checkpoint. Complete state replacement and recomputed hashes cannot be detected without an independent anchor.</p></div></main>'+pubFooter();
+    +(record?primaryInspectHTML('record','candidate record',record):'')+'</div>'
+    +'<div class="card card-p mt16"><h2>Audit chain · Last explicit verification: '+esc(chain?chain.status:'NOT CHECKED')+'</h2><p class="small">'+esc(chain?'Checked at '+chain.checked_at+' — historical result, not a live integrity verdict.':'Use the verifier to check this dataset.')+'</p><button class="btn btn-o" onclick="primaryUI(\'audit\')">Verify audit chain</button><p class="small">Every methodology action and export still verifies the full chain. The displayed result is from the last explicit check. Detects changed, missing or reordered events against this local checkpoint. Complete state replacement and recomputed hashes cannot be detected without an independent anchor.</p></div></main>'+pubFooter();
   return html;
+}
+
+/* ---------- MRV visibility: per-render projections, never authorization caches ---------- */
+var PRIMARY_PAGE_SIZE=10;
+function primaryVisibleActivities(){
+  var programs=new Set(db.programs.filter(primaryCanOperate).map(function(p){return p.id;}));
+  return db.activities.filter(function(a){return programs.has(a.program_id);});
+}
+function primaryLatestMap(rows,key){var map=new Map();rows.forEach(function(r){map.set(r[key],r);});return map;}
+function primaryPortfolio(){
+  var runs=primaryLatestMap(db.methodology_runs,'activity_id'),records=primaryLatestMap(db.primary_records,'activity_id'),reviews=primaryLatestMap(db.primary_reviews,'run_id');
+  var counts=new Map(),farmers=primaryLatestMap(db.farmers,'id'),programs=primaryLatestMap(db.programs,'id');
+  db.evidence_manifests.forEach(function(e){counts.set(e.activity_id,(counts.get(e.activity_id)||0)+1);});
+  var rows=primaryVisibleActivities().map(function(a){var run=runs.get(a.id),record=records.get(a.id),review=run&&reviews.get(run.id);
+    var status=record?'recorded':review&&review.decision==='rejected'?'rejected':!run?'not_run':run.eligibility_status==='MISSING'?'missing':run.eligibility_status==='FAIL'?'fail':'review';
+    return {activity:a,program:(programs.get(a.program_id)||{}).name||'',farmer:(farmers.get(a.farmer_id)||{}).name||'',evidence:counts.get(a.id)||0,status:status};
+  });
+  var q=String(S.primarySearch||'').trim().toLowerCase(),filter=S.primaryFilter||'all';
+  var filtered=rows.filter(function(r){return (filter==='all'||r.status===filter)&&[r.activity.field_id,r.activity.crop_year,r.farmer,r.program].join(' ').toLowerCase().indexOf(q)>=0;});
+  var pages=Math.max(1,Math.ceil(filtered.length/PRIMARY_PAGE_SIZE)),page=Math.min(Math.max(0,Number(S.primaryListPage)||0),pages-1);
+  return {rows:rows,filtered:filtered.length,page:page,pages:pages,shown:filtered.slice(page*PRIMARY_PAGE_SIZE,(page+1)*PRIMARY_PAGE_SIZE)};
+}
+function primaryFilterList(){primaryRememberInputs();S.primarySearch=document.getElementById('pm-search').value;S.primaryFilter=document.getElementById('pm-filter').value;S.primaryListPage=0;render();}
+function primaryPage(kind,delta){primaryRememberInputs();var key=kind==='evidence'?'primaryEvidencePage':'primaryListPage';S[key]=Math.max(0,(Number(S[key])||0)+delta);render();}
+function primaryRememberInputs(){
+  var actor=primaryUser();if(!actor) return;
+  var a=primarySelected(),key=actor.id+':'+(a?a.id:'new');
+  var values={};['pm-json','pm-note','pm-source','pm-type','pm-evidence-id'].forEach(function(id){var el=document.getElementById(id);if(el) values[id]=el.value;});
+  var files={};['pm-file','pm-check-file'].forEach(function(id){var el=document.getElementById(id);if(el&&el.files&&el.files.length) files[id]=el;});
+  S.primaryDraft={key:key,values:values,files:files};
+}
+function primaryRestoreInputs(){
+  if(location.hash!=='#/primary-mrv'||!S.primaryDraft||!primaryUser()) return;
+  var a=primarySelected(),key=primaryUser().id+':'+(a?a.id:'new');if(S.primaryDraft.key!==key)return;
+  Object.keys(S.primaryDraft.files||{}).forEach(function(id){var el=document.getElementById(id);if(el&&el.parentNode)el.parentNode.replaceChild(S.primaryDraft.files[id],el);});
+  Object.keys(S.primaryDraft.values).forEach(function(id){var el=document.getElementById(id);if(el&&(!el.options||Array.from(el.options).some(function(o){return o.value===S.primaryDraft.values[id];})))el.value=S.primaryDraft.values[id];});
+}
+function primaryInspect(kind){
+  primaryRememberInputs();S.primaryInspection=S.primaryInspection===kind?null:kind;render();
+}
+function primaryInspectHTML(kind,label,value){
+  var open=S.primaryInspection===kind;
+  return '<button class="btn btn-o mt8" aria-expanded="'+open+'" onclick="primaryInspect(\''+kind+'\')">'+(open?'Close: ':'Inspect: ')+label+'</button>'+(open?'<pre class="mrv-json">'+esc(JSON.stringify(value,null,2))+'</pre>':'');
+}
+function primaryProgressHTML(a,assessment,run,record,current,recordCurrent){
+  var evidence=assessment.evidence_completeness,review=db.primary_reviews.filter(function(r){return run&&r.run_id===run.id;}).slice(-1)[0];
+  var missing=evidence.missing.length,failed=assessment.checks.filter(function(c){return c.status==='FAIL';});
+  var next=!current?'Run AG-005 readiness':missing?'Add missing evidence':failed.length?'Resolve failed checks':!record?'Human review required':!recordCurrent?'Record changed — export blocked':'Export reviewed draft; configuration remains unresolved';
+  var stages=[['Evidence',evidence.present+' / '+evidence.required+' categories',missing?'pending':'complete'],['Readiness',current?run.eligibility_status:run?'STALE':'Not run',current?'review':'pending'],['Human Review',review?review.decision:'Awaiting human decision',review&&review.decision==='approved'?'complete':'pending'],['Candidate Record',record?(recordCurrent?'Reviewed draft':'STALE / changed'):'Not created',recordCurrent?'complete':'pending'],['Monitoring Package',recordCurrent?'Draft export available':'Human review required','review'],['Official configuration','CONFIG REQUIRED','review']];
+  return '<section class="card card-p mt16" aria-label="Selected activity progress"><span class="eyebrow">One field · One review trail ／ 圃場ごとの審査進捗</span><h2>'+esc(a.field_id)+' / '+esc(a.crop_year)+'</h2><div class="mrv-stages mt16">'+stages.map(function(s,i){return '<div class="mrv-stage mrv-'+s[2]+'"><span class="tiny">'+(i+1)+'. '+s[0]+'</span><div><b>'+esc(s[1])+'</b></div></div>';}).join('')+'</div><p class="mt16"><b>Next human action:</b> '+esc(next)+'</p><p class="small">'+esc('Baseline '+assessment.baseline_days+' days → Project '+assessment.project_days+' days · Extension '+assessment.extension_days+' days')+'</p><p class="small">'+esc(missing?'Missing: '+evidence.missing.join(', '):'Evidence categories present; authenticity still requires human review.')+'</p>'+(failed.length?'<p class="small">Failed checks: '+esc(failed.map(function(c){return c.id;}).join(', '))+'</p>':'')+'<p class="tiny muted">Internal readiness only. A reviewed draft is not a certified reduction or an accepted registry submission.</p></section>';
+}
+function primaryPortfolioHTML(model){
+  var labels={all:'All',not_run:'Not run',missing:'Missing evidence',fail:'Failed checks',review:'Awaiting review',rejected:'Human rejected',recorded:'Draft recorded'};
+  return '<section class="card card-p mt16"><h2>Program work queue · 圃場別の作業状況</h2><p class="small">'+model.rows.length+' activities · '+model.rows.filter(function(r){return r.status==='recorded';}).length+' recorded drafts · '+model.rows.filter(function(r){return r.status==='missing'||r.status==='fail';}).length+' saved runs needing corrections</p><p class="tiny muted">Saved workflow status, not a live integrity verdict. Select an activity to check its current inputs.</p><div class="flex wrap"><label>Field / farmer / program <input id="pm-search" class="input" value="'+esc(S.primarySearch||'')+'"></label><label>Status <select id="pm-filter" class="input">'+Object.keys(labels).map(function(k){return '<option value="'+k+'"'+((S.primaryFilter||'all')===k?' selected':'')+'>'+labels[k]+'</option>';}).join('')+'</select></label><button class="btn btn-o" onclick="primaryFilterList()">Filter activities</button></div><div class="mrv-table"><table><thead><tr><th>Field / year</th><th>Farmer / program</th><th>Evidence files</th><th>Saved status</th><th>Open</th></tr></thead><tbody>'+model.shown.map(function(r){return '<tr><td>'+esc(r.activity.field_id)+' / '+esc(r.activity.crop_year)+'</td><td>'+esc(r.farmer)+'<br>'+esc(r.program)+'</td><td>'+r.evidence+'</td><td>'+labels[r.status]+'</td><td><button class="btn btn-o btn-sm" data-id="'+esc(r.activity.id)+'" onclick="primarySelect(this.dataset.id)">Open activity</button></td></tr>';}).join('')+'</tbody></table></div>'+(!model.filtered?'<p>No matching activities.</p>':'')+'<div class="flex wrap mt8"><button class="btn btn-o" '+(model.page===0?'disabled ':'')+'onclick="primaryPage(\'activities\',-1)">Previous activities</button><span>Page '+(model.page+1)+' / '+model.pages+' · '+model.filtered+' matches</span><button class="btn btn-o" '+(model.page+1>=model.pages?'disabled ':'')+'onclick="primaryPage(\'activities\',1)">Next activities</button></div></section>';
+}
+function primaryEvidencePage(evidence){var pages=Math.max(1,Math.ceil(evidence.length/PRIMARY_PAGE_SIZE)),page=Math.min(Math.max(0,Number(S.primaryEvidencePage)||0),pages-1);return {page:page,pages:pages,rows:evidence.slice(page*PRIMARY_PAGE_SIZE,(page+1)*PRIMARY_PAGE_SIZE)};}
+function primaryEvidenceHTML(evidence){
+  var view=primaryEvidencePage(evidence);
+  return '<h3 class="mt16">Evidence inventory ('+evidence.length+')</h3><div class="mrv-table"><table><thead><tr><th>File / category</th><th>Year</th><th>SHA-256 prefix</th><th>Source</th></tr></thead><tbody>'+view.rows.map(function(e){return '<tr><td>'+esc(e.original_filename)+'<br>'+esc(e.evidence_type)+'</td><td>'+esc(e.crop_year)+'</td><td><code title="'+esc(e.hash)+'">'+esc(e.hash.slice(0,16))+'…</code></td><td>'+esc(e.source.length>100?e.source.slice(0,100)+'…':e.source)+'</td></tr>';}).join('')+'</tbody></table></div><div class="flex wrap mt8"><button class="btn btn-o" '+(!view.page?'disabled ':'')+'onclick="primaryPage(\'evidence\',-1)">Previous evidence</button><span>Page '+(view.page+1)+' / '+view.pages+'</span><button class="btn btn-o" '+(view.page+1>=view.pages?'disabled ':'')+'onclick="primaryPage(\'evidence\',1)">Next evidence</button></div>'+primaryInspectHTML('evidence','full manifests for this page',view.rows);
 }
 
 /* ---------- init ---------- */

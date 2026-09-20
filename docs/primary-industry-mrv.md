@@ -59,3 +59,11 @@ The evidence inventory required by this prototype includes a baseline record per
 Small farms may struggle to connect drainage extension, biochar and other environmental activities to additional income because evidence organization, calculations and review preparation carry administrative costs. NaFT's role is to reduce the transaction cost of turning activity evidence into data a verification process can consume. Income, demand, cost savings and verifier acceptance have not been demonstrated.
 
 For Saitama, the Program model makes a regional operator's coordination of farmers and fields demonstrable. For INACOME, the same model frames a rural-income pathway without promising monetization. Biochar/AG-004 remains future methodology work. No contest eligibility, selection likelihood or current application requirements are asserted here.
+
+## Visibility and navigation (2026-09-13)
+
+The selected field now shows six progress cards, category completeness, drainage-day comparison, failed checks and the next required human action. The Program work queue searches field, farmer, program and year, and filters saved workflow states. Its counts describe saved runs; selecting an activity checks current input and record hashes. There is no claim that the overview has freshly verified every field.
+
+Activities and evidence use ten-row pages. The original-file recheck selector follows the evidence page. **Inspect** opens only the selected record, calculation, or current page of manifests; closed JSON is not generated. Field selection resets field-specific drafts. Within the same user/field, paging and inspection preserve review text and selected file input nodes.
+
+**Verify audit chain** performs the explicit full verification. The displayed status includes its time and says it is a historical result, not a live verdict. Mutating methodology actions and Monitoring Package export still recheck the full chain, independent of the displayed status. See [measurement and constraints](mrv-visibility-performance.md).
