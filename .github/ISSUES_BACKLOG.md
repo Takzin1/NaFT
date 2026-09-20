@@ -1,31 +1,22 @@
-# ISSUES BACKLOG — AIエージェント着手用
+# MRV Compiler implementation status
 
-各Issueは AGENTS.md の規約に従い、`bash tests/run.sh` 全通過＋アサーション追加＋docs同期で完了とする。
-難易度: ★=Copilot/Codex向け小修正、★★=Sonnet向け機能実装、★★★=Opus向け設計を伴う変更。
+## Completed
 
-| # | タイトル | 難易度 | 対象（関数/ファイル） | 受入条件 |
-|---|---|---|---|---|
-| 1 | 監査ログの地域スコープフィルタ | ★★ | `audit()` に region_id を追加し `pgAuditLogs(regionIds)` でフィルタ | 地域管理者は担当地域のログのみ表示。既存ログ(region_idなし)は全国扱い。テスト2件追加 |
-| 2 | 異常系スモークテストの拡充 | ★ | tests/smoke.test.js | 残高不足支援の拒否／未承認PJ支援の拒否／重複メール登録の拒否／コメントなし却下の拒否、の4アサーション追加 |
-| 3 | チケット期限切れの一括判定と表示改善 | ★★ | `pgRewards()` の遅延評価を `loadDB()` 後の整合処理へ移動 | 期限切れが全画面で一貫。`expired_at` 記録。テスト1件 |
-| 4 | マーケットのフィルタ状態をURLハッシュに保持 | ★★ | `applyMF()` / `route()` | `#/market?cat=Forest` 形式で共有可能。リロードで復元。テスト1件 |
-| 5 | 取引履歴のページネーション（50件/頁） | ★ | `txTable()` 呼び出し側 | 全台帳画面で適用。表示件数・頁切替の描画テスト |
-| 6 | 支援時の確認画面に地域還元予定を表示 | ★ | `modalSupport()` step2 | `regional_return_plan` を表示。XSS回帰なし（esc確認） |
-| 7 | 管理者ダッシュボードに月次推移（CSSバー） | ★★ | `regionStats()` に月次集計追加 | 直近6ヶ月の支援額バー表示。純関数のユニット的アサーション |
-| 8 | プロデューサー編集時の証憑削除UI | ★★ | `pgProjectForm()` / `saveProject()` | draft/差し戻しのみ削除可。audit記録。テスト1件 |
-| 9 | `esc()` のXSS回帰テスト | ★ | tests/smoke.test.js | `<img onerror>` 等を含む名前で登録→描画出力にタグが残らないことを検証 |
-| 10 | reset後の状態遷移テスト | ★ | tests/smoke.test.js | `execReset()` 後に db が10PJ/6ユーザーへ戻ることを検証 |
-| 11 | Phase A: ESモジュール分割の実施 | ★★★ | architecture.md §5 の表どおりに分割、index.html化 | ビルドなし(type=module)で同一挙動。63項目全通過が受入基準 |
-| 12 | AI審査補助（HITL）プロトタイプ設計 | ★★★ | docs/human-in-the-loop.md 準拠の設計書作成（実装はサーバー版で） | 「AI提案あり/最終判断者」の監査ログ設計、UIモック、評価指標を含むdocs追加。**自動承認は設計に含めない** |
-| 13 | アクセシビリティ初期対応 | ★★ | モーダルのフォーカストラップ、aria-label | キーボードのみで支援フロー完走可能 |
-| 14 | 加盟店の利用履歴を自地域分に限定 | ★ | `pgMerchant()` | region_id一致の reward_redeem のみ表示。テスト1件 |
+- [x] MRV-only six-route UI and shared cryptographic/audit primitives.
+- [x] Immutable Versioned Pack schema, old AG-005 reference retention and AG-004 fail-closed placeholder.
+- [x] Synthetic old/new version coexistence and deterministic structured methodology diff.
+- [x] Evidence JSON normalization, dependency graph and reproducible package hashes.
+- [x] Methodology / evidence / parameter / field impact analysis and selective re-verification.
+- [x] Audited exception-only review, Pack release approval, final attestation and stale current export guards.
+- [x] Thirty-six synthetic Corpus cases, automatic KPIs and three demo flows.
+- [x] Original 182 MRV regression assertions preserved.
 
-## 完了済みハッカソン拡張
+## Unresolved technical debt
 
-- [x] **IEEE ClimateChain MRV縦断フロー（2026-09-02）**: Evidence → Assist → Deterministic Verification → Human Review → Verified Environmental Record。`READY / NEEDS REVIEW / ABSTAIN`、入力指紋、HITL、候補記録hash連結、英語デモ入口、63アサーションを実装。正式クレジット発行・オンチェーン連携は対象外。
-
-**着手宣言の書式**: 「Issue #N に着手。基準線63/63確認済み。」→ 完了時に pr-checklist.md の結果を添付。
-
-## IEEE ClimateChain candidate lifecycle (PR #1)
-
-Implemented on `codex/ieee-climatechain-mrv`: deterministic naming, canonical SHA-256, human-approved Candidate Unit issuance, simulation transfer/retirement, exact-input duplicate guards, eight-stage judging UI and 137 smoke assertions (original 63 retained). Browser verification remains outstanding because the available Cloud Browser blocks local/file URLs. Contracts remain an unconnected Future testnet extension.
+- [ ] Latest adopted AG-005, AG-004 source confirmation and full institutional translation.
+- [ ] Real semantic evidence adapters, authoritative identity, calibration and original custody.
+- [ ] Proof of impact-analysis soundness/minimality beyond the tested interpreter and synthetic Corpus.
+- [ ] Authenticated multi-party decisions, independent witness, concurrent transactions and cross-owner field changes.
+- [ ] Formal amendment/revocation, signatures and legacy-to-Compiler conversion.
+- [ ] Actual browser/file/download/accessibility verification.
+- [ ] Field MRV cost/review time/income measurements and external verifier acceptance.

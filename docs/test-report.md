@@ -1,68 +1,47 @@
-# Test report — Primary Industry MRV and IEEE lifecycle
+# Compiler test report
 
-## Visibility/performance result (2026-09-13)
+## Before / After
 
-Baseline main `51b8ade`: **231 passed / 0 failed**. Final: **276 passed / 0 failed**, **45 added assertions**; all earlier assertions retained unchanged. `bash tests/run.sh` also checks benchmark-script syntax, security patterns and whitespace.
+Baseline: `8747ca889cb2412778e47ee6115bda3ff060574e`, **182 passed / 0 failed**.
+After: **525 passed / 0 failed** = original 182 + Compiler 333 + Mitou impact experiment 10 assertions. GitHub Actions executes all three suites. No existing MRV assertions were deleted, changed or skipped.
 
-Added gates cover read-only progress, visible missing items, stale/tampered run and record display, a single selected-field snapshot per render, no passive full-history audit, work-queue search/filter/paging/scope, bounded evidence tables/selectors, lazy JSON, note/file-node restoration, unchanged authoritative broken-chain refusal and standard SHA-256 at 13 padding/binary sizes. The default large-fixture HTML is constrained to under 50 KB without a hardware-dependent timing assertion.
+Run `bash tests/run.sh`. It checks all runtime syntax, the original suite, the new suite, static links, prohibited dependency/secret patterns and whitespace. There is no timing threshold. `node tests/measure.js` records physical LOC, actual six routes, stored-array collections and roles; see [baseline](../reports/baseline.json) and [after](../reports/size-after.json). LOC includes comments/blank lines; JSON fixtures and prose are excluded. Counts are not a maintainability or performance score.
 
-The reproducible synthetic timing report is [mrv-visibility-performance.md](mrv-visibility-performance.md). CI results for the final commit are recorded in its PR. This remains DOM-stub verification, not an actual browser session.
+## Original regression suite
 
-## Primary Industry MRV result (2026-09-10)
+182 assertions retained byte-for-byte in tests/smoke.test.js: SHA-256 native parity including padding/UTF-8/5 MiB, canonicalization, dates/baselines, AG-005 supplied-factor preview/null certified output, Manifest byte/hash/version/field binding, actor/snapshot checks after async hashing, duplicates, stale/tampered inputs, scope, audit chains, exception decisions, Pack release, explicit attestation, export reproducibility, UI escaping, six renderers, action dispatch and store/schema checks.
 
-Starting main: `3c4008c3427938b313cb2a752b558fee2b7ce2e1`, **137 passed / 0 failed**.
-Final: **231 passed / 0 failed**, **94 additional assertions**. All original 137 assertions are retained unchanged.
+## Added Compiler suite
 
-```
-syntax: OK
-RESULT: 231 passed, 0 failed / tx=8, audit=21
-security and whitespace: OK
-```
+333 assertions cover Pack schema/deep-freeze/version coexistence, Diff categories and removals, unknown operations, 36 labeled Corpus cases with independent expected results, JSON adapter parsing, unknown applicability, graph node/edge integrity and determinism, transitive dependency traversal, evidence ordering, all four change types, conditional added rules, unused parameters, no-op changes, exact scope and full-recomputation comparison. They also cover stale packages/reviews, material overrides, non-overridable errors, Pack release/final acknowledgement, exception-level `ACCEPT / REJECT / NEED_MORE_EVIDENCE / ABSTAIN`, stale decisions after input/Pack change, hard-error override refusal, decision-hash tamper detection, package-hash reproducibility, stored tampering, sequential changes, duplicate stored activities, round-trip persistence, all six full-runtime renderers, XSS and Demo A/B/C through actual handlers with DOM stubs.
 
-The added assertions cover reference AG-005 threshold/rounding, missing evidence, invalid dates, leap years, heading cutoff, invalid/replayed baseline intervals, unsupported land changes, field/activity exact and partial overlaps, different crop years, 100-farmer/500-ha aggregation, SHA-256 of binary content and Web Crypto parity, manifest binding, correct evidence year/period, changed-byte rechecks, empty/oversized files, async role change, human/ownership gates, stale/tampered runs and records, rejection replay, duplicate approval, deterministic arithmetic/export, unresolved configuration, monitoring contents, event/legacy/checkpoint tampering and broken-chain refusal.
+## 100-Claim selective re-verification experiment
 
-Rendered primary-route handlers are exercised for role switches, draft registration, actual selected-file hashing, explicitly synthetic demo files, readiness, human approval, JSON export, one-click duplicate BLOCK and VALID/BROKEN display. This is a Node DOM stub, not a real browser or external-verifier acceptance test. Existing IEEE handlers still complete issuance, transfer, retirement and both double-counting blocks.
+`tests/mitou-impact.test.js` deterministically generates 100 synthetic Claims and applies `NAFT-SYNTHETIC@1 → @2`. Expected result: 100 potentially affected candidates, 30 requiring re-verification, 70 unaffected, 15 `AUTO_REEVALUATED`, 15 `EVIDENCE_REQUIRED`, and no Human Review or Unsupported result. The test also verifies source Claim immutability, deterministic replay, linked successor packages and absence of successor packages for unaffected Claims.
 
-Run `bash tests/run.sh`; it checks syntax, all assertions, prohibited network/secret patterns, tracked environment files and whitespace. The index redirect is separately syntax-checked during final review. No dependencies were added. CI runs the same gate on pull requests and main/codex/feat pushes; the final pushed commit's actual CI result is recorded in the PR.
+The generated [Mitou impact report](../reports/mitou-impact-experiment.json) records a **0.70 count-based scope reduction ratio**. This is a ratio of Claims excluded from successor re-verification, not a runtime, cost, accuracy or field-effect estimate.
 
-## Historical IEEE results
+## Automatically measured KPIs
 
+[36-case Corpus](../fixtures/evaluation-corpus.json), metadata origin=synthetic, real_farmer_data=false. Twelve categories × three deterministic input variants. Expected status/flags/arithmetic are fixture labels, not compiler-generated predictions. Label source is synthetic engineering design, not institutional expertise or a held-out field study.
 
-Baseline at `fe70f544436b520fceb9ef03f3ffc4adb894465f`: **63 passed, 0 failed**.
-Final local run (2026-09-08): **137 passed, 0 failed**; **74 added assertions**.
+**36/36 synthetic conformance cases matched expected outputs.** This is an engineering conformance result only; it is not field, production, institutional or real-world MRV accuracy.
 
-```
-syntax: OK
-RESULT: 137 passed, 0 failed / tx=11, audit=15
-security and whitespace: OK
-```
+[Generated report](../reports/evaluation-kpis.json):
 
-Run `bash tests/run.sh` (Node 18+ and Python 3, no dependency install). It extracts the seven HTML script blocks, runs `node --check`, executes all smoke assertions and checks prohibited network/secret patterns, tracked environment files and whitespace. CI additionally checks committed whitespace. CI status for the pushed commit is recorded in PR #1, rather than predicting a workflow result in this report.
+| Metric | Result on this Corpus |
+|---|---|
+| Synthetic conformance: evidence completeness / usable evidence detection | 36/36 |
+| Missing evidence precision / recall | 9/9 and 9/9 |
+| Methodology binding mismatch | 3/3 positive, 33/33 negative |
+| Tamper detection | 3/3 positive, 33/33 negative |
+| Duplicate/overlap detection | 3/3 positive, 33/33 negative |
+| Calculation arithmetic oracle | 36/36 |
+| Deterministic compilation repeat | 36/36 |
+| Impact coverage, conditional transition vs full recomputation | 3/3 affected Claims |
 
-## Existing coverage retained
+Tampered/version-mismatched evidence is not usable evidence and is labeled missing for completeness purposes. The separate three ambiguous-field cases are human-review tests, not overlap true positives. Impact coverage is a narrow synthetic oracle; it is not proof of completeness/minimality for arbitrary institutional methodologies. False negatives/positives are exported as confusion counts. Field MRV cost, review time, income and verifier acceptance remain null, not estimated.
 
-All 63 baseline cases remain: public pages, IEEE landing, seeded readiness runs/records, deterministic assessment and stale input, citizen login/wallet/support/rewards/reservations, producer submission, human review and ABSTAIN override rejection, region/platform dashboards, audit/transaction pages, QR redemption, CSV, registration and initial grant.
+## Validation limits
 
-Only three baseline expectation values change with the requested interface: five → eight stages, AI disclosure → Deterministic Verification Assist, and 16 → 64 hexadecimal record-hash characters. Their assertions are retained, not removed or skipped.
-
-## Added coverage (74 assertions)
-
-- Standard SHA-256 known vectors (empty/abc/Unicode/multiple blocks), canonical key order and delimiter ambiguity, Web Crypto equality with the offline fallback, evidence-order stability, input fingerprint independent of local project ID.
-- Activity dates, actor and location changes invalidate prior readiness; stale human approval and stale issuance are blocked.
-- Approval required before issue; citizen cannot approve; readiness cannot issue; canonical record integrity; changed approved quantity rejected.
-- Concurrent issue allows one unit; duplicate record and same input under another record blocked; fully retired claim cannot be reissued.
-- Transfer updates both holders, preserves aggregate available, hashes the full transfer, rejects zero/negative/NaN/infinite/overprecision/overavailable quantities, invalid holders and former-holder double spending.
-- Retirement requires scoped human action, positive quantity and reason; partial and full retirement preserve integer-millionth conservation; overavailable retirement, retransfer of retired quantity and full-retirement reuse are blocked.
-- Successful and rejected operations produce the expected audit logs; lifecycle transactions render simulated t-CO2, never points; malicious reason text is escaped; disclaimers and guard messages render.
-- ABSTAIN short reason rejected; explicit long human override accepted; v2 migration preserves legacy fingerprints, marks them stale and adds empty lifecycle collections.
-- The **actual generated IEEE button handlers** are executed in the DOM-stub harness: operator role → readiness → reviewer role → human approval → issue → transfer → retirement → retired reuse blocked → duplicate issue blocked.
-
-The last scenario reseeds the database. The final `tx=11, audit=15` counts describe that scenario, not cumulative counts across every test.
-
-## Verification limits
-
-These are Node smoke tests using a minimal DOM stub, including handler-binding checks. They are not actual browser E2E tests. Cloud Browser rejected localhost and file URLs under its URL policy; browser layout and real clicks were not verified. No workaround was used. The 240-second demo script is provided but no timed live rehearsal is claimed.
-
-`contracts/` was source-reviewed. `CarbonMarketplace` now inherits OpenZeppelin `ERC1155Holder`, addressing missing receiver support. Solidity compilation, deployments and contract tests were not run; the contracts are an unconnected Future testnet extension.
-
-Production security, concurrent clients, external persistence and global semantic/cross-registry duplicate detection remain outside this prototype. See `known-limitations.md`.
+DOM stubs are not actual browser execution. Layout, File chooser, browser download and accessibility are unverified. The previous Cloud Browser attempt rejected the local file URL; no actual-browser PASS is asserted. There is no production authentication, independent audit witness, concurrent-client transaction guarantee or real farmer/verifier validation. No mixed-domain UI performance result is reused.

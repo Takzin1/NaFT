@@ -1,140 +1,60 @@
-# NaFT — Primary Industry MRV Infrastructure
+# NaFT — Version-aware MRV Evidence Compiler + Re-verification Engine
 
-**NaFT turns fragmented climate evidence into a human-reviewed, hash-linked candidate environmental record and tracks the lifecycle of demo climate units through issuance, transfer, retirement, and double-counting prevention.**
+**NaFT transforms heterogeneous environmental evidence into methodology-aware, reproducible, human-reviewable MRV packages.**
 
+- **Problem**：方法論の版・証憑・係数・圃場情報が変わると、どのClaimの再検証が必要か追跡しにくい。
+- **Current Prototype**：ビルド不要のJavaScript研究プロトタイプ。入力Evidenceを正規化し、版を固定した評価・依存graph・Monitoring Packageを生成する。
+- **Research Question**：「頻繁に改定されるMRV方法論と異種Evidenceを第三者が再計算・再検証可能な構造へ変換し、変更時に影響を受けるClaimだけを特定できるか？」
+- **Implemented**：Versioned Pack registry、決定論的diff、JSON provenance graph、4種の変更の影響分析・再評価、exception単位の`ACCEPT / REJECT / NEED_MORE_EVIDENCE / ABSTAIN`、最終宣誓、hash付きJSON export、36件のSynthetic conformance corpusと自動KPI、100 Claimの合成版変更実験。従来のAG-005参照評価と182件の回帰テストも維持。
+- **Not Implemented**：AG-005 v3.5一次資料byte snapshot/hashの独立検証、AG-004本文の確認、完全な制度ルール翻訳、現場での正確性・費用削減・検証機関受入れ。公式要件不明は`UNKNOWN / CONFIG_REQUIRED / UNSUPPORTED`で停止。正式削減量`result`は常に`null`。
+- **How to Run Demo**：`naft-app.html`をブラウザで開き、**Demo A / B / C**を順に押す。A＝自動draft、B＝版変更と影響Claim、C＝曖昧なidentityから人間判断。[3分操作手順](docs/demo-script.md)。
 
-**一次産業の環境活動を第三者検証可能なデータへ変換するMRV基盤のPrototype。** 環境価値を作るのではなく、証憑・算定・審査準備の取引コストを下げることを目指します。所得効果や第三者検証の受入れは未実証です。
+内部PASS、Pack release approval、最終宣誓は正式認証ではありません。外部登録簿へ接続しません。
 
-Methodology-aware demo: `naft-app.html#/primary-mrv`. AG-005参照版の期間・証憑チェック、実ファイルSHA-256 Manifest、圃場/活動identity、人間審査、監査チェーン、Program集約、Monitoring Package JSONを実装しています。**最新採択版と適用係数は未確認のため CONFIG REQUIRED**。算定式の補助はありますが、制度上の削減量resultはnull、出力は `incomplete_reviewed_draft` です。正式J-クレジットの認証・発行システムではありません。
+## Run / test
 
-**Appでの見える化**：圃場別の進捗・不足証憑・次の人間操作、検索できるProgram作業一覧、10件ずつの証憑表示を追加。詳細JSONは要求時に表示します。[軽量化の実測と範囲](docs/mrv-visibility-performance.md)
-
-[実装範囲・公式資料・操作手順](docs/primary-industry-mrv.md) · [未踏アドバンスト構想](docs/mitou-advanced-concept.md) · [テスト結果](docs/test-report.md)
-
-IEEE demo: open `naft-app.html#/ieee` for **One Auditable Path**:
-Evidence → Deterministic MRV Readiness → Human Review → Verified Environmental Record → Candidate Climate Unit → Transfer → Retirement → Double-counting Block.
-
-**Prototype Boundary:** Candidate / Simulation / Demo / Off-chain / Not formally issued. A Candidate Climate Unit is **not a formally issued carbon credit**. The Deterministic Verification Assist checks evidence completeness, methodology presence, traceability, activity period, actor/location and quantification/review readiness. It does not prove emissions reductions or perform certified MRV. No external registry, real J-Credit, money, cryptoasset, signature, or blockchain integration.
-
-Retirement in this prototype means permanent removal from the demo candidate-unit balance. It is not a formal carbon-credit retirement in any external registry. Duplicate prevention is limited to identical records or canonical input in the current demo dataset; altered descriptions, different metadata, another browser or an external registry are outside this guard.
-
-The existing citizen reward, wallet and marketplace demos remain available alongside the IEEE flow.
-
-> 炭素を、まちで巡る価値に変える。
-
-```
-ステータス: PoC / IEEE lifecycle + Primary Industry MRV reference prototype
-実決済: なし ｜ 実カーボンクレジット売買: なし ｜ 換金性: なし ｜ Web3: 将来拡張（未接続）
-```
-
----
-
-## ⚠️ 必ずお読みください（本プロジェクトの位置づけ）
-
-> NaFTポイントおよびデモステーブルトークンは、法定通貨・暗号資産・電子決済手段ではありません。本サービスの初期版は、地域GX活動と環境価値の可視化を目的としたPoC・実証実験用のシステムです。実際のカーボンクレジット売買・償却・金融決済は、専門家・提携機関との確認を経て段階的に実装予定です。
-
-| 本PoCが**行うこと** | 本PoCが**行わないこと** |
-|---|---|
-| 非換金ポイントによる支援の意思の可視化 | 実際の金融取引・資金決済・送金 |
-| クレジット**候補**プロジェクトの登録・審査・掲載 | 暗号資産の発行・交換・売買 |
-| 購入予約（=意思表示の記録のみ） | 電子決済手段・ステーブルコインの発行 |
-| GX還元チケット（炭素配当）の発行・利用の**記録** | 認証済みカーボンクレジットの売買・償却 |
-| 取引台帳・監査ログ・ダッシュボード | 金融商品の勧誘・投資助言・利回りの提示 |
-| 証憑の不足検知・決定論的チェック・SHA-256で連結された候補記録・デモUnitライフサイクル | 実ファイル保管・正式な第三者検証 |
-| **人間の管理者による審査**（決定論的補助は承認不可） | AIによる承認・付与の自動化 |
-
-詳細: [docs/legal-risk-map.md](docs/legal-risk-map.md) ／ [docs/human-in-the-loop.md](docs/human-in-the-loop.md)
-
-## 🚀 クイックスタート
-
-**1. 動かす** — `index.html` または `naft-app.html` をブラウザで開くだけです（ビルド・サーバー不要）。
-
-IEEE審査用の英語ランディングは `#/ieee`。画面上の **IEEE Demo** からも開けます。開発範囲と4分デモ手順は [docs/ieee-climatechain-demo.md](docs/ieee-climatechain-demo.md) を参照してください。
-
-**2. デモログイン**（パスワードはすべて `demo1234`、ログイン画面にワンクリックボタンあり）
-
-| メール | ロール | 見どころ |
-|---|---|---|
-| `citizen@naft.demo` | 市民 | ウォレット／支援→炭素配当チケット発行→QR表示 |
-| `producer@naft.demo` | 事業者 | 証憑取込→MRV検証ワークベンチ→審査提出 |
-| `admin@naft.demo` | 地域管理者 | 補助結果・原資料確認→人間承認→候補環境記録 |
-| `bank@naft.demo` | 地域金融パートナー | 複数地域の切替管理 |
-| `merchant@naft.demo` | 加盟店 | チケットQR照合・利用記録 |
-| `platform@naft.demo` | 全国管理者 | 全国ダッシュボード・地域登録・異常取引アラート |
-
-**3. テスト実行**（Node 18+ / Python 3、依存パッケージなし）
+Node.js 20+、Python 3、bashを使用します。ビルド、外部CDN、実行時依存パッケージはありません。
 
 ```bash
-bash tests/run.sh   # 構文チェック + スモークテスト276項目
+bash tests/run.sh
 ```
 
-ロール別のデモ手順: [docs/demo-script.md](docs/demo-script.md)
+**525 passed / 0 failed**（既存182＋Compiler333＋Mitou impact experiment 10）。DOM stub検証を含みますが、実ブラウザ検証ではありません。[Test report](docs/test-report.md)、[自動生成KPI](reports/evaluation-kpis.json)、[100 Claim影響解析実験](reports/mitou-impact-experiment.json)を参照。
 
-## 📦 データ永続化について（重要）
+## 100-Claim selective re-verification experiment
 
-- **localStorage / sessionStorage / IndexedDB は使用していません。**
-- Claude.ai の Artifact 環境では `window.storage`（Artifact永続ストレージAPI）にJSONドキュメントとして保存され、セッションをまたいで保持されます。
-- 通常のブラウザで直接開いた場合は**メモリ内フォールバック**となり、リロードで初期データに戻ります（デモ用途としては毎回クリーンな状態で始められる仕様）。
-- 永続化は `store` アダプタ（`get/set/del` の3メソッド）に隔離されており、ここを差し替えるだけでサーバーDBへ移行できます。→ [docs/architecture.md](docs/architecture.md)
+`NAFT-SYNTHETIC@1 → @2` の明示的な合成方法論改定を100 Claimへ適用する決定論的実験をCIに固定しています。100件すべてが変更版の候補集合に入る一方、active dependency projectionにより**30件だけを再検証対象として抽出し、70件はsuccessorを生成せず非影響として残します**。30件の内訳は15件が自動再評価、15件が新規Evidence不足で停止です。
 
-## 🗂 リポジトリ構成
+これは**件数ベースの再検証スコープ70%削減**であり、処理時間70%短縮、MRV費用70%削減、実制度での精度・受入れを意味しません。元Claimの不変性、再実行決定性、reverified successorの`supersedes`連結もテストします。
 
-```
-naft/
-├── index.html               # 静的ホスティング用エントリ（naft-app.htmlへhashを保持して遷移）
-├── naft-app.html            # アプリ本体（単一HTML SPA・全ロール・全フロー実装済み）
-├── contracts/               # Solidity雛形3種（テストネット専用・未接続・将来拡張）
-├── tests/                   # スモークテスト276項目（Node標準のみで実行可）
-├── docs/                    # アーキテクチャ／未踏ADV構想／法務リスクマップ 等
-├── skills/                  # Claude Skills（戦略・法務レビュー・保守・未踏応募）
-├── AGENTS.md                # AIエージェント（Opus/Sonnet/Codex）向け開発ガイド
-└── .github/
-    ├── copilot-instructions.md
-    └── ISSUES_BACKLOG.md    # 次にAIエージェントで着手できるIssue一覧
-```
+## Packs and boundaries
 
-## 🏗 アーキテクチャ概要
-
-単一HTMLファイル内で、責務を明確なレイヤに分離しています（将来のモジュール分割・Next.js移植を前提とした設計）:
-
-```
-[Storage Adapter] → [Constants/Domain定義] → [Seed Data] → [DB Helpers + Ledger]
-      → [State + Hash Router] → [Shared UI Components] → [Role別ページ] → [Use-case Actions]
-```
-
-- **台帳原則**: すべての価値移動は `addTx()` を通り、取引コード・Web3拡張カラム（`transaction_hash`/`chain_id`/`onchain_status` 等）付きで記録
-- **監査原則**: すべての管理操作・審査・付与は `audit()` で監査ログに記録（編集・削除UIなし。ブラウザ状態は改変可能）
-- **HITL原則**: 承認・却下・チケット利用確定は必ず人間のロールが実行
-- **MRV分離原則**: 補助層は証憑整理、決定論的層は適合性チェック、人間は最終判断、候補記録層は入力指紋と前レコードを保全
-
-詳細: [docs/architecture.md](docs/architecture.md) ／ [docs/data-model.md](docs/data-model.md)
-
-## 📚 ドキュメント
-
-| ドキュメント | 内容 |
+| Pack | 実装上の扱い |
 |---|---|
-| [docs/mitou-advanced-concept.md](docs/mitou-advanced-concept.md) | Primary Industry MRV構想・未踏期間の開発差分・評価KPI |
-| [docs/ieee-climatechain-demo.md](docs/ieee-climatechain-demo.md) | IEEE向け課題定義・実装範囲・4分デモ手順 |
-| [docs/architecture.md](docs/architecture.md) | アーキテクチャ・責務分離・移植方針 |
-| [docs/data-model.md](docs/data-model.md) | 17コレクションのデータモデルと状態遷移 |
-| [docs/legal-risk-map.md](docs/legal-risk-map.md) | 法務リスクマップと表現ガイドライン |
-| [docs/human-in-the-loop.md](docs/human-in-the-loop.md) | 決定論的補助×人間審査の設計原則 |
-| [docs/demo-script.md](docs/demo-script.md) | ロール別デモシナリオ |
-| [docs/test-report.md](docs/test-report.md) | テスト方針と276項目の結果 |
-| [docs/roadmap.md](docs/roadmap.md) | 開発ロードマップ（未踏期間の計画含む） |
-| [docs/known-limitations.md](docs/known-limitations.md) | 既知の制約 |
-| [docs/security-checklist.md](docs/security-checklist.md) | セキュリティチェックリストとスキャン結果 |
+| AG-005 `3.1-reference` | 既存版を保持。公開意見募集PDFの保存済みSHA-256を固定。採択状態・適用係数・完全なCompiler翻訳は未確認 |
+| AG-005 `3.5` | **NOT REGISTERED**。2026-09-21の修正時点で一次資料byte列とSHA-256を独立検証できず、制度内容を推測してPack化していない |
+| AG-004 `UNKNOWN` | 本文取得403。版・制度パラメータを推測せずUNSUPPORTED |
+| NAFT-SYNTHETIC `1` / `2` | 差分・再検証実験の明示的合成ルール。公式方法論改定でも実農家データでもない |
 
-## 🤖 AIエージェントでの継続開発
+新しい公式AG-005 Packは、一次資料の原文byte列・出典・versionを検証できるまで追加しません。[出典確認記録](docs/methodology-sources.md)。
 
-本リポジトリは Claude（Opus/Sonnet）・Codex・GitHub Copilot での継続的なデバッグ・改良を前提に構造化されています。
+## Six routes
 
-- 開発規約・ガードレール・タスクレシピ: [AGENTS.md](AGENTS.md)
-- Copilot向け: [.github/copilot-instructions.md](.github/copilot-instructions.md)
-- モデル別の役割分担: [docs/ai-agent-roles.md](docs/ai-agent-roles.md)
-- デバッグ手順: [docs/debugging-guide.md](docs/debugging-guide.md)
-- 着手可能なIssue: [.github/ISSUES_BACKLOG.md](.github/ISSUES_BACKLOG.md)
+| Hash route | Responsibility |
+|---|---|
+| `#/methodologies` | Registry、出典・版・Pack承認、デモ入口 |
+| `#/evidence` | Raw/structured JSON Evidence入力、Manifest、従来のファイルhash検証 |
+| `#/readiness` | 決定論的評価、自動draft、保存済みClaimへの版変更適用 |
+| `#/exceptions` | 証憑競合、identity、係数変更、方法論例外 |
+| `#/review` | 明示的例外判断、最終Package attestation |
+| `#/packages` | 再現可能なJSON、graph、Program集計 |
 
-## ライセンス
+通常案件：Evidence → evaluation → draftまで途中承認なし。人間は各`HUMAN_REVIEW_REQUIRED`例外を個別に判断し、Pack公開承認、最終宣誓を担当します。hard error（`UNSUPPORTED / EVIDENCE_REQUIRED / tamper / methodology mismatch / deterministic failure`）はHuman override不可です。Operator / Reviewer / Maintainerはローカルデモ役割で、本番認証ではありません。
 
-[MIT License](LICENSE)（PoC成果物としての提供。§⚠️の位置づけに関する記載はライセンスに優先して常に維持してください）
+## Reproduction and data
+
+Compilerはclock・乱数をPackage生成に使いません。同じ入力・Pack・任意の明示的判断・supersedesから同じhashを生成します。写真のbyte列、営農・IoT・GISのJSONをhash/構文/metadataのレベルで正規化します。画像理解やセンサー校正、GIS幾何検証は未実装です。
+
+`naft_mrv_core_v1`の既存storeを使用します。通常ブラウザはメモリのみで再読込時に消去、`window.storage`があれば同じadapterで保存します。新しいrunは旧runを履歴として残し、旧Packageの現行exportを停止します。従来AG-005操作のID・日時は実行ごとに変わります。
+
+[Architecture](docs/architecture.md) · [Data model](docs/data-model.md) · [Human boundaries](docs/human-in-the-loop.md) · [Limitations](docs/known-limitations.md) · [研究段階](docs/mitou-advanced-concept.md) · [Before / After](reports/baseline.json) · [MIT License](LICENSE)

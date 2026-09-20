@@ -1,60 +1,10 @@
-# 既知の制約（Known Limitations）
+# Known limitations
 
-PoCとして意図的に許容している制約と、その影響・対応予定です。
-
-## セキュリティ・認証
-- **クライアント完結**: 権限チェック・残高検証はすべてブラウザ内。悪意ある利用者はDevToolsで改変可能。→ 本番はサーバー側強制（Next.js API + RLS）が必須。
-- **パスワード**: djb2の簡易ハッシュ（デモ用）。ソルトなし・総当たり耐性なし。→ 本番はArgon2id等＋サーバー保管。
-- **セッション**: ユーザーIDをストレージに保存するのみ。トークン・有効期限なし。
-- **XSS**: ユーザー入力は `esc()` でエスケープしているが、`innerHTML` ベースのため新規コードでのエスケープ漏れが単一障害点。→ pr-checklist の必須確認項目。
-
-## 永続化
-- Artifact環境以外では**メモリ内のみ**（リロードで初期化）。
-- 単一JSONドキュメント保存のため、同時編集・部分更新・トランザクション分離なし（値上限5MB）。
-- 楽観ロック・競合解決なし（シングルユーザーデモ前提）。
-
-## 機能
-- Generic IEEE証憑はメタデータのみ。Primary MRVでは実ファイル本文のSHA-256とManifestを記録し再選択照合できるが、ファイル保管・本文解析・真正性確認は行わない。
-- IEEE版の検証補助は証憑メタデータとプロジェクト入力を対象にしたローカルルールであり、PDF・画像・表計算の本文解析、OCR、外部方法論データベース照合は行わない。
-- `input_fingerprint`、`evidence_set_hash`、環境記録・移転記録はcanonical JSONに対するSHA-256。暗号学的署名、第三者タイムスタンプ、改ざん耐性ストレージではない。
-- `environmental_records` はオフチェーンの**候補記録**。正式なカーボンクレジット発行・移転・償却や、ブロックチェーンへの書込みは行わない。
-- メール認証・KYC・パスワードリセットなし。
-- チケットの期限切れ判定は表示時の遅延評価（バッチなし）。
-- CSVダウンロードはブラウザ/サンドボックス制約で失敗する場合あり（コピーで代替可能）。
-- QRコードはCDN読込失敗時に文字列表示へフォールバック（照合はコード文字列の手入力）。
-- 通知・多言語・アクセシビリティ検証（スクリーンリーダー）は未対応。
-
-## アーキテクチャ
-- 単一HTMLファイル。関数は責務分離済みだがモジュール境界は物理分割されていない（docs/architecture.md §5 が分割設計図）。
-- `render()` は全画面再構築。Primary MRVのページ送り・詳細表示は同一ユーザー/圃場の入力を保持するが、全画面のフォーカス維持を保証する実装ではない。
-- 監査ログは地域スコープでのフィルタ未実装（全ロールの管理者に全件表示）。
-
-## スマートコントラクト
-- `contracts/` は**未接続の雛形**。コンパイル・テスト・監査未実施。メインネットデプロイ禁止をコメントで明記済み。
-
-## Candidate-unit lifecycle boundary
-
-- Simulation-only issuance, custody transfer and retirement are implemented. They do not issue, settle or retire a carbon credit in any external registry.
-- Duplicate prevention matches an exact record or canonical input within one dataset. Changed metadata, partially overlapping projects, differently worded claims and cross-registry duplicates are not detected. Browser reload/reset/import/state tampering can replace this dataset.
-- Hashes expose a tamper-evident design direction but are not cryptographic signatures, independently anchored timestamps or a decentralized consensus mechanism. Replacing all data and recomputing all hashes is possible.
-- Role buttons simulate identities. Client-side checks cannot provide production authorization, durable uniqueness or multi-client transaction isolation. Save failures may use the existing memory fallback.
-- Quantity is the operator's estimate (up to 6 decimals), without independent methodology validation, additionality, leakage, permanence or uncertainty calculations.
-- The 20-character ABSTAIN gate requires a documented reason but cannot establish its sufficiency. Full human evidence review remains necessary outside this metadata demo.
-- `voided_candidate` is reserved; there is no voiding or unretirement workflow. Retired quantities remain unavailable through all supported operations.
-- CarbonMarketplace now inherits OpenZeppelin `ERC1155Holder` to accept ERC1155 safe transfers. This addresses the missing receiver interface by source inspection only. No compiler, testnet deployment or Solidity audit is claimed; all contracts remain a Future testnet extension.
-- This environment's Cloud Browser URL policy blocked both localhost and file URLs, so actual browser layout/click verification was not completed. Node smoke tests exercise rendering and the full lifecycle, but do not substitute for browser interaction verification.
-
-## Primary Industry MRV limitations
-
-- AG-005 `3.1-reference` is based on an official public-comment attachment, with adopted/current status unconfirmed. CONFIG REQUIRED is deliberate. The reference check subset, single project crop, operator sustainability declaration and NaFT inventory are not exhaustive J-Credit eligibility. Land changes fail closed.
-- Formula arithmetic is implemented; coefficient selection/defaults, applicability, current GWP, methodology exceptions and officially usable reduction calculation are not. Supplied-parameter preview is illustrative; result stays null.
-- Monitoring Package is an incomplete reviewed draft. It is not a registered submission, external-verifier-approved report or formal certification. It contains a local audit reference, not a self-contained selective audit proof. CSV/PDF exports are not implemented for this package.
-- Evidence originals remain on the user's device. File hashing accepts up to 5 MiB; declared type/year/source may be false. Synthetic generated evidence proves only pipeline behavior. A matching hash does not prove climate activity.
-- A local audit anchor detects ordinary alteration/deletion/reordering. Replacement of the full dataset/checkpoint and recomputation of hashes is outside detection. Legacy anchor creation attests current stored bytes only. New methodology actions fail on a broken chain; existing generic actions retain their original behavior.
-- Field identity is caller-provided and normalized; no cadastral, GIS or registry reconciliation. Overlap detection is scoped to identical field ID, methodology and activity type in this dataset. Aliases, different methodologies, partial geometry overlap, external datasets and concurrent clients remain outside the guard.
-- The Program test covers model aggregation of 100 farmers/500 ha, not live multi-user scale. Names are local grouping labels, not legal identity. Field ownership/area changes and approved-record amendments need workflows not implemented here.
-- No live field PoC, third-party verifier acceptance, measured administrative cost reduction or income increase is demonstrated. Browser layout/click verification remains uncompleted under the previously observed browser URL restriction; tests execute generated handlers in a DOM stub.
-
-## Visibility/performance limits
-
-Measured improvement is Node HTML-string generation for synthetic data, not browser paint/FPS, mobile latency, heap profiling or concurrent-user throughput. The full dataset remains in memory. Ten-row paging bounds the default DOM payload; an explicitly requested full candidate record can still be large. Audit history verification remains linear at authoritative action boundaries. The view shows the last explicit audit result as historical, and the queue shows saved statuses. Real browser layout and file-node behavior have not been verified in this restricted environment; regression tests use a DOM stub.
+- **Official methodology coverage:** AG-005 3.1-reference remains; AG-004 is UNKNOWN/UNSUPPORTED. The requested AG-005 v3.5 source could not be independently re-verified from original bytes in the 2026-09-21 repair environment, so no `AG-005@3.5` Pack or real 3.1→3.5 institutional diff is claimed. Effective dates, current coefficients and complete rule translation remain unconfirmed. Compiler institutional evaluation fails closed.
+- **Generic rule coverage:** a small declarative comparison/conditional/multiplication interpreter. Full methodology semantics, complex strata, exceptions and coefficient applicability are not implemented. Synthetic output is an engineering index, never certified abatement.
+- **Adapters:** raw-byte SHA-256, metadata and JSON syntax normalization. No photo interpretation, agronomic semantic extraction, sensor calibration, GIS geometry or authoritative identity resolution. Supplied expected hashes are trust anchors, not external proof. Compiler JSON uploads and graphs are in-memory and not designed for unbounded datasets; legacy file upload retains 5 MiB limit.
+- **Impact analysis:** conservative dependency paths at Activity granularity. Applicable rules and used parameters support selective scope; minimal affected subexpression sets are unproven. Unknown condition inputs block evaluation. Peer checks cover the supplied dataset and stored Compiler claims, not external programs/registries. Legacy and Compiler duplicate indexes are separate; do not treat them as a unified production registry.
+- **Persistence/security:** demo role checks, local memory or existing artifact store. No server authentication, tenant isolation, concurrent transactions, independent audit witness or secure immutable original archive. A user controlling the whole local dataset can reconstruct its chain. A rejected/partially completed external store write is not a distributed transaction guarantee.
+- **Workflow:** append-only successor runs, stale current-export rejection and exception-level `ACCEPT / REJECT / NEED_MORE_EVIDENCE / ABSTAIN` are implemented. Decisions are bound to claim/run, exact exception, input fingerprint and Pack hash. A full attestation revocation/amendment protocol, cross-owner field changes, immutable external signatures and legacy snapshot conversion are not implemented. Declared Evidence metadata migration needs external semantic verification.
+- **Browser validation:** automated tests use Node DOM stubs. Layout, actual File selection, download, accessibility and browser persistence have not been verified in an actual browser. The previous browser attempt was blocked by URL policy; no browser pass is asserted here.
+- **Evidence of efficacy:** 36 labeled synthetic conformance cases plus a 100-Claim synthetic methodology-revision experiment. The 100-Claim experiment excludes 70 Claims from successor re-verification, a count-based scope result only. It is not measured runtime reduction, MRV cost reduction, field accuracy, reviewer-time reduction, farmer income increase or verifier acceptance. Those field-PoC metrics remain null.

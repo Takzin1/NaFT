@@ -1,72 +1,38 @@
-# AGENTS.md — AIエージェント向け開発ガイド
+# NaFT MRV Core — Repository instructions
 
-Claude (Opus/Sonnet)・OpenAI Codex・GitHub Copilot 等のコーディングエージェントが、このリポジトリを安全に継続開発するためのガイドです。**作業前に必ず本書と docs/legal-risk-map.md §2 を読んでください。**
+This branch is Version-aware MRV Evidence Compiler + Re-verification Engine. Scope: methodology registry/rule packs, evidence adapters/manifests, field/activity identity, deterministic evaluation/calculation, exception handling, final human attestation, provenance, monitoring packages and program aggregation.
 
-## 0. 絶対的ガードレール（違反するPRは自動的に不採用）
+## Boundaries
 
-1. **実決済・送金・換金・出金機能を追加しない**（Stripe等の決済SDK導入も禁止）
-2. **実カーボンクレジットの売買・移転・償却機能を追加しない**（購入予約は「意思表示」のまま）
-3. **ポイント/チケットに換金性・ユーザー間送付機能を持たせない**
-4. **`DISCLAIMER` 定数と免責表示（フッター・LP・登録画面）を削除・弱体化しない**
-5. **AIによる審査の自動承認・自動付与を実装しない**（docs/human-in-the-loop.md）
-6. **秘密情報（APIキー・秘密鍵・トークン）をコミットしない。外部API呼び出しを追加しない**
-7. 「儲かる・利回り・投資・換金」等の金融誤認表現を使わない（docs/legal-risk-map.md §2）
+- Work only on the explicitly requested branch. Do not change main or frozen references without separate user authorization. Never rewrite history.
+- No automatic formal certification, registry operations, financial operations or external APIs. Do not remove `DISCLAIMER` or its display on the six routes.
+- AG-005 3.1-reference is a public-comment reference; latest adoption is unconfirmed. AG-004 is UNKNOWN/UNSUPPORTED. Synthetic version transitions are not official revisions. Keep CONFIG REQUIRED and calculation.result=null. Prototype Rule Pack release approval cannot change official adoption status.
+- Automate completeness, hash/version/date checks, calculation, overlap checks and draft construction. Human operations are exception decisions, Rule Pack release approval and final package attestation. Normal cases need no intermediate approval.
+- Deterministic FAIL/MISSING and unsupported conditions are not human-overridable. Conflicting evidence may be accepted only with a recorded reason bound to the current evaluation.
 
-## 1. リポジトリ地図
+## Compiler rules
 
-| パス | 内容 | 触るときの注意 |
-|---|---|---|
-| `naft-app.html` | アプリ本体（唯一の実行コード） | 下記§2の内部レイアウト参照 |
-| `tests/` | スモークテスト（IEEE基準137項目＋Primary MRV追加分） | 変更後は必ず `bash tests/run.sh` |
-| `contracts/` | Solidity雛形（未接続） | メインネット前提のコードにしない |
-| `docs/` | 設計・法務・運用文書 | 挙動変更時は該当文書も更新 |
-| `skills/` | Claude Skills | 各SKILL.mdの手順に従う |
+- Preserve old Packs and immutable version identity. Unknown institutional configuration fails closed.
+- Pure compilation must use no clock/randomness/network and must not mutate input.
+- Diff all changed categories; impact must consider added rules absent from the old graph. Never hard-code fixture outcome counts.
+- Keep Corpus provenance truthful. Synthetic metrics are not field efficacy.
+- Compiler session operations use the existing actor/audit/store guards. New runs invalidate old current exports; historical records are retained.
 
-## 2. naft-app.html の内部レイアウト（関数名で検索して位置特定すること。行番号は使わない）
+## Code map
 
-| レイヤ | 目印となる識別子 |
-|---|---|
-| CSS設計システム | `:root{`（CSS変数 `--g900`〜`--gold`） |
-| Storage/定数/シード | `var store =` / `var DISCLAIMER` / `function seedDB()` |
-| 台帳・監査（書込の唯一の入口） | `function addTx(` / `function audit(` |
-| 状態・ルーター | `var S = {` / `function route(p)` / `function render()` |
-| 共有UI | `function projectCard(` / `function txTable(` / `function modalFrame(` |
-| 認証・オンボーディング | `function doLogin` / `function doRegister` / `function pgOnboarding` |
-| 市民ユースケース | `function execSupport` / `function execReserve` / `function redeemByCode` |
-| 事業者 | `function pgProjectForm` / `function saveProject` |
-| 審査（HITL） | `function modalReview` / `function reviewAction` |
-| ダッシュボード/集計 | `function regionStats` / `function nationalStats` / `function txCSV` |
-| 初期化 | `(async function init()` |
+- `src/mrv-core.js`: canonical JSON, SHA-256, exact-version registry, model, role/scope guards, evidence, evaluation, audit, exception decisions, attestation and canonical export.
+- `src/methodology-packs.js`, `src/mrv-compiler.js`: declarative registry, diff, normalization, graph, impact, pure Packages.
+- `src/compiler-session.js`, `src/compiler-demo.js`: guarded persistence/decisions and three demos.
+- `src/mrv-ui.js`: six hash routes, pure page functions, event dispatch and file download.
+- `naft-app.html`: static app shell/style. `index.html`: entry redirect.
+- `tests/smoke.test.js` + `tests/compiler.test.js`: dependency-free Node assertions; DOM stubs are not actual browser tests.
 
-## 3. コーディング規約
+Use build-free vanilla JS and existing function conventions. Keep page rendering read-only. Escape untrusted HTML via `esc`; use data attributes and delegated handlers instead of interpolating untrusted executable code. All mutations must pass role/scope and audit guards. Bind metadata to hashes and audit events; revalidate actor and input after asynchronous hashing. Persist through the store adapter; do not introduce another storage backend.
 
-- **スタイル**: ビルドなしのVanilla JS（`var`＋`function`宣言、テンプレートは文字列連結）。既存スタイルに合わせ、新構文（class, import等）を持ち込まない（Phase Aのモジュール分割まで）。
-- **描画**: ページ関数 `pg*()` はHTML文字列を返す純関数に保つ。副作用（db変更・保存）はユースケース関数（`exec*`, `save*`, `do*`）へ。
-- **エスケープ**: ユーザー由来の値を`innerHTML`に入れる際は必ず `esc()`。onclick属性へ埋め込む値は英数字IDのみ許可。
-- **価値移動**: 残高・支援額・チケットを変更するときは必ず `addTx()` を併記。管理操作は必ず `audit()` を併記。`saveDB()` を忘れない。
-- **ルート追加**: `route()` に分岐追加 → 対応する `*Shell()` のnavにリンク追加 → `pg*()` 実装、の3点セット。
-- **ID規約**: `uid('接頭辞')`。既存接頭辞は docs/data-model.md 参照。
+Methodology identity, implemented rule version, calculation version and adapter version belong in evidence/evaluation/package provenance. No long-lived authorization/integrity cache. Attested documents are immutable through supported operations. Avoid dead code for removed domains.
 
-## 4. 開発ループ
+## Verification
 
-```bash
-# 1) 編集前に現状確認
-bash tests/run.sh                      # 既存全項目が基準線
-# 2) 編集（str_replace等で最小差分）
-# 3) 検証
-python3 tests/extract-app-js.py && node --check tests/_app.js
-node tests/smoke.test.js               # 追加機能にはアサーションを追記する
-# 4) セキュリティスキャン（docs/security-checklist.md §1のコマンド）
-```
+Run `bash tests/run.sh` before and after changes. Cover positive and negative boundaries; do not retain removed-feature tests to preserve counts. Update README, relevant docs and the actual test count. Check the exact pushed SHA's CI. Record browser validation limits honestly.
 
-## 5. よくあるタスクのレシピ
-
-- **新しいページを追加**: §3ルート追加の3点セット + smoke.test.js に描画アサーション1件追加。
-- **新しい取引種別を追加**: `TT_MAP` に表示名追加 → `addTx()` 呼び出し箇所を実装 → data-model.md の一覧更新。
-- **集計項目の追加**: `regionStats()`/`nationalStats()` は純関数。ここに項目を足し、`statCard()` で表示。
-- **文言変更**: legal-risk-map §2 の禁止語に照らしてから変更。
-- **バグ調査**: docs/debugging-guide.md 参照。
-
-## 6. 着手できるタスク
-
-[.github/ISSUES_BACKLOG.md](.github/ISSUES_BACKLOG.md) に難易度・対象関数・受入条件つきで列挙済み。
+See [architecture](docs/architecture.md), [human boundaries](docs/human-in-the-loop.md), [limitations](docs/known-limitations.md) and [backlog](.github/ISSUES_BACKLOG.md).

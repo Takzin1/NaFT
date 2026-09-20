@@ -1,9 +1,11 @@
 #!/usr/bin/env bash
-# NaFT テスト一括実行: 構文チェック + スモークテスト
 set -euo pipefail
 cd "$(dirname "$0")/.."
-python3 tests/extract-app-js.py
-node --check tests/_app.js && echo "syntax: OK"
-node --check tests/render-benchmark.js
+for script in src/*.js; do node --check "$script"; done
+node --check src/mrv-ui.js
+node --check tests/smoke.test.js
 node tests/smoke.test.js
+node tests/compiler.test.js
+node tests/mitou-impact.test.js
+python3 tests/check-static.py
 bash tests/security.sh
