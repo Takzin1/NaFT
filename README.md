@@ -7,7 +7,7 @@
 - **Research Question**：「頻繁に改定されるMRV方法論と異種Evidenceを第三者が再計算・再検証可能な構造へ変換し、変更時に影響を受けるClaimだけを特定できるか？」
 - **Implemented**：Versioned Pack registry、決定論的diff、JSON provenance graph、4種の変更の影響分析・再評価、exception単位の`ACCEPT / REJECT / NEED_MORE_EVIDENCE / ABSTAIN`、最終宣誓、hash付きJSON export、36件のSynthetic conformance corpusと自動KPI、100 Claimの合成版変更実験。従来のAG-005参照評価と182件の回帰テストも維持。
 - **Not Implemented**：AG-005 v3.5一次資料byte snapshot/hashの独立検証、AG-004本文の確認、完全な制度ルール翻訳、現場での正確性・費用削減・検証機関受入れ。公式要件不明は`UNKNOWN / CONFIG_REQUIRED / UNSUPPORTED`で停止。正式削減量`result`は常に`null`。
-- **How to Run Demo**：`naft-app.html`をブラウザで開き、**Demo A / B / C**を順に押す。A＝自動draft、B＝版変更と影響Claim、C＝曖昧なidentityから人間判断。[3分操作手順](docs/demo-script.md)。
+- **How to Run Demo**：`naft-app.html#/reviewer-demo`を開くと、未踏審査向けの60秒Reviewer Demoで100 Claimの変更影響解析をlive計算できる。通常研究UIでは**Demo A / B / C**も維持。A＝自動draft、B＝6 Claimの軽量版変更fixture、C＝曖昧なidentityから人間判断。[操作手順](docs/demo-script.md)。
 
 内部PASS、Pack release approval、最終宣誓は正式認証ではありません。外部登録簿へ接続しません。
 
@@ -20,6 +20,12 @@ bash tests/run.sh
 ```
 
 **525 passed / 0 failed**（既存182＋Compiler333＋Mitou impact experiment 10）。DOM stub検証を含みますが、実ブラウザ検証ではありません。[Test report](docs/test-report.md)、[自動生成KPI](reports/evaluation-kpis.json)、[100 Claim影響解析実験](reports/mitou-impact-experiment.json)を参照。
+
+## Mitou Reviewer Demo
+
+`#/reviewer-demo` は申請書で使う100 Claim合成改定実験を、同じ `analyzeImpact` と同じClaim生成規則でブラウザから実行する審査向け表示です。100 / 30 / 70 / 15 / 15 は固定ラベルではなく実行結果から描画します。代表Claimではdependency理由、successor有無、`supersedes`を確認できます。Human Decisionのbindingについては、input fingerprint / Pack hashが変わればstaleになることを合成データで表示します。
+
+これは研究用Synthetic demoです。70%は件数ベースのscope reductionであり、時間・費用・field accuracy・verifier acceptanceを意味しません。通常の6 workflow routesは削除していません。
 
 ## 100-Claim selective re-verification experiment
 
@@ -42,7 +48,7 @@ bash tests/run.sh
 
 | Hash route | Responsibility |
 |---|---|
-| `#/methodologies` | Registry、出典・版・Pack承認、デモ入口 |
+| `#/reviewer-demo` | 未踏審査向け60秒ビュー。100 Claim impactをlive計算し代表Claimの理由を表示 |\n| `#/methodologies` | Registry、出典・版・Pack承認、デモ入口 |
 | `#/evidence` | Raw/structured JSON Evidence入力、Manifest、従来のファイルhash検証 |
 | `#/readiness` | 決定論的評価、自動draft、保存済みClaimへの版変更適用 |
 | `#/exceptions` | 証憑競合、identity、係数変更、方法論例外 |
