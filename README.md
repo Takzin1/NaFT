@@ -27,13 +27,13 @@ bash tests/run.sh
 
 `#/reviewer-demo` は申請書で使う100 Claim合成改定実験を、同じ `analyzeImpact` と同じClaim生成規則でブラウザから実行する審査向け表示です。100 / 30 / 70 / 15 / 15 は固定ラベルではなく実行結果から描画します。代表Claimではdependency理由、successor有無、`supersedes`を確認できます。Human Decisionのbindingについては、input fingerprint / Pack hashが変わればstaleになることを合成データで表示します。
 
-これは研究用Synthetic demoです。70%は件数ベースのscope reductionであり、時間・費用・field accuracy・verifier acceptanceを意味しません。通常の6 workflow routesは削除していません。
+これは研究用Synthetic demoです。**30 / 70は性能指標ではありません。** fixtureをstandard 70 / intensive 15 / intensive_complete 15で構成しているため、この合成実験では30件が再検証対象、70件が非影響になります。fixture構成を変えれば30 / 70も変わります。時間・費用・field accuracy・verifier acceptanceや、実制度での再検証率を意味しません。通常の6 workflow routesは削除していません。
 
 ## 100 Claim 合成差分再検証実験
 
-`NAFT-SYNTHETIC@1 → @2` の明示的な合成方法論改定を100 Claimへ適用する決定論的実験をCIに固定しています。100件すべてが変更版の候補集合に入る一方、active dependency projectionにより**30件だけを再検証対象として抽出し、70件はsuccessorを生成せず非影響として残します**。30件の内訳は15件が自動再評価、15件が新規Evidence不足で停止です。
+`NAFT-SYNTHETIC@1 → @2` の明示的な合成方法論改定を100 Claimへ適用する決定論的実験をCIに固定しています。fixtureはstandard 70件、intensive 15件、intensive_complete 15件で構成します。v2のintensive専用変更に依存する30件だけを再検証対象とし、standard 70件はsuccessorを生成せず非影響として残します。30件の内訳は15件が自動再評価、15件が新規Evidence不足で停止です。
 
-これは**件数ベースの再検証スコープ70%削減**であり、処理時間70%短縮、MRV費用70%削減、実制度での精度・受入れを意味しません。元Claimの不変性、再実行決定性、reverified successorの`supersedes`連結もテストします。
+**この30 / 70はfixture構成に由来する合成結果であり、性能指標ではありません。fixture構成を変えれば比率も変わります。** 処理時間、MRV費用、精度、受入れ、実制度での再検証率を推定する値ではありません。元Claimの不変性、再実行決定性、reverified successorの`supersedes`連結もテストします。
 
 ## 方法論Packと境界
 

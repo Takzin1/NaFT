@@ -81,9 +81,11 @@ for(const phrase of [
   'この画面は合成方法論 NAFT-SYNTHETIC@1 → @2 の研究デモです。AG-005の制度評価ではありません。',
   'v2ではstratum=intensiveのClaimに対して、追加ルール extended（intensive_min_days=9）とsensor証憑要件が加わります。',
   'standard 70件 / intensive（sensorなし） 15件 / intensive_complete（sensorあり） 15件。',
-  '30件 / 70件という比率は、この合成データの構成比に厳密に追従します。',
-  'この合成実験では、100件中70件について後継パッケージを生成せずに済みました。',
-  '時間・費用・精度が70%改善したという意味ではありません。',
+  '30 / 70 は性能指標ではありません。',
+  'fixture構成を変えれば30 / 70も変わります。',
+  '実制度の再検証率を予測するものではありません。',
+  'この70件は、fixture内のstandard 70件がv2のintensive専用変更に依存しないため非影響となった合成結果です。',
+  '時間・費用・精度が70%改善したという意味ではなく、実制度の再検証率を予測するものでもありません。',
   '再検証30件 / 影響なし70件'
 ]) {
   if(!text.includes(phrase)) throw new Error('MISSING_REVIEWER_TEXT:'+phrase);

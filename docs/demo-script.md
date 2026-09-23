@@ -6,13 +6,13 @@
 
 1. **「100 Claim変更影響実験を実行」**を押す。
 2. この画面は `NAFT-SYNTHETIC@1 → @2` の合成方法論変更であり、AG-005制度評価ではない。v2では`stratum=intensive`にだけ追加rule `extended`（`intensive_min_days=9`）とsensor Evidence要件が加わる。
-3. fixture構成はstandard 70 / intensive（sensorなし）15 / intensive_complete（sensorあり）15。30 / 70という比率はこの構成比に追従する。画面で以下を確認する。
+3. fixture構成はstandard 70 / intensive（sensorなし）15 / intensive_complete（sensorあり）15。**30 / 70は性能指標ではなく、このfixture構成に由来する。fixture構成を変えれば比率も変わる。** 画面で以下を確認する。
    - 変更候補：100
    - 再検証対象：30
    - 影響なし：70
    - 自動再評価：15
    - 追加証憑が必要：15
-4. 「この合成実験では100件中70件について後継パッケージを生成せずに済んだ」と表示する。ただし、**時間・費用・精度が70%改善したという意味ではない**。
+4. 70件が非影響なのは、fixture内のstandard 70件がv2のintensive専用変更に依存しないためである。**時間・費用・精度が70%改善したという意味でも、実制度の再検証率が70%になるという予測でもない**。
 5. 代表Claimを開き、なぜ影響なし／自動再評価／追加証憑不足なのか、依存関係と後継パッケージ（Successor Package）の有無を確認する。
 6. **「人間判断のstale化を見る」**で、入力fingerprintまたはMethodology Pack hashが変わると、変更前の人間判断を最終宣誓へ再利用できないことを確認する。
 7. hard error（UNSUPPORTED / EVIDENCE_REQUIRED / 改変検知 / 方法論不一致等）は人間判断で上書きできない。

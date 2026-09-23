@@ -118,7 +118,7 @@ function pgReviewerDemo() {
     '<p class="reviewer-boundary"><b>この画面は合成方法論 <code>NAFT-SYNTHETIC@1 → @2</code> の研究デモです。AG-005の制度評価ではありません。</b></p>'+
     '<div class="reviewer-step"><b>① 何が変わった？</b><p>'+esc(changes.summary)+'</p></div>'+
     '<div class="reviewer-step"><b>② 全100件を再検証するのか？ → いいえ。</b><p>③ NaFTは、変更されたルールと各Claimの依存関係を比較し、必要なものだけを再検証します。</p></div>'+
-    '<div class="reviewer-composition"><b>この合成fixtureの構成</b><p>standard '+esc(composition.standard)+'件 / intensive（sensorなし） '+esc(composition.intensive_missing_sensor)+'件 / intensive_complete（sensorあり） '+esc(composition.intensive_complete)+'件。</p><p class="muted">30件 / 70件という比率は、この合成データの構成比に厳密に追従します。実制度で70%になるという予測ではありません。</p></div>'+
+    '<div class="reviewer-composition"><b>この合成fixtureの構成</b><p>standard '+esc(composition.standard)+'件 / intensive（sensorなし） '+esc(composition.intensive_missing_sensor)+'件 / intensive_complete（sensorあり） '+esc(composition.intensive_complete)+'件。</p><p class="muted"><b>30 / 70 は性能指標ではありません。</b> このfixtureをstandard 70件 / intensive（sensorなし）15件 / intensive_complete（sensorあり）15件で構成しているため、この比率になっています。fixture構成を変えれば30 / 70も変わります。実制度の再検証率を予測するものではありません。</p></div>'+
     button('100 Claim変更影響実験を実行','reviewer-run',false)+
     '<p class="muted">合成実験（Synthetic engineering experiment）のみ · 正式認証・実制度での性能保証ではありません。</p></section>';
 
@@ -134,7 +134,7 @@ function pgReviewerDemo() {
         reviewerMetric('自動再評価',c.AUTO_REEVALUATED,'決定論的に再評価')+
         reviewerMetric('追加証憑が必要',c.EVIDENCE_REQUIRED,'不足証憑のため停止')+
       '</div>'+
-      '<div class="notice"><b>この合成実験では、100件中70件について後継パッケージを生成せずに済みました。</b><br>時間・費用・精度が70%改善したという意味ではありません。</div>'+
+      '<div class="notice"><b>この70件は、fixture内のstandard 70件がv2のintensive専用変更に依存しないため非影響となった合成結果です。</b><br>fixture構成を変えれば30 / 70も変わります。時間・費用・精度が70%改善したという意味ではなく、実制度の再検証率を予測するものでもありません。</div>'+
       '<h3>⑤ なぜ30件だけなのか</h3><p>standard 70件にはv2で追加されたintensive専用条件が適用されないため影響なし。intensive系30件だけが再検証対象になります。</p><p><b>30件の内訳：</b>sensorを既に持つintensive_complete 15件は自動再評価、sensorを持たないintensive 15件は追加証憑不足で停止します。</p><div class="notice"><b>⑥ 安全側の境界：</b>根拠不明・追加証憑不足・未対応条件は勝手に通しません。</div>'+
       reviewerRepresentativeRows(impact).map(reviewerRepresentativeCard).join('')+
       button('変更影響JSONをダウンロード','reviewer-export',false)+
