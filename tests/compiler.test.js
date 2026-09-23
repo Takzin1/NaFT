@@ -128,7 +128,7 @@ function appendLineageRun(input,pack,supersedes) {
   const head=db.audit_head;db.audit_head='tamper';await blocks(()=>compilerDraft(latestCompilerRun('apply').id),'AUDIT_CHAIN_BROKEN','broken audit stops compiler');db.audit_head=head;
   await saveDB();db=null;await loadDB();check(db.compiler_runs.length>0&&verifyAuditChain().status==='VALID','compiler collections store round trip');
 
-  // Lineage integrity regression A-H: array order must never define current/stale state.
+  // Lineage integrity regression A-I: array order must never define current/stale state.
   const beforeLineage=clone(db);
   db=seedDB();actorId='operator';
   const lineageA=await compileAndSave(syntheticClaim('lineage-order'));
