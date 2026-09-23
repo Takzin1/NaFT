@@ -3,21 +3,84 @@
 function compilerCollections() {
   ['compiler_runs','compiler_decisions','compiler_attestations'].forEach(function(k) { if(db[k]===undefined) db[k]=[];if(!Array.isArray(db[k])) throw new Error('INVALID_COMPILER_DATASET'); });
 }
+function validateCompilerRunIntegrity(r) {
+  requireAudit();
+  if(!r||!r.input||!r.input.activity||typeof r.input.activity.id!=='string'||!r.input.activity.id||
+     !r.package||typeof r.package.package_hash!=='string'||!r.package.package_hash||
+     !sealed(r,'run_hash')||!eventBinds('compiler_run',r.id,{hash:r.run_hash})||
+     !packageCurrent(r.package,r.input,r.pack,{supersedes:r.supersedes||undefined})) {
+    throw new Error('COMPILER_RUN_INTEGRITY');
+  }
+  return r;
+}
+function compilerClaimLineage(claimId) {
+  compilerCollections();requireAudit();
+  var runs=db.compiler_runs.filter(function(r) { return r&&r.input&&r.input.activity&&r.input.activity.id===claimId; });
+  if(!runs.length) return {runs:[],current:null};
+  runs.forEach(validateCompilerRunIntegrity);
+
+  var byHash=new Map(),globalByHash=new Map();
+  db.compiler_runs.forEach(function(r) {
+    if(r&&r.package&&typeof r.package.package_hash==='string') {
+      var existing=globalByHash.get(r.package.package_hash);
+      if(existing&&existing!==r) throw new Error('COMPILER_LINEAGE_CONFLICT');
+      globalByHash.set(r.package.package_hash,r);
+    }
+  });
+  runs.forEach(function(r) {
+    if(byHash.has(r.package.package_hash)) throw new Error('COMPILER_LINEAGE_CONFLICT');
+    byHash.set(r.package.package_hash,r);
+  });
+
+  var superseded=new Set(),childCount=new Map();
+  runs.forEach(function(r) {
+    if(!r.supersedes) return;
+    var parent=globalByHash.get(r.supersedes);
+    if(!parent) throw new Error('COMPILER_LINEAGE_BROKEN');
+    if(!parent.input||!parent.input.activity||parent.input.activity.id!==claimId) throw new Error('COMPILER_LINEAGE_CONFLICT');
+    if(!byHash.has(r.supersedes)) throw new Error('COMPILER_LINEAGE_BROKEN');
+    var n=(childCount.get(r.supersedes)||0)+1;childCount.set(r.supersedes,n);
+    if(n>1) throw new Error('COMPILER_LINEAGE_CONFLICT');
+    superseded.add(r.supersedes);
+  });
+
+  runs.forEach(function(start) {
+    var seen=new Set(),cursor=start;
+    while(cursor&&cursor.supersedes) {
+      if(seen.has(cursor.package.package_hash)) throw new Error('COMPILER_LINEAGE_CONFLICT');
+      seen.add(cursor.package.package_hash);
+      cursor=byHash.get(cursor.supersedes);
+      if(!cursor) throw new Error('COMPILER_LINEAGE_BROKEN');
+    }
+  });
+
+  var heads=runs.filter(function(r) { return !superseded.has(r.package.package_hash); });
+  if(heads.length!==1) throw new Error('COMPILER_LINEAGE_CONFLICT');
+  return {runs:runs,current:heads[0]};
+}
+function currentCompilerRuns() {
+  compilerCollections();requireAudit();
+  var claims=Array.from(new Set(db.compiler_runs.map(function(r) {
+    return r&&r.input&&r.input.activity?r.input.activity.id:null;
+  }).filter(Boolean))).sort();
+  return claims.map(function(id) { return compilerClaimLineage(id).current; });
+}
 function compilerRun(id) {
   compilerCollections();requireAudit();var r=db.compiler_runs.find(function(x) { return x.id===id; });
-  if(!r||!sealed(r,'run_hash')||!eventBinds('compiler_run',r.id,{hash:r.run_hash})) throw new Error('COMPILER_RUN_INTEGRITY');
+  validateCompilerRunIntegrity(r);
   var u=currentUser();if(!u||u.role!=='reviewer'&&u.id!==r.owner) throw new Error('ROLE_BLOCKED');
-  if(!packageCurrent(r.package,r.input,r.pack,{supersedes:r.supersedes||undefined})) throw new Error('COMPILER_RUN_INTEGRITY');return r;
+  return r;
 }
-function latestCompilerRun(claimId) { compilerCollections();return db.compiler_runs.filter(function(r) { return r.input.activity.id===claimId; }).slice(-1)[0]; }
-function currentCompilerRun(id) { var r=compilerRun(id);if(latestCompilerRun(r.input.activity.id).id!==id) throw new Error('STALE_PACKAGE');return r; }
+function latestCompilerRun(claimId) { return compilerClaimLineage(claimId).current||undefined; }
+function currentCompilerRun(id) { var r=compilerRun(id),head=latestCompilerRun(r.input.activity.id);if(!head||head.id!==id) throw new Error('STALE_PACKAGE');return r; }
 async function saveCompilerRun(input,pack,previous) {
   var u=requireRole('operator');requireAudit();compilerCollections();
   var latest=latestCompilerRun(input.activity.id);if(latest) { compilerRun(latest.id);if(latest.owner!==u.id) throw new Error('ROLE_BLOCKED'); }
   if(previous&&(!latest||latest.package.package_hash!==previous)) throw new Error('STALE_PACKAGE');
   input=canonicalCompilerInput(input);
-  var current=db.compiler_runs.filter(function(r) { return latestCompilerRun(r.input.activity.id).id===r.id&&r.input.activity.id!==input.activity.id; });
-  input.peers=stableSort((input.peers||[]).concat(current.map(function(r) { return r.input.activity; })).filter(function(p,i,all) { return all.findIndex(function(q) { return q.id===p.id; })===i; }));
+  var current=currentCompilerRuns().filter(function(r) { return r.input.activity.id!==input.activity.id; });
+  var currentIds=new Set(current.map(function(r) { return r.input.activity.id; }));
+  input.peers=stableSort((input.peers||[]).filter(function(p) { return !currentIds.has(p.id); }).concat(current.map(function(r) { return r.input.activity; })).filter(function(p,i,all) { return all.findIndex(function(q) { return q.id===p.id; })===i; }));
   if(current.some(function(r) { return r.input.field.id===input.field.id&&hashObject(r.input.field)!==hashObject(input.field); })) throw new Error('FIELD_IDENTITY_CONFLICT');
   if(current.some(function(r) { var a=r.input.activity,b=input.activity;return a.field_id===b.field_id&&a.methodology_id===b.methodology_id&&a.type===b.type&&a.start<=b.end&&a.end>=b.start; })) throw new Error('DUPLICATE_FIELD_ACTIVITY_BLOCKED');
   var pkg=compileEvidence(input,pack,{supersedes:previous||undefined});
@@ -79,7 +142,7 @@ function exportCompilerRun(id,attested) {
 }
 async function applyCompilerChange(change) {
   var user=requireRole('operator');requireAudit();compilerCollections();
-  var latest=db.compiler_runs.filter(function(r) { return r.owner===user.id&&latestCompilerRun(r.input.activity.id).id===r.id; });latest.forEach(function(r) { currentCompilerRun(r.id); });
+  var allCurrent=currentCompilerRuns(),latest=allCurrent.filter(function(r) { return r.owner===user.id; });latest.forEach(function(r) { currentCompilerRun(r.id); });
   var registry=Object.assign(Object.create(null),COMPILER_REGISTRY);
   latest.forEach(function(r) { var key=compilerKey(r.pack);if(hashObject(registry[key])!==hashObject(r.pack)) throw new Error('PACK_SNAPSHOT_CONFLICT'); });
   var result=analyzeImpact(latest.map(function(r) { return r.input; }),change,registry);
@@ -88,7 +151,7 @@ async function applyCompilerChange(change) {
     return seal({id:uid('compile'),owner:user.id,input:row.next_input,pack:row.next_pack,package:compileEvidence(row.next_input,row.next_pack,{supersedes:previous.package.package_hash}),supersedes:previous.package.package_hash},'run_hash');
   });
   // A field revision must update every known claim using that identity, including other Programs.
-  if(change.type==='field'&&db.compiler_runs.some(function(r) { return latestCompilerRun(r.input.activity.id).id===r.id&&r.input.field.id===change.field_id&&r.owner!==user.id; })) throw new Error('CROSS_PROGRAM_FIELD_CHANGE_UNSUPPORTED');
+  if(change.type==='field'&&allCurrent.some(function(r) { return r.input.field.id===change.field_id&&r.owner!==user.id; })) throw new Error('CROSS_PROGRAM_FIELD_CHANGE_UNSUPPORTED');
   var before=clone(db);
   try {
     planned.forEach(function(r) { db.compiler_runs.push(r);audit('compiler_run',r.id,{hash:r.run_hash}); });
