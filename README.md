@@ -1,13 +1,15 @@
 # NaFT — Version-aware MRV Evidence Compiler + Re-verification Engine
 
-**版管理されたMRV証憑コンパイラ＋差分再検証エンジン。**\n\nNaFTは、方法論・証憑・係数・人間判断を版付きで保持し、変更時にどのClaimを再検証すべきかを依存関係と変更差分から根拠付きで特定する研究プロトタイプです。
+**版管理されたMRV証憑コンパイラ＋差分再検証エンジン。**
+
+NaFTは、方法論・証憑・係数・人間判断を版付きで保持し、変更時にどのClaimを再検証すべきかを依存関係と変更差分から根拠付きで特定する研究プロトタイプです。
 
 - **研究上の問題**：方法論の版・証憑・係数・圃場情報が変わると、どのClaimの再検証が必要か追跡しにくい。
 - **現在のプロトタイプ**：ビルド不要のJavaScript研究プロトタイプ。入力Evidenceを正規化し、版を固定した評価・依存graph・Monitoring Packageを生成する。
 - **中心研究問い**：「頻繁に改定されるMRV方法論と異種Evidenceを第三者が再計算・再検証可能な構造へ変換し、変更時に影響を受けるClaimだけを特定できるか？」
 - **実装済み**：Versioned Pack registry、決定論的diff、JSON provenance graph、4種の変更の影響分析・再評価、exception単位の`ACCEPT / REJECT / NEED_MORE_EVIDENCE / ABSTAIN`、最終宣誓、hash付きJSON export、36件のSynthetic conformance corpusと自動KPI、100 Claimの合成版変更実験。従来のAG-005参照評価と182件の回帰テストも維持。
-- **未実装・未確認**：AG-005 v3.5一次資料byte snapshot/hashの独立検証、AG-004本文の確認、完全な制度ルール翻訳、現場での正確性・費用削減・検証機関受入れ。公式要件不明は`UNKNOWN / CONFIG_REQUIRED / UNSUPPORTED`で停止。正式削減量`result`は常に`null`。
-- **審査用デモ**：`naft-app.html#/reviewer-demo`を開くと、未踏審査向けの60秒Reviewer Demoで100 Claimの変更影響解析をlive計算できる。通常研究UIでは**Demo A / B / C**も維持。A＝自動draft、B＝6 Claimの軽量版変更fixture、C＝曖昧なidentityから人間判断。[操作手順](docs/demo-script.md)。
+- **未実装・未確認**：AG-005の現行制度版をExecutable Packとして固定・完全翻訳すること、AG-004 Ver.2.4のExecutable Pack化、現場での正確性・費用削減・検証機関受入れ。公式要件不明は`UNKNOWN / CONFIG_REQUIRED / UNSUPPORTED`で停止。正式削減量`result`は常に`null`。
+- **審査用デモ**：[GitHub Pages Reviewer Demo](https://takzin1.github.io/NaFT/#/reviewer-demo) から直接開ける。100 Claimの変更影響解析をブラウザ上で再計算する。通常研究UIでは**Demo A / B / C**も維持。A＝自動draft、B＝6 Claimの軽量版変更fixture、C＝曖昧なidentityから人間判断。[操作手順](docs/demo-script.md)。
 
 内部PASS、Pack release approval、最終宣誓は正式認証ではありません。外部登録簿へ接続しません。
 
@@ -37,12 +39,12 @@ bash tests/run.sh
 
 | Pack | 実装上の扱い |
 |---|---|
-| AG-005 `3.1-reference` | 既存版を保持。公開意見募集PDFの保存済みSHA-256を固定。採択状態・適用係数・完全なCompiler翻訳は未確認 |
-| AG-005 `3.5` | **NOT REGISTERED**。2026-09-21の修正時点で一次資料byte列とSHA-256を独立検証できず、制度内容を推測してPack化していない |
+| AG-005 `3.1-reference` | **歴史的参照版**として保持。Ver.3.1は2025-02-24までの版であり、現行制度対応を意味しない。保存済みSHA-256を固定しているが、適用係数・完全なCompiler翻訳は未確認 |
+| AG-005 現行制度版 | **NOT REGISTERED**。e-Gov一次資料ではVer.3.3を確認済み、2025年9月の第三者資料はVer.3.4を参照しているが、現行最新版の原文byte列・SHA-256・完全な制度差分を本repositoryでは独立固定していないためPack化しない |
 | AG-004 `UNKNOWN` | 研究上はAG-004 Ver.2.4原文を確認済み。ただしExecutable Packへの翻訳は未実装で、Compiler上は`UNSUPPORTED`のfail-closed placeholderを維持。制度対応済みとは扱わない |
 | NAFT-SYNTHETIC `1` / `2` | 差分・再検証実験の明示的合成ルール。公式方法論改定でも実農家データでもない |
 
-新しい公式AG-005 Packは、一次資料の原文byte列・出典・versionを検証できるまで追加しません。[出典確認記録](docs/methodology-sources.md)。
+新しい公式AG-005 Packは、一次資料の原文byte列・出典・version・適用条件を検証できるまで追加しません。[出典確認記録](docs/methodology-sources.md)。
 
 ## 審査用Reviewer Demo + 6つの研究ワークフロー
 
@@ -56,7 +58,16 @@ bash tests/run.sh
 | `#/review` | 明示的例外判断、最終Package attestation |
 | `#/packages` | 再現可能なJSON、graph、Program集計 |
 
-以下の6 routeが研究ワークフロー本体です。Reviewer Demoはその1ステップではなく、審査向けentry pointです。\n\n通常案件：Evidence → evaluation → draftまで途中承認なし。人間は各`HUMAN_REVIEW_REQUIRED`例外を個別に判断し、Pack公開承認、最終宣誓を担当します。hard error（`UNSUPPORTED / EVIDENCE_REQUIRED / tamper / methodology mismatch / deterministic failure`）はHuman override不可です。Operator / Reviewer / Maintainerはローカルデモ役割で、本番認証ではありません。
+以下の6 routeが研究ワークフロー本体です。Reviewer Demoはその1ステップではなく、審査向けentry pointです。
+
+通常案件：Evidence → evaluation → draftまで途中承認なし。人間は各`HUMAN_REVIEW_REQUIRED`例外を個別に判断し、Pack公開承認、最終宣誓を担当します。hard error（`UNSUPPORTED / EVIDENCE_REQUIRED / tamper / methodology mismatch / deterministic failure`）はHuman override不可です。Operator / Reviewer / Maintainerはローカルデモ役割で、本番認証ではありません。
+
+
+## 研究系譜・凍結参照
+
+- [Pre-Mitous full implementation snapshot `6fac0dd`](https://github.com/Takzin1/NaFT/commit/6fac0dddfcfec091bad51a69365cf0e043b9608e) — 当時のREADMEでスモークテスト276項目を記録。
+- [IEEE frozen candidate `6f7717d`](https://github.com/Takzin1/NaFT/commit/6f7717da6e737c946b9b09e073a2dfc1ebd4e7fa) — IEEE向けCandidate lifecycleを凍結した履歴点。当時137項目。
+- 現在の未踏向けmainは、上記IEEE版からWallet / Marketplace / Token lifecycle等を切り離し、MRV Core / change-controlへ集中している。
 
 ## Reproduction and data
 
