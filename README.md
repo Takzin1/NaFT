@@ -19,7 +19,7 @@ Node.js 20+、Python 3、bashを使用します。ビルド、外部CDN、実行
 bash tests/run.sh
 ```
 
-**525 passed / 0 failed**（既存182＋Compiler333＋Mitou impact experiment 10）。DOM stub検証を含みますが、実ブラウザ検証ではありません。[Test report](docs/test-report.md)、[自動生成KPI](reports/evaluation-kpis.json)、[100 Claim影響解析実験](reports/mitou-impact-experiment.json)を参照。
+**525 passed / 0 failed**（既存182＋Compiler333＋Mitou impact experiment 10）。加えて、GitHub Actions上のheadless Chromeで `#/reviewer-demo` の実ブラウザroute renderをsmoke検証しています。[Test report](docs/test-report.md)、[自動生成KPI](reports/evaluation-kpis.json)、[100 Claim影響解析実験](reports/mitou-impact-experiment.json)を参照。
 
 ## Mitou Reviewer Demo
 
@@ -48,7 +48,8 @@ bash tests/run.sh
 
 | Hash route | Responsibility |
 |---|---|
-| `#/reviewer-demo` | 未踏審査向け60秒ビュー。100 Claim impactをlive計算し代表Claimの理由を表示 |\n| `#/methodologies` | Registry、出典・版・Pack承認、デモ入口 |
+| `#/reviewer-demo` | 未踏審査向け60秒ビュー。100 Claim impactをlive計算し代表Claimの理由を表示 |
+| `#/methodologies` | Registry、出典・版・Pack承認、デモ入口 |
 | `#/evidence` | Raw/structured JSON Evidence入力、Manifest、従来のファイルhash検証 |
 | `#/readiness` | 決定論的評価、自動draft、保存済みClaimへの版変更適用 |
 | `#/exceptions` | 証憑競合、identity、係数変更、方法論例外 |
