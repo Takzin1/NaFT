@@ -3,7 +3,7 @@ var ROUTES=['methodologies','evidence','readiness','exceptions','review','packag
 var ROUTE_LABELS=['Methodology','Evidence','Evaluation','Exception','Human Review','Monitoring Package'];
 var UI={activityId:null,message:'',error:false,evidencePage:0,inspect:false,busy:false};
 function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');}
-function activeRoute(){var p=(location.hash||'#/methodologies').slice(2);return ROUTES.indexOf(p)>=0?p:'methodologies';}
+function activeRoute(){var p=(location.hash||'#/methodologies').slice(2);if(typeof REVIEWER_DEMO_ROUTE!=='undefined'&&p===REVIEWER_DEMO_ROUTE)return p;return ROUTES.indexOf(p)>=0?p:'methodologies';}
 function selectedActivity(){var list=visibleActivities();return list.find(function(a){return a.id===UI.activityId;})||list[0]||null;}
 function button(label,action,disabled){return '<button data-action="'+action+'" '+(disabled||UI.busy?'disabled':'')+'>'+esc(label)+'</button>';}
 function jsonView(value){return '<pre>'+esc(JSON.stringify(value,null,2))+'</pre>';}
@@ -41,6 +41,7 @@ async function handleAction(action,el){
   UI.busy=true;document.querySelectorAll('button,#actor,#activity').forEach(function(node){node.disabled=true;});
   try{
     if(action.indexOf('compiler-')===0&&typeof handleCompilerAction==='function')await handleCompilerAction(action,el);
+    if(action.indexOf('reviewer-')===0&&typeof handleReviewerAction==='function')handleReviewerAction(action,el);
     if(action==='release'){await approvePack('AG-005@3.1-reference',readValue('pack-note'));UI.message='Reference Rule Pack approved for prototype use.';}
     if(action==='register'){a=await registerActivity(JSON.parse(readValue('activity-json')));UI.activityId=a.id;UI.message='Activity registered.';}
     if(action==='attach'){var spec=readValue('evidence-spec').split(':');await attachEvidence(a.id,document.getElementById('evidence-file').files[0],spec[0],Number(spec[1]),readValue('evidence-source'));UI.message='Evidence manifest recorded; evaluate current inputs.';}
