@@ -11,7 +11,18 @@ for path in root.rglob('*.md'):
         target = target.split('#')[0]
         assert (path.parent / target).exists(), f'{path}: missing {target}'
 html = (root / 'naft-app.html').read_text()
-for target in re.findall(r'<script[^>]+src="([^"]+)"', html):
+script_targets = re.findall(r'<script[^>]+src="([^"]+)"', html)
+for target in script_targets:
     assert not re.match(r'^[a-z]+:', target), f'external script: {target}'
     assert (root / target).is_file(), f'missing script: {target}'
-print('local document and script references: OK')
+
+# Reviewer Demo is a browser runtime module, not a test-only helper.
+# Prevent a silent fallback to the ordinary UI when REVIEWER_DEMO_ROUTE is undefined.
+assert 'src/reviewer-demo.js' in script_targets, 'reviewer-demo.js exists but is not loaded by naft-app.html'
+assert script_targets.index('src/reviewer-demo.js') < script_targets.index('src/mrv-ui.js'), (
+    'reviewer-demo.js must load before mrv-ui.js so REVIEWER_DEMO_ROUTE is defined at startup'
+)
+assert 'src/reviewer-demo.js' in html and '#/reviewer-demo' in (root / 'src/mrv-ui.js').read_text(), (
+    'Reviewer Demo route/module wiring is incomplete'
+)
+print('local document, script references and reviewer route wiring: OK')
