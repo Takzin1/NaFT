@@ -158,8 +158,8 @@ function appendLineageRun(input,pack,supersedes) {
   await blocks(()=>latestCompilerRun('lineage-fork'),'COMPILER_LINEAGE_CONFLICT','C fork fails closed');
 
   db=seedDB();actorId='operator';
-  const missingInput=syntheticClaim('lineage-missing');
-  appendLineageRun(missingInput,p1,'missing-parent-package-hash');
+  const lineageMissingInput=syntheticClaim('lineage-missing');
+  appendLineageRun(lineageMissingInput,p1,'missing-parent-package-hash');
   await blocks(()=>latestCompilerRun('lineage-missing'),'COMPILER_LINEAGE_BROKEN','D missing parent fails closed');
 
   db=seedDB();actorId='operator';
