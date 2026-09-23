@@ -126,12 +126,12 @@ function pgReviewerDemo() {
   out+='<p class="muted">UNSUPPORTED / EVIDENCE_REQUIRED / 改変検知 / 方法論不一致 / 決定論的失敗などのhard errorは、人間判断で上書きできません。</p></section>';
 
   out+='<section class="card"><h3>60秒で見る順番</h3><ol>'+
-    '<li>方法論 v1 → v2 が変わる</li>+
-    '<li>100 Claimを変更候補として確認する</li>+
-    '<li>再検証30件 / 影響なし70件を根拠付きで分ける</li>+
-    '<li>追加証憑が必要な15件は停止する</li>+
-    '<li>変更前の人間判断は変更後にstale化する</li>+
-    '<li>Claimごとの依存関係グラフ（Provenance Graph）と後継パッケージ理由を確認する</li>+
+    '<li>方法論 v1 → v2 が変わる</li>'+
+    '<li>100 Claimを変更候補として確認する</li>'+
+    '<li>再検証30件 / 影響なし70件を根拠付きで分ける</li>'+
+    '<li>追加証憑が必要な15件は停止する</li>'+
+    '<li>変更前の人間判断は変更後にstale化する</li>'+
+    '<li>Claimごとの依存関係グラフ（Provenance Graph）と後継パッケージ理由を確認する</li>'+
     '</ol><p><a href="#/methodologies">通常の6ステップ研究UIへ →</a></p></section>';
   return out;
 }
