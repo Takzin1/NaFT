@@ -17,7 +17,7 @@ Run `bash tests/run.sh`. It checks all runtime syntax, the original suite, the n
 
 ## 100-Claim selective re-verification experiment
 
-`tests/mitou-impact.test.js` deterministically generates 100 synthetic Claims and applies `NAFT-SYNTHETIC@1 → @2`. Expected result: 100 potentially affected candidates, 30 requiring re-verification, 70 unaffected, 15 `AUTO_REEVALUATED`, 15 `EVIDENCE_REQUIRED`, and no Human Review or Unsupported result. The test also verifies source Claim immutability, deterministic replay, linked successor packages and absence of successor packages for unaffected Claims.
+`tests/mitou-impact.test.js` and the browser Reviewer Demo share `mitouReviewerClaims()` / `runMitouReviewerExperiment()`. The CI suite deterministically generates 100 synthetic Claims and applies `NAFT-SYNTHETIC@1 → @2`. Expected result: 100 potentially affected candidates, 30 requiring re-verification, 70 unaffected, 15 `AUTO_REEVALUATED`, 15 `EVIDENCE_REQUIRED`, and no Human Review or Unsupported result. The test also verifies source Claim immutability, deterministic replay, linked successor packages and absence of successor packages for unaffected Claims.
 
 The generated [Mitou impact report](../reports/mitou-impact-experiment.json) records a **0.70 count-based scope reduction ratio**. This is a ratio of Claims excluded from successor re-verification, not a runtime, cost, accuracy or field-effect estimate.
 
@@ -41,6 +41,10 @@ The generated [Mitou impact report](../reports/mitou-impact-experiment.json) rec
 | Impact coverage, conditional transition vs full recomputation | 3/3 affected Claims |
 
 Tampered/version-mismatched evidence is not usable evidence and is labeled missing for completeness purposes. The separate three ambiguous-field cases are human-review tests, not overlap true positives. Impact coverage is a narrow synthetic oracle; it is not proof of completeness/minimality for arbitrary institutional methodologies. False negatives/positives are exported as confusion counts. Field MRV cost, review time, income and verifier acceptance remain null, not estimated.
+
+## Reviewer Demo validation boundary
+
+The Reviewer Demo displays the 100-Claim result from the same computation used by the Mitou impact suite rather than presentation-only constants. Existing assertion count remains **525 passed / 0 failed** unless a later CI run reports otherwise.
 
 ## Validation limits
 
