@@ -14,6 +14,11 @@ function humanDecision(input,pack,code,decision,reason,runId,reviewer) {
   var binding={claim_id:input.activity.id,run_id:runId||'RUN-TEST',exception_code:code,input_fingerprint:inputFingerprint(input),pack_hash:hashObject(pack),reviewer:reviewer||'reviewer',reason:reason||'Synthetic reviewer rationale with sufficient detail for deterministic testing.',decision:decision};
   return Object.assign({},binding,{decision_hash:hashObject(binding)});
 }
+function appendLineageRun(input,pack,supersedes) {
+  var pkg=compileEvidence(input,pack,{supersedes:supersedes||undefined});
+  var r=seal({id:uid('lineage'),owner:'operator',input:canonicalCompilerInput(input),pack:clone(pack),package:pkg,supersedes:supersedes||null},'run_hash');
+  db.compiler_runs.push(r);audit('compiler_run',r.id,{hash:r.run_hash});return r;
+}
 (async function() {
   for(const p of VERSIONED_PACKS) check(validatePack(p)===p,'valid Pack schema '+compilerKey(p));
   check(Object.isFrozen(COMPILER_REGISTRY['NAFT-SYNTHETIC@1'].rules),'registry deep frozen');
@@ -122,6 +127,52 @@ function humanDecision(input,pack,code,decision,reason,runId,reviewer) {
   check(verifyAuditChain().status==='VALID','compiler operations preserve audit chain');
   const head=db.audit_head;db.audit_head='tamper';await blocks(()=>compilerDraft(latestCompilerRun('apply').id),'AUDIT_CHAIN_BROKEN','broken audit stops compiler');db.audit_head=head;
   await saveDB();db=null;await loadDB();check(db.compiler_runs.length>0&&verifyAuditChain().status==='VALID','compiler collections store round trip');
+
+  // Lineage integrity regression A-H: array order must never define current/stale state.
+  const beforeLineage=clone(db);
+  db=seedDB();actorId='operator';
+  const lineageA=await compileAndSave(syntheticClaim('lineage-order'));
+  setActor('maintainer');await approveVersionedPack(compilerKey(p1),note);
+  setActor('reviewer');await attestCompilerRun(lineageA.id,note,true);
+  setActor('operator');
+  const lineageBInput=syntheticClaim('lineage-order');lineageBInput.field.area_ha=3;
+  const lineageB=await compileAndSave(lineageBInput);
+  db.compiler_runs.reverse();
+  eq(latestCompilerRun('lineage-order').id,lineageB.id,'A array reorder keeps lineage head B current');
+  setActor('reviewer');await blocks(()=>exportCompilerRun(lineageA.id,true),'STALE_PACKAGE','B array reorder never revives A attested export');
+  setActor('operator');
+  const lineageCInput=syntheticClaim('lineage-order');lineageCInput.field.area_ha=4;
+  const lineageC=await compileAndSave(lineageCInput);
+  eq(latestCompilerRun('lineage-order').id,lineageC.id,'G A to B to C current is C');
+  await blocks(()=>currentCompilerRun(lineageA.id),'STALE_PACKAGE','G A remains stale');
+  await blocks(()=>currentCompilerRun(lineageB.id),'STALE_PACKAGE','G B remains stale');
+  await saveDB();db=null;await loadDB();
+  eq(latestCompilerRun('lineage-order').id,lineageC.id,'H reload preserves lineage head');
+
+  db=seedDB();actorId='operator';
+  const forkA=await compileAndSave(syntheticClaim('lineage-fork'));
+  const forkBInput=syntheticClaim('lineage-fork');forkBInput.field.area_ha=3;
+  const forkCInput=syntheticClaim('lineage-fork');forkCInput.field.area_ha=4;
+  appendLineageRun(forkBInput,p1,forkA.package.package_hash);
+  appendLineageRun(forkCInput,p1,forkA.package.package_hash);
+  await blocks(()=>latestCompilerRun('lineage-fork'),'COMPILER_LINEAGE_CONFLICT','C fork fails closed');
+
+  db=seedDB();actorId='operator';
+  const lineageMissingInput=syntheticClaim('lineage-missing');
+  appendLineageRun(lineageMissingInput,p1,'missing-parent-package-hash');
+  await blocks(()=>latestCompilerRun('lineage-missing'),'COMPILER_LINEAGE_BROKEN','D missing parent fails closed');
+
+  db=seedDB();actorId='operator';
+  const crossParent=await compileAndSave(syntheticClaim('lineage-parent'));
+  appendLineageRun(syntheticClaim('lineage-child'),p1,crossParent.package.package_hash);
+  await blocks(()=>latestCompilerRun('lineage-child'),'COMPILER_LINEAGE_CONFLICT','E cross-Claim parent fails closed');
+
+  db=seedDB();actorId='operator';
+  const peerRun=await compileAndSave(syntheticClaim('peer-source'));
+  peerRun.run_hash='tampered-run-hash';
+  await blocks(()=>compileAndSave(syntheticClaim('peer-target')),'COMPILER_RUN_INTEGRITY','F corrupt peer blocked before peer evaluation');
+
+  db=beforeLineage;actorId='operator';
   // All real page functions with all runtime scripts loaded; this is explicitly a DOM stub.
   const elements={app:{innerHTML:''},'compiler-note':{value:note},'compiler-ack':{checked:true}};
   global.location={hash:'#/methodologies'};global.document={getElementById:id=>elements[id]||null,querySelectorAll:()=>[]};global.window={};

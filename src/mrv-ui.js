@@ -9,7 +9,11 @@ function button(label,action,disabled){return '<button data-action="'+action+'" 
 function jsonView(value){return '<pre>'+esc(JSON.stringify(value,null,2))+'</pre>';}
 function currentEvaluation(a){var r=a&&latestEvaluation(a);return r&&evaluationCurrent(a,r)?r:null;}
 function blankActivity(){return '<section class="card"><h2>活動を登録してください</h2><p>Operatorで圃場と活動期間を登録すると、証憑からパッケージまで進められます。</p><a href="#/evidence">Evidenceへ</a></section>';}
+function reviewerHeader(){
+  return '<header class="reviewer-header"><a class="reviewer-home" href="#/methodologies">NaFT研究UIへ</a><span class="eyebrow">NaFT · Research Prototype</span><h1>Reviewer Demo</h1><p>Version-aware MRV Evidence Compiler + Re-verification Engine</p></header>';
+}
 function header(route){
+  if(typeof REVIEWER_DEMO_ROUTE!=='undefined'&&route===REVIEWER_DEMO_ROUTE) return reviewerHeader();
   var a=selectedActivity();
   return '<header><span class="eyebrow">NaFT · MRV research prototype</span><h1>Version-aware MRV<br>Evidence Compiler</h1><p>NaFT transforms heterogeneous environmental evidence into methodology-aware, reproducible, human-reviewable MRV packages.</p><div class="row"><label>Demo actor <select id="actor" '+(UI.busy?'disabled':'')+'>'+db.users.map(function(u){return '<option value="'+esc(u.id)+'"'+(actorId===u.id?' selected':'')+'>'+esc(u.name)+'</option>';}).join('')+'</select></label><label>Selected field / activity <select id="activity" '+(UI.busy?'disabled':'')+'><option value="">Select activity</option>'+visibleActivities().map(function(x){return '<option value="'+esc(x.id)+'"'+(a&&a.id===x.id?' selected':'')+'>'+esc(x.field_id+' / '+x.crop_year)+'</option>';}).join('')+'</select></label><span class="pill">Client-side demo identities</span></div><a class="reviewer-cta" href="#/reviewer-demo">Mitou Reviewer Demoを開く →</a><nav aria-label="MRV workflow">'+ROUTES.map(function(r,i){return '<a href="#/'+r+'"'+(r===route?' aria-current="page"':'')+'>'+(i+1)+'. '+ROUTE_LABELS[i]+'</a>';}).join('')+'</nav><div class="notice"><b>CONFIG REQUIRED</b> · AG-005参照版。正式採択版と適用係数は未確認です。内部チェック・宣誓によって正式認証にはなりません。</div></header>';
 }

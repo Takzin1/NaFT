@@ -17,9 +17,9 @@ var VERSIONED_PACKS = [
   },
   {
     methodology_id: 'AG-004', methodology_version: 'UNKNOWN', rule_pack_version: 'naft-ag004-placeholder-1',
-    effective_from: 'UNKNOWN', effective_to: 'UNKNOWN', source_url: 'https://japancredit.go.jp/about/methodology/',
-    source_hash: 'UNKNOWN', source_checked_at: 'UNKNOWN', status: 'UNSUPPORTED', provenance: 'public',
-    source_attempted_at: '2026-09-20', source_access: 'HTTP 403; methodology text/version not verified',
+    effective_from: 'UNKNOWN', effective_to: 'UNKNOWN', source_url: 'https://public-comment.e-gov.go.jp/pcm/download?seqNo=0000298548',
+    source_hash: 'UNKNOWN', source_checked_at: '2026-09-23', status: 'UNSUPPORTED', provenance: 'public',
+    source_attempted_at: '2026-09-20', source_access: 'AG-004 Ver.2.4 source text located in e-Gov; original bytes/hash not pinned and Executable Pack translation not implemented',
     parameters: {institutional_parameters: {value: 'UNKNOWN', status: 'CONFIG_REQUIRED'}}, evidence_requirements: {}, rules: {},
     calculation_spec: {operation: 'UNSUPPORTED', result: null}, exceptions: {}, unsupported_conditions: {official_requirements: 'UNKNOWN'}
   },

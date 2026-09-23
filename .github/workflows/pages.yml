@@ -23,7 +23,7 @@ jobs:
           fetch-depth: 0
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 24
       - name: Run regression and Mitou impact checks
         run: bash tests/run.sh
       - name: Verify committed generated reports

@@ -12,6 +12,11 @@ for path in root.rglob('*.md'):
         assert (path.parent / target).exists(), f'{path}: missing {target}'
 html = (root / 'naft-app.html').read_text()
 script_targets = re.findall(r'<script[^>]+src="([^"]+)"', html)
+icon_targets = re.findall(r'<link[^>]+rel="icon"[^>]+href="([^"]+)"', html)
+assert icon_targets, 'favicon link missing from naft-app.html'
+for target in icon_targets:
+    assert not re.match(r'^[a-z]+:', target), f'external favicon: {target}'
+    assert (root / target).is_file(), f'missing favicon: {target}'
 for target in script_targets:
     assert not re.match(r'^[a-z]+:', target), f'external script: {target}'
     assert (root / target).is_file(), f'missing script: {target}'
@@ -25,4 +30,4 @@ assert script_targets.index('src/reviewer-demo.js') < script_targets.index('src/
 assert 'src/reviewer-demo.js' in html and '#/reviewer-demo' in (root / 'src/mrv-ui.js').read_text(), (
     'Reviewer Demo route/module wiring is incomplete'
 )
-print('local document, script references and reviewer route wiring: OK')
+print('local document, favicon/script references and reviewer route wiring: OK')

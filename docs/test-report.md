@@ -3,7 +3,7 @@
 ## Before / After
 
 Baseline: `8747ca889cb2412778e47ee6115bda3ff060574e`, **182 passed / 0 failed**.
-After: **525 passed / 0 failed** = original 182 + Compiler 333 + Mitou impact experiment 10 assertions. GitHub Actions executes all three suites. No existing MRV assertions were deleted, changed or skipped.
+After: **535 passed / 0 failed** = original 182 + Compiler 343 + Mitou impact experiment 10 assertions. 既存525 assertionsは削除・skip・書換えせず保持し、Compiler lineage integrity regression A-Hとして10 assertionsを追加した。GitHub ActionsはNode 24で全suiteを実行する。
 
 Run `bash tests/run.sh`. It checks all runtime syntax, the original suite, the new suite, static links, prohibited dependency/secret patterns and whitespace. There is no timing threshold. `node tests/measure.js` records physical LOC, actual six routes, stored-array collections and roles; see [baseline](../reports/baseline.json) and [after](../reports/size-after.json). LOC includes comments/blank lines; JSON fixtures and prose are excluded. Counts are not a maintainability or performance score.
 
@@ -13,13 +13,13 @@ Run `bash tests/run.sh`. It checks all runtime syntax, the original suite, the n
 
 ## Added Compiler suite
 
-333 assertions cover Pack schema/deep-freeze/version coexistence, Diff categories and removals, unknown operations, 36 labeled Corpus cases with independent expected results, JSON adapter parsing, unknown applicability, graph node/edge integrity and determinism, transitive dependency traversal, evidence ordering, all four change types, conditional added rules, unused parameters, no-op changes, exact scope and full-recomputation comparison. They also cover stale packages/reviews, material overrides, non-overridable errors, Pack release/final acknowledgement, exception-level `ACCEPT / REJECT / NEED_MORE_EVIDENCE / ABSTAIN`, stale decisions after input/Pack change, hard-error override refusal, decision-hash tamper detection, package-hash reproducibility, stored tampering, sequential changes, duplicate stored activities, round-trip persistence, all six full-runtime renderers, XSS and Demo A/B/C through actual handlers with DOM stubs.
+343 assertions cover Pack schema/deep-freeze/version coexistence, Diff categories and removals, unknown operations, 36 labeled Corpus cases with independent expected results, JSON adapter parsing, unknown applicability, graph node/edge integrity and determinism, transitive dependency traversal, evidence ordering, all four change types, conditional added rules, unused parameters, no-op changes, exact scope and full-recomputation comparison. They also cover stale packages/reviews, material overrides, non-overridable errors, Pack release/final acknowledgement, exception-level `ACCEPT / REJECT / NEED_MORE_EVIDENCE / ABSTAIN`, stale decisions after input/Pack change, hard-error override refusal, decision-hash tamper detection, package-hash reproducibility, stored tampering, sequential changes, duplicate stored activities, round-trip persistence, all six full-runtime renderers, XSS and Demo A/B/C through actual handlers with DOM stubs. 追加10 assertionsは、配列順変更に依存しないcurrent head、旧attested exportのstale維持、fork、missing parent、cross-Claim supersedes、破損peerの先行拒否、A→B→Cのcurrent/stale、保存→reload後のlineage一致を検証する。
 
 ## 100-Claim selective re-verification experiment
 
 `tests/mitou-impact.test.js` and the browser Reviewer Demo share `mitouReviewerClaims()` / `runMitouReviewerExperiment()`. The CI suite deterministically generates 100 synthetic Claims and applies `NAFT-SYNTHETIC@1 → @2`. Expected result: 100 potentially affected candidates, 30 requiring re-verification, 70 unaffected, 15 `AUTO_REEVALUATED`, 15 `EVIDENCE_REQUIRED`, and no Human Review or Unsupported result. The test also verifies source Claim immutability, deterministic replay, linked successor packages and absence of successor packages for unaffected Claims.
 
-The generated [Mitou impact report](../reports/mitou-impact-experiment.json) records a **0.70 count-based scope reduction ratio**. This is a ratio of Claims excluded from successor re-verification, not a runtime, cost, accuracy or field-effect estimate.
+The generated [Mitou impact report](../reports/mitou-impact-experiment.json) records `0.70` for this fixture's count-based share of Claims excluded from successor generation. **This is not a performance metric.** It follows the synthetic fixture composition (standard 70 / intensive 15 / intensive_complete 15) and would change if that composition changed. It is not a runtime, cost, accuracy, field-effect or institutional re-verification-rate estimate.
 
 ## Automatically measured KPIs
 
@@ -44,8 +44,8 @@ Tampered/version-mismatched evidence is not usable evidence and is labeled missi
 
 ## Reviewer Demo validation boundary
 
-The Reviewer Demo displays the 100-Claim result from the same computation used by the Mitou impact suite rather than presentation-only constants. Existing assertion count remains **525 passed / 0 failed**. A separate GitHub Actions smoke check starts the static app and opens `naft-app.html#/reviewer-demo` in headless Chrome, asserting that the Reviewer Demo route and `reviewer-run` action render.
+The Reviewer Demo displays the 100-Claim result from the same computation used by the Mitou impact suite rather than presentation-only constants. Assertion count is **535 passed / 0 failed**. A separate GitHub Actions browser check starts the static app, uses a 375×812-equivalent headless Chrome viewport, opens `naft-app.html#/reviewer-demo`, clicks `reviewer-run`, verifies the rendered metrics are exactly 100 / 30 / 70 / 15 / 15, checks the question is inside the first viewport, and rejects horizontal overflow on Reviewer Demo and the Methodology route.
 
 ## Validation limits
 
-The core UI handler suites still use DOM stubs, while the Reviewer Demo route now has a real-browser render smoke in headless Chrome. File chooser, browser download, accessibility, persistence, responsive visual layout and the complete six-route workflow remain unverified in an actual browser. There is no production authentication, independent audit witness, concurrent-client transaction guarantee or real farmer/verifier validation. No mixed-domain UI performance result is reused.
+The core UI handler suites still use DOM stubs, while Reviewer Demo has a real-browser click/metric/mobile-overflow smoke in headless Chrome. File chooser, iOS Safari download behavior, accessibility, persistence, device-specific visual rendering and the complete six-route workflow remain unverified in an actual browser. There is no production authentication, independent audit witness, concurrent-client transaction guarantee or real farmer/verifier validation. No mixed-domain UI performance result is reused.

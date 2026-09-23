@@ -1,22 +1,23 @@
-# Mitou reviewer demo — synthetic inputs only
+# 未踏アドバンスト審査用デモ — 合成入力のみ
 
-Open `naft-app.html#/reviewer-demo` (or `index.html#/reviewer-demo`) in a browser. No build.
+公開版は `https://takzin1.github.io/NaFT/#/reviewer-demo`。ローカルでは `naft-app.html#/reviewer-demo` または `index.html#/reviewer-demo` を開く。ビルド不要。
 
-## 60-second reviewer flow
+## 60秒 Reviewer Demo
 
-1. Press **「100 Claim変更影響実験を実行」**.
-2. Confirm the live-computed result:
-   - 100 candidate Claims
-   - 30 require re-verification
-   - 70 unaffected
-   - 15 AUTO_REEVALUATED
-   - 15 EVIDENCE_REQUIRED
-3. Expand representative Claims to inspect why each Claim is unaffected / auto re-evaluated / blocked for missing Evidence. The detail includes previous package hash, dependency nodes, successor existence, and supersedes linkage when applicable.
-4. Read the boundary notice: **70% is count-based re-verification scope reduction only**. It is not time, cost, accuracy, field validation, verifier acceptance, or official certification.
-5. In **Human Decision binding**, choose one of ACCEPT / REJECT / NEED_MORE_EVIDENCE / ABSTAIN and press **「Human Decision stale化を見る」**. The demo computes the old/new input fingerprint and Pack hash and shows that the old decision binding is stale after the change.
-6. If more detail is needed, move to the ordinary six-step research UI.
+1. **「100 Claim変更影響実験を実行」**を押す。
+2. この画面は `NAFT-SYNTHETIC@1 → @2` の合成方法論変更であり、AG-005制度評価ではない。v2では`stratum=intensive`にだけ追加rule `extended`（`intensive_min_days=9`）とsensor Evidence要件が加わる。
+3. fixture構成はstandard 70 / intensive（sensorなし）15 / intensive_complete（sensorあり）15。**30 / 70は性能指標ではなく、このfixture構成に由来する。fixture構成を変えれば比率も変わる。** 画面で以下を確認する。
+   - 変更候補：100
+   - 再検証対象：30
+   - 影響なし：70
+   - 自動再評価：15
+   - 追加証憑が必要：15
+4. 70件が非影響なのは、fixture内のstandard 70件がv2のintensive専用変更に依存しないためである。**時間・費用・精度が70%改善したという意味でも、実制度の再検証率が70%になるという予測でもない**。
+5. 代表Claimを開き、なぜ影響なし／自動再評価／追加証憑不足なのか、依存関係と後継パッケージ（Successor Package）の有無を確認する。
+6. **「人間判断のstale化を見る」**で、入力fingerprintまたはMethodology Pack hashが変わると、変更前の人間判断を最終宣誓へ再利用できないことを確認する。
+7. hard error（UNSUPPORTED / EVIDENCE_REQUIRED / 改変検知 / 方法論不一致等）は人間判断で上書きできない。
 
-The Reviewer Demo and `tests/mitou-impact.test.js` share the same 100-Claim generator and `analyzeImpact` computation. The 100 / 30 / 70 / 15 / 15 counts are not presentation-only labels.
+Reviewer Demoと `tests/mitou-impact.test.js` は、同じ100 Claim生成規則と `analyzeImpact` を共有する。100 / 30 / 70 / 15 / 15はpresentation-only constantsではない。
 
 ## Three-minute research UI
 
@@ -30,4 +31,4 @@ For final attestation, first use Maintainer on Methodology, select `NAFT-SYNTHET
 
 For custom inputs use the Evidence page's Compiler JSON editor. Text/photo bytes and structured farm-log/IoT/GIS JSON adapters normalize bytes/structure, not environmental meaning. Unknown institutional configuration stops evaluation. The separate existing AG-005 reference workflow remains below the Compiler panel and retains its original constraints.
 
-Automated handler checks use DOM stubs. Unless an actual browser QA result is separately recorded, this document does not claim an actual-browser PASS.
+通常UIのhandler testsはDOM stubを含む。一方、Reviewer DemoについてはGitHub Actions上のheadless Chromeで375×812相当のviewportを設定し、button click後のmetric描画、first-viewの問い位置、横overflow、通常Methodology routeの横overflowまでsmoke検証する。File chooser / iOS Safari download / accessibility / persistence / responsive visual inspectionの全端末網羅 / 通常6 workflowの網羅QAは未実施。

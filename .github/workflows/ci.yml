@@ -14,24 +14,59 @@ jobs:
           fetch-depth: 0
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 24
       - name: Run Core regression, Compiler Corpus, syntax and security checks
         run: bash tests/run.sh
-      - name: Browser smoke Reviewer Demo route
+      - name: Browser click Reviewer Demo and verify live metrics
         shell: bash
         run: |
           python3 -m http.server 4173 --bind 127.0.0.1 >/tmp/naft-http.log 2>&1 &
           server_pid=$!
-          trap 'kill $server_pid' EXIT
-          for i in {1..20}; do
-            if curl -fsS http://127.0.0.1:4173/naft-app.html >/dev/null; then break; fi
-            sleep 0.5
-          done
           chrome="$(command -v google-chrome-stable || command -v google-chrome || command -v chromium || command -v chromium-browser || true)"
           test -n "$chrome"
-          "$chrome" --headless --no-sandbox --disable-gpu --virtual-time-budget=3000             --dump-dom "http://127.0.0.1:4173/naft-app.html#/reviewer-demo" >/tmp/reviewer-dom.html
-          grep -Fq 'data-action="reviewer-run"' /tmp/reviewer-dom.html
-          grep -Fq 'Mitou Advanced · Reviewer Demo' /tmp/reviewer-dom.html
+          cleanup() {
+            kill ${chrome_pid:-} ${server_pid:-} 2>/dev/null || true
+          }
+          trap cleanup EXIT
+
+          server_ready=false
+          for i in {1..40}; do
+            if curl -fsS http://127.0.0.1:4173/naft-app.html >/dev/null; then
+              server_ready=true
+              break
+            fi
+            sleep 0.25
+          done
+          if [ "$server_ready" != true ]; then
+            echo "::error::Static HTTP server did not become ready"
+            cat /tmp/naft-http.log || true
+            exit 1
+          fi
+
+          "$chrome" --headless=new --no-sandbox --disable-gpu --disable-dev-shm-usage             --no-first-run --no-default-browser-check             --remote-debugging-address=127.0.0.1 --remote-debugging-port=9222             --user-data-dir=/tmp/naft-chrome             "http://127.0.0.1:4173/naft-app.html#/reviewer-demo" >/tmp/naft-chrome.log 2>&1 &
+          chrome_pid=$!
+
+          cdp_ready=false
+          for i in {1..80}; do
+            if curl -fsS http://127.0.0.1:9222/json/list >/dev/null; then
+              cdp_ready=true
+              break
+            fi
+            if ! kill -0 "$chrome_pid" 2>/dev/null; then
+              break
+            fi
+            sleep 0.25
+          done
+          if [ "$cdp_ready" != true ]; then
+            echo "::error::Chrome DevTools endpoint did not become ready"
+            echo "--- Chrome log ---"
+            cat /tmp/naft-chrome.log || true
+            echo "--- HTTP log ---"
+            cat /tmp/naft-http.log || true
+            exit 1
+          fi
+
+          node tests/browser-reviewer-smoke.mjs
       - name: Verify reproducible Corpus KPI report
         run: git diff --exit-code -- reports/evaluation-kpis.json reports/mitou-impact-experiment.json
       - name: Check committed whitespace
