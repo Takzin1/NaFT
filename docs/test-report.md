@@ -3,7 +3,7 @@
 ## Before / After
 
 Baseline: `8747ca889cb2412778e47ee6115bda3ff060574e`, **182 passed / 0 failed**.
-After: **535 passed / 0 failed** = original 182 + Compiler 343 + Mitou impact experiment 10 assertions. 既存525 assertionsは削除・skip・書換えせず保持し、Compiler lineage integrity regression A-Hとして10 assertionsを追加した。GitHub ActionsはNode 24で全suiteを実行する。
+After: **536 passed / 0 failed** = original 182 + Compiler 344 + Mitou impact experiment 10 assertions. 既存535 assertionsは削除・skip・書換えせず保持し、lineage cycle専用regression 1 assertionを追加した。GitHub ActionsはNode 24で全suiteを実行する。
 
 Run `bash tests/run.sh`. It checks all runtime syntax, the original suite, the new suite, static links, prohibited dependency/secret patterns and whitespace. There is no timing threshold. `node tests/measure.js` records physical LOC, actual six routes, stored-array collections and roles; see [baseline](../reports/baseline.json) and [after](../reports/size-after.json). LOC includes comments/blank lines; JSON fixtures and prose are excluded. Counts are not a maintainability or performance score.
 
@@ -13,7 +13,7 @@ Run `bash tests/run.sh`. It checks all runtime syntax, the original suite, the n
 
 ## Added Compiler suite
 
-343 assertions cover Pack schema/deep-freeze/version coexistence, Diff categories and removals, unknown operations, 36 labeled Corpus cases with independent expected results, JSON adapter parsing, unknown applicability, graph node/edge integrity and determinism, transitive dependency traversal, evidence ordering, all four change types, conditional added rules, unused parameters, no-op changes, exact scope and full-recomputation comparison. They also cover stale packages/reviews, material overrides, non-overridable errors, Pack release/final acknowledgement, exception-level `ACCEPT / REJECT / NEED_MORE_EVIDENCE / ABSTAIN`, stale decisions after input/Pack change, hard-error override refusal, decision-hash tamper detection, package-hash reproducibility, stored tampering, sequential changes, duplicate stored activities, round-trip persistence, all six full-runtime renderers, XSS and Demo A/B/C through actual handlers with DOM stubs. 追加10 assertionsは、配列順変更に依存しないcurrent head、旧attested exportのstale維持、fork、missing parent、cross-Claim supersedes、破損peerの先行拒否、A→B→Cのcurrent/stale、保存→reload後のlineage一致を検証する。
+344 assertions cover Pack schema/deep-freeze/version coexistence, Diff categories and removals, unknown operations, 36 labeled Corpus cases with independent expected results, JSON adapter parsing, unknown applicability, graph node/edge integrity and determinism, transitive dependency traversal, evidence ordering, all four change types, conditional added rules, unused parameters, no-op changes, exact scope and full-recomputation comparison. They also cover stale packages/reviews, material overrides, non-overridable errors, Pack release/final acknowledgement, exception-level `ACCEPT / REJECT / NEED_MORE_EVIDENCE / ABSTAIN`, stale decisions after input/Pack change, hard-error override refusal, decision-hash tamper detection, package-hash reproducibility, stored tampering, sequential changes, duplicate stored activities, round-trip persistence, all six full-runtime renderers, XSS and Demo A/B/C through actual handlers with DOM stubs. 既存10 lineage assertionsは、配列順変更に依存しないcurrent head、旧attested exportのstale維持、fork、missing parent、cross-Claim supersedes、破損peerの先行拒否、A→B→Cのcurrent/stale、保存→reload後のlineage一致を検証する。追加1 assertionは、sealed / audit-boundな同一ClaimのA↔B cycle topologyを専用fixtureで構築し、cycleそのものが`COMPILER_LINEAGE_CONFLICT`でfail closedすることを検証する。
 
 ## 100-Claim selective re-verification experiment
 
@@ -44,7 +44,7 @@ Tampered/version-mismatched evidence is not usable evidence and is labeled missi
 
 ## Reviewer Demo validation boundary
 
-The Reviewer Demo displays the 100-Claim result from the same computation used by the Mitou impact suite rather than presentation-only constants. Assertion count is **535 passed / 0 failed**. A separate GitHub Actions browser check starts the static app, uses a 375×812-equivalent headless Chrome viewport, opens `naft-app.html#/reviewer-demo`, clicks `reviewer-run`, verifies the rendered metrics are exactly 100 / 30 / 70 / 15 / 15, checks the question is inside the first viewport, and rejects horizontal overflow on Reviewer Demo and the Methodology route.
+The Reviewer Demo displays the 100-Claim result from the same computation used by the Mitou impact suite rather than presentation-only constants. Assertion count is **536 passed / 0 failed**. A separate GitHub Actions browser check starts the static app, uses a 375×812-equivalent headless Chrome viewport, opens `naft-app.html#/reviewer-demo`, clicks `reviewer-run`, verifies the rendered metrics are exactly 100 / 30 / 70 / 15 / 15, checks the question is inside the first viewport, and rejects horizontal overflow on Reviewer Demo and the Methodology route.
 
 ## Validation limits
 
