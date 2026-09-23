@@ -44,8 +44,8 @@ Tampered/version-mismatched evidence is not usable evidence and is labeled missi
 
 ## Reviewer Demo validation boundary
 
-The Reviewer Demo displays the 100-Claim result from the same computation used by the Mitou impact suite rather than presentation-only constants. Existing assertion count remains **525 passed / 0 failed** unless a later CI run reports otherwise.
+The Reviewer Demo displays the 100-Claim result from the same computation used by the Mitou impact suite rather than presentation-only constants. Existing assertion count remains **525 passed / 0 failed**. A separate GitHub Actions smoke check starts the static app and opens `naft-app.html#/reviewer-demo` in headless Chrome, asserting that the Reviewer Demo route and `reviewer-run` action render.
 
 ## Validation limits
 
-DOM stubs are not actual browser execution. Layout, File chooser, browser download and accessibility are unverified. The previous Cloud Browser attempt rejected the local file URL; no actual-browser PASS is asserted. There is no production authentication, independent audit witness, concurrent-client transaction guarantee or real farmer/verifier validation. No mixed-domain UI performance result is reused.
+The core UI handler suites still use DOM stubs, while the Reviewer Demo route now has a real-browser render smoke in headless Chrome. File chooser, browser download, accessibility, persistence, responsive visual layout and the complete six-route workflow remain unverified in an actual browser. There is no production authentication, independent audit witness, concurrent-client transaction guarantee or real farmer/verifier validation. No mixed-domain UI performance result is reused.
