@@ -19,7 +19,7 @@ Node.js 20+、Python 3、bashを使用します。GitHub ActionsではNode 24で
 bash tests/run.sh
 ```
 
-**525 passed / 0 failed**（既存182＋Compiler333＋Mitou impact experiment 10）。加えて、GitHub Actions上のheadless Chromeで `#/reviewer-demo` の実ブラウザroute renderをsmoke検証しています。[Test report](docs/test-report.md)、[自動生成KPI](reports/evaluation-kpis.json)、[100 Claim影響解析実験](reports/mitou-impact-experiment.json)を参照。
+**535 passed / 0 failed**（既存182＋Compiler343＋Mitou impact experiment 10）。既存525 assertionsは削除・skip・書換えせず保持し、lineage integrity regression 10 assertionsを追加。加えて、GitHub Actions上のheadless Chromeで `#/reviewer-demo` を開き、変更影響実験buttonを実際にclickし、100 / 30 / 70 / 15 / 15のmetric描画まで検証しています。[Test report](docs/test-report.md)、[自動生成KPI](reports/evaluation-kpis.json)、[100 Claim影響解析実験](reports/mitou-impact-experiment.json)を参照。
 
 ## 未踏アドバンスト審査用Reviewer Demo
 
