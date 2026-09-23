@@ -17,6 +17,21 @@ jobs:
           node-version: 20
       - name: Run Core regression, Compiler Corpus, syntax and security checks
         run: bash tests/run.sh
+      - name: Browser smoke Reviewer Demo route
+        shell: bash
+        run: |
+          python3 -m http.server 4173 --bind 127.0.0.1 >/tmp/naft-http.log 2>&1 &
+          server_pid=$!
+          trap 'kill $server_pid' EXIT
+          for i in {1..20}; do
+            if curl -fsS http://127.0.0.1:4173/naft-app.html >/dev/null; then break; fi
+            sleep 0.5
+          done
+          chrome="$(command -v google-chrome-stable || command -v google-chrome || command -v chromium || command -v chromium-browser || true)"
+          test -n "$chrome"
+          "$chrome" --headless --no-sandbox --disable-gpu --virtual-time-budget=3000             --dump-dom "http://127.0.0.1:4173/naft-app.html#/reviewer-demo" >/tmp/reviewer-dom.html
+          grep -Fq 'data-action="reviewer-run"' /tmp/reviewer-dom.html
+          grep -Fq 'Mitou Advanced · Reviewer Demo' /tmp/reviewer-dom.html
       - name: Verify reproducible Corpus KPI report
         run: git diff --exit-code -- reports/evaluation-kpis.json reports/mitou-impact-experiment.json
       - name: Check committed whitespace
