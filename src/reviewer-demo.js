@@ -12,6 +12,30 @@ function mitouReviewerClaims() {
   return claims;
 }
 
+function reviewerFixtureComposition(claims) {
+  claims=claims||mitouReviewerClaims();
+  var out={standard:0,intensive_missing_sensor:0,intensive_complete:0};
+  claims.forEach(function(c) {
+    var intensive=c.activity.stratum==='intensive';
+    var hasSensor=(c.evidence||[]).some(function(e) { return e.category==='sensor'; });
+    if(!intensive) out.standard++;
+    else if(hasSensor) out.intensive_complete++;
+    else out.intensive_missing_sensor++;
+  });
+  return out;
+}
+
+function reviewerRelevantMethodologyChanges() {
+  var oldPack=COMPILER_REGISTRY['NAFT-SYNTHETIC@1'],nextPack=COMPILER_REGISTRY['NAFT-SYNTHETIC@2'];
+  var diff=compareMethodologyVersions(oldPack,nextPack);
+  return {
+    changed_rules:diff.changed_rules.map(function(x) { return x.id; }),
+    changed_evidence_requirements:diff.changed_evidence_requirements.map(function(x) { return x.id; }),
+    changed_parameters:diff.changed_parameters.map(function(x) { return x.id; }),
+    summary:'v2ではstratum=intensiveのClaimに対して、追加ルール extended（intensive_min_days=9）とsensor証憑要件が加わります。standard Claimにはこの追加条件は適用されません。'
+  };
+}
+
 function runMitouReviewerExperiment(claims) {
   return analyzeImpact(
     claims||mitouReviewerClaims(),
@@ -88,11 +112,13 @@ function reviewerRepresentativeCard(row) {
 }
 
 function pgReviewerDemo() {
-  var impact=ReviewerDemo.impact;
+  var impact=ReviewerDemo.impact,composition=reviewerFixtureComposition(),changes=reviewerRelevantMethodologyChanges();
   var out='<section class="card reviewer-hero"><span class="eyebrow">未踏アドバンスト審査用デモ</span>'+
     '<h2>方法論が変わったとき、過去100件のClaimのうち何を再検証するか？</h2>'+
-    '<p>NaFTは、方法論・証憑（Evidence）・係数・人間判断（Human Decision）の依存関係を版付きで保持し、変更差分から再検証対象を根拠付きで絞り込みます。</p>'+
-    '<div class="flow"><span>① 方法論 v1</span><b>→ 変更 →</b><span>方法論 v2</span></div>'+    '<div class="notice"><b>② 全100件を再検証するのか？ → いいえ。</b><br>③ 変更されたルールと各Claimの依存関係を比較し、必要なものだけを再検証します。</div>'+    '<p><b>⑥ 安全側の境界：</b>根拠不明・追加証憑不足・未対応条件は勝手に通しません。</p>'+
+    '<p class="reviewer-boundary"><b>この画面は合成方法論 <code>NAFT-SYNTHETIC@1 → @2</code> の研究デモです。AG-005の制度評価ではありません。</b></p>'+
+    '<div class="reviewer-step"><b>① 何が変わった？</b><p>'+esc(changes.summary)+'</p></div>'+
+    '<div class="reviewer-step"><b>② 全100件を再検証するのか？ → いいえ。</b><p>③ NaFTは、変更されたルールと各Claimの依存関係を比較し、必要なものだけを再検証します。</p></div>'+
+    '<div class="reviewer-composition"><b>この合成fixtureの構成</b><p>standard '+esc(composition.standard)+'件 / intensive（sensorなし） '+esc(composition.intensive_missing_sensor)+'件 / intensive_complete（sensorあり） '+esc(composition.intensive_complete)+'件。</p><p class="muted">30件 / 70件という比率は、この合成データの構成比に厳密に追従します。実制度で70%になるという予測ではありません。</p></div>'+
     button('100 Claim変更影響実験を実行','reviewer-run',false)+
     '<p class="muted">合成実験（Synthetic engineering experiment）のみ · 正式認証・実制度での性能保証ではありません。</p></section>';
 
@@ -109,7 +135,7 @@ function pgReviewerDemo() {
         reviewerMetric('追加証憑が必要',c.EVIDENCE_REQUIRED,'不足証憑のため停止')+
       '</div>'+
       '<div class="notice"><b>この合成実験では、100件中70件について後継パッケージを生成せずに済みました。</b><br>時間・費用・精度が70%改善したという意味ではありません。</div>'+
-      '<h3>⑤ なぜ30件だけなのか</h3><p>100件すべてを変更候補として確認し、Claimごとの実際の依存関係を比較します。意味上の影響がある30件だけ後継パッケージ（Successor Package）を生成します。</p><p><b>30件の内訳：</b>15件は自動再評価、15件は追加証憑不足で停止します。</p>'+
+      '<h3>⑤ なぜ30件だけなのか</h3><p>standard 70件にはv2で追加されたintensive専用条件が適用されないため影響なし。intensive系30件だけが再検証対象になります。</p><p><b>30件の内訳：</b>sensorを既に持つintensive_complete 15件は自動再評価、sensorを持たないintensive 15件は追加証憑不足で停止します。</p><div class="notice"><b>⑥ 安全側の境界：</b>根拠不明・追加証憑不足・未対応条件は勝手に通しません。</div>'+
       reviewerRepresentativeRows(impact).map(reviewerRepresentativeCard).join('')+
       button('変更影響JSONをダウンロード','reviewer-export',false)+
       '</section>';
