@@ -167,6 +167,29 @@ function appendLineageRun(input,pack,supersedes) {
   appendLineageRun(syntheticClaim('lineage-child'),p1,crossParent.package.package_hash);
   await blocks(()=>latestCompilerRun('lineage-child'),'COMPILER_LINEAGE_CONFLICT','E cross-Claim parent fails closed');
 
+  // I: isolate lineage-cycle detection. Package hashes commit the supersedes edge, so a
+  // cryptographically self-consistent A<->B cycle cannot be produced by normal compilation
+  // without a hash fixed point. This fixture therefore keeps each Package valid for its
+  // input/Pack while bypassing only supersedes-aware packageCurrent() for this claim.
+  // Run seals and audit bindings remain real, so the expected failure is the topology cycle.
+  db=seedDB();actorId='operator';
+  const cycleAInput=syntheticClaim('lineage-cycle');
+  const cycleBInput=syntheticClaim('lineage-cycle');cycleBInput.field.area_ha=3;
+  const cycleAPackage=compileEvidence(cycleAInput,p1),cycleBPackage=compileEvidence(cycleBInput,p1);
+  const cycleA=seal({id:uid('lineage'),owner:'operator',input:canonicalCompilerInput(cycleAInput),pack:clone(p1),package:cycleAPackage,supersedes:cycleBPackage.package_hash},'run_hash');
+  const cycleB=seal({id:uid('lineage'),owner:'operator',input:canonicalCompilerInput(cycleBInput),pack:clone(p1),package:cycleBPackage,supersedes:cycleAPackage.package_hash},'run_hash');
+  db.compiler_runs.push(cycleA,cycleB);audit('compiler_run',cycleA.id,{hash:cycleA.run_hash});audit('compiler_run',cycleB.id,{hash:cycleB.run_hash});
+  const realPackageCurrent=packageCurrent;
+  packageCurrent=function(pkg,input,pack,options) {
+    if(input&&input.activity&&input.activity.id==='lineage-cycle') return !!pkg&&pkg.package_hash===compileEvidence(input,pack).package_hash;
+    return realPackageCurrent(pkg,input,pack,options);
+  };
+  try {
+    await blocks(()=>latestCompilerRun('lineage-cycle'),'COMPILER_LINEAGE_CONFLICT','I cycle fails closed');
+  } finally {
+    packageCurrent=realPackageCurrent;
+  }
+
   db=seedDB();actorId='operator';
   const peerRun=await compileAndSave(syntheticClaim('peer-source'));
   peerRun.run_hash='tampered-run-hash';
