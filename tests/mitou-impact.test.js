@@ -1,6 +1,6 @@
 'use strict';
 const fs=require('fs'),vm=require('vm'),assert=require('assert/strict');
-for(const name of ['mrv-core','methodology-packs','mrv-compiler','compiler-demo']) {
+for(const name of ['mrv-core','methodology-packs','mrv-compiler','compiler-demo','reviewer-demo']) {
   vm.runInThisContext(fs.readFileSync('src/'+name+'.js','utf8'));
 }
 let passed=0,failed=0;
@@ -13,15 +13,10 @@ function eq(actual,expected,label) {
   catch(error) { failed++;console.error('FAIL: '+label+'\n'+error.message);process.exitCode=1; }
 }
 
-const claims=[];
-for(let i=1;i<=100;i++) {
-  const variant=i<=70?'standard':i<=85?'intensive':'intensive_complete';
-  claims.push(syntheticClaim('MITOU-'+String(i).padStart(3,'0'),variant));
-}
+const claims=mitouReviewerClaims();
 const before=canonicalize(claims);
-const change={type:'methodology',old_key:'NAFT-SYNTHETIC@1',new_key:'NAFT-SYNTHETIC@2'};
-const impact=analyzeImpact(claims,change);
-const rerun=analyzeImpact(claims,change);
+const impact=runMitouReviewerExperiment(claims);
+const rerun=runMitouReviewerExperiment();
 
 eq(claims.length,100,'100-claim synthetic batch');
 eq(impact.counts,{
