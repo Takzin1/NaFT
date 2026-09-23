@@ -12,9 +12,9 @@ function mitouReviewerClaims() {
   return claims;
 }
 
-function runMitouReviewerExperiment() {
+function runMitouReviewerExperiment(claims) {
   return analyzeImpact(
-    mitouReviewerClaims(),
+    claims||mitouReviewerClaims(),
     {type:'methodology',old_key:'NAFT-SYNTHETIC@1',new_key:'NAFT-SYNTHETIC@2'}
   );
 }
