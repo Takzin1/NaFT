@@ -44,8 +44,8 @@ Tampered/version-mismatched evidence is not usable evidence and is labeled missi
 
 ## Reviewer Demo validation boundary
 
-The Reviewer Demo displays the 100-Claim result from the same computation used by the Mitou impact suite rather than presentation-only constants. Assertion count is **535 passed / 0 failed**. A separate GitHub Actions browser check starts the static app, opens `naft-app.html#/reviewer-demo` in headless Chrome, clicks `reviewer-run`, and verifies the rendered metrics are exactly 100 / 30 / 70 / 15 / 15.
+The Reviewer Demo displays the 100-Claim result from the same computation used by the Mitou impact suite rather than presentation-only constants. Assertion count is **535 passed / 0 failed**. A separate GitHub Actions browser check starts the static app, uses a 375×812-equivalent headless Chrome viewport, opens `naft-app.html#/reviewer-demo`, clicks `reviewer-run`, verifies the rendered metrics are exactly 100 / 30 / 70 / 15 / 15, checks the question is inside the first viewport, and rejects horizontal overflow on Reviewer Demo and the Methodology route.
 
 ## Validation limits
 
-The core UI handler suites still use DOM stubs, while the Reviewer Demo route now has a real-browser click-and-metric smoke in headless Chrome. File chooser, browser download, accessibility, persistence, responsive visual layout and the complete six-route workflow remain unverified in an actual browser. There is no production authentication, independent audit witness, concurrent-client transaction guarantee or real farmer/verifier validation. No mixed-domain UI performance result is reused.
+The core UI handler suites still use DOM stubs, while Reviewer Demo has a real-browser click/metric/mobile-overflow smoke in headless Chrome. File chooser, iOS Safari download behavior, accessibility, persistence, device-specific visual rendering and the complete six-route workflow remain unverified in an actual browser. There is no production authentication, independent audit witness, concurrent-client transaction guarantee or real farmer/verifier validation. No mixed-domain UI performance result is reused.
