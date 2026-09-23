@@ -52,10 +52,15 @@ async function until(expression,label) {
 }
 
 await send('Runtime.enable');
+await send('Emulation.setDeviceMetricsOverride',{width:375,height:812,deviceScaleFactor:1,mobile:true});
 await until(
   "document.querySelector('[data-action=\\\"reviewer-run\\\"]')!==null && document.body.innerText.includes('未踏アドバンスト審査用デモ')",
   'reviewer route render'
 );
+const firstView=await evaluate("({headingTop:document.querySelector('.reviewer-hero h2').getBoundingClientRect().top,scrollWidth:document.documentElement.scrollWidth,innerWidth:window.innerWidth,hasOperationalControls:!!document.querySelector('#actor,#activity,nav'),hasAg005Banner:document.body.innerText.includes('AG-005参照版')})");
+if(firstView.headingTop>=812) throw new Error('REVIEWER_HEADING_BELOW_FIRST_VIEW:'+JSON.stringify(firstView));
+if(firstView.scrollWidth>firstView.innerWidth) throw new Error('REVIEWER_HORIZONTAL_OVERFLOW:'+JSON.stringify(firstView));
+if(firstView.hasOperationalControls||firstView.hasAg005Banner) throw new Error('REVIEWER_HEADER_NOT_ISOLATED:'+JSON.stringify(firstView));
 
 await evaluate("document.querySelector('[data-action=\\\"reviewer-run\\\"]').click(); true");
 await until("document.querySelectorAll('.metric').length===5",'metric render');
@@ -73,12 +78,20 @@ if(JSON.stringify(metrics)!==JSON.stringify(expected)) {
 }
 const text=await evaluate("document.body.innerText");
 for(const phrase of [
+  'この画面は合成方法論 NAFT-SYNTHETIC@1 → @2 の研究デモです。AG-005の制度評価ではありません。',
+  'v2ではstratum=intensiveのClaimに対して、追加ルール extended（intensive_min_days=9）とsensor証憑要件が加わります。',
+  'standard 70件 / intensive（sensorなし） 15件 / intensive_complete（sensorあり） 15件。',
+  '30件 / 70件という比率は、この合成データの構成比に厳密に追従します。',
   'この合成実験では、100件中70件について後継パッケージを生成せずに済みました。',
   '時間・費用・精度が70%改善したという意味ではありません。',
   '再検証30件 / 影響なし70件'
 ]) {
   if(!text.includes(phrase)) throw new Error('MISSING_REVIEWER_TEXT:'+phrase);
 }
-console.log('Reviewer Demo browser click: PASS');
+await evaluate("location.hash='#/methodologies'; true");
+await until("document.body.innerText.includes('Rule Packを版で固定する')",'methodologies route render');
+const methodologyViewport=await evaluate("({scrollWidth:document.documentElement.scrollWidth,innerWidth:window.innerWidth})");
+if(methodologyViewport.scrollWidth>methodologyViewport.innerWidth) throw new Error('METHODOLOGY_HORIZONTAL_OVERFLOW:'+JSON.stringify(methodologyViewport));
+console.log('Reviewer Demo browser click/mobile: PASS');
 console.log(JSON.stringify(Object.fromEntries(metrics)));
 ws.close();
