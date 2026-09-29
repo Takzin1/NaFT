@@ -3,7 +3,7 @@
 ## Before / After
 
 Baseline: `8747ca889cb2412778e47ee6115bda3ff060574e`, **182 passed / 0 failed**.
-After: **536 passed / 0 failed** = original 182 + Compiler 344 + Mitou impact experiment 10 assertions. 既存535 assertionsは削除・skip・書換えせず保持し、lineage cycle専用regression 1 assertionを追加した。GitHub ActionsはNode 24で全suiteを実行する。
+After: **1008 passed / 0 failed** = original 182 + Compiler 344 + Mitou impact experiment 10 + Impact Proof 472 assertions. 既存536 assertionsは削除・skip・意味変更せず保持し、独立Full Re-computation Oracleとのadversarial comparisonを追加した。GitHub ActionsはNode 24で全suiteを実行する。
 
 Run `bash tests/run.sh`. It checks all runtime syntax, the original suite, the new suite, static links, prohibited dependency/secret patterns and whitespace. There is no timing threshold. `node tests/measure.js` records physical LOC, actual six routes, stored-array collections and roles; see [baseline](../reports/baseline.json) and [after](../reports/size-after.json). LOC includes comments/blank lines; JSON fixtures and prose are excluded. Counts are not a maintainability or performance score.
 
@@ -20,6 +20,27 @@ Run `bash tests/run.sh`. It checks all runtime syntax, the original suite, the n
 `tests/mitou-impact.test.js` and the browser Reviewer Demo share `mitouReviewerClaims()` / `runMitouReviewerExperiment()`. The CI suite deterministically generates 100 synthetic Claims and applies `NAFT-SYNTHETIC@1 → @2`. Expected result: 100 potentially affected candidates, 30 requiring re-verification, 70 unaffected, 15 `AUTO_REEVALUATED`, 15 `EVIDENCE_REQUIRED`, and no Human Review or Unsupported result. The test also verifies source Claim immutability, deterministic replay, linked successor packages and absence of successor packages for unaffected Claims.
 
 The generated [Mitou impact report](../reports/mitou-impact-experiment.json) records `0.70` for this fixture's count-based share of Claims excluded from successor generation. **This is not a performance metric.** It follows the synthetic fixture composition (standard 70 / intensive 15 / intensive_complete 15) and would change if that composition changed. It is not a runtime, cost, accuracy, field-effect or institutional re-verification-rate estimate.
+
+## Impact soundness adversarial harness
+
+`tests/impact-proof.test.js` は、selective analyzer自身をoracleとして再利用しない。各caseで変更前後を `compileEvidence()` によりfull re-computationし、テスト側で独立に定義したsemantic view（active rule results、active evidence obligations、missing evidence、issue code/status、used parameter values、calculation operation/inputs/parameters/unit、calculation values/arithmetic preview、evaluation status）を比較する。methodology version ID、rule-pack version ID、source URL/hash/check timestamp、scope textはverification semanticsから分離する。
+
+決定論的matrixは34種類のmethodology mutation × 12 Claim variant = 408件に、parameter 24件、field 24件、evidence 11件を加えた**467件**。単一変更だけでなくrule+parameter、rule+requirement、calculation+parameter、condition+parameter、multi-category interactionも含む。
+
+[Generated proof report](../reports/impact-proof.json):
+
+| Classification | Count |
+|---|---:|
+| Oracle semantic change | 320 |
+| Oracle semantic unchanged | 147 |
+| Analyzer re-verification | 392 |
+| Analyzer unaffected | 75 |
+| True positive | 320 |
+| True negative | 75 |
+| False positive | 72 |
+| **False negative** | **0** |
+
+**No false negatives found in 467 deterministic adversarial cases within the currently supported interpreter and change APIs.** これは任意の実制度Methodologyに対するsoundness/minimalityの数学的証明ではない。False positive 72件は安全側の追加再検証であり、oracle-unchanged 147件に対するconservative over-verification shareは約48.98%だが、性能KPIではない。
 
 ## Automatically measured KPIs
 
@@ -44,8 +65,8 @@ Tampered/version-mismatched evidence is not usable evidence and is labeled missi
 
 ## Reviewer Demo validation boundary
 
-The Reviewer Demo displays the 100-Claim result from the same computation used by the Mitou impact suite rather than presentation-only constants. Assertion count is **536 passed / 0 failed**. A separate GitHub Actions browser check starts the static app, uses a 375×812-equivalent headless Chrome viewport, opens `naft-app.html#/reviewer-demo`, clicks `reviewer-run`, verifies the rendered metrics are exactly 100 / 30 / 70 / 15 / 15, checks the question is inside the first viewport, and rejects horizontal overflow on Reviewer Demo and the Methodology route.
+The Reviewer Demo displays the 100-Claim result from the same computation used by the Mitou impact suite rather than presentation-only constants. Assertion count is **1008 passed / 0 failed**. A separate GitHub Actions browser check starts the static app, uses a 375×812-equivalent headless Chrome viewport, opens `naft-app.html#/reviewer-demo`, clicks `reviewer-run`, verifies the rendered metrics are exactly 100 / 30 / 70 / 15 / 15, checks the question is inside the first viewport, and rejects horizontal overflow on Reviewer Demo and the Methodology route.
 
 ## Validation limits
 
-The core UI handler suites still use DOM stubs, while Reviewer Demo has a real-browser click/metric/mobile-overflow smoke in headless Chrome. File chooser, iOS Safari download behavior, accessibility, persistence, device-specific visual rendering and the complete six-route workflow remain unverified in an actual browser. There is no production authentication, independent audit witness, concurrent-client transaction guarantee or real farmer/verifier validation. No mixed-domain UI performance result is reused.
+The core UI handler suites still use DOM stubs, while Reviewer Demo has a real-browser click/metric/mobile-overflow smoke in headless Chrome. File chooser, iOS Safari download behavior, accessibility, persistence, device-specific visual rendering and the complete six-route workflow remain unverified in an actual browser. There is no production authentication, independent audit witness, concurrent-client transaction guarantee or real farmer/verifier validation. The Impact Proof result is bounded to the current supported interpreter/change APIs and deterministic synthetic state space; arbitrary institutional-rule translation remains unproven. No mixed-domain UI performance result is reused.

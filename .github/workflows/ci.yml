@@ -68,6 +68,6 @@ jobs:
 
           node tests/browser-reviewer-smoke.mjs
       - name: Verify reproducible Corpus KPI report
-        run: git diff --exit-code -- reports/evaluation-kpis.json reports/mitou-impact-experiment.json
+        run: git diff --exit-code -- reports/evaluation-kpis.json reports/mitou-impact-experiment.json reports/impact-proof.json
       - name: Check committed whitespace
         run: git diff --check HEAD^ HEAD
