@@ -134,10 +134,44 @@ for(const [route,phrase] of workflowRoutes) {
   if(state.renderError||state.statusError) throw new Error('WORKFLOW_RENDER_ERROR:'+route+':'+JSON.stringify(state));
   routeChecks[route]='PASS';
 }
+// Real-browser Compiler role flow: Operator draft -> Maintainer release -> Reviewer attestation -> attested JSON export.
+await evaluate("location.hash='#/methodologies'; true");
+await until("document.querySelector('[data-action=\\\"compiler-demo-a\\\"]')!==null",'compiler demo render');
+await evaluate("document.querySelector('[data-action=\\\"compiler-demo-a\\\"]').click(); true");
+await until("CompilerUI.runId!==null && CompilerUI.message.includes('AUTO_REEVALUATED')",'compiler operator draft');
+const compilerRunId=await evaluate("CompilerUI.runId");
+
+const maintainerSelected=await evaluate("(function(){var user=db.users.find(function(u){return u.role==='maintainer'&&u.status==='active';});var el=document.getElementById('actor');if(!user||!el)return false;el.value=user.id;el.dispatchEvent(new Event('change',{bubbles:true}));return true;})()");
+if(!maintainerSelected) throw new Error('MAINTAINER_SELECTION_FAILED');
+await until("currentUser()&&currentUser().role==='maintainer'",'maintainer role selection');
+await until("document.getElementById('compiler-pack')!==null && document.getElementById('compiler-release-note')!==null",'compiler release controls');
+await evaluate("(function(){document.getElementById('compiler-pack').value='NAFT-SYNTHETIC@1';document.getElementById('compiler-release-note').value='Browser maintainer release rationale for synthetic research Pack validation.';document.querySelector('[data-action=\\\"compiler-release\\\"]').click();return true;})()");
+await until("validRelease(COMPILER_REGISTRY['NAFT-SYNTHETIC@1'])",'compiler Pack release');
+
+const reviewerSelected=await evaluate("(function(){var user=db.users.find(function(u){return u.role==='reviewer'&&u.status==='active';});var el=document.getElementById('actor');if(!user||!el)return false;el.value=user.id;el.dispatchEvent(new Event('change',{bubbles:true}));return true;})()");
+if(!reviewerSelected) throw new Error('REVIEWER_SELECTION_FAILED');
+await until("currentUser()&&currentUser().role==='reviewer'",'reviewer role selection');
+await evaluate("location.hash='#/review'; true");
+await until("document.getElementById('compiler-note')!==null && document.getElementById('compiler-ack')!==null && document.querySelector('[data-action=\\\"compiler-attest\\\"]')!==null",'compiler attestation controls');
+await evaluate("(function(){document.getElementById('compiler-note').value='Browser reviewer attestation rationale for synthetic research package validation.';document.getElementById('compiler-ack').checked=true;document.querySelector('[data-action=\\\"compiler-attest\\\"]').click();return true;})()");
+await until("db.compiler_attestations.some(function(a){return a.run_id===CompilerUI.runId;})",'compiler attestation');
+const attestedRunId=await evaluate("CompilerUI.runId");
+if(attestedRunId!==compilerRunId) throw new Error('COMPILER_RUN_CHANGED_DURING_ATTESTATION:'+compilerRunId+':'+attestedRunId);
+
+await evaluate("(function(){window.__naftDownloads=[];window.__naftExportText=null;var original=URL.createObjectURL.bind(URL);URL.createObjectURL=function(blob){blob.text().then(function(t){window.__naftExportText=t;});return original(blob);};HTMLAnchorElement.prototype.click=function(){window.__naftDownloads.push({download:this.download,href:this.href});};return true;})()");
+await evaluate("document.querySelector('[data-action=\\\"compiler-export-attested\\\"]').click(); true");
+await until("window.__naftExportText!==null && window.__naftDownloads.length===1",'compiler attested export');
+const exportedCompiler=await evaluate("(function(){var x=JSON.parse(window.__naftExportText);return {download:window.__naftDownloads[0].download,status:x.document.status,formal_certification:x.document.formal_certification,acknowledged:x.document.attestation&&x.document.attestation.acknowledged,scope:x.document.attestation&&x.document.attestation.scope,hashMatches:typeof x.package_hash==='string'&&x.package_hash.length===64};})()");
+if(exportedCompiler.download!=='naft-compiler-package.json') throw new Error('COMPILER_EXPORT_FILENAME:'+JSON.stringify(exportedCompiler));
+if(exportedCompiler.status!=='ATTESTED_RESEARCH_PACKAGE'||exportedCompiler.formal_certification!==false||exportedCompiler.acknowledged!==true||exportedCompiler.scope!=='not_formal_certification'||!exportedCompiler.hashMatches) {
+  throw new Error('COMPILER_ATTESTED_EXPORT_INVALID:'+JSON.stringify(exportedCompiler));
+}
 if(runtimeProblems.length) throw new Error('BROWSER_RUNTIME_PROBLEMS:'+JSON.stringify(runtimeProblems));
 
 console.log('Reviewer Demo browser click/mobile: PASS');
 console.log(JSON.stringify(Object.fromEntries(metrics)));
 console.log('Six-route browser operator flow: PASS');
 console.log(JSON.stringify(routeChecks));
+console.log('Compiler role attestation/export browser flow: PASS');
+console.log(JSON.stringify(exportedCompiler));
 ws.close();
