@@ -21,7 +21,7 @@ Node.js 20+、Python 3、bashを使用します。GitHub ActionsではNode 24で
 bash tests/run.sh
 ```
 
-**1066 passed / 0 failed**（既存182＋Compiler354＋Mitou impact experiment 10＋Impact Proof 520）。既存1008 assertionsを削除・skip・意味変更せず保持し、activity change回帰と独立Full Re-computation Oracle比較を515 deterministic adversarial casesへ拡張しました。このtested state spaceではTP 353 / TN 78 / FP 84 / FN 0です。FPは安全側の追加再検証であり、FN=0は任意の実制度に対する普遍的証明ではありません。加えて、GitHub Actions上のheadless Chromeで `#/reviewer-demo` を開き、変更影響実験buttonを実際にclickし、100 / 30 / 70 / 15 / 15のmetric描画まで検証しています。[Test report](docs/test-report.md)、[Impact soundness](docs/impact-soundness.md)、[Proof report](reports/impact-proof.json)、[自動生成KPI](reports/evaluation-kpis.json)、[100 Claim影響解析実験](reports/mitou-impact-experiment.json)を参照。
+**1066 passed / 0 failed**（既存182＋Compiler354＋Mitou impact experiment 10＋Impact Proof 520）。既存1008 assertionsを削除・skip・意味変更せず保持し、activity change回帰と独立Full Re-computation Oracle比較を515 deterministic adversarial casesへ拡張しました。このtested state spaceではTP 353 / TN 78 / FP 84 / FN 0です。FPは安全側の追加再検証であり、FN=0は任意の実制度に対する普遍的証明ではありません。加えて、GitHub Actions上のheadless Chromeで `#/reviewer-demo` を開き、変更影響実験buttonを実際にclickし、100 / 30 / 70 / 15 / 15のmetric描画まで検証しています。同じ実ブラウザ上でOperator選択 → Activity登録 → SYNTHETIC Evidence追加 → Evaluation実行 → 通常6 route全遷移まで実行し、各routeの横overflow・render error・runtime/console errorも検査します。[Test report](docs/test-report.md)、[Impact soundness](docs/impact-soundness.md)、[Proof report](reports/impact-proof.json)、[自動生成KPI](reports/evaluation-kpis.json)、[100 Claim影響解析実験](reports/mitou-impact-experiment.json)を参照。
 
 ## 未踏アドバンスト審査用Reviewer Demo
 
