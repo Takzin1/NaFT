@@ -68,6 +68,14 @@ function appendLineageRun(input,pack,supersedes) {
   eq(factor.claims[0].successor.document.calculation.arithmetic_preview,180,'changed factor recalculated');
   const field=analyzeImpact(claims,{type:'field',field_id:claims[0].field.id,patch:{area_ha:3}});eq(field.claims.filter(r=>r.requires_reverification).map(r=>r.claim_id),['DEMO-1'],'field exact scope');
   eq(field.claims[0].successor.document.calculation.arithmetic_preview,60,'field change calculation');
+  const activityDays=analyzeImpact(claims,{type:'activity',activity_id:'DEMO-1',patch:{days:12}});eq(activityDays.claims.filter(r=>r.requires_reverification).map(r=>r.claim_id),['DEMO-1'],'activity exact scope');
+  eq(activityDays.claims[0].successor.document.calculation.arithmetic_preview,48,'activity change calculation');
+  const activityStratum=analyzeImpact([claims[0]],{type:'activity',activity_id:'DEMO-1',patch:{stratum:'intensive'}});eq(activityStratum.claims[0].status,'EVIDENCE_REQUIRED','activity conditional transition triggers evidence obligation');
+  const activityNoop=analyzeImpact([claims[0]],{type:'activity',activity_id:'DEMO-1',patch:{days:10}});eq(activityNoop.counts.potentially_affected,0,'activity no-op ignored');
+  await blocks(()=>analyzeImpact([claims[0]],{type:'activity',activity_id:'DEMO-1',patch:{id:'rewritten'}}),'ACTIVITY_IDENTITY_CHANGE_UNSUPPORTED','activity id rewrite refused');
+  await blocks(()=>analyzeImpact([claims[0]],{type:'activity',activity_id:'DEMO-1',patch:{methodology_version:'2'}}),'ACTIVITY_IDENTITY_CHANGE_UNSUPPORTED','activity methodology rewrite uses methodology change path');
+  await blocks(()=>analyzeImpact([claims[0]],{type:'activity',activity_id:'DEMO-1',patch:null}),'INVALID_CHANGE_PATCH','activity patch shape validated');
+  await blocks(()=>analyzeImpact([claims[0]],{type:'field',field_id:claims[0].field.id,patch:JSON.parse('{"__proto__":{"polluted":true}}')}),'UNSAFE_CHANGE_PATCH_KEY','patch prototype key refused');
   const replacement=clone(claims[0].evidence[0]);replacement.content+='tamper';const evidence=analyzeImpact(claims,{type:'evidence',activity_id:'DEMO-1',evidence_id:replacement.id,replacement});eq(evidence.counts.require_reverification,1,'evidence exact scope');eq(evidence.claims[0].status,'UNSUPPORTED','changed byte hash mismatch');
   eq(factor.claims[0].status,'HUMAN_REVIEW_REQUIRED','material override routes to human');
   const unknownCondition=syntheticClaim('unknown-condition');delete unknownCondition.activity.stratum;
@@ -122,6 +130,9 @@ function appendLineageRun(input,pack,supersedes) {
   setActor('operator');const latest=await compileAndSave(syntheticClaim('apply'));const applied=await applyCompilerChange({type:'field',field_id:'FIELD-apply',patch:{area_ha:4}});eq(applied.counts.require_reverification,1,'applied change exact scope');await blocks(()=>exportCompilerRun(latest.id,false),'STALE_PACKAGE','applied metadata invalidates prior');
   const latestFieldRun=latestCompilerRun('apply');await applyCompilerChange({type:'parameter',pack_key:compilerKey(p1),parameter:'factor',value:4});await blocks(()=>exportCompilerRun(latestFieldRun.id,false),'STALE_PACKAGE','sequential parameter change invalidates updated field package');
   eq(compilerDraft(latestCompilerRun('apply').id).document.evaluation.status,'HUMAN_REVIEW_REQUIRED','applied material parameter requires human');
+  const activitySaved=await compileAndSave(syntheticClaim('activity-apply'));const activityApplied=await applyCompilerChange({type:'activity',activity_id:'activity-apply',patch:{days:12}});
+  eq(activityApplied.counts.require_reverification,1,'applied activity change exact scope');
+  eq(latestCompilerRun('activity-apply').input.activity.days,12,'applied activity successor stores corrected activity');
   const overlapClaim=syntheticClaim('overlap-new');overlapClaim.field=clone(normal.field);overlapClaim.field.area_ha=8;overlapClaim.activity.field_id=normal.field.id;overlapClaim.evidence[0].field_id=normal.field.id;
   await blocks(()=>compileAndSave(overlapClaim),'DUPLICATE_FIELD_ACTIVITY_BLOCKED','stored overlapping activities refused');
   check(verifyAuditChain().status==='VALID','compiler operations preserve audit chain');
