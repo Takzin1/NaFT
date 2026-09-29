@@ -11,6 +11,7 @@
 - [x] Thirty-six synthetic Corpus cases, automatic KPIs and three demo flows.
 - [x] Original 182 MRV regression assertions preserved.
 - [x] Headless-Chrome Reviewer Demo plus Operator Activity → SYNTHETIC Evidence → Evaluation flow across all six routes, with mobile overflow and browser runtime-error checks.
+- [x] New Compiler browser role handoff: Operator draft → Maintainer research Pack release → Reviewer attestation → attested JSON export with non-certification boundary checks.
 
 ## Unresolved technical debt
 
@@ -19,5 +20,5 @@
 - [ ] Proof of impact-analysis soundness/minimality beyond the tested interpreter and synthetic Corpus.
 - [ ] Authenticated multi-party decisions, independent witness, concurrent transactions and cross-owner field changes.
 - [ ] Formal amendment/revocation, signatures and legacy-to-Compiler conversion.
-- [ ] Real file chooser/recheck, download, accessibility, persistence and full Maintainer→Reviewer attestation/export browser verification.
+- [ ] Real file chooser/recheck, native download behavior, accessibility, persistence and production-authenticated browser verification.
 - [ ] Field MRV cost/review time/income measurements and external verifier acceptance.
