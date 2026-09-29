@@ -23,9 +23,11 @@ await new Promise((resolve,reject)=>{
 });
 
 let nextId=1;
-const pending=new Map();
+const pending=new Map(),runtimeProblems=[];
 ws.addEventListener('message',event=>{
   const msg=JSON.parse(event.data);
+  if(msg.method==='Runtime.exceptionThrown') runtimeProblems.push({type:'exception',detail:msg.params&&msg.params.exceptionDetails&&msg.params.exceptionDetails.text});
+  if(msg.method==='Log.entryAdded'&&msg.params&&msg.params.entry&&msg.params.entry.level==='error') runtimeProblems.push({type:'console',detail:msg.params.entry.text});
   if(msg.id&&pending.has(msg.id)) {
     const pair=pending.get(msg.id);pending.delete(msg.id);
     if(msg.error) pair.reject(new Error(msg.error.message||'CDP_ERROR'));
@@ -52,6 +54,7 @@ async function until(expression,label) {
 }
 
 await send('Runtime.enable');
+await send('Log.enable');
 await send('Emulation.setDeviceMetricsOverride',{width:375,height:812,deviceScaleFactor:1,mobile:true});
 await until(
   "document.querySelector('[data-action=\\\"reviewer-run\\\"]')!==null && document.body.innerText.includes('未踏アドバンスト審査用デモ')",
@@ -94,6 +97,47 @@ await evaluate("location.hash='#/methodologies'; true");
 await until("document.body.innerText.includes('Rule Packを版で固定する')",'methodologies route render');
 const methodologyViewport=await evaluate("({scrollWidth:document.documentElement.scrollWidth,innerWidth:window.innerWidth})");
 if(methodologyViewport.scrollWidth>methodologyViewport.innerWidth) throw new Error('METHODOLOGY_HORIZONTAL_OVERFLOW:'+JSON.stringify(methodologyViewport));
+
+// Real-browser operator flow: actor selection -> Activity registration -> synthetic Evidence -> deterministic evaluation.
+const operatorSelected=await evaluate("(function(){var user=db.users.find(function(u){return u.role==='operator'&&u.status==='active';});var el=document.getElementById('actor');if(!user||!el)return false;el.value=user.id;el.dispatchEvent(new Event('change',{bubbles:true}));return true;})()");
+if(!operatorSelected) throw new Error('OPERATOR_SELECTION_FAILED');
+await until("currentUser()&&currentUser().role==='operator'",'operator role selection');
+
+await evaluate("location.hash='#/evidence'; true");
+await until("document.querySelector('#activity-json')!==null && document.querySelector('[data-action=\\\"register\\\"]')!==null",'evidence registration render');
+await evaluate("document.querySelector('[data-action=\\\"register\\\"]').click(); true");
+await until("UI.activityId!==null && selectedActivity()!==null && document.body.innerText.includes('証憑をManifestへ')",'activity registration');
+
+await evaluate("document.querySelector('[data-action=\\\"sample\\\"]').click(); true");
+await until("UI.message.includes('SYNTHETIC evidence recorded') && evidenceFor(selectedActivity()).length>0",'synthetic evidence');
+
+await evaluate("location.hash='#/readiness'; true");
+await until("document.querySelector('[data-action=\\\"evaluate\\\"]')!==null",'readiness render');
+await evaluate("document.querySelector('[data-action=\\\"evaluate\\\"]').click(); true");
+await until("currentEvaluation(selectedActivity())!==null && document.body.innerText.includes('Calculation Assist')",'deterministic evaluation');
+
+const workflowRoutes=[
+  ['methodologies','Rule Packを版で固定する'],
+  ['evidence','証憑をManifestへ'],
+  ['readiness','機械が評価し、例外を抽出する'],
+  ['exceptions','判断が必要な案件だけを人間へ'],
+  ['review','最終パッケージに一度だけ宣誓する'],
+  ['packages','再現可能なMRVパッケージ']
+];
+const routeChecks={};
+for(const [route,phrase] of workflowRoutes) {
+  await evaluate("location.hash='#/"+route+"'; true");
+  await until("document.body.innerText.includes("+JSON.stringify(phrase)+")",'workflow route '+route);
+  const state=await evaluate("({hash:location.hash,scrollWidth:document.documentElement.scrollWidth,innerWidth:window.innerWidth,renderError:!!document.querySelector('section.error'),statusError:!!document.querySelector('.status.error')})");
+  if(state.hash!=='#/'+route) throw new Error('WORKFLOW_ROUTE_HASH_MISMATCH:'+route+':'+JSON.stringify(state));
+  if(state.scrollWidth>state.innerWidth) throw new Error('WORKFLOW_HORIZONTAL_OVERFLOW:'+route+':'+JSON.stringify(state));
+  if(state.renderError||state.statusError) throw new Error('WORKFLOW_RENDER_ERROR:'+route+':'+JSON.stringify(state));
+  routeChecks[route]='PASS';
+}
+if(runtimeProblems.length) throw new Error('BROWSER_RUNTIME_PROBLEMS:'+JSON.stringify(runtimeProblems));
+
 console.log('Reviewer Demo browser click/mobile: PASS');
 console.log(JSON.stringify(Object.fromEntries(metrics)));
+console.log('Six-route browser operator flow: PASS');
+console.log(JSON.stringify(routeChecks));
 ws.close();
