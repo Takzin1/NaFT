@@ -6,7 +6,7 @@
 - [x] Immutable Versioned Pack schema, old AG-005 reference retention and AG-004 fail-closed placeholder.
 - [x] Synthetic old/new version coexistence and deterministic structured methodology diff.
 - [x] Evidence JSON normalization, dependency graph and reproducible package hashes.
-- [x] Methodology / evidence / parameter / field impact analysis and selective re-verification.
+- [x] Methodology / evidence / parameter / field / activity impact analysis and selective re-verification, with identity-changing activity patches rejected fail-closed.
 - [x] Audited exception-only review, Pack release approval, final attestation and stale current export guards.
 - [x] Thirty-six synthetic Corpus cases, automatic KPIs and three demo flows.
 - [x] Original 182 MRV regression assertions preserved.

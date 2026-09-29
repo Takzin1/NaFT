@@ -173,9 +173,16 @@ function packageCurrent(pkg,input,pack,options) {
   return !!pkg&&hashObject(pkg.document)===pkg.package_hash&&pkg.package_hash===compileEvidence(input,pack,options).package_hash;
 }
 function exportCompilerPackage(pkg,input,pack,options) { if(!packageCurrent(pkg,input,pack,options)) throw new Error('STALE_PACKAGE');return canonicalize(pkg); }
+function validateChangePatch(patch) {
+  if(!patch||typeof patch!=='object'||Array.isArray(patch)) throw new Error('INVALID_CHANGE_PATCH');
+  if(Object.keys(patch).some(function(k) { return ['__proto__','prototype','constructor'].includes(k); })) throw new Error('UNSAFE_CHANGE_PATCH_KEY');
+  return patch;
+}
 function analyzeImpact(claims,change,registry) {
   registry=registry||COMPILER_REGISTRY;
-  if(!['methodology','evidence','parameter','field'].includes(change.type)) throw new Error('UNSUPPORTED_CHANGE_TYPE');
+  if(!['methodology','evidence','parameter','field','activity'].includes(change.type)) throw new Error('UNSUPPORTED_CHANGE_TYPE');
+  if(['field','activity'].includes(change.type)) validateChangePatch(change.patch);
+  if(change.type==='activity'&&Object.keys(change.patch).some(function(k) { return ['id','field_id','farmer_id','program_id','methodology_id','methodology_version'].includes(k); })) throw new Error('ACTIVITY_IDENTITY_CHANGE_UNSUPPORTED');
   var ids=new Set();claims.forEach(function(c) { if(ids.has(c.activity.id)) throw new Error('DUPLICATE_CLAIM_ID');ids.add(c.activity.id); });
   var rows=claims.slice().sort(function(a,b) { return a.activity.id<b.activity.id?-1:1; }).map(function(original) {
     var input=canonicalCompilerInput(original),oldPack=registry[compilerKey(input.activity)];if(!oldPack) throw new Error('UNKNOWN_ORIGINAL_PACK');
@@ -188,6 +195,8 @@ function analyzeImpact(claims,change,registry) {
       input.evidence=input.evidence.map(function(e) { return e.methodology_version===oldPack.methodology_version?Object.assign({},e,{methodology_version:nextPack.methodology_version}):e; });
     } else if(change.type==='field'&&input.field.id===change.field_id) {
       input.field=Object.assign({},input.field,clone(change.patch));candidate=hashObject(input.field)!==hashObject(before.field);reason.push('field_metadata');seeds.push('field:'+before.field.id);
+    } else if(change.type==='activity'&&input.activity.id===change.activity_id) {
+      input.activity=Object.assign({},input.activity,clone(change.patch));candidate=hashObject(input.activity)!==hashObject(before.activity);reason.push('activity_metadata');seeds.push('activity:'+before.activity.id);
     } else if(change.type==='evidence'&&input.activity.id===change.activity_id) {
       var found=input.evidence.some(function(e) { return e.id===change.evidence_id; });if(!found) throw new Error('EVIDENCE_NOT_FOUND');
       input.evidence=input.evidence.map(function(e) { return e.id===change.evidence_id?clone(change.replacement):e; });candidate=inputFingerprint(input)!==inputFingerprint(before);reason.push('evidence');seeds.push('evidence:'+change.evidence_id);
