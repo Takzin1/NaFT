@@ -127,7 +127,7 @@ const mutations=[
 ];
 
 const stats={total_cases:0,oracle_changed:0,oracle_unchanged:0,analyzer_reverify:0,analyzer_unaffected:0,true_positive:0,true_negative:0,false_positive:0,false_negative:0};
-const groupStats={methodology:{cases:0,tp:0,tn:0,fp:0,fn:0},parameter:{cases:0,tp:0,tn:0,fp:0,fn:0},field:{cases:0,tp:0,tn:0,fp:0,fn:0},evidence:{cases:0,tp:0,tn:0,fp:0,fn:0}};
+const groupStats={methodology:{cases:0,tp:0,tn:0,fp:0,fn:0},parameter:{cases:0,tp:0,tn:0,fp:0,fn:0},field:{cases:0,tp:0,tn:0,fp:0,fn:0},activity:{cases:0,tp:0,tn:0,fp:0,fn:0},evidence:{cases:0,tp:0,tn:0,fp:0,fn:0}};
 const falseNegatives=[],falsePositives=[];
 
 function record(group,label,oracleChanged,analyzerReverify) {
@@ -186,6 +186,21 @@ variants.forEach(function(variant,index) {
   record('field','ambiguity/'+variant,oracleChanged,impact.claims[0].requires_reverification);
 });
 
+[
+  ['days',function(before){return {days:12};}],
+  ['stratum',function(before){return {stratum:'intensive'};}],
+  ['start',function(before){return {start:'2026-06-02'};}],
+  ['unused_sensitive_flag',function(before){return {sensitive:true};}]
+].forEach(function(spec) {
+  variants.forEach(function(variant,index) {
+    var id='PROOF-A-'+spec[0].toUpperCase()+'-'+String(index+1).padStart(2,'0'),before=variantClaim(id,variant),patch=spec[1](before),after=clone(before);
+    after.activity=Object.assign({},after.activity,clone(patch));
+    var oracleChanged=canonicalize(semanticView(before,p1))!==canonicalize(semanticView(after,p1));
+    var impact=analyzeImpact([before],{type:'activity',activity_id:before.activity.id,patch:patch});
+    record('activity',spec[0]+'/'+variant,oracleChanged,impact.claims[0].requires_reverification);
+  });
+});
+
 variants.forEach(function(variant,index) {
   var id='PROOF-E-'+String(index+1).padStart(2,'0'),before=variantClaim(id,variant);
   if(!before.evidence.length) return;
@@ -215,7 +230,7 @@ const report={
   matrix:{
     methodology_mutations:mutations.map(function(x){return x[0];}),
     claim_variants:variants,
-    groups:{methodology_cases:mutations.length*variants.length,parameter_cases:variants.length*2,field_cases:variants.length*2,evidence_cases:variants.length-1}
+    groups:{methodology_cases:mutations.length*variants.length,parameter_cases:variants.length*2,field_cases:variants.length*2,activity_cases:variants.length*4,evidence_cases:variants.length-1}
   },
   result:Object.assign({},stats,{
     soundness_within_tested_space:stats.false_negative===0,
