@@ -24,10 +24,10 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 24
-      - name: Run regression and Mitou impact checks
+      - name: Run regression, impact proof and Mitou checks
         run: bash tests/run.sh
       - name: Verify committed generated reports
-        run: git diff --exit-code -- reports/evaluation-kpis.json reports/mitou-impact-experiment.json
+        run: git diff --exit-code -- reports/evaluation-kpis.json reports/mitou-impact-experiment.json reports/impact-proof.json
 
   deploy:
     needs: test
