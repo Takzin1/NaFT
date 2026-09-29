@@ -118,7 +118,12 @@ const mutations=[
   ['effective_period',function(p){p.effective_to='2026-06-15';}],
   ['pack_status',function(p){p.status='UNSUPPORTED';}],
   ['pack_provenance_metadata',function(p){p.provenance='public';}],
-  ['unknown_condition_rule',function(p){p.rules.proof={op:'gte',input:'activity.days',value:1,when:{path:'activity.missing_gate',equals:true}};}]
+  ['unknown_condition_rule',function(p){p.rules.proof={op:'gte',input:'activity.days',value:1,when:{path:'activity.missing_gate',equals:true}};}],
+  ['interaction_rule_parameter',function(p){p.parameters.minimum_days.value=8;p.rules.proof={op:'gte',input:'activity.days',value:9};}],
+  ['interaction_rule_requirement',function(p){p.rules.proof={op:'gte',input:'activity.days',value:9,when:{path:'activity.stratum',equals:'intensive'}};p.evidence_requirements.sensor={category:'sensor',required:true,when:{path:'activity.stratum',equals:'intensive'}};}],
+  ['interaction_calculation_parameter',function(p){p.parameters.factor.value=3;p.calculation_spec.inputs=['field.area_ha'];}],
+  ['interaction_condition_parameter',function(p){p.parameters.minimum_days.value=8;p.rules.duration.when={path:'activity.stratum',equals:'intensive'};}],
+  ['interaction_multi_category',function(p){p.rules.area.value=1;p.parameters.factor.value=3;p.evidence_requirements.sensor={category:'sensor',required:true,when:{path:'activity.stratum',equals:'intensive'}};p.exceptions.proof={input:'activity.sensitive',equals:true,when:{path:'activity.sensitive',equals:true},disposition:'HUMAN_REVIEW_REQUIRED'};}]
 ];
 
 const stats={total_cases:0,oracle_changed:0,oracle_unchanged:0,analyzer_reverify:0,analyzer_unaffected:0,true_positive:0,true_negative:0,false_positive:0,false_negative:0};
