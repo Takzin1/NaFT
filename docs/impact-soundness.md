@@ -33,11 +33,12 @@ The comparison deliberately excludes methodology/version identifiers, Rule Pack 
 
 ## Deterministic adversarial matrix
 
-The current matrix contains **467 cases**:
+The current matrix contains **515 cases**:
 
 - **408 methodology-transition cases**: 34 mutation classes × 12 Claim variants;
 - **24 parameter-change cases**;
 - **24 field-change cases**;
+- **48 activity-change cases** covering calculation inputs, conditional applicability, temporal evidence validity and semantically unused metadata;
 - **11 evidence-change cases**.
 
 Claim variants include standard, intensive, intensive with all new evidence, sensitive, expert-review, ambiguous identity, unsupported condition, deterministic rule failure, zero-area failure, missing evidence, tampered evidence and unknown conditional applicability.
@@ -48,19 +49,19 @@ Mutation classes include rule add/remove/modify, threshold/op/input/condition ch
 
 | Metric | Count |
 |---|---:|
-| Total deterministic cases | 467 |
-| Oracle semantic changed | 320 |
-| Oracle semantic unchanged | 147 |
-| Analyzer re-verification | 392 |
-| Analyzer unaffected | 75 |
-| True positive | 320 |
-| True negative | 75 |
-| False positive | 72 |
+| Total deterministic cases | 515 |
+| Oracle semantic changed | 353 |
+| Oracle semantic unchanged | 162 |
+| Analyzer re-verification | 437 |
+| Analyzer unaffected | 78 |
+| True positive | 353 |
+| True negative | 78 |
+| False positive | 84 |
 | **False negative** | **0** |
 
-No false negatives were found in 467 deterministic adversarial cases within the currently supported interpreter and change APIs.
+No false negatives were found in 515 deterministic adversarial cases within the currently supported interpreter and change APIs.
 
-The 72 false positives are conservative extra re-verifications. Among the 147 oracle-unchanged cases, this corresponds to a count share of about 48.98%. That number is **not** a runtime, cost, accuracy or field-performance metric.
+The 84 false positives are conservative extra re-verifications. Among the 162 oracle-unchanged cases, this corresponds to a count share of about 51.85%. That number is **not** a runtime, cost, accuracy or field-performance metric.
 
 The machine-readable result is committed as [`reports/impact-proof.json`](../reports/impact-proof.json) and regenerated in CI.
 
@@ -81,7 +82,7 @@ This result does not establish:
 - verifier or registry acceptance;
 - field accuracy;
 - measured MRV-cost or review-time reduction;
-- any real-world 48.98% or 0% rate.
+- any real-world 51.85% or 0% rate.
 
 Those remain research and field-validation questions.
 
