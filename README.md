@@ -7,7 +7,7 @@ NaFTは、方法論・証憑・係数・人間判断を版付きで保持し、�
 - **研究上の問題**：方法論の版・証憑・係数・圃場情報が変わると、どのClaimの再検証が必要か追跡しにくい。
 - **現在のプロトタイプ**：ビルド不要のJavaScript研究プロトタイプ。入力Evidenceを正規化し、版を固定した評価・依存graph・Monitoring Packageを生成する。
 - **中心研究問い**：「頻繁に改定されるMRV方法論と異種Evidenceを第三者が再計算・再検証可能な構造へ変換し、変更時に影響を受けるClaimだけを特定できるか？」
-- **実装済み**：Versioned Pack registry、決定論的diff、JSON provenance graph、4種の変更の影響分析・再評価、exception単位の`ACCEPT / REJECT / NEED_MORE_EVIDENCE / ABSTAIN`、最終宣誓、hash付きJSON export、36件のSynthetic conformance corpusと自動KPI、100 Claimの合成版変更実験。従来のAG-005参照評価と182件の回帰テストも維持。
+- **実装済み**：Versioned Pack registry、決定論的diff、JSON provenance graph、4種の変更の影響分析・再評価、exception単位の`ACCEPT / REJECT / NEED_MORE_EVIDENCE / ABSTAIN`、最終宣誓、hash付きJSON export、36件のSynthetic conformance corpusと自動KPI、100 Claimの合成版変更実験、独立Full Re-computation Oracleと467件の決定論的adversarial change matrix。従来のAG-005参照評価と182件の回帰テストも維持。
 - **未実装・未確認**：AG-005の現行制度版をExecutable Packとして固定・完全翻訳すること、AG-004 Ver.2.4のExecutable Pack化、現場での正確性・費用削減・検証機関受入れ。公式要件不明は`UNKNOWN / CONFIG_REQUIRED / UNSUPPORTED`で停止。正式削減量`result`は常に`null`。
 - **審査用デモ**：[GitHub Pages Reviewer Demo](https://takzin1.github.io/NaFT/#/reviewer-demo) から直接開ける。100 Claimの変更影響解析をブラウザ上で再計算する。通常研究UIでは**Demo A / B / C**も維持。A＝自動draft、B＝6 Claimの軽量版変更fixture、C＝曖昧なidentityから人間判断。[操作手順](docs/demo-script.md)。
 
@@ -21,7 +21,7 @@ Node.js 20+、Python 3、bashを使用します。GitHub ActionsではNode 24で
 bash tests/run.sh
 ```
 
-**536 passed / 0 failed**（既存182＋Compiler344＋Mitou impact experiment 10）。既存535 assertionsは削除・skip・書換えせず保持し、lineage cycle専用regression 1 assertionを追加。加えて、GitHub Actions上のheadless Chromeで `#/reviewer-demo` を開き、変更影響実験buttonを実際にclickし、100 / 30 / 70 / 15 / 15のmetric描画まで検証しています。[Test report](docs/test-report.md)、[自動生成KPI](reports/evaluation-kpis.json)、[100 Claim影響解析実験](reports/mitou-impact-experiment.json)を参照。
+**1008 passed / 0 failed**（既存182＋Compiler344＋Mitou impact experiment 10＋Impact Proof 472）。既存536 assertionsを削除・skip・意味変更せず保持し、独立Full Re-computation Oracleとの比較を467 deterministic adversarial casesで追加しました。このtested state spaceではTP 320 / TN 75 / FP 72 / FN 0です。FPは安全側の追加再検証であり、FN=0は任意の実制度に対する普遍的証明ではありません。加えて、GitHub Actions上のheadless Chromeで `#/reviewer-demo` を開き、変更影響実験buttonを実際にclickし、100 / 30 / 70 / 15 / 15のmetric描画まで検証しています。[Test report](docs/test-report.md)、[Impact soundness](docs/impact-soundness.md)、[Proof report](reports/impact-proof.json)、[自動生成KPI](reports/evaluation-kpis.json)、[100 Claim影響解析実験](reports/mitou-impact-experiment.json)を参照。
 
 ## 未踏アドバンスト審査用Reviewer Demo
 
@@ -34,6 +34,12 @@ bash tests/run.sh
 `NAFT-SYNTHETIC@1 → @2` の明示的な合成方法論改定を100 Claimへ適用する決定論的実験をCIに固定しています。fixtureはstandard 70件、intensive 15件、intensive_complete 15件で構成します。v2のintensive専用変更に依存する30件だけを再検証対象とし、standard 70件はsuccessorを生成せず非影響として残します。30件の内訳は15件が自動再評価、15件が新規Evidence不足で停止です。
 
 **この30 / 70はfixture構成に由来する合成結果であり、性能指標ではありません。fixture構成を変えれば比率も変わります。** 処理時間、MRV費用、精度、受入れ、実制度での再検証率を推定する値ではありません。元Claimの不変性、再実行決定性、reverified successorの`supersedes`連結もテストします。
+
+## Impact Analysis Proof Harness
+
+`tests/impact-proof.test.js` は `analyzeImpact()` / `activeProjection()` を正解データとして使わず、変更前後を直接full re-computationしたうえで独立に正規化したverification-semantic viewを比較します。方法論変更34種×12 Claim variantに、parameter / field / evidence変更を加えた**467件**を決定論的に検査しています。
+
+現行結果は **oracle changed 320 / unchanged 147、analyzer re-verify 392 / unaffected 75、TP 320 / TN 75 / FP 72 / FN 0** です。つまり、現在サポートするinterpreterとchange APIのtested state spaceではfalse negativeは見つかっていません。一方で72件は保守的なover-verificationであり、最小性を証明した結果ではありません。この数値はfield efficacy、実制度での再検証率、時間・費用削減を意味しません。
 
 ## 方法論Packと境界
 
