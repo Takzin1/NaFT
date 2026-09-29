@@ -201,14 +201,28 @@ variants.forEach(function(variant,index) {
   });
 });
 
-variants.forEach(function(variant,index) {
-  var id='PROOF-E-'+String(index+1).padStart(2,'0'),before=variantClaim(id,variant);
-  if(!before.evidence.length) return;
-  var replacement=clone(before.evidence[0]);replacement.content+='-proof-change';
-  var after=clone(before);after.evidence=after.evidence.map(function(e){return e.id===replacement.id?clone(replacement):e;});
-  var oracleChanged=canonicalize(semanticView(before,p1))!==canonicalize(semanticView(after,p1));
-  var impact=analyzeImpact([before],{type:'evidence',activity_id:before.activity.id,evidence_id:replacement.id,replacement:replacement});
-  record('evidence','content/'+variant,oracleChanged,impact.claims[0].requires_reverification);
+const evidenceMutations=[
+  ['content',function(e){e.content+='-proof-change';}],
+  ['adapter',function(e){e.adapter='photo-bytes-v1';}],
+  ['activity_binding',function(e){e.activity_id='OTHER-ACTIVITY';}],
+  ['field_binding',function(e){e.field_id='OTHER-FIELD';}],
+  ['methodology_binding',function(e){e.methodology_version='wrong';}],
+  ['period',function(e){e.period=Object.assign({},e.period,{end:'2026-07-01'});}],
+  ['category',function(e){e.category='photo';}],
+  ['expected_hash',function(e){e.expected_hash='0'.repeat(64);}],
+  ['provenance',function(e){e.provenance='private';}],
+  ['source_metadata_only',function(e){e.source='urn:naft:changed-source-metadata';}]
+];
+evidenceMutations.forEach(function(spec) {
+  variants.forEach(function(variant,index) {
+    var id='PROOF-E-'+spec[0].toUpperCase()+'-'+String(index+1).padStart(2,'0'),before=variantClaim(id,variant);
+    if(!before.evidence.length) return;
+    var targetId=before.evidence[0].id,replacement=clone(before.evidence[0]);spec[1](replacement,before);
+    var after=clone(before);after.evidence=after.evidence.map(function(e){return e.id===targetId?clone(replacement):e;});
+    var oracleChanged=canonicalize(semanticView(before,p1))!==canonicalize(semanticView(after,p1));
+    var impact=analyzeImpact([before],{type:'evidence',activity_id:before.activity.id,evidence_id:targetId,replacement:replacement});
+    record('evidence',spec[0]+'/'+variant,oracleChanged,impact.claims[0].requires_reverification);
+  });
 });
 
 check(stats.false_negative===0,'zero false negatives in tested state space');
@@ -230,7 +244,7 @@ const report={
   matrix:{
     methodology_mutations:mutations.map(function(x){return x[0];}),
     claim_variants:variants,
-    groups:{methodology_cases:mutations.length*variants.length,parameter_cases:variants.length*2,field_cases:variants.length*2,activity_cases:variants.length*4,evidence_cases:variants.length-1}
+    groups:{methodology_cases:mutations.length*variants.length,parameter_cases:variants.length*2,field_cases:variants.length*2,activity_cases:variants.length*4,evidence_cases:evidenceMutations.length*(variants.length-1)}
   },
   result:Object.assign({},stats,{
     soundness_within_tested_space:stats.false_negative===0,

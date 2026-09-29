@@ -3,7 +3,7 @@
 ## Before / After
 
 Baseline: `8747ca889cb2412778e47ee6115bda3ff060574e`, **182 passed / 0 failed**.
-After: **1066 passed / 0 failed** = original 182 + Compiler 354 + Mitou impact experiment 10 + Impact Proof 520 assertions. 既存1008 assertionsは削除・skip・意味変更せず保持し、activity change回帰と独立Full Re-computation Oracleとのadversarial comparisonを拡張した。GitHub ActionsはNode 24で全suiteを実行する。
+After: **1165 passed / 0 failed** = original 182 + Compiler 354 + Mitou impact experiment 10 + Impact Proof 619 assertions. 既存1066 assertionsは削除・skip・意味変更せず保持し、Evidence replacementのadversarial comparisonをcontentからadapter / binding / period / category / expected hash / provenance / metadata-onlyまで拡張した。GitHub ActionsはNode 24で全suiteを実行する。
 
 Run `bash tests/run.sh`. It checks all runtime syntax, the original suite, the new suite, static links, prohibited dependency/secret patterns and whitespace. There is no timing threshold. `node tests/measure.js` records physical LOC, actual six routes, stored-array collections and roles; see [baseline](../reports/baseline.json) and [after](../reports/size-after.json). LOC includes comments/blank lines; JSON fixtures and prose are excluded. Counts are not a maintainability or performance score.
 
@@ -25,22 +25,22 @@ The generated [Mitou impact report](../reports/mitou-impact-experiment.json) rec
 
 `tests/impact-proof.test.js` は、selective analyzer自身をoracleとして再利用しない。各caseで変更前後を `compileEvidence()` によりfull re-computationし、テスト側で独立に定義したsemantic view（active rule results、active evidence obligations、missing evidence、issue code/status、used parameter values、calculation operation/inputs/parameters/unit、calculation values/arithmetic preview、evaluation status）を比較する。methodology version ID、rule-pack version ID、source URL/hash/check timestamp、scope textはverification semanticsから分離する。
 
-決定論的matrixは34種類のmethodology mutation × 12 Claim variant = 408件に、parameter 24件、field 24件、activity 48件、evidence 11件を加えた**515件**。単一変更だけでなくrule+parameter、rule+requirement、calculation+parameter、condition+parameter、multi-category interactionも含む。
+決定論的matrixは34種類のmethodology mutation × 12 Claim variant = 408件に、parameter 24件、field 24件、activity 48件、Evidence 110件を加えた**614件**。Evidenceはcontent / adapter / activity・field・methodology binding / period / category / expected hash / provenance / source metadata-onlyを横断する。単一変更だけでなくrule+parameter、rule+requirement、calculation+parameter、condition+parameter、multi-category interactionも含む。
 
 [Generated proof report](../reports/impact-proof.json):
 
 | Classification | Count |
 |---|---:|
-| Oracle semantic change | 353 |
-| Oracle semantic unchanged | 162 |
-| Analyzer re-verification | 437 |
+| Oracle semantic change | 429 |
+| Oracle semantic unchanged | 185 |
+| Analyzer re-verification | 536 |
 | Analyzer unaffected | 78 |
-| True positive | 353 |
+| True positive | 429 |
 | True negative | 78 |
-| False positive | 84 |
+| False positive | 107 |
 | **False negative** | **0** |
 
-**No false negatives found in 515 deterministic adversarial cases within the currently supported interpreter and change APIs.** これは任意の実制度Methodologyに対するsoundness/minimalityの数学的証明ではない。False positive 84件は安全側の追加再検証であり、oracle-unchanged 162件に対するconservative over-verification shareは約51.85%だが、性能KPIではない。
+**No false negatives found in 614 deterministic adversarial cases within the currently supported interpreter and change APIs.** これは任意の実制度Methodologyに対するsoundness/minimalityの数学的証明ではない。False positive 107件は安全側の追加再検証であり、oracle-unchanged 185件に対するconservative over-verification shareは約57.84%だが、性能KPIではない。
 
 ## Automatically measured KPIs
 
@@ -65,7 +65,7 @@ Tampered/version-mismatched evidence is not usable evidence and is labeled missi
 
 ## Reviewer Demo validation boundary
 
-The Reviewer Demo displays the 100-Claim result from the same computation used by the Mitou impact suite rather than presentation-only constants. Assertion count is **1066 passed / 0 failed**. A separate GitHub Actions browser check starts the static app, uses a 375×812-equivalent headless Chrome viewport, opens `naft-app.html#/reviewer-demo`, clicks `reviewer-run`, verifies the rendered metrics are exactly 100 / 30 / 70 / 15 / 15, and checks the first-view/mobile-overflow boundary. The same real Chrome session then selects an active Operator through the actual UI event handler, registers the example Activity, adds SYNTHETIC Evidence, runs deterministic Evaluation, and navigates Methodology / Evidence / Evaluation / Exception / Human Review / Monitoring Package. Every route is checked for exact hash routing, horizontal overflow, render/status errors and browser runtime/console errors. The browser flow also writes a deterministic fixture file on the runner, injects it into the actual Evidence `<input type=file>` through Chrome DevTools Protocol, clicks the real attach action, verifies a 64-character SHA-256 Manifest with `content_storage=not_stored`, re-injects the same original into the recheck input, and requires the persisted/UI result to be `MATCH`. The same browser session then executes the new Compiler role handoff: Operator creates the synthetic draft, Maintainer releases the exact `NAFT-SYNTHETIC@1` research Pack with a rationale, Reviewer provides final acknowledgement/attestation, and the actual attested-export button generates a Blob JSON. The export is checked for `ATTESTED_RESEARCH_PACKAGE`, `formal_certification=false`, acknowledged `not_formal_certification` scope, stable run identity and a 64-character package hash.
+The Reviewer Demo displays the 100-Claim result from the same computation used by the Mitou impact suite rather than presentation-only constants. Assertion count is **1165 passed / 0 failed**. A separate GitHub Actions browser check starts the static app, uses a 375×812-equivalent headless Chrome viewport, opens `naft-app.html#/reviewer-demo`, clicks `reviewer-run`, verifies the rendered metrics are exactly 100 / 30 / 70 / 15 / 15, and checks the first-view/mobile-overflow boundary. The same real Chrome session then selects an active Operator through the actual UI event handler, registers the example Activity, adds SYNTHETIC Evidence, runs deterministic Evaluation, and navigates Methodology / Evidence / Evaluation / Exception / Human Review / Monitoring Package. Every route is checked for exact hash routing, horizontal overflow, render/status errors and browser runtime/console errors. The browser flow also writes a deterministic fixture file on the runner, injects it into the actual Evidence `<input type=file>` through Chrome DevTools Protocol, clicks the real attach action, verifies a 64-character SHA-256 Manifest with `content_storage=not_stored`, re-injects the same original into the recheck input, and requires the persisted/UI result to be `MATCH`. The same browser session then executes the new Compiler role handoff: Operator creates the synthetic draft, Maintainer releases the exact `NAFT-SYNTHETIC@1` research Pack with a rationale, Reviewer provides final acknowledgement/attestation, and the actual attested-export button generates a Blob JSON. The export is checked for `ATTESTED_RESEARCH_PACKAGE`, `formal_certification=false`, acknowledged `not_formal_certification` scope, stable run identity and a 64-character package hash.
 
 ## Validation limits
 
