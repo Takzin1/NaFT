@@ -78,24 +78,24 @@
       "parameter_cases": 24,
       "field_cases": 24,
       "activity_cases": 48,
-      "evidence_cases": 11
+      "evidence_cases": 110
     }
   },
   "result": {
-    "total_cases": 515,
-    "oracle_changed": 353,
-    "oracle_unchanged": 162,
-    "analyzer_reverify": 437,
+    "total_cases": 614,
+    "oracle_changed": 429,
+    "oracle_unchanged": 185,
+    "analyzer_reverify": 536,
     "analyzer_unaffected": 78,
-    "true_positive": 353,
+    "true_positive": 429,
     "true_negative": 78,
-    "false_positive": 84,
+    "false_positive": 107,
     "false_negative": 0,
     "soundness_within_tested_space": true,
     "false_negative_rate": 0,
-    "conservative_oververification_rate": 0.5185185185185185
+    "conservative_oververification_rate": 0.5783783783783784
   },
-  "interpretation": "No false negatives found in 515 deterministic adversarial cases within the currently supported interpreter and change APIs.",
+  "interpretation": "No false negatives found in 614 deterministic adversarial cases within the currently supported interpreter and change APIs.",
   "counterexamples": {
     "false_negatives": []
   }
