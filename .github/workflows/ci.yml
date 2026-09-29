@@ -17,7 +17,7 @@ jobs:
           node-version: 24
       - name: Run Core regression, Compiler Corpus, syntax and security checks
         run: bash tests/run.sh
-      - name: Browser Reviewer, six-route and Compiler role-flow checks
+      - name: Browser Reviewer, Evidence file, six-route and Compiler role-flow checks
         shell: bash
         run: |
           python3 -m http.server 4173 --bind 127.0.0.1 >/tmp/naft-http.log 2>&1 &
