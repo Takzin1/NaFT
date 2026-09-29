@@ -1,4 +1,8 @@
 'use strict';
+import {writeFileSync} from 'node:fs';
+
+const evidenceFixturePath='/tmp/naft-browser-evidence.txt';
+writeFileSync(evidenceFixturePath,'NAFT browser evidence fixture — synthetic bytes for file-input/recheck testing.\n','utf8');
 
 const cdpBase=process.env.NAFT_CDP_URL||'http://127.0.0.1:9222';
 const sleep=ms=>new Promise(r=>setTimeout(r,ms));
@@ -52,9 +56,16 @@ async function until(expression,label) {
   }
   throw new Error('BROWSER_TIMEOUT:'+label);
 }
+async function setFileInput(selector,path) {
+  const document=await send('DOM.getDocument',{depth:0,pierce:true});
+  const found=await send('DOM.querySelector',{nodeId:document.root.nodeId,selector});
+  if(!found.nodeId) throw new Error('FILE_INPUT_NOT_FOUND:'+selector);
+  await send('DOM.setFileInputFiles',{nodeId:found.nodeId,files:[path]});
+}
 
 await send('Runtime.enable');
 await send('Log.enable');
+await send('DOM.enable');
 await send('Emulation.setDeviceMetricsOverride',{width:375,height:812,deviceScaleFactor:1,mobile:true});
 await until(
   "document.querySelector('[data-action=\\\"reviewer-run\\\"]')!==null && document.body.innerText.includes('未踏アドバンスト審査用デモ')",
@@ -108,8 +119,25 @@ await until("document.querySelector('#activity-json')!==null && document.querySe
 await evaluate("document.querySelector('[data-action=\\\"register\\\"]').click(); true");
 await until("UI.activityId!==null && selectedActivity()!==null && document.body.innerText.includes('証憑をManifestへ')",'activity registration');
 
+// Exercise a real browser File object through the actual file input and hash/recheck UI.
+await until("document.getElementById('evidence-file')!==null && document.querySelector('[data-action=\\\"attach\\\"]')!==null",'evidence file controls');
+await setFileInput('#evidence-file',evidenceFixturePath);
+await evaluate("document.querySelector('[data-action=\\\"attach\\\"]').click(); true");
+await until("evidenceFor(selectedActivity()).some(function(e){return e.original_filename==='naft-browser-evidence.txt';})",'file evidence attach');
+const browserEvidenceId=await evaluate("evidenceFor(selectedActivity()).find(function(e){return e.original_filename==='naft-browser-evidence.txt';}).evidence_id");
+
+await until("document.getElementById('recheck-file')!==null && document.getElementById('recheck-id')!==null",'evidence recheck controls');
+await evaluate("(function(id){var el=document.getElementById('recheck-id');el.value=id;return el.value===id;})("+JSON.stringify(browserEvidenceId)+")");
+await setFileInput('#recheck-file',evidenceFixturePath);
+await evaluate("document.querySelector('[data-action=\\\"recheck\\\"]').click(); true");
+await until("db.evidence_content_checks.some(function(c){return c.evidence_id==="+JSON.stringify(browserEvidenceId)+"&&c.result==='MATCH';})",'file evidence recheck');
+const fileEvidenceCheck=await evaluate("(function(id){var e=evidenceFor(selectedActivity()).find(function(x){return x.evidence_id===id;});var c=db.evidence_content_checks.filter(function(x){return x.evidence_id===id;}).slice(-1)[0];return {filename:e.original_filename,byte_length:e.byte_length,hashLength:e.hash.length,content_storage:e.content_storage,recheck:c.result,uiMessage:UI.message};})("+JSON.stringify(browserEvidenceId)+")");
+if(fileEvidenceCheck.filename!=='naft-browser-evidence.txt'||fileEvidenceCheck.byte_length<=0||fileEvidenceCheck.hashLength!==64||fileEvidenceCheck.content_storage!=='not_stored'||fileEvidenceCheck.recheck!=='MATCH'||fileEvidenceCheck.uiMessage!=='MATCH') {
+  throw new Error('FILE_EVIDENCE_RECHECK_INVALID:'+JSON.stringify(fileEvidenceCheck));
+}
+
 await evaluate("document.querySelector('[data-action=\\\"sample\\\"]').click(); true");
-await until("UI.message.includes('SYNTHETIC evidence recorded') && evidenceFor(selectedActivity()).length>0",'synthetic evidence');
+await until("UI.message.includes('SYNTHETIC evidence recorded') && evidenceFor(selectedActivity()).length>1",'synthetic evidence');
 
 await evaluate("location.hash='#/readiness'; true");
 await until("document.querySelector('[data-action=\\\"evaluate\\\"]')!==null",'readiness render');
@@ -172,6 +200,8 @@ console.log('Reviewer Demo browser click/mobile: PASS');
 console.log(JSON.stringify(Object.fromEntries(metrics)));
 console.log('Six-route browser operator flow: PASS');
 console.log(JSON.stringify(routeChecks));
+console.log('File input hash/recheck browser flow: PASS');
+console.log(JSON.stringify(fileEvidenceCheck));
 console.log('Compiler role attestation/export browser flow: PASS');
 console.log(JSON.stringify(exportedCompiler));
 ws.close();
