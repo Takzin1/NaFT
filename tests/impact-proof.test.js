@@ -215,7 +215,7 @@ const report={
   matrix:{
     methodology_mutations:mutations.map(function(x){return x[0];}),
     claim_variants:variants,
-    groups:groupStats
+    groups:{methodology_cases:mutations.length*variants.length,parameter_cases:variants.length*2,field_cases:variants.length*2,evidence_cases:variants.length-1}
   },
   result:Object.assign({},stats,{
     soundness_within_tested_space:stats.false_negative===0,
@@ -223,7 +223,7 @@ const report={
     conservative_oververification_rate:stats.oracle_unchanged?stats.false_positive/stats.oracle_unchanged:null
   }),
   interpretation:'No false negatives found in '+stats.total_cases+' deterministic adversarial cases within the currently supported interpreter and change APIs.',
-  counterexamples:{false_negatives:falseNegatives,false_positive_examples:falsePositives.slice(0,20)}
+  counterexamples:{false_negatives:falseNegatives}
 };
 if(!failed) fs.writeFileSync('reports/impact-proof.json',JSON.stringify(report,null,2)+'\n');
 console.log('IMPACT PROOF SUMMARY '+JSON.stringify(report.result));
