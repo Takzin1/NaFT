@@ -1,6 +1,6 @@
 # NaFT — Version-aware MRV Evidence Compiler + Re-verification Engine
 
-> **IEEE ClimateChain Global Hackathon 2026 branch** — Open the judge-first English demo at `naft-app.html#/climatechain`. It connects a real-world agricultural MRV reference context to selective re-verification, explicit trust boundaries, practical adoption roles and a minimal MRV provenance smart contract—without changing NaFT's off-chain verification semantics. See [submission guide](docs/ieee-climatechain-2026.md), [build log](BUILD_LOG.md), [testnet runbook](docs/testnet-anchor-runbook.md), [submission checklist](docs/submission-checklist.md) and [4-minute demo script](docs/climatechain-video-script.md).
+> **IEEE ClimateChain Global Hackathon 2026 branch** — [Open the public judge-first ClimateChain demo](https://takzin1.github.io/NaFT/#/climatechain) or use `naft-app.html#/climatechain` locally. It connects a real-world agricultural MRV reference context to selective re-verification, explicit trust boundaries, practical adoption roles and a minimal MRV provenance smart contract—without changing NaFT's off-chain verification semantics. See [submission guide](docs/ieee-climatechain-2026.md), [build log](BUILD_LOG.md), [testnet runbook](docs/testnet-anchor-runbook.md), [submission checklist](docs/submission-checklist.md) and [4-minute demo script](docs/climatechain-video-script.md).
 
 
 **版管理されたMRV証憑コンパイラ＋差分再検証エンジン。**
