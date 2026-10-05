@@ -45,7 +45,7 @@ Work added specifically on this branch:
 6. **Regression coverage**
    - Node tests cover impact counts, package lineage, real-world/context boundaries, adoption roles, anchor argument shape and contract guards;
    - real headless Chrome checks the English judge-first narrative, mobile overflow, calculated metrics and anchor-plan boundary;
-   - branch-specific ClimateChain checks total 48 assertions on top of the 1165 baseline assertions.
+   - branch-specific ClimateChain checks total 52 assertions on top of the 1165 baseline assertions.
 
 7. **Testnet completion runbook**
    - documents the human-signed deployment and two-transaction lineage flow;
@@ -66,6 +66,13 @@ Work added specifically on this branch:
    - adds a 15-question judge Q&A;
    - adds an exact-SHA submission freeze procedure;
    - switches the ClimateChain document language/title to English and compiles Solidity ABI + bytecode in CI.
+
+11. **Web3 execution / verification layer**
+   - adds a deterministic CLI that regenerates the same P1 → P2 anchor arguments as the browser demo;
+   - adds a read-only public-RPC verifier for chain ID, contract bytecode, deployment and lineage transactions;
+   - compares on-chain calldata with the exact four-`bytes32` NaFT anchor plan and verifies indexed event topics;
+   - adds a local mock JSON-RPC test where valid lineage passes and corrupted successor calldata fails closed;
+   - derives contract / deploy / P1 / P2 explorer links only from a fully validated `VERIFIED_TESTNET` record.
 
 ## Submission boundary
 
