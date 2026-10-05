@@ -55,7 +55,17 @@ function climateTestnetStatusCard(record) {
   var detail=verified
     ? esc(record.network)+' · chain '+esc(record.chain_id)+' · '+esc(record.contract_address)
     : 'No public-testnet transaction is claimed yet. Exact deployment and lineage fields remain empty until confirmed.';
-  return '<div class="climate-status"><span class="pill '+cls+'">'+label+'</span><span>'+detail+'</span></div>';
+  var links='';
+  if(verified) {
+    var explorer=climateChainExplorerLinks(record);
+    links='<span class="climate-chain-links">'+
+      '<a href="'+esc(explorer.contract)+'" target="_blank" rel="noopener noreferrer">Contract</a> · '+
+      '<a href="'+esc(explorer.deployment)+'" target="_blank" rel="noopener noreferrer">Deploy Tx</a> · '+
+      '<a href="'+esc(explorer.genesis)+'" target="_blank" rel="noopener noreferrer">P1 Tx</a> · '+
+      '<a href="'+esc(explorer.successor)+'" target="_blank" rel="noopener noreferrer">P2 Tx</a>'+
+      '</span>';
+  }
+  return '<div class="climate-status"><span class="pill '+cls+'">'+label+'</span><span>'+detail+'</span>'+links+'</div>';
 }
 
 
