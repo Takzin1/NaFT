@@ -4,6 +4,8 @@
 
 **Carbon markets need evidence that survives methodology change.**
 
+**Public demo:** https://takzin1.github.io/NaFT/#/climatechain
+
 NaFT is a version-aware MRV evidence compiler. It binds evidence to an exact methodology version, constructs a dependency/provenance graph, and determines which claims require re-verification when methodology, evidence, parameters, field data or activity data change.
 
 The ClimateChain branch adds a minimal blockchain provenance witness for the resulting versioned MRV packages. The chain is not used to decide climate truth.
