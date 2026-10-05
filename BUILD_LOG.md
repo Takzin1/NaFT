@@ -45,11 +45,21 @@ Work added specifically on this branch:
 6. **Regression coverage**
    - Node tests cover impact counts, package lineage, real-world/context boundaries, adoption roles, anchor argument shape and contract guards;
    - real headless Chrome checks the English judge-first narrative, mobile overflow, calculated metrics and anchor-plan boundary;
-   - branch-specific ClimateChain checks total 39 assertions on top of the 1165 baseline assertions.
+   - branch-specific ClimateChain checks total 44 assertions on top of the 1165 baseline assertions.
 
 7. **Testnet completion runbook**
    - documents the human-signed deployment and two-transaction lineage flow;
    - forbids claiming on-chain anchoring until chain ID, contract address and transaction hashes are actually recorded.
+
+8. **Fail-closed testnet evidence record**
+   - adds `src/climatechain-testnet-record.js` with explicit `NOT_SUBMITTED` / `VERIFIED_TESTNET` states;
+   - rejects partial chain metadata while unverified;
+   - requires complete network, contract, transaction, explorer, source-commit and timestamp evidence before verified status.
+
+9. **Submission operations**
+   - adds a final submission checklist;
+   - adds a 4-minute judge-oriented demo script;
+   - surfaces testnet evidence state and engineering proof in the first ClimateChain viewport.
 
 ## Submission boundary
 
