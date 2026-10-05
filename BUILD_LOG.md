@@ -32,9 +32,24 @@ Work added specifically on this branch:
    - browser status is explicitly `NOT_SUBMITTED` until a real transaction is independently sent;
    - no wallet, RPC endpoint or external API is called by the static demo.
 
-4. **Regression coverage**
-   - Node tests cover impact counts, package lineage, anchor argument shape and contract guard presence;
-   - real headless Chrome checks the English demo, mobile overflow, calculated metrics and anchor-plan boundary.
+4. **Judge-first ClimateChain presentation layer**
+   - adds a real-world Japanese rice-paddy MRV reference context without claiming current institutional implementation;
+   - adds project-aggregator / verification-operator / registry adoption roles;
+   - makes the on-chain / off-chain trust boundary explicit;
+   - surfaces the 614-case independent-oracle result with its synthetic-state-space limitation.
+
+5. **Lineage hardening**
+   - rejects a successor whose parent package belongs to a different claim;
+   - retains duplicate, missing-parent and current-head / fork guards.
+
+6. **Regression coverage**
+   - Node tests cover impact counts, package lineage, real-world/context boundaries, adoption roles, anchor argument shape and contract guards;
+   - real headless Chrome checks the English judge-first narrative, mobile overflow, calculated metrics and anchor-plan boundary;
+   - branch-specific ClimateChain checks total 39 assertions on top of the 1165 baseline assertions.
+
+7. **Testnet completion runbook**
+   - documents the human-signed deployment and two-transaction lineage flow;
+   - forbids claiming on-chain anchoring until chain ID, contract address and transaction hashes are actually recorded.
 
 ## Submission boundary
 
