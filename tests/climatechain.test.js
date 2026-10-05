@@ -7,6 +7,22 @@ let passed=0,failed=0;
 function check(value,label){try{assert.ok(value,label);passed++;}catch(e){failed++;console.error('FAIL: '+label);process.exitCode=1;}}
 function eq(a,b,label){check(canonicalize(a)===canonicalize(b),label);}
 
+const reference=climateReferenceScenario();
+eq(reference.domain,'Japanese rice-paddy methane MRV','real-world reference domain is explicit');
+check(reference.evidence_examples.length>=6,'real-world reference lists heterogeneous evidence');
+check(reference.source_status.includes('not asserted'),'institutional version boundary remains explicit');
+check(reference.experiment_boundary.includes('synthetic methodology versions'),'real-world context is separated from synthetic experiment');
+
+const roles=climateAdoptionRoles();
+eq(roles.length,3,'three practical adoption roles');
+check(roles.some(x=>x.role==='Project aggregator'),'aggregator adoption role present');
+check(roles.some(x=>x.role==='Registry / carbon program'),'registry adoption role present');
+
+const trust=climateTrustModel();
+check(!trust.on_chain.some(x=>x.includes('raw evidence')),'raw evidence is not placed on-chain');
+check(trust.never_claimed.includes('formal certification'),'formal certification remains outside trust claim');
+check(trust.design_rule.includes('does not decide climate truth'),'blockchain trust boundary is explicit');
+
 const impact=runClimateChainImpact();
 eq(impact.counts.total,100,'100 synthetic claims evaluated');
 eq(impact.counts.require_reverification,30,'30 claims require re-verification');
