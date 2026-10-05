@@ -148,6 +148,14 @@ A public testnet deployment is intentionally **not** claimed yet. The browser re
 
 Use [the testnet anchor runbook](testnet-anchor-runbook.md) before adding any on-chain claim to the submission. Record chain ID, contract address, exact source commit, deployment transaction and both lineage transaction hashes.
 
+## Submission assets
+
+- [4-minute demo script](climatechain-video-script.md)
+- [final submission checklist](submission-checklist.md)
+- [testnet anchor runbook](testnet-anchor-runbook.md)
+
+The browser reads the dedicated fail-closed testnet record. It displays `NOT SUBMITTED` until a complete verified public-testnet record exists.
+
 ## Before final submission
 
 Re-check the live Devpost page for final field wording, deadline/window, track wording and video requirements. Freeze the exact submission commit only after CI is green and any testnet evidence has been independently verified.
