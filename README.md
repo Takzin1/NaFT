@@ -1,5 +1,8 @@
 # NaFT — Version-aware MRV Evidence Compiler + Re-verification Engine
 
+> **IEEE ClimateChain Global Hackathon 2026 branch** — Open the English demo at `naft-app.html#/climatechain`. This branch adds a minimal MRV provenance smart contract and a deterministic two-step anchor plan without changing NaFT's off-chain verification semantics. See [submission guide](docs/ieee-climatechain-2026.md) and [build log](BUILD_LOG.md).
+
+
 **版管理されたMRV証憑コンパイラ＋差分再検証エンジン。**
 
 NaFTは、方法論・証憑・係数・人間判断を版付きで保持し、変更時にどのClaimを再検証すべきかを依存関係と変更差分から根拠付きで特定する研究プロトタイプです。
@@ -21,7 +24,7 @@ Node.js 20+、Python 3、bashを使用します。GitHub ActionsではNode 24で
 bash tests/run.sh
 ```
 
-**1165 passed / 0 failed**（既存182＋Compiler354＋Mitou impact experiment 10＋Impact Proof 619）。既存1066 assertionsを削除・skip・意味変更せず保持し、Evidence change反例matrixをcontentだけでなくadapter / binding / period / category / expected hash / provenance / source metadataへ拡張しました。独立Full Re-computation Oracle比較は614 deterministic adversarial casesで、このtested state spaceではTP 429 / TN 78 / FP 107 / FN 0です。FPは安全側の追加再検証であり、FN=0は任意の実制度に対する普遍的証明ではありません。加えて、GitHub Actions上のheadless Chromeで `#/reviewer-demo` を開き、変更影響実験buttonを実際にclickし、100 / 30 / 70 / 15 / 15のmetric描画まで検証しています。同じ実ブラウザ上でOperator選択 → Activity登録 → SYNTHETIC Evidence追加 → Evaluation実行 → 通常6 route全遷移まで実行し、各routeの横overflow・render error・runtime/console errorも検査します。さらにEvidence UIではrunner上の実ファイルをChromeの`<input type=file>`へ設定し、byte hash Manifest生成→同一原本recheck=`MATCH`まで実ブラウザで検証します。新CompilerについてもOperator draft → Maintainer Pack release → Reviewer attestation → attested JSON exportまで実DOM操作で通し、exportが`ATTESTED_RESEARCH_PACKAGE`かつ`formal_certification=false`であることを検証します。[Test report](docs/test-report.md)、[Impact soundness](docs/impact-soundness.md)、[Proof report](reports/impact-proof.json)、[自動生成KPI](reports/evaluation-kpis.json)、[100 Claim影響解析実験](reports/mitou-impact-experiment.json)を参照。
+**1193 passed / 0 failed**（既存1165＋ClimateChain 28）。ClimateChain追加分は100 Claim impact、Package lineage、anchor引数、contract guardを検証します。既存1066 assertionsを削除・skip・意味変更せず保持し、Evidence change反例matrixをcontentだけでなくadapter / binding / period / category / expected hash / provenance / source metadataへ拡張しました。独立Full Re-computation Oracle比較は614 deterministic adversarial casesで、このtested state spaceではTP 429 / TN 78 / FP 107 / FN 0です。FPは安全側の追加再検証であり、FN=0は任意の実制度に対する普遍的証明ではありません。加えて、GitHub Actions上のheadless Chromeで `#/reviewer-demo` を開き、変更影響実験buttonを実際にclickし、100 / 30 / 70 / 15 / 15のmetric描画まで検証しています。同じ実ブラウザ上でOperator選択 → Activity登録 → SYNTHETIC Evidence追加 → Evaluation実行 → 通常6 route全遷移まで実行し、各routeの横overflow・render error・runtime/console errorも検査します。さらにEvidence UIではrunner上の実ファイルをChromeの`<input type=file>`へ設定し、byte hash Manifest生成→同一原本recheck=`MATCH`まで実ブラウザで検証します。新CompilerについてもOperator draft → Maintainer Pack release → Reviewer attestation → attested JSON exportまで実DOM操作で通し、exportが`ATTESTED_RESEARCH_PACKAGE`かつ`formal_certification=false`であることを検証します。[Test report](docs/test-report.md)、[Impact soundness](docs/impact-soundness.md)、[Proof report](reports/impact-proof.json)、[自動生成KPI](reports/evaluation-kpis.json)、[100 Claim影響解析実験](reports/mitou-impact-experiment.json)を参照。
 
 ## 未踏アドバンスト審査用Reviewer Demo
 
