@@ -73,3 +73,33 @@ jobs:
         run: git diff --exit-code -- reports/evaluation-kpis.json reports/mitou-impact-experiment.json reports/impact-proof.json
       - name: Check committed whitespace
         run: git diff --check HEAD^ HEAD
+
+  deploy-pages:
+    name: deploy-pages
+    needs: core-and-security
+    if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/hackathon/ieee-climatechain-2026')
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    concurrency:
+      group: pages
+      cancel-in-progress: false
+    environment:
+      name: ${{ github.ref == 'refs/heads/main' && 'github-pages' || 'github-pages-climatechain' }}
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+        with:
+          enablement: true
+      - name: Upload static site
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: .
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v5
+
