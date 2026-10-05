@@ -128,7 +128,7 @@ if(JSON.stringify(climateMetrics)!==JSON.stringify(expectedClimate)) throw new E
 await evaluate("document.querySelector('[data-action=\\\"climatechain-anchor-plan\\\"]').click(); true");
 await until("ClimateChainDemo.anchorPlan!==null && document.body.innerText.includes('Chain status: NOT_SUBMITTED')",'climatechain anchor plan');
 const anchorPlan=await evaluate("(function(p){return {status:p.chain_status,formal:p.formal_certification,issued:p.carbon_credit_issued,genesis:p.genesis.previous_package_hash,successorParentMatches:p.successor.previous_package_hash===p.genesis.package_hash,lineage:p.lineage_checks};})(ClimateChainDemo.anchorPlan)");
-if(anchorPlan.status!=='NOT_SUBMITTED'||anchorPlan.formal!==false||anchorPlan.issued!==false||anchorPlan.genesis!==ZERO_BYTES32||!anchorPlan.successorParentMatches||!anchorPlan.lineage.successor_supersedes_previous) {
+if(anchorPlan.status!=='NOT_SUBMITTED'||anchorPlan.formal!==false||anchorPlan.issued!==false||anchorPlan.genesis!==('0x'+'0'.repeat(64))||!anchorPlan.successorParentMatches||!anchorPlan.lineage.successor_supersedes_previous) {
   throw new Error('CLIMATECHAIN_ANCHOR_PLAN_INVALID:'+JSON.stringify(anchorPlan));
 }
 
@@ -224,6 +224,7 @@ if(exportedCompiler.status!=='ATTESTED_RESEARCH_PACKAGE'||exportedCompiler.forma
 }
 if(runtimeProblems.length) throw new Error('BROWSER_RUNTIME_PROBLEMS:'+JSON.stringify(runtimeProblems));
 
+console.log('ClimateChain browser impact/anchor-plan flow: PASS');
 console.log('Reviewer Demo browser click/mobile: PASS');
 console.log(JSON.stringify(Object.fromEntries(metrics)));
 console.log('Six-route browser operator flow: PASS');
