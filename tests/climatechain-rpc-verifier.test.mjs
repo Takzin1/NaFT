@@ -1,11 +1,11 @@
 #!/usr/bin/env node
 'use strict';
 
-const fs=require('fs');
-const vm=require('vm');
-const http=require('http');
-const {spawn}=require('child_process');
-const assert=require('assert/strict');
+import fs from 'node:fs';
+import vm from 'node:vm';
+import http from 'node:http';
+import {spawn} from 'node:child_process';
+import assert from 'node:assert/strict';
 
 function strip0x(v){return String(v).replace(/^0x/,'');}
 
