@@ -20,6 +20,18 @@ function climateChainTestnetRecord(){
   return JSON.parse(JSON.stringify(CLIMATECHAIN_TESTNET_RECORD));
 }
 
+function climateChainExplorerLinks(record){
+  validateClimateChainTestnetRecord(record);
+  if(record.status!=='VERIFIED_TESTNET') return null;
+  var base=record.explorer_base_url.replace(/\/$/,'');
+  return {
+    contract:base+'/address/'+record.contract_address,
+    deployment:base+'/tx/'+record.deploy_tx_hash,
+    genesis:base+'/tx/'+record.genesis_tx_hash,
+    successor:base+'/tx/'+record.successor_tx_hash
+  };
+}
+
 function validateClimateChainTestnetRecord(record){
   if(!record||record.schema!=='naft-climatechain-testnet-record-1') throw new Error('INVALID_TESTNET_RECORD_SCHEMA');
   if(record.status!=='NOT_SUBMITTED'&&record.status!=='VERIFIED_TESTNET') throw new Error('INVALID_TESTNET_RECORD_STATUS');
