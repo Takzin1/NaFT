@@ -1,7 +1,7 @@
 name: NaFT MRV Compiler CI
 on:
   push:
-    branches: [main, "feat/**"]
+    branches: [main, "feat/**", "hackathon/**"]
   pull_request:
 permissions:
   contents: read
@@ -15,6 +15,8 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 24
+      - name: Compile ClimateChain provenance contract
+        run: npx --yes solc@0.8.24 --bin contracts/NaFTMRVAnchor.sol --output-dir /tmp/naft-solc
       - name: Run Core regression, Compiler Corpus, syntax and security checks
         run: bash tests/run.sh
       - name: Browser Reviewer, Evidence file, six-route and Compiler role-flow checks
