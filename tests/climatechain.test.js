@@ -22,6 +22,35 @@ try {
 } catch(e) { invalidCaught=e.message.includes('TESTNET_NETWORK_REQUIRED'); }
 check(invalidCaught,'verified status requires complete chain evidence');
 
+const validTestnetRecord={
+  schema:'naft-climatechain-testnet-record-1',
+  status:'VERIFIED_TESTNET',
+  network:'Example Public Testnet',
+  chain_id:11155111,
+  contract_address:'0x1111111111111111111111111111111111111111',
+  deploy_tx_hash:'0x'+'1'.repeat(64),
+  genesis_tx_hash:'0x'+'2'.repeat(64),
+  successor_tx_hash:'0x'+'3'.repeat(64),
+  explorer_base_url:'https://example.test',
+  source_commit:'1'.repeat(40),
+  compiler:'solc 0.8.24',
+  verified_at:'2026-10-05T00:00:00Z',
+  boundary:testnet.boundary
+};
+check(validateClimateChainTestnetRecord(validTestnetRecord).ok===true,'complete verified testnet record validates');
+invalidCaught=false;
+try { validateClimateChainTestnetRecord(Object.assign({},validTestnetRecord,{contract_address:'0x'+'0'.repeat(40)})); }
+catch(e) { invalidCaught=e.message==='TESTNET_CONTRACT_ADDRESS_ZERO'; }
+check(invalidCaught,'zero contract address rejected');
+invalidCaught=false;
+try { validateClimateChainTestnetRecord(Object.assign({},validTestnetRecord,{source_commit:'0'.repeat(40)})); }
+catch(e) { invalidCaught=e.message==='TESTNET_SOURCE_COMMIT_ZERO'; }
+check(invalidCaught,'zero source commit rejected');
+invalidCaught=false;
+try { validateClimateChainTestnetRecord(Object.assign({},validTestnetRecord,{successor_tx_hash:validTestnetRecord.genesis_tx_hash})); }
+catch(e) { invalidCaught=e.message==='TESTNET_TX_HASHES_MUST_BE_DISTINCT'; }
+check(invalidCaught,'duplicate deployment/lineage transaction hashes rejected');
+
 const reference=climateReferenceScenario();
 eq(reference.domain,'Japanese rice-paddy methane MRV','real-world reference domain is explicit');
 check(reference.evidence_examples.length>=6,'real-world reference lists heterogeneous evidence');
