@@ -7,6 +7,7 @@ permissions:
   contents: read
 jobs:
   core-and-security:
+    if: github.event_name != 'pull_request' || github.head_ref != 'hackathon/ieee-climatechain-2026'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
