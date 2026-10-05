@@ -38,6 +38,11 @@ const validTestnetRecord={
   boundary:testnet.boundary
 };
 check(validateClimateChainTestnetRecord(validTestnetRecord).ok===true,'complete verified testnet record validates');
+const explorerLinks=climateChainExplorerLinks(validTestnetRecord);
+check(explorerLinks.contract===validTestnetRecord.explorer_base_url+'/address/'+validTestnetRecord.contract_address,'contract explorer link derived from verified record');
+check(explorerLinks.deployment===validTestnetRecord.explorer_base_url+'/tx/'+validTestnetRecord.deploy_tx_hash,'deployment explorer link derived from verified record');
+check(explorerLinks.genesis.endsWith(validTestnetRecord.genesis_tx_hash),'genesis explorer link derived from verified record');
+check(explorerLinks.successor.endsWith(validTestnetRecord.successor_tx_hash),'successor explorer link derived from verified record');
 invalidCaught=false;
 try { validateClimateChainTestnetRecord(Object.assign({},validTestnetRecord,{contract_address:'0x'+'0'.repeat(40)})); }
 catch(e) { invalidCaught=e.message==='TESTNET_CONTRACT_ADDRESS_ZERO'; }
