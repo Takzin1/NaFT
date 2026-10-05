@@ -109,6 +109,10 @@ await until(
   "document.querySelector('[data-action=\\\"climatechain-run\\\"]')!==null && document.body.innerText.includes('When climate MRV rules change')",
   'climatechain route render'
 );
+const climateDocMeta=await evaluate("({lang:document.documentElement.lang,title:document.title})");
+if(climateDocMeta.lang!=='en'||climateDocMeta.title!=='NaFT — Version-Aware Climate MRV | IEEE ClimateChain 2026') {
+  throw new Error('CLIMATECHAIN_DOCUMENT_METADATA:'+JSON.stringify(climateDocMeta));
+}
 const climateFirstView=await evaluate("({scrollWidth:document.documentElement.scrollWidth,innerWidth:window.innerWidth,hasOperationalControls:!!document.querySelector('#actor,#activity,nav'),text:document.body.innerText})");
 if(climateFirstView.scrollWidth>climateFirstView.innerWidth) throw new Error('CLIMATECHAIN_HORIZONTAL_OVERFLOW:'+JSON.stringify(climateFirstView));
 if(climateFirstView.hasOperationalControls) throw new Error('CLIMATECHAIN_HEADER_NOT_ISOLATED:'+JSON.stringify(climateFirstView));
@@ -150,6 +154,10 @@ if(anchorPlan.status!=='NOT_SUBMITTED'||anchorPlan.formal!==false||anchorPlan.is
 
 await evaluate("location.hash='#/methodologies'; true");
 await until("document.body.innerText.includes('Rule Packを版で固定する')",'methodologies route render');
+const researchDocMeta=await evaluate("({lang:document.documentElement.lang,title:document.title})");
+if(researchDocMeta.lang!=='ja'||researchDocMeta.title!=='NaFT — Version-aware MRV Evidence Compiler') {
+  throw new Error('RESEARCH_DOCUMENT_METADATA:'+JSON.stringify(researchDocMeta));
+}
 const methodologyViewport=await evaluate("({scrollWidth:document.documentElement.scrollWidth,innerWidth:window.innerWidth})");
 if(methodologyViewport.scrollWidth>methodologyViewport.innerWidth) throw new Error('METHODOLOGY_HORIZONTAL_OVERFLOW:'+JSON.stringify(methodologyViewport));
 
