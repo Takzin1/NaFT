@@ -116,14 +116,14 @@ for(const phrase of [
   'Japanese rice-paddy methane MRV',
   'The currently adopted edition and coefficient applicability are not asserted by this demo.',
   'Blockchain witnesses version lineage; it does not decide climate truth.',
-  'Project aggregator',
-  'MRV / verification operator',
-  'Registry / carbon program',
   'Adversarial cases',
   'False negatives'
 ]) {
   if(!climateFirstView.text.includes(phrase)) throw new Error('MISSING_CLIMATECHAIN_JUDGE_TEXT:'+phrase);
 }
+const adoptionRoles=await evaluate("Array.from(document.querySelectorAll('.climate-adoption .eyebrow')).map(function(x){return x.textContent.trim();})");
+const expectedAdoptionRoles=['Project aggregator','MRV / verification operator','Registry / carbon program'];
+if(JSON.stringify(adoptionRoles)!==JSON.stringify(expectedAdoptionRoles)) throw new Error('UNEXPECTED_CLIMATECHAIN_ADOPTION_ROLES:'+JSON.stringify(adoptionRoles));
 
 await evaluate("document.querySelector('[data-action=\\\"climatechain-run\\\"]').click(); true");
 await until("ClimateChainDemo.impact!==null && document.querySelectorAll('.climate-impact .metric').length===5",'climatechain impact render');
