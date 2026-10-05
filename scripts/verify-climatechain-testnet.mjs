@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 'use strict';
 
-const fs=require('fs');
-const vm=require('vm');
+import fs from 'node:fs';
+import vm from 'node:vm';
 
 function die(message){console.error('CLIMATECHAIN_TESTNET_VERIFY_FAIL: '+message);process.exit(1);}
 function ok(label,detail){console.log('ok: '+label+(detail?' ['+detail+']':''));}
