@@ -42,6 +42,22 @@ function climateTrustModel() {
     design_rule:'Blockchain witnesses version lineage; it does not decide climate truth.'
   };
 }
+function climateTestnetStatus() {
+  var record=climateChainTestnetRecord();
+  validateClimateChainTestnetRecord(record);
+  return record;
+}
+
+function climateTestnetStatusCard(record) {
+  var verified=record.status==='VERIFIED_TESTNET';
+  var cls=verified?'verified':'pending';
+  var label=verified?'VERIFIED TESTNET':'NOT SUBMITTED';
+  var detail=verified
+    ? esc(record.network)+' · chain '+esc(record.chain_id)+' · '+esc(record.contract_address)
+    : 'No public-testnet transaction is claimed yet. Exact deployment and lineage fields remain empty until confirmed.';
+  return '<div class="climate-status"><span class="pill '+cls+'">'+label+'</span><span>'+detail+'</span></div>';
+}
+
 
 function climateChainClaims() {
   var claims=[];
@@ -124,9 +140,12 @@ function pgClimateChainDemo() {
   var impact=ClimateChainDemo.impact;
   var reference=climateReferenceScenario();
   var trust=climateTrustModel();
+  var testnet=climateTestnetStatus();
   var out='<section class="card reviewer-hero"><span class="eyebrow">Carbon Markets & Emissions Transparency</span>'+
     '<h2>When climate MRV rules change, which existing claims actually need re-verification?</h2>'+
     '<p><b>NaFT turns methodology change into a traceable engineering decision:</b> re-verify the claims whose semantics changed, preserve the unaffected claims, and create an auditable successor lineage.</p>'+
+    climateTestnetStatusCard(testnet)+
+    '<div class="climate-proof-strip"><div class="climate-proof"><strong>5</strong><span>change classes</span></div><div class="climate-proof"><strong>614</strong><span>adversarial cases</span></div><div class="climate-proof"><strong>0 FN</strong><span>tested synthetic state space</span></div></div>'+
     '<div class="reviewer-boundary"><b>Research prototype boundary.</b> The impact experiment uses synthetic methodology versions and synthetic claims. It does not certify emission reductions, issue credits, or connect to an external registry.</div>'+
     '<div class="flow"><span>Rule changes</span><span>→</span><span>Trace dependencies</span><span>→</span><span>Re-verify affected claims</span><span>→</span><span>Anchor lineage</span></div>'+
     button('Run 100-claim methodology update','climatechain-run',false)+
@@ -161,8 +180,11 @@ function pgClimateChainDemo() {
     out+='<section class="card climate-anchor"><span class="eyebrow">Blockchain provenance witness</span><h2>Two-step anchor plan</h2>'+
       '<p>The contract stores package hashes and lineage only. MRV logic remains deterministic and off-chain.</p>'+
       '<div class="flow"><span>Genesis package</span><span>→</span><span>Successor package</span><span>→</span><span>Claim head</span></div>'+
-      '<p><b>Chain status:</b> '+esc(plan.chain_status)+'</p>'+
-      '<div class="notice"><b>No transaction has been sent.</b> This browser demo only prepares exact <code>bytes32</code> arguments for <code>NaFTMRVAnchor.anchorPackage</code>. A real testnet transaction must be independently submitted and recorded before claiming on-chain anchoring.</div>'+
+      '<p><b>Anchor-plan status:</b> '+esc(plan.chain_status)+'</p>'+
+      climateTestnetStatusCard(testnet)+
+      (testnet.status==='VERIFIED_TESTNET'
+        ? '<div class="reviewer-boundary"><b>Public testnet evidence recorded.</b> Explorer/network metadata are stored in the dedicated testnet record. The chain still witnesses lineage only; it does not certify climate impact.</div>'
+        : '<div class="notice"><b>No transaction has been sent.</b> This browser demo only prepares exact <code>bytes32</code> arguments for <code>NaFTMRVAnchor.anchorPackage</code>. A real testnet transaction must be independently submitted and recorded before claiming on-chain anchoring.</div>')+
       '<details open><summary>Prepared transaction arguments</summary>'+jsonView(plan)+'</details>'+
       button('Download anchor plan JSON','climatechain-export-anchor',false)+
       '</section>';
