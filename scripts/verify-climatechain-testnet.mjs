@@ -15,7 +15,9 @@ const recordSource=fs.readFileSync('src/climatechain-testnet-record.js','utf8');
 const recordSandbox={Set,console};
 vm.createContext(recordSandbox);
 vm.runInContext(recordSource,recordSandbox,{filename:'src/climatechain-testnet-record.js'});
-const record=recordSandbox.climateChainTestnetRecord();
+const record=process.env.TESTNET_RECORD_JSON
+  ? JSON.parse(process.env.TESTNET_RECORD_JSON)
+  : recordSandbox.climateChainTestnetRecord();
 
 if(record.status!=='VERIFIED_TESTNET') die('record status must be VERIFIED_TESTNET');
 try{recordSandbox.validateClimateChainTestnetRecord(record);}catch(e){die(e.message);}
