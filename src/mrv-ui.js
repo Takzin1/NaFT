@@ -32,6 +32,9 @@ function pgReview(a){if(!a)return blankActivity();var r=currentEvaluation(a),rec
 function pgPackages(a){if(!a)return blankActivity();var r=currentEvaluation(a),record=attestationFor(a),agg=programAggregate(a.program_id);return '<section class="card"><span class="eyebrow">6 / Monitoring package</span><h2>再現可能なMRVパッケージ</h2><p>版を固定したRule Pack・入力snapshot・評価・例外判断・来歴をJSONへ。宣誓済み文書は保存時の内容とhashを保ち、無関係な監査イベントの追加で書き換わりません。</p>'+button('Export package draft JSON','export-draft',!r)+button('Export attested package JSON','export-attested',!record)+'<p>'+esc(record?'Attested hash: '+record.package_hash:'Final attestation not recorded')+'</p><details><summary>Program aggregation · saved counts</summary>'+jsonView(agg)+'</details><p>集計は保存件数です。各案件の完全性は評価・export時に検査します。</p>'+button('Verify audit chain','audit',false)+'<p class="muted">監査結果は操作時の検証です。書き込み・判断・exportでは必ず全チェーンを再確認します。</p></section>';}
 function render(){
   var route=activeRoute(),a=selectedActivity(),page;
+  var isClimate=(typeof CLIMATECHAIN_ROUTE!=='undefined'&&route===CLIMATECHAIN_ROUTE);
+  document.documentElement.lang=isClimate?'en':'ja';
+  document.title=isClimate?'NaFT — Version-Aware Climate MRV | IEEE ClimateChain 2026':'NaFT — Version-aware MRV Evidence Compiler';
   try{
     if(typeof CLIMATECHAIN_ROUTE!=='undefined'&&route===CLIMATECHAIN_ROUTE) page=pgClimateChainDemo();
     else if(typeof REVIEWER_DEMO_ROUTE!=='undefined'&&route===REVIEWER_DEMO_ROUTE) page=pgReviewerDemo();
