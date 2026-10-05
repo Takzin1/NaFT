@@ -1,11 +1,26 @@
 'use strict';
 const fs=require('fs'),vm=require('vm'),assert=require('assert/strict');
-for(const name of ['mrv-core','methodology-packs','mrv-compiler','compiler-demo','climatechain-demo']) {
+for(const name of ['mrv-core','methodology-packs','mrv-compiler','compiler-demo','climatechain-testnet-record','climatechain-demo']) {
   vm.runInThisContext(fs.readFileSync('src/'+name+'.js','utf8'));
 }
 let passed=0,failed=0;
 function check(value,label){try{assert.ok(value,label);passed++;}catch(e){failed++;console.error('FAIL: '+label);process.exitCode=1;}}
 function eq(a,b,label){check(canonicalize(a)===canonicalize(b),label);}
+
+const testnet=climateChainTestnetRecord();
+eq(testnet.status,'NOT_SUBMITTED','testnet record defaults to not submitted');
+check(validateClimateChainTestnetRecord(testnet).ok===true,'default testnet record validates');
+check(testnet.contract_address===null&&testnet.genesis_tx_hash===null&&testnet.successor_tx_hash===null,'unverified testnet record carries no chain evidence');
+let invalidCaught=false;
+try {
+  validateClimateChainTestnetRecord(Object.assign({},testnet,{network:'Sepolia'}));
+} catch(e) { invalidCaught=e.message.includes('UNVERIFIED_TESTNET_FIELDS_POPULATED'); }
+check(invalidCaught,'partial unverified testnet evidence fails closed');
+invalidCaught=false;
+try {
+  validateClimateChainTestnetRecord(Object.assign({},testnet,{status:'VERIFIED_TESTNET'}));
+} catch(e) { invalidCaught=e.message.includes('TESTNET_NETWORK_REQUIRED'); }
+check(invalidCaught,'verified status requires complete chain evidence');
 
 const reference=climateReferenceScenario();
 eq(reference.domain,'Japanese rice-paddy methane MRV','real-world reference domain is explicit');
