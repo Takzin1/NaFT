@@ -61,3 +61,15 @@ Confirm on the explorer that:
 > NaFT anchors the version lineage of MRV packages on a public testnet. The chain witnesses package hashes and parentage only; it does not certify climate impact or issue a carbon credit.
 
 Until all checklist items are available, keep the demo wording as **NOT_SUBMITTED**.
+
+## Update the repository record
+
+After all public-testnet evidence above is confirmed, update `src/climatechain-testnet-record.js` in one commit:
+
+- set `status` to `VERIFIED_TESTNET`;
+- populate every required network / address / transaction / source-commit / explorer / timestamp field;
+- leave the compiler field as `solc 0.8.24` unless the deployment compiler genuinely differs and the documentation is updated accordingly.
+
+Do not populate only some fields while keeping `NOT_SUBMITTED`. The test suite deliberately rejects that state. Do not set `VERIFIED_TESTNET` with missing or malformed evidence. The browser status changes only after the record validates.
+
+After the record change, require both push CI and PR CI to pass on the exact same head SHA before using the explorer evidence in the video or Devpost text.
