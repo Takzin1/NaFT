@@ -155,6 +155,9 @@ Use [the testnet anchor runbook](testnet-anchor-runbook.md) before adding any on
 - [4-minute demo script](climatechain-video-script.md)
 - [final submission checklist](submission-checklist.md)
 - [testnet anchor runbook](testnet-anchor-runbook.md)
+- [Devpost submission draft](devpost-submission-draft.md)
+- [judge Q&A](judge-qa.md)
+- [submission freeze procedure](submission-freeze.md)
 
 The browser reads the dedicated fail-closed testnet record. It displays `NOT SUBMITTED` until a complete verified public-testnet record exists.
 
