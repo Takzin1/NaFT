@@ -60,6 +60,7 @@ const contract=fs.readFileSync('contracts/NaFTMRVAnchor.sol','utf8');
 check(contract.includes('function anchorPackage('),'anchorPackage contract entrypoint present');
 check(contract.includes('PackageAlreadyAnchored(packageHash)'),'duplicate package guard present');
 check(contract.includes('PreviousPackageMissing(previousPackageHash)'),'missing-parent guard present');
+check(contract.includes('PreviousClaimMismatch(claimIdHash, previous.claimIdHash)'),'cross-claim parent guard present');
 check(contract.includes('LineageHeadMismatch(currentHead, previousPackageHash)'),'lineage fork guard present');
 check(!contract.includes(' payable'),'contract has no payable path');
 check(!/function\s+mint\s*\(/.test(contract),'contract does not mint tokens');
