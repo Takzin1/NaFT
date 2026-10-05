@@ -104,6 +104,34 @@ for(const phrase of [
 ]) {
   if(!text.includes(phrase)) throw new Error('MISSING_REVIEWER_TEXT:'+phrase);
 }
+await evaluate("location.hash='#/climatechain'; true");
+await until(
+  "document.querySelector('[data-action=\\\"climatechain-run\\\"]')!==null && document.body.innerText.includes('When climate MRV rules change')",
+  'climatechain route render'
+);
+const climateFirstView=await evaluate("({scrollWidth:document.documentElement.scrollWidth,innerWidth:window.innerWidth,hasOperationalControls:!!document.querySelector('#actor,#activity,nav')})");
+if(climateFirstView.scrollWidth>climateFirstView.innerWidth) throw new Error('CLIMATECHAIN_HORIZONTAL_OVERFLOW:'+JSON.stringify(climateFirstView));
+if(climateFirstView.hasOperationalControls) throw new Error('CLIMATECHAIN_HEADER_NOT_ISOLATED:'+JSON.stringify(climateFirstView));
+
+await evaluate("document.querySelector('[data-action=\\\"climatechain-run\\\"]').click(); true");
+await until("ClimateChainDemo.impact!==null && document.querySelectorAll('.metric').length===5",'climatechain impact render');
+const climateMetrics=await evaluate("Array.from(document.querySelectorAll('.metric')).map(function(x){return [x.querySelector('span').textContent.trim(),x.querySelector('strong').textContent.trim()];})");
+const expectedClimate=[
+  ['Candidate claims','100'],
+  ['Re-verify','30'],
+  ['Unaffected','70'],
+  ['Auto re-evaluated','15'],
+  ['New evidence needed','15']
+];
+if(JSON.stringify(climateMetrics)!==JSON.stringify(expectedClimate)) throw new Error('UNEXPECTED_CLIMATECHAIN_METRICS:'+JSON.stringify(climateMetrics));
+
+await evaluate("document.querySelector('[data-action=\\\"climatechain-anchor-plan\\\"]').click(); true");
+await until("ClimateChainDemo.anchorPlan!==null && document.body.innerText.includes('Chain status: NOT_SUBMITTED')",'climatechain anchor plan');
+const anchorPlan=await evaluate("(function(p){return {status:p.chain_status,formal:p.formal_certification,issued:p.carbon_credit_issued,genesis:p.genesis.previous_package_hash,successorParentMatches:p.successor.previous_package_hash===p.genesis.package_hash,lineage:p.lineage_checks};})(ClimateChainDemo.anchorPlan)");
+if(anchorPlan.status!=='NOT_SUBMITTED'||anchorPlan.formal!==false||anchorPlan.issued!==false||anchorPlan.genesis!==ZERO_BYTES32||!anchorPlan.successorParentMatches||!anchorPlan.lineage.successor_supersedes_previous) {
+  throw new Error('CLIMATECHAIN_ANCHOR_PLAN_INVALID:'+JSON.stringify(anchorPlan));
+}
+
 await evaluate("location.hash='#/methodologies'; true");
 await until("document.body.innerText.includes('Rule Packを版で固定する')",'methodologies route render');
 const methodologyViewport=await evaluate("({scrollWidth:document.documentElement.scrollWidth,innerWidth:window.innerWidth})");
