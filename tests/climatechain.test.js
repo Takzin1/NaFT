@@ -11,7 +11,7 @@ const reference=climateReferenceScenario();
 eq(reference.domain,'Japanese rice-paddy methane MRV','real-world reference domain is explicit');
 check(reference.evidence_examples.length>=6,'real-world reference lists heterogeneous evidence');
 check(reference.source_status.includes('not asserted'),'institutional version boundary remains explicit');
-check(reference.experiment_boundary.includes('synthetic methodology versions'),'real-world context is separated from synthetic experiment');
+check(reference.experiment_boundary.includes('NAFT-SYNTHETIC@1 -> @2'),'real-world context is separated from synthetic experiment');
 
 const roles=climateAdoptionRoles();
 eq(roles.length,3,'three practical adoption roles');
