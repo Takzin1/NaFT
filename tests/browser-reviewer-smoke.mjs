@@ -121,7 +121,7 @@ for(const phrase of [
 ]) {
   if(!climateFirstView.text.includes(phrase)) throw new Error('MISSING_CLIMATECHAIN_JUDGE_TEXT:'+phrase);
 }
-const adoptionRoles=await evaluate("Array.from(document.querySelectorAll('.climate-adoption .eyebrow')).map(function(x){return x.textContent.trim();})");
+const adoptionRoles=await evaluate("Array.from(document.querySelectorAll('.climate-adoption article .eyebrow')).map(function(x){return x.textContent.trim();})");
 const expectedAdoptionRoles=['Project aggregator','MRV / verification operator','Registry / carbon program'];
 if(JSON.stringify(adoptionRoles)!==JSON.stringify(expectedAdoptionRoles)) throw new Error('UNEXPECTED_CLIMATECHAIN_ADOPTION_ROLES:'+JSON.stringify(adoptionRoles));
 
