@@ -132,14 +132,14 @@ function pgClimateChainDemo() {
     button('Run 100-claim methodology update','climatechain-run',false)+
     '<p class="muted">Scenario: NAFT-SYNTHETIC@1 → @2 adds requirements that apply only to intensive claims.</p></section>';
 
-  out+='<section class="card"><span class="eyebrow">Real-world reference context</span><h2>Why this problem exists outside the demo</h2>'+
+  out+='<section class="card climate-reference"><span class="eyebrow">Real-world reference context</span><h2>Why this problem exists outside the demo</h2>'+
     '<p>NaFT is motivated by evidence-heavy climate programs such as <b>'+esc(reference.domain)+'</b>. The repository retains an '+esc(reference.methodology)+' in which evidence categories include:</p>'+
     '<div class="grid">'+reference.evidence_examples.map(function(item){return '<div class="metric"><span>Evidence</span><strong style="font-size:18px">'+esc(item)+'</strong></div>';}).join('')+'</div>'+
     '<div class="notice"><b>Boundary:</b> '+esc(reference.source_status)+' '+esc(reference.experiment_boundary)+'</div></section>';
 
   if(impact) {
     var c=impact.counts,row=climateChainRepresentative(impact);
-    out+='<section class="card"><span class="eyebrow">Selective re-verification</span><h2>Impact analysis result</h2>'+
+    out+='<section class="card climate-impact"><span class="eyebrow">Selective re-verification</span><h2>Impact analysis result</h2>'+
       '<div class="metric-grid">'+
       climateMetric('Candidate claims',c.potentially_affected,'same methodology family')+
       climateMetric('Re-verify',c.require_reverification,'semantic dependency changed')+
@@ -158,7 +158,7 @@ function pgClimateChainDemo() {
 
   if(ClimateChainDemo.anchorPlan) {
     var plan=ClimateChainDemo.anchorPlan;
-    out+='<section class="card"><span class="eyebrow">Blockchain provenance witness</span><h2>Two-step anchor plan</h2>'+
+    out+='<section class="card climate-anchor"><span class="eyebrow">Blockchain provenance witness</span><h2>Two-step anchor plan</h2>'+
       '<p>The contract stores package hashes and lineage only. MRV logic remains deterministic and off-chain.</p>'+
       '<div class="flow"><span>Genesis package</span><span>→</span><span>Successor package</span><span>→</span><span>Claim head</span></div>'+
       '<p><b>Chain status:</b> '+esc(plan.chain_status)+'</p>'+
@@ -168,18 +168,18 @@ function pgClimateChainDemo() {
       '</section>';
   }
 
-  out+='<section class="card"><span class="eyebrow">Trust model</span><h2>External witness, not climate truth</h2>'+
+  out+='<section class="card climate-trust"><span class="eyebrow">Trust model</span><h2>External witness, not climate truth</h2>'+
     '<div class="grid"><article><h3>On-chain</h3><p>'+trust.on_chain.map(esc).join(' · ')+'</p></article>'+
     '<article><h3>Off-chain</h3><p>'+trust.off_chain.map(esc).join(' · ')+'</p></article>'+
     '<article><h3>Never claimed</h3><p>'+trust.never_claimed.map(esc).join(' · ')+'</p></article></div>'+
     '<p><b>'+esc(trust.design_rule)+'</b> The anchor contract rejects duplicate package hashes, missing parents and lineage forks.</p></section>';
 
-  out+='<section class="card"><span class="eyebrow">Practical adoption</span><h2>Who uses NaFT?</h2><div class="grid">'+
+  out+='<section class="card climate-adoption"><span class="eyebrow">Practical adoption</span><h2>Who uses NaFT?</h2><div class="grid">'+
     climateAdoptionRoles().map(climateRoleCard).join('')+
     '</div><div class="flow"><span>Project aggregator</span><span>→</span><span>NaFT compiler</span><span>→</span><span>Verification operator</span><span>→</span><span>Registry / program</span></div>'+
     '<p class="muted">NaFT is infrastructure for evidence and verification operations; it is not a consumer carbon-credit wallet.</p></section>';
 
-  out+='<section class="card"><span class="eyebrow">Engineering evidence</span><h2>Designed to fail closed</h2>'+
+  out+='<section class="card climate-engineering"><span class="eyebrow">Engineering evidence</span><h2>Designed to fail closed</h2>'+
     '<div class="grid">'+
     climateMetric('Adversarial cases','614','independent full-recomputation oracle')+
     climateMetric('False negatives','0','within the tested synthetic state space')+
