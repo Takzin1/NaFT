@@ -45,7 +45,7 @@ Work added specifically on this branch:
 6. **Regression coverage**
    - Node tests cover impact counts, package lineage, real-world/context boundaries, adoption roles, anchor argument shape and contract guards;
    - real headless Chrome checks the English judge-first narrative, mobile overflow, calculated metrics and anchor-plan boundary;
-   - branch-specific ClimateChain checks total 44 assertions on top of the 1165 baseline assertions.
+   - branch-specific ClimateChain checks total 48 assertions on top of the 1165 baseline assertions.
 
 7. **Testnet completion runbook**
    - documents the human-signed deployment and two-transaction lineage flow;
@@ -60,6 +60,12 @@ Work added specifically on this branch:
    - adds a final submission checklist;
    - adds a 4-minute judge-oriented demo script;
    - surfaces testnet evidence state and engineering proof in the first ClimateChain viewport.
+
+10. **Final judging / submission package**
+   - adds a Devpost-ready submission draft with safe claim boundaries;
+   - adds a 15-question judge Q&A;
+   - adds an exact-SHA submission freeze procedure;
+   - switches the ClimateChain document language/title to English and compiles Solidity ABI + bytecode in CI.
 
 ## Submission boundary
 
