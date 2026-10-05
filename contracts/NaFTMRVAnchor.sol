@@ -20,6 +20,7 @@ contract NaFTMRVAnchor {
     error ZeroHash();
     error PackageAlreadyAnchored(bytes32 packageHash);
     error PreviousPackageMissing(bytes32 previousPackageHash);
+    error PreviousClaimMismatch(bytes32 expectedClaim, bytes32 previousClaim);
     error LineageHeadMismatch(bytes32 expectedHead, bytes32 providedPrevious);
 
     event MRVPackageAnchored(
@@ -51,8 +52,12 @@ contract NaFTMRVAnchor {
                 revert LineageHeadMismatch(currentHead, previousPackageHash);
             }
         } else {
-            if (anchorsByPackage[previousPackageHash].packageHash == bytes32(0)) {
+            Anchor memory previous = anchorsByPackage[previousPackageHash];
+            if (previous.packageHash == bytes32(0)) {
                 revert PreviousPackageMissing(previousPackageHash);
+            }
+            if (previous.claimIdHash != claimIdHash) {
+                revert PreviousClaimMismatch(claimIdHash, previous.claimIdHash);
             }
             if (currentHead != previousPackageHash) {
                 revert LineageHeadMismatch(currentHead, previousPackageHash);
