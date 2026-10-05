@@ -1,8 +1,6 @@
-name: Deploy NaFT Reviewer Demo to GitHub Pages
+name: Manual NaFT Pages Fallback
 
 on:
-  push:
-    branches: [main, "hackathon/ieee-climatechain-2026"]
   workflow_dispatch:
 
 permissions:
@@ -12,11 +10,14 @@ permissions:
 
 concurrency:
   group: pages
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 jobs:
-  test:
+  verify-and-deploy:
     runs-on: ubuntu-latest
+    environment:
+      name: ${{ github.ref == 'refs/heads/main' && 'github-pages' || 'github-pages-climatechain' }}
+      url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -30,15 +31,6 @@ jobs:
         run: bash tests/run.sh
       - name: Verify committed generated reports
         run: git diff --exit-code -- reports/evaluation-kpis.json reports/mitou-impact-experiment.json reports/impact-proof.json
-
-  deploy:
-    needs: test
-    environment:
-      name: ${{ github.ref == 'refs/heads/main' && 'github-pages' || 'github-pages-climatechain' }}
-      url: ${{ steps.deployment.outputs.page_url }}
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
       - name: Configure Pages
         uses: actions/configure-pages@v5
         with:
@@ -49,4 +41,4 @@ jobs:
           path: .
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@v5
