@@ -16,7 +16,7 @@ jobs:
         with:
           node-version: 24
       - name: Compile ClimateChain provenance contract
-        run: npx --yes solc@0.8.24 --bin contracts/NaFTMRVAnchor.sol --output-dir /tmp/naft-solc
+        run: npx --yes solc@0.8.24 --abi --bin contracts/NaFTMRVAnchor.sol --output-dir /tmp/naft-solc
       - name: Run Core regression, Compiler Corpus, syntax and security checks
         run: bash tests/run.sh
       - name: Browser Reviewer, Evidence file, six-route and Compiler role-flow checks
