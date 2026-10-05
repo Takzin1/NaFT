@@ -34,12 +34,17 @@ function validateClimateChainTestnetRecord(record){
   if(typeof record.network!=='string'||!record.network.trim()) throw new Error('TESTNET_NETWORK_REQUIRED');
   if(!Number.isInteger(record.chain_id)||record.chain_id<=0) throw new Error('TESTNET_CHAIN_ID_REQUIRED');
   if(!/^0x[a-fA-F0-9]{40}$/.test(record.contract_address||'')) throw new Error('TESTNET_CONTRACT_ADDRESS_INVALID');
+  if(/^0x0{40}$/i.test(record.contract_address)) throw new Error('TESTNET_CONTRACT_ADDRESS_ZERO');
   for(var i=0;i<3;i++){
     var key=['deploy_tx_hash','genesis_tx_hash','successor_tx_hash'][i];
     if(!/^0x[a-fA-F0-9]{64}$/.test(record[key]||'')) throw new Error('TESTNET_TX_HASH_INVALID:'+key);
   }
+  if(new Set([record.deploy_tx_hash.toLowerCase(),record.genesis_tx_hash.toLowerCase(),record.successor_tx_hash.toLowerCase()]).size!==3) {
+    throw new Error('TESTNET_TX_HASHES_MUST_BE_DISTINCT');
+  }
   if(typeof record.explorer_base_url!=='string'||!/^https:\/\//.test(record.explorer_base_url)) throw new Error('TESTNET_EXPLORER_REQUIRED');
   if(!/^[a-f0-9]{40}$/.test(record.source_commit||'')) throw new Error('TESTNET_SOURCE_COMMIT_INVALID');
+  if(/^0{40}$/.test(record.source_commit)) throw new Error('TESTNET_SOURCE_COMMIT_ZERO');
   if(typeof record.verified_at!=='string'||!/^\d{4}-\d{2}-\d{2}T/.test(record.verified_at)) throw new Error('TESTNET_VERIFIED_AT_INVALID');
   return {ok:true,status:record.status};
 }
