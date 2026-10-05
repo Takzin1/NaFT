@@ -33,7 +33,7 @@ function pgPackages(a){if(!a)return blankActivity();var r=currentEvaluation(a),r
 function render(){
   var route=activeRoute(),a=selectedActivity(),page;
   var isClimate=(typeof CLIMATECHAIN_ROUTE!=='undefined'&&route===CLIMATECHAIN_ROUTE);
-  document.documentElement.lang=isClimate?'en':'ja';
+  if(document.documentElement) document.documentElement.lang=isClimate?'en':'ja';
   document.title=isClimate?'NaFT — Version-Aware Climate MRV | IEEE ClimateChain 2026':'NaFT — Version-aware MRV Evidence Compiler';
   try{
     if(typeof CLIMATECHAIN_ROUTE!=='undefined'&&route===CLIMATECHAIN_ROUTE) page=pgClimateChainDemo();
