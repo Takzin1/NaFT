@@ -7,6 +7,9 @@ permissions:
   contents: read
 jobs:
   core-and-security:
+    concurrency:
+      group: naft-core-${{ github.ref }}
+      cancel-in-progress: true
     if: github.event_name != 'pull_request' || github.head_ref != 'hackathon/ieee-climatechain-2026'
     runs-on: ubuntu-latest
     steps:

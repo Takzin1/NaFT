@@ -33,9 +33,13 @@ function command(cmd,args,options={}){
   return result.stdout;
 }
 
+function sourceAtRecordedCommit(path){
+  return command('git',['show',record.source_commit+':'+path]);
+}
+
 function compileRecordedSource(){
   command('git',['cat-file','-e',record.source_commit+'^{commit}']);
-  const source=command('git',['show',record.source_commit+':contracts/NaFTMRVAnchor.sol']);
+  const source=sourceAtRecordedCommit('contracts/NaFTMRVAnchor.sol');
   const input={
     language:'Solidity',
     sources:{'NaFTMRVAnchor.sol':{content:source}},
@@ -79,9 +83,10 @@ for(const file of [
   'src/climatechain-testnet-record.js',
   'src/climatechain-demo.js'
 ]){
-  vm.runInContext(fs.readFileSync(file,'utf8'),planContext,{filename:file});
+  vm.runInContext(sourceAtRecordedCommit(file),planContext,{filename:file});
 }
 const plan=vm.runInContext('buildClimateChainAnchorPlan(runClimateChainImpact())',planContext);
+ok('anchor plan reconstructed from recorded source commit',record.source_commit);
 
 let id=0;
 async function rpcCall(method,params){

@@ -22,6 +22,7 @@ Work added specifically on this branch:
 
 2. **Minimal blockchain provenance contract** — `contracts/NaFTMRVAnchor.sol`
    - anchors claim, package, methodology and previous-package hashes;
+   - restricts lineage writes to the deployment wallet (`anchorWriter`), while keeping certification semantics off-chain;
    - rejects duplicate package hashes;
    - rejects missing parents;
    - rejects lineage forks against the current claim head;
@@ -45,7 +46,7 @@ Work added specifically on this branch:
 6. **Regression coverage**
    - Node tests cover impact counts, package lineage, real-world/context boundaries, adoption roles, anchor argument shape and contract guards;
    - real headless Chrome checks the English judge-first narrative, mobile overflow, calculated metrics and anchor-plan boundary;
-   - branch-specific ClimateChain checks total 52 assertions on top of the 1165 baseline assertions.
+   - branch-specific ClimateChain checks total 56 assertions on top of the 1165 baseline assertions.
 
 7. **Testnet completion runbook**
    - documents the human-signed deployment and two-transaction lineage flow;
@@ -71,6 +72,7 @@ Work added specifically on this branch:
    - adds a deterministic CLI that regenerates the same P1 → P2 anchor arguments as the browser demo;
    - adds a read-only public-RPC verifier for chain ID, contract bytecode, deployment and lineage transactions;
    - compares on-chain calldata with the exact four-`bytes32` NaFT anchor plan and verifies indexed event topics;
+   - reconstructs both contract source and anchor plan from the recorded deployment commit, then verifies creation/runtime bytecode, function selector, full event signature/data, writer identity and final `headByClaim`;
    - adds a local mock JSON-RPC test where valid lineage passes and corrupted successor calldata fails closed;
    - derives contract / deploy / P1 / P2 explorer links only from a fully validated `VERIFIED_TESTNET` record.
 
@@ -79,3 +81,8 @@ Work added specifically on this branch:
 NaFT is a research prototype. Synthetic methodology transitions and synthetic claims are used for the hackathon demo. An on-chain hash is an external provenance witness only: it does not establish observation truth, methodology eligibility, verified emissions reductions, registry acceptance or formal certification.
 
 A real testnet deployment/transaction may be added later, but it must be recorded with chain ID, contract address and transaction hash before the project claims that a package is anchored on-chain.
+
+12. **Executable contract security behavior**
+   - executes `NaFTMRVAnchor` on a local Ganache EVM in CI;
+   - verifies deployer-only writes, unauthorized successor rejection, duplicate rejection, fork rejection, cross-claim-parent rejection and final claim head;
+   - terminates the Ganache process group explicitly so EVM checks cannot leave CI runners hanging.

@@ -13,6 +13,14 @@ Produce verifiable evidence for one NaFT claim lineage:
 
 ## Required local inputs
 
+First freeze the exact green commit that will be deployed:
+
+```bash
+git rev-parse HEAD
+```
+
+Use that SHA as `source_commit`. Do not change the contract or MRV/ClimateChain source between generating the anchor plan and deploying/anchoring it.
+
 Generate the exact transaction arguments in either of two equivalent ways.
 
 ### Browser
@@ -40,7 +48,7 @@ Use a human-controlled wallet on the chosen public testnet. Do **not** commit:
 - RPC credentials;
 - signed raw transactions containing secrets.
 
-The contract has no owner privilege, minting, payment, marketplace or certification path.
+The contract has one narrow provenance-writer role: the deployment wallet becomes `anchorWriter` and only that wallet may append lineage. This is not a certification role. The contract has no minting, payment, marketplace or carbon-credit issuance path.
 
 ## Verification checklist
 
@@ -74,12 +82,15 @@ RPC_URL="https://<your-public-testnet-rpc>" node scripts/verify-climatechain-tes
 The verifier checks:
 
 - the recorded numeric chain ID against `eth_chainId`;
-- deployed bytecode at the recorded contract address;
+- the exact `source_commit` exists locally and can be reconstructed with Git;
+- deployment creation bytecode and deployed runtime bytecode exactly match `NaFTMRVAnchor.sol` compiled from that commit with `solc 0.8.24`;
+- the deterministic P1 → P2 anchor plan is reconstructed from the same recorded commit;
 - deployment receipt success and contract-address equality;
-- genesis and successor transaction targets;
-- exact four-`bytes32` calldata against the deterministic NaFT anchor plan;
-- `MRVPackageAnchored` indexed topics for claim, package and parent hashes;
-- exact P1 → P2 lineage.
+- `anchorWriter()` equals the deployment sender;
+- genesis and successor transactions are sent by that writer;
+- exact `anchorPackage(bytes32,bytes32,bytes32,bytes32)` selector and four-`bytes32` calldata against the deterministic NaFT anchor plan;
+- the full `MRVPackageAnchored` event signature, indexed topics, methodology hash, submitter and block timestamp;
+- exact P1 → P2 lineage and final `headByClaim(claimIdHash) == P2`.
 
 It never needs a private key and does not send a transaction.
 
@@ -99,6 +110,19 @@ After all public-testnet evidence above is confirmed, update `src/climatechain-t
 
 Do not populate only some fields while keeping `NOT_SUBMITTED`. The test suite deliberately rejects that state. Do not set `VERIFIED_TESTNET` with missing or malformed evidence. The browser status changes only after the record validates.
 
-After the record change, require both push CI and PR CI to pass on the exact same head SHA before using the explorer evidence in the video or Devpost text.
+After the record change, require the push CI and its CI-gated Pages deployment to pass on the exact same head SHA before using the explorer evidence in the video or Devpost text. The ClimateChain PR-triggered duplicate job is intentionally skipped.
 
 The repository also contains `tests/climatechain-rpc-verifier.test.mjs`, which runs the same verifier against a local mock JSON-RPC service in CI. A valid P1 → P2 flow must pass; a deliberately corrupted successor calldata must fail closed.
+
+## Contract behavior gate
+
+Regular CI also executes the Solidity contract on a local EVM and verifies:
+
+- deployer becomes the only `anchorWriter`;
+- a different account cannot append a successor;
+- duplicate package hashes fail;
+- stale-parent forks fail;
+- cross-claim parents fail;
+- the authorized P2 remains the final `headByClaim`.
+
+This behavior test is separate from the public-RPC verifier: one validates contract security semantics locally, the other validates the real public-testnet evidence after human signing.
