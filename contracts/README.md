@@ -2,7 +2,7 @@
 
 `NaFTMRVAnchor.sol` is the only blockchain contract used by the ClimateChain branch.
 
-It is deliberately dependency-free and contains no token standard, marketplace, payment flow or privileged certification role. Anyone may submit a provenance witness; the contract records the submitter and only enforces hash-lineage invariants.
+It is deliberately dependency-free and contains no token standard, marketplace, payment flow or privileged certification role. The deployment wallet becomes the fixed `anchorWriter`; only that wallet may append package lineage. This writer authorization protects the provenance namespace and does **not** certify climate truth.
 
 ## Two-step lineage example
 

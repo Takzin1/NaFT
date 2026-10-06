@@ -76,9 +76,9 @@ NaFT routes explicit exceptions to humans and binds the decision to the exact cl
 
 The smart contract cannot prove that an off-chain observation is true. That limitation is explicit.
 
-What it does enforce is package-lineage integrity: no duplicate package hash, no missing parent, no cross-claim parent, and no successor that forks away from the current claim head.
+What it does enforce is package-lineage integrity: only the deployment wallet can append lineage, there is no duplicate package hash, no missing parent, no cross-claim parent, and no successor that forks away from the current claim head.
 
-Trust in evidence authenticity still requires appropriate custody, identity and verifier processes outside this prototype.
+The public-RPC verifier also reconstructs the contract and deterministic anchor plan from the recorded deployment commit, checks deployed bytecode, transaction selector/calldata, complete anchor event data, writer identity and final claim head. Trust in evidence authenticity still requires appropriate custody, identity and verifier processes outside this prototype.
 
 ## 13. Who would use this first?
 

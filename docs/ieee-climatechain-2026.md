@@ -103,9 +103,10 @@ The contract rejects:
 - duplicate package hashes;
 - missing parent packages;
 - parent packages belonging to a different claim;
-- forks that do not extend the current claim head.
+- forks that do not extend the current claim head;
+- lineage writes from accounts other than the deployment wallet (`anchorWriter`).
 
-The contract intentionally has no token, marketplace, payment or carbon-credit issuance path.
+The contract intentionally has no token, marketplace, payment or carbon-credit issuance path. Writer authorization protects the provenance namespace only; it is not a certification role.
 
 ## Trust model
 
@@ -140,7 +141,9 @@ The underlying research prototype retains:
 - a 100-claim synthetic methodology-transition workload;
 - an independent full-recomputation semantic oracle over 614 deterministic adversarial changes;
 - current tested matrix: TP 429 / TN 78 / FP 107 / FN 0;
-- five supported change classes: methodology / evidence / parameter / field / activity.
+- five supported change classes: methodology / evidence / parameter / field / activity;
+- local-EVM contract behavior checks for writer authorization, duplicate/fork/cross-claim rejection and final head;
+- source-commit-bound public-RPC verification of deployed bytecode, calldata, event data and final chain state.
 
 These are engineering results within the explicitly tested synthetic state space. They are not field accuracy, measured runtime savings, verifier acceptance or proof for all institutional methodologies.
 

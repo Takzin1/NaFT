@@ -80,7 +80,7 @@ For ClimateChain, the branch adds:
 - a minimal Solidity `NaFTMRVAnchor` contract;
 - exact two-step anchor-plan generation for an existing package and successor;
 - a fail-closed public-testnet evidence record;
-- real-browser CI and Solidity ABI/bytecode compilation.
+- real-browser CI, Solidity ABI/bytecode compilation, local-EVM contract behavior tests and read-only source-to-chain verification.
 
 ## Blockchain design
 
@@ -108,7 +108,8 @@ The contract rejects:
 - duplicate package hashes;
 - missing parents;
 - cross-claim parents;
-- lineage forks that do not extend the current claim head.
+- lineage forks that do not extend the current claim head;
+- lineage writes from any account other than the deployment wallet (`anchorWriter`).
 
 ### Current public-testnet status
 
