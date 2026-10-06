@@ -3,10 +3,13 @@
 
 import fs from 'node:fs';
 import vm from 'node:vm';
+import {spawnSync} from 'node:child_process';
 
 function die(message){console.error('CLIMATECHAIN_TESTNET_VERIFY_FAIL: '+message);process.exit(1);}
 function ok(label,detail){console.log('ok: '+label+(detail?' ['+detail+']':''));}
 function strip0x(value){return String(value||'').replace(/^0x/i,'').toLowerCase();}
+function sameAddress(a,b){return String(a||'').toLowerCase()===String(b||'').toLowerCase();}
+function hexUtf8(value){return '0x'+Buffer.from(value,'utf8').toString('hex');}
 
 const rpc=process.env.RPC_URL;
 if(!rpc) die('RPC_URL is required');
@@ -21,6 +24,43 @@ const record=process.env.TESTNET_RECORD_JSON
 
 if(record.status!=='VERIFIED_TESTNET') die('record status must be VERIFIED_TESTNET');
 try{recordSandbox.validateClimateChainTestnetRecord(record);}catch(e){die(e.message);}
+if(record.compiler!=='solc 0.8.24') die('unsupported compiler record '+record.compiler);
+
+function command(cmd,args,options={}){
+  const result=spawnSync(cmd,args,{encoding:'utf8',maxBuffer:16*1024*1024,...options});
+  if(result.error) die(cmd+' failed: '+result.error.message);
+  if(result.status!==0) die(cmd+' failed: '+String(result.stderr||result.stdout||'').trim());
+  return result.stdout;
+}
+
+function compileRecordedSource(){
+  command('git',['cat-file','-e',record.source_commit+'^{commit}']);
+  const source=command('git',['show',record.source_commit+':contracts/NaFTMRVAnchor.sol']);
+  const input={
+    language:'Solidity',
+    sources:{'NaFTMRVAnchor.sol':{content:source}},
+    settings:{
+      optimizer:{enabled:false,runs:200},
+      outputSelection:{'*':{'*':['abi','evm.bytecode.object','evm.deployedBytecode.object']}}
+    }
+  };
+  const raw=command('npx',['--yes','solc@0.8.24','--standard-json'],{input:JSON.stringify(input)});
+  const jsonStart=raw.indexOf('{');
+  if(jsonStart<0) die('solc standard-json output missing JSON');
+  let output;
+  try{output=JSON.parse(raw.slice(jsonStart));}catch(e){die('solc JSON parse failed: '+e.message);}
+  const errors=(output.errors||[]).filter(x=>x.severity==='error');
+  if(errors.length) die('solc compile errors: '+errors.map(x=>x.formattedMessage||x.message).join('\n'));
+  const artifact=output.contracts&&output.contracts['NaFTMRVAnchor.sol']&&output.contracts['NaFTMRVAnchor.sol'].NaFTMRVAnchor;
+  if(!artifact) die('compiled NaFTMRVAnchor artifact missing');
+  return {
+    creation:'0x'+artifact.evm.bytecode.object.toLowerCase(),
+    runtime:'0x'+artifact.evm.deployedBytecode.object.toLowerCase()
+  };
+}
+
+const compiled=compileRecordedSource();
+ok('recorded source commit exists',record.source_commit);
 
 const planContext={
   console,
@@ -61,7 +101,11 @@ function hexInt(value){
   return Number(BigInt(value));
 }
 
-function sameAddress(a,b){return String(a||'').toLowerCase()===String(b||'').toLowerCase();}
+async function signatureHash(signature){
+  const hash=await rpcCall('web3_sha3',[hexUtf8(signature)]);
+  if(!/^0x[a-f0-9]{64}$/i.test(hash||'')) die('invalid web3_sha3 result for '+signature);
+  return hash.toLowerCase();
+}
 
 function expectedAnchorPayload(entry){
   return [
@@ -72,49 +116,47 @@ function expectedAnchorPayload(entry){
   ].map(strip0x).join('');
 }
 
-function assertAnchorCalldata(tx,label,entry){
-  const input=strip0x(tx.input);
-  if(input.length!==8+(64*4)) die(label+' calldata length mismatch');
-  const args=input.slice(8);
-  const expected=expectedAnchorPayload(entry);
-  if(args!==expected) die(label+' calldata arguments do not match deterministic NaFT anchor plan');
-  ok(label+' calldata matches NaFT plan');
+function decodeAddressWord(word){
+  const raw=strip0x(word);
+  if(raw.length!==64) die('invalid address ABI word');
+  return '0x'+raw.slice(24);
 }
 
-function assertAnchorEvent(receipt,label,entry){
-  const expected=[
-    strip0x(entry.claim_id_hash),
-    strip0x(entry.package_hash),
-    strip0x(entry.previous_package_hash)
-  ];
-  const logs=Array.isArray(receipt.logs)?receipt.logs:[];
-  const match=logs.some(log=>{
-    if(!sameAddress(log.address,record.contract_address)) return false;
-    const topics=Array.isArray(log.topics)?log.topics:[];
-    return topics.length>=4 &&
-      strip0x(topics[1])===expected[0] &&
-      strip0x(topics[2])===expected[1] &&
-      strip0x(topics[3])===expected[2];
-  });
-  if(!match) die(label+' MRVPackageAnchored indexed topics do not match NaFT plan');
-  ok(label+' event topics match NaFT plan');
+function wordAt(data,index){
+  const raw=strip0x(data);
+  const start=index*64;
+  const word=raw.slice(start,start+64);
+  if(word.length!==64) die('invalid ABI data word '+index);
+  return word;
 }
 
 (async()=>{
+  const anchorHash=await signatureHash('anchorPackage(bytes32,bytes32,bytes32,bytes32)');
+  const anchorSelector=strip0x(anchorHash).slice(0,8);
+  const eventTopic0=await signatureHash('MRVPackageAnchored(bytes32,bytes32,bytes32,bytes32,address,uint64)');
+  const writerSelector=strip0x(await signatureHash('anchorWriter()')).slice(0,8);
+  const headSelector=strip0x(await signatureHash('headByClaim(bytes32)')).slice(0,8);
+
   const chainId=hexInt(await rpcCall('eth_chainId',[]));
   if(chainId!==record.chain_id) die('chain id mismatch expected '+record.chain_id+' got '+chainId);
   ok('chain id matches',String(chainId));
-
-  const code=await rpcCall('eth_getCode',[record.contract_address,'latest']);
-  if(typeof code!=='string'||code==='0x'||code==='0x0') die('no contract bytecode at '+record.contract_address);
-  ok('contract bytecode exists',record.contract_address);
 
   const deployTx=await rpcCall('eth_getTransactionByHash',[record.deploy_tx_hash]);
   if(!deployTx) die('deploy transaction not found');
   const deployReceipt=await rpcCall('eth_getTransactionReceipt',[record.deploy_tx_hash]);
   if(!deployReceipt||deployReceipt.status!=='0x1') die('deployment transaction not confirmed');
   if(!sameAddress(deployReceipt.contractAddress,record.contract_address)) die('deployment contract address mismatch');
-  ok('deploy transaction confirmed',record.deploy_tx_hash);
+  if(('0x'+strip0x(deployTx.input))!==compiled.creation) die('deployment bytecode does not match recorded source commit');
+  ok('deployment bytecode matches recorded source commit');
+
+  const code=String(await rpcCall('eth_getCode',[record.contract_address,'latest'])||'').toLowerCase();
+  if(code!==compiled.runtime) die('deployed runtime bytecode does not match recorded source commit');
+  ok('runtime bytecode matches recorded source commit',record.contract_address);
+
+  const writerRaw=await rpcCall('eth_call',[{to:record.contract_address,data:'0x'+writerSelector},'latest']);
+  const writer=decodeAddressWord(writerRaw);
+  if(!sameAddress(writer,deployTx.from)) die('anchorWriter does not match deployment sender');
+  ok('anchorWriter matches deployer',writer);
 
   for(const [label,hash,entry] of [
     ['genesis',record.genesis_tx_hash,plan.genesis],
@@ -126,9 +168,35 @@ function assertAnchorEvent(receipt,label,entry){
     if(!receipt) die(label+' receipt not found');
     if(receipt.status!=='0x1') die(label+' transaction reverted');
     if(!sameAddress(tx.to,record.contract_address)) die(label+' transaction target mismatch');
-    assertAnchorCalldata(tx,label,entry);
-    assertAnchorEvent(receipt,label,entry);
-    ok(label+' transaction confirmed',hash);
+    if(!sameAddress(tx.from,writer)) die(label+' transaction not sent by anchorWriter');
+
+    const input=strip0x(tx.input);
+    if(input.length!==8+(64*4)) die(label+' calldata length mismatch');
+    if(input.slice(0,8)!==anchorSelector) die(label+' function selector mismatch');
+    if(input.slice(8)!==expectedAnchorPayload(entry)) die(label+' calldata arguments do not match deterministic NaFT anchor plan');
+    ok(label+' selector and calldata match NaFT plan');
+
+    const logs=Array.isArray(receipt.logs)?receipt.logs:[];
+    const log=logs.find(item=>{
+      if(!sameAddress(item.address,record.contract_address)) return false;
+      const topics=Array.isArray(item.topics)?item.topics:[];
+      return topics.length>=4 &&
+        String(topics[0]||'').toLowerCase()===eventTopic0 &&
+        strip0x(topics[1])===strip0x(entry.claim_id_hash) &&
+        strip0x(topics[2])===strip0x(entry.package_hash) &&
+        strip0x(topics[3])===strip0x(entry.previous_package_hash);
+    });
+    if(!log) die(label+' MRVPackageAnchored signature/topics do not match NaFT plan');
+
+    const methodologyWord=wordAt(log.data,0);
+    const submitterWord=wordAt(log.data,1);
+    const timestampWord=wordAt(log.data,2);
+    if(methodologyWord!==strip0x(entry.methodology_hash)) die(label+' event methodology hash mismatch');
+    if(!sameAddress(decodeAddressWord(submitterWord),tx.from)) die(label+' event submitter mismatch');
+    const block=await rpcCall('eth_getBlockByNumber',[receipt.blockNumber,false]);
+    if(!block||!block.timestamp) die(label+' block timestamp missing');
+    if(BigInt('0x'+timestampWord)!==BigInt(block.timestamp)) die(label+' event anchoredAt does not match block timestamp');
+    ok(label+' event signature/data match NaFT plan');
   }
 
   if(strip0x(plan.successor.previous_package_hash)!==strip0x(plan.genesis.package_hash)) {
@@ -136,11 +204,20 @@ function assertAnchorEvent(receipt,label,entry){
   }
   ok('successor points to genesis package');
 
+  const headRaw=await rpcCall('eth_call',[{
+    to:record.contract_address,
+    data:'0x'+headSelector+strip0x(plan.successor.claim_id_hash)
+  },'latest']);
+  if(strip0x(headRaw)!==strip0x(plan.successor.package_hash)) die('final headByClaim does not equal successor package');
+  ok('final headByClaim equals successor package');
+
   console.log(JSON.stringify({
     status:'VERIFIED_TESTNET_RPC',
     network:record.network,
     chain_id:record.chain_id,
     contract_address:record.contract_address,
+    anchor_writer:writer,
+    source_commit:record.source_commit,
     claim_id:plan.claim_id,
     genesis_package_hash:plan.genesis.package_hash,
     successor_package_hash:plan.successor.package_hash,

@@ -72,8 +72,15 @@ jobs:
           node tests/browser-reviewer-smoke.mjs
       - name: Verify reproducible Corpus KPI report
         run: git diff --exit-code -- reports/evaluation-kpis.json reports/mitou-impact-experiment.json reports/impact-proof.json
-      - name: Check committed whitespace
-        run: git diff --check HEAD^ HEAD
+      - name: Check branch whitespace
+        shell: bash
+        run: |
+          if [ "$GITHUB_REF_NAME" = "main" ]; then
+            git diff --check HEAD^ HEAD
+          else
+            base="$(git merge-base HEAD origin/main)"
+            git diff --check "$base"...HEAD
+          fi
 
   deploy-pages:
     name: deploy-pages

@@ -14,10 +14,13 @@ contract NaFTMRVAnchor {
         uint64 anchoredAt;
     }
 
+    address public anchorWriter;
+
     mapping(bytes32 => Anchor) public anchorsByPackage;
     mapping(bytes32 => bytes32) public headByClaim;
 
     error ZeroHash();
+    error UnauthorizedWriter(address caller);
     error PackageAlreadyAnchored(bytes32 packageHash);
     error PreviousPackageMissing(bytes32 previousPackageHash);
     error PreviousClaimMismatch(bytes32 expectedClaim, bytes32 previousClaim);
@@ -32,12 +35,19 @@ contract NaFTMRVAnchor {
         uint64 anchoredAt
     );
 
+    constructor() {
+        anchorWriter = msg.sender;
+    }
+
     function anchorPackage(
         bytes32 claimIdHash,
         bytes32 packageHash,
         bytes32 methodologyHash,
         bytes32 previousPackageHash
     ) external {
+        if (msg.sender != anchorWriter) {
+            revert UnauthorizedWriter(msg.sender);
+        }
         if (claimIdHash == bytes32(0) || packageHash == bytes32(0) || methodologyHash == bytes32(0)) {
             revert ZeroHash();
         }

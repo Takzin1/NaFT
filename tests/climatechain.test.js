@@ -106,6 +106,10 @@ check(hashes.every(h=>/^0x[a-f0-9]{64}$/.test(h)),'all contract arguments are by
 eq(plan,buildClimateChainAnchorPlan(runClimateChainImpact()),'anchor plan deterministic for deterministic fixture');
 
 const contract=fs.readFileSync('contracts/NaFTMRVAnchor.sol','utf8');
+check(contract.includes('address public anchorWriter'),'anchor writer state present');
+check(contract.includes('error UnauthorizedWriter(address caller)'),'unauthorized writer guard declared');
+check(contract.includes('anchorWriter = msg.sender'),'deployer becomes anchor writer');
+check(contract.includes('msg.sender != anchorWriter'),'anchor writes require authorized writer');
 check(contract.includes('function anchorPackage('),'anchorPackage contract entrypoint present');
 check(contract.includes('PackageAlreadyAnchored(packageHash)'),'duplicate package guard present');
 check(contract.includes('PreviousPackageMissing(previousPackageHash)'),'missing-parent guard present');
