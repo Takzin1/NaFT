@@ -28,7 +28,7 @@ From the repository root:
 
 ```bash
 cd tools/climatechain-testnet-deploy
-npm install
+npm install --package-lock=false
 cd ../..
 ```
 
@@ -67,4 +67,4 @@ A successful run writes:
 
 Review the contract and three transaction links before copying the record into `src/climatechain-testnet-record.js`.
 
-The generated output is intentionally gitignored.
+The generated output is intentionally gitignored. The deploy tool also disables package-lock generation so dependency installation does not dirty the repository before the clean-tree safety check.
