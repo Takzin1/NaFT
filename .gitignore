@@ -14,3 +14,6 @@ Thumbs.db
 # node（tests/ で将来使う場合に備える）
 node_modules/
 npm-debug.log*
+
+# ClimateChain local signing output
+.climatechain-output/
