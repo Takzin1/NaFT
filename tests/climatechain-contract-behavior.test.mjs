@@ -110,11 +110,10 @@ const ganache=spawn('npx',[
   '--wallet.deterministic',
   '--wallet.totalAccounts','3',
   '--logging.quiet'
-],{stdio:['ignore','pipe','pipe']});
-
-let ganacheLog='';
-ganache.stdout.on('data',d=>ganacheLog+=d);
-ganache.stderr.on('data',d=>ganacheLog+=d);
+],{
+  stdio:'ignore',
+  detached:true
+});
 
 try{
   await waitRpc();
@@ -192,12 +191,13 @@ try{
 
   console.log('CLIMATECHAIN CONTRACT BEHAVIOR: PASS');
 }finally{
-  ganache.kill('SIGTERM');
-  await new Promise(resolve=>{
-    const timer=setTimeout(resolve,1500);
-    ganache.once('exit',()=>{clearTimeout(timer);resolve();});
-  });
-  if(ganache.exitCode && ganache.exitCode!==0){
-    console.error(ganacheLog);
+  try{
+    process.kill(-ganache.pid,'SIGTERM');
+  }catch{
+    try{ganache.kill('SIGTERM');}catch{}
   }
+  await Promise.race([
+    new Promise(resolve=>ganache.once('exit',resolve)),
+    new Promise(resolve=>setTimeout(resolve,1500))
+  ]);
 }
