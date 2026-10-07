@@ -4,7 +4,8 @@
   "version": "0.0.0",
   "description": "One-shot human-signed deployment helper for NaFT ClimateChain",
   "scripts": {
-    "deploy": "node deploy.mjs"
+    "deploy": "node deploy.mjs",
+    "deploy:sepolia": "bash deploy-sepolia.sh"
   },
   "dependencies": {
     "ethers": "6.15.0",

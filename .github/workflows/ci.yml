@@ -24,6 +24,7 @@ jobs:
       - name: Check ClimateChain signing tool syntax
         run: |
           node --check tools/climatechain-testnet-deploy/deploy.mjs
+          bash -n tools/climatechain-testnet-deploy/deploy-sepolia.sh
           node -e "JSON.parse(require('fs').readFileSync('tools/climatechain-testnet-deploy/package.json','utf8'))"
       - name: Run Core regression, Compiler Corpus, syntax and security checks
         run: bash tests/run.sh

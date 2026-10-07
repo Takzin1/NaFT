@@ -1,28 +1,25 @@
-# Public testnet signing — one-command operator flow
+# Public testnet signing — Codespaces one-command flow
 
-This is the only step of the ClimateChain workflow that requires a human-controlled wallet.
+This is the only ClimateChain step that needs the human-controlled testnet wallet.
 
-The helper under `tools/climatechain-testnet-deploy/` performs:
+**No Infura account and no GitHub Codespaces secret are required.**
 
-1. exact `HEAD` freeze;
-2. clean-working-tree check;
-3. contract source reconstruction from that commit;
-4. Solidity 0.8.24 compile;
-5. deterministic P1 → P2 anchor-plan reconstruction from the same commit;
-6. public-testnet contract deployment;
-7. authorized P1 anchor;
-8. authorized P2 anchor;
-9. final `headByClaim == P2` check;
-10. read-only source-to-chain verification;
-11. generation of a `VERIFIED_TESTNET` record.
+The Sepolia helper:
 
-## Never commit secrets
+1. asks for the NaFT_Dev Ethereum private key using **hidden terminal input**;
+2. never prints or writes that key to a file;
+3. automatically selects a working public Sepolia RPC;
+4. freezes the exact clean Git HEAD;
+5. reconstructs and compiles `NaFTMRVAnchor.sol` with Solidity 0.8.24;
+6. reconstructs the deterministic P1 → P2 anchor plan from the same commit;
+7. deploys the contract;
+8. anchors P1;
+9. anchors P2;
+10. verifies `headByClaim == P2`;
+11. runs the independent source-to-chain verifier;
+12. writes the public `VERIFIED_TESTNET` record.
 
-The deployment helper reads the signer only from `PRIVATE_KEY`. The repository already ignores `.env*`, `*.key` and the generated `.climatechain-output/` directory.
-
-Do not paste a private key into GitHub issues, pull requests, commit messages, source files, shell history, screenshots, or chat.
-
-## Install
+## Install once
 
 From the repository root:
 
@@ -32,30 +29,57 @@ npm install --package-lock=false
 cd ../..
 ```
 
-## Run
+## Run in Codespaces
 
-Use a funded **testnet-only** wallet.
+From the repository root:
 
 ```bash
-RPC_URL="https://<rpc>" \
-PRIVATE_KEY="0x<testnet-only-private-key>" \
-NETWORK_NAME="<public testnet name>" \
-EXPLORER_BASE_URL="https://<explorer>" \
-EXPECTED_CHAIN_ID="<numeric chain id>" \
-npm --prefix tools/climatechain-testnet-deploy run deploy
+npm --prefix tools/climatechain-testnet-deploy run deploy:sepolia
 ```
 
-The script refuses to proceed when:
+The terminal will ask:
 
-- the working tree is dirty;
+```text
+Paste NaFT_Dev Ethereum private key (hidden):
+```
+
+Paste the **Ethereum private key for the testnet-only NaFT_Dev account** and press Enter.
+
+Nothing will appear while you paste. That is intentional.
+
+Do not paste the key into chat, GitHub issues, source files, screenshots, or shell commands.
+
+## RPC behavior
+
+If `CLIMATECHAIN_RPC_URL` is not set, the helper probes public Sepolia RPC endpoints and uses the first endpoint that returns chain ID `11155111`.
+
+You therefore do **not** need an Infura key for the normal path.
+
+An explicit `CLIMATECHAIN_RPC_URL` remains available only as an emergency override.
+
+## If the wallet has no Sepolia ETH
+
+The helper prints the derived signer address and stops safely with:
+
+```text
+signer has zero native testnet balance
+```
+
+Fund that public address with Sepolia test ETH, then run the same command again.
+
+## Safety gates
+
+The helper refuses to proceed when:
+
+- the Git working tree is dirty;
 - the private key format is invalid;
+- the selected RPC is not Sepolia;
 - the signer has zero native testnet balance;
-- the RPC chain ID differs from `EXPECTED_CHAIN_ID`;
-- the deterministic P1 → P2 lineage is malformed;
+- deterministic P1 → P2 lineage is malformed;
 - deployment, P1, or P2 reverts;
 - `anchorWriter` is not the deployer;
 - final `headByClaim` is not P2;
-- the independent read-only verifier rejects source/bytecode/calldata/event/final-state identity.
+- the independent read-only verifier rejects source, bytecode, calldata, event, writer, or final-state identity.
 
 ## Output
 
@@ -65,6 +89,6 @@ A successful run writes:
 .climatechain-output/verified-testnet-record.json
 ```
 
-Review the contract and three transaction links before copying the record into `src/climatechain-testnet-record.js`.
+The output contains only public chain evidence and is gitignored until reviewed.
 
-The generated output is intentionally gitignored. The deploy tool also disables package-lock generation so dependency installation does not dirty the repository before the clean-tree safety check.
+After success, copy that record into `src/climatechain-testnet-record.js`, commit it, and require the exact final SHA to pass push CI and CI-gated Pages deployment before changing the public demo wording to `VERIFIED_TESTNET`.
