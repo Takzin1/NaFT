@@ -119,7 +119,27 @@ for(let attempt=1; attempt<=balanceAttempts; attempt++){
     await sleep(5000);
   }
 }
-if(balance===0n) fail('signer has zero native testnet balance after waiting 55s; verify the faucet funded this exact Sepolia address');
+if(balance===0n){
+  console.log('balance_diagnostics: checking multiple Sepolia RPCs');
+  const diagnosticRpcs=[
+    rpcUrl,
+    'https://ethereum-sepolia-rpc.publicnode.com',
+    'https://rpc.sepolia.org'
+  ];
+  const seen=new Set();
+  for(const url of diagnosticRpcs){
+    if(seen.has(url)) continue;
+    seen.add(url);
+    try{
+      const p=new ethers.JsonRpcProvider(url);
+      const [b,block]=await Promise.all([p.getBalance(wallet.address),p.getBlockNumber()]);
+      console.log('balance_rpc:',url,'balance_wei:',b.toString(),'block:',block);
+    }catch(err){
+      console.log('balance_rpc:',url,'error:',String(err?.message||err));
+    }
+  }
+  fail('signer has zero native testnet balance after waiting 55s across Sepolia checks; the faucet did not fund this exact Sepolia address yet');
+}
 console.log('balance_wei:',balance.toString());
 
 const factory=new ethers.ContractFactory(abi,bytecode,wallet);
