@@ -21,14 +21,12 @@ else
   printf "\n" >&2
 fi
 
-# Normalize common MetaMask export/clipboard forms without ever printing the key.
 KEY="$(printf '%s' "$KEY" | tr -d '[:space:]')"
 KEY="${KEY#\"}"
 KEY="${KEY%\"}"
 KEY="${KEY#\'}"
 KEY="${KEY%\'}"
 
-# MetaMask may export a raw 64-hex key without the 0x prefix.
 if [[ "$KEY" =~ ^[0-9a-fA-F]{64}$ ]]; then
   KEY="0x$KEY"
 fi
@@ -39,7 +37,7 @@ if [[ ! "$KEY" =~ ^0x[0-9a-fA-F]{64}$ ]]; then
 fi
 
 choose_rpc() {
-  if [[ -n "${CLIMATECHAIN_RPC_URL:-}" ]]; then
+  if [[ "${CLIMATECHAIN_USE_CUSTOM_RPC:-0}" == "1" && -n "${CLIMATECHAIN_RPC_URL:-}" ]]; then
     printf '%s\n' "$CLIMATECHAIN_RPC_URL"
     return 0
   fi
@@ -64,9 +62,13 @@ choose_rpc() {
   return 1
 }
 
+if [[ -n "${CLIMATECHAIN_RPC_URL:-}" && "${CLIMATECHAIN_USE_CUSTOM_RPC:-0}" != "1" ]]; then
+  echo "Ignoring CLIMATECHAIN_RPC_URL; public Sepolia RPC is the default. Set CLIMATECHAIN_USE_CUSTOM_RPC=1 only for an intentional override."
+fi
+
 RPC_URL="$(choose_rpc || true)"
 if [[ -z "$RPC_URL" ]]; then
-  echo "CLIMATECHAIN_DEPLOY_FAIL: no public Sepolia RPC responded. Set CLIMATECHAIN_RPC_URL and rerun." >&2
+  echo "CLIMATECHAIN_DEPLOY_FAIL: no public Sepolia RPC responded." >&2
   exit 1
 fi
 

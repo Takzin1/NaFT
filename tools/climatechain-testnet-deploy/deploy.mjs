@@ -109,8 +109,17 @@ console.log('signer:',wallet.address);
 console.log('P1:',plan.genesis.package_hash);
 console.log('P2:',plan.successor.package_hash);
 
-const balance=await provider.getBalance(wallet.address);
-if(balance===0n) fail('signer has zero native testnet balance');
+let balance=0n;
+const balanceAttempts=12;
+for(let attempt=1; attempt<=balanceAttempts; attempt++){
+  balance=await provider.getBalance(wallet.address);
+  if(balance>0n) break;
+  if(attempt<balanceAttempts){
+    console.log('balance_wait_attempt:',attempt+'/'+balanceAttempts,'(still zero; retrying in 5s)');
+    await sleep(5000);
+  }
+}
+if(balance===0n) fail('signer has zero native testnet balance after waiting 55s; verify the faucet funded this exact Sepolia address');
 console.log('balance_wei:',balance.toString());
 
 const factory=new ethers.ContractFactory(abi,bytecode,wallet);
