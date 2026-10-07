@@ -34,7 +34,9 @@ function command(cmd,args,options={}){
 }
 
 function sourceAtRecordedCommit(path){
-  return command('git',['show',record.source_commit+':'+path]);
+  // Must match deploy.mjs sourceAt(), whose git helper trims stdout.
+  // Trailing whitespace changes Solidity metadata hash even when runtime semantics are identical.
+  return command('git',['show',record.source_commit+':'+path]).trim();
 }
 
 function compileRecordedSource(){

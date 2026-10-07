@@ -14,7 +14,7 @@ function command(cmd,args,options={}){
   return r.stdout;
 }
 function compileHead(){
-  const source=fs.readFileSync('contracts/NaFTMRVAnchor.sol','utf8');
+  const source=fs.readFileSync('contracts/NaFTMRVAnchor.sol','utf8').trim();
   const input={
     language:'Solidity',
     sources:{'NaFTMRVAnchor.sol':{content:source}},
