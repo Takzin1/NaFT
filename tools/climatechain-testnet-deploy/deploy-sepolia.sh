@@ -21,8 +21,20 @@ else
   printf "\n" >&2
 fi
 
+# Normalize common MetaMask export/clipboard forms without ever printing the key.
+KEY="$(printf '%s' "$KEY" | tr -d '[:space:]')"
+KEY="${KEY#\"}"
+KEY="${KEY%\"}"
+KEY="${KEY#\'}"
+KEY="${KEY%\'}"
+
+# MetaMask may export a raw 64-hex key without the 0x prefix.
+if [[ "$KEY" =~ ^[0-9a-fA-F]{64}$ ]]; then
+  KEY="0x$KEY"
+fi
+
 if [[ ! "$KEY" =~ ^0x[0-9a-fA-F]{64}$ ]]; then
-  echo "CLIMATECHAIN_DEPLOY_FAIL: private key must be 0x + 64 hex characters" >&2
+  echo "CLIMATECHAIN_DEPLOY_FAIL: expected a 64-hex Ethereum private key (with or without 0x); received ${#KEY} characters after normalization" >&2
   exit 1
 fi
 
