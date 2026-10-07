@@ -147,11 +147,19 @@ The underlying research prototype retains:
 
 These are engineering results within the explicitly tested synthetic state space. They are not field accuracy, measured runtime savings, verifier acceptance or proof for all institutional methodologies.
 
-## Testnet completion gate
+## Verified public-testnet evidence
 
-A public testnet deployment is intentionally **not** claimed yet. The browser remains `NOT_SUBMITTED` until a human-controlled wallet sends real transactions.
+The provenance witness is now independently verified on **Ethereum Sepolia (chain ID 11155111)**.
 
-Use [the testnet anchor runbook](testnet-anchor-runbook.md) before adding any on-chain claim to the submission. Record chain ID, contract address, exact source commit, deployment transaction and both lineage transaction hashes.
+- Contract: `0x1B7a3d1217Ffe5Ddd7d80E9734CeB6E32d4293B0`
+- Deployment: `0x7695a040d1639ebf5b2fcc96ec6c879e5ccc28c46d95d9371f906769b8a12188`
+- P1: `0x85c25a7ee239d7178c7266bf50e22c41bd30debfc7e37e579d437f1730d8fc34`
+- P2: `0xb5aef9810d6eb9c7516c0c9c6aadcf05fe952fb9170338fb915a5aa204579ac5`
+- Deployment source commit: `fb9016c6c3041ec0e77098e631d62138fbae582e`
+
+The read-only verifier reconstructed the contract and deterministic P1 → P2 plan from that recorded source commit and matched creation bytecode, runtime bytecode, writer identity, exact calldata, event data, parent linkage and final `headByClaim`.
+
+This is a provenance witness only. It does not certify climate truth, methodology eligibility, registry acceptance or carbon-credit issuance.
 
 ## Submission assets
 
@@ -162,7 +170,7 @@ Use [the testnet anchor runbook](testnet-anchor-runbook.md) before adding any on
 - [judge Q&A](judge-qa.md)
 - [submission freeze procedure](submission-freeze.md)
 
-The browser reads the dedicated fail-closed testnet record. It displays `NOT SUBMITTED` until a complete verified public-testnet record exists.
+The browser reads the dedicated fail-closed testnet record and now displays `VERIFIED TESTNET` with explorer links because the complete public-testnet record has passed the independent RPC verifier.
 
 ## Before final submission
 

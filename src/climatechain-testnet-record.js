@@ -2,18 +2,18 @@
 
 var CLIMATECHAIN_TESTNET_RECORD={
   schema:'naft-climatechain-testnet-record-1',
-  status:'NOT_SUBMITTED',
-  network:null,
-  chain_id:null,
-  contract_address:null,
-  deploy_tx_hash:null,
-  genesis_tx_hash:null,
-  successor_tx_hash:null,
-  explorer_base_url:null,
-  source_commit:null,
+  status:'VERIFIED_TESTNET',
+  network:'Ethereum Sepolia',
+  chain_id:11155111,
+  contract_address:'0x1B7a3d1217Ffe5Ddd7d80E9734CeB6E32d4293B0',
+  deploy_tx_hash:'0x7695a040d1639ebf5b2fcc96ec6c879e5ccc28c46d95d9371f906769b8a12188',
+  genesis_tx_hash:'0x85c25a7ee239d7178c7266bf50e22c41bd30debfc7e37e579d437f1730d8fc34',
+  successor_tx_hash:'0xb5aef9810d6eb9c7516c0c9c6aadcf05fe952fb9170338fb915a5aa204579ac5',
+  explorer_base_url:'https://sepolia.etherscan.io',
+  source_commit:'fb9016c6c3041ec0e77098e631d62138fbae582e',
   compiler:'solc 0.8.24',
-  verified_at:null,
-  boundary:'Do not change status to VERIFIED_TESTNET until every required field is populated from confirmed public-testnet transactions.'
+  verified_at:'2026-10-07T07:44:26.909Z',
+  boundary:'Blockchain witnesses package lineage only; it does not certify climate truth, methodology eligibility, registry acceptance, or carbon-credit issuance.'
 };
 
 function climateChainTestnetRecord(){

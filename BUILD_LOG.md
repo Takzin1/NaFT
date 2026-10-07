@@ -80,9 +80,17 @@ Work added specifically on this branch:
 
 NaFT is a research prototype. Synthetic methodology transitions and synthetic claims are used for the hackathon demo. An on-chain hash is an external provenance witness only: it does not establish observation truth, methodology eligibility, verified emissions reductions, registry acceptance or formal certification.
 
-A real testnet deployment/transaction may be added later, but it must be recorded with chain ID, contract address and transaction hash before the project claims that a package is anchored on-chain.
+A real public-testnet deployment and P1 → P2 lineage are now recorded on Ethereum Sepolia. The repository claims only that the package lineage is publicly witnessed; it does not claim climate truth, methodology eligibility, registry acceptance, or carbon-credit issuance.
 
 12. **Executable contract security behavior**
    - executes `NaFTMRVAnchor` on a local Ganache EVM in CI;
    - verifies deployer-only writes, unauthorized successor rejection, duplicate rejection, fork rejection, cross-claim-parent rejection and final claim head;
    - terminates the Ganache process group explicitly so EVM checks cannot leave CI runners hanging.
+
+
+13. **Verified Ethereum Sepolia provenance witness**
+   - deployed `NaFTMRVAnchor` at `0x1B7a3d1217Ffe5Ddd7d80E9734CeB6E32d4293B0`;
+   - anchored deterministic P1 `0xe69e7df04f5f3640d94de510308e71a3229fe7c71fe8cb437bfc084623b25477` and successor P2 `0xe5ee259abdc624bd6fd8cdf72fa72eef11397ba54556c01f2ce294824d70f71e`;
+   - independently reconstructed the contract and anchor plan from deployment source commit `fb9016c6c3041ec0e77098e631d62138fbae582e`;
+   - matched creation/runtime bytecode, writer identity, exact calldata, anchor events, P1→P2 parentage and final `headByClaim`;
+   - keeps blockchain semantics limited to provenance witnessing, not climate certification.

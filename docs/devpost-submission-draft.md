@@ -1,6 +1,6 @@
 # IEEE ClimateChain 2026 — Devpost Submission Draft
 
-> Working submission copy. Re-check the live Devpost field names and limits immediately before pasting. Keep the testnet paragraph in the **NOT_SUBMITTED** form until the repository's verified testnet record is complete.
+> Working submission copy. Re-check the live Devpost field names and limits immediately before pasting. The public-testnet paragraph is now evidence-backed by the repository's independently verified Sepolia record.
 
 ## Project name
 
@@ -43,7 +43,7 @@ NaFT:
 5. fails closed when new evidence is required;
 6. creates append-only successor MRV packages that explicitly supersede prior packages;
 7. prevents stale human decisions from silently surviving changed inputs;
-8. prepares a minimal blockchain provenance anchor containing package hashes and lineage only.
+8. anchors a minimal blockchain provenance witness containing package hashes and lineage only.
 
 The blockchain layer does **not** decide climate truth, issue a carbon credit, price a credit, or replace a verifier.
 
@@ -113,9 +113,11 @@ The contract rejects:
 
 ### Current public-testnet status
 
-**NOT_SUBMITTED**
+**VERIFIED_TESTNET — Ethereum Sepolia (chain ID 11155111)**
 
-No public-testnet transaction is claimed in the repository yet. A real testnet deployment and P1 → P2 anchor sequence will be described as on-chain only after the complete evidence record validates.
+Contract: `0x1B7a3d1217Ffe5Ddd7d80E9734CeB6E32d4293B0`
+
+The deployment and P1 → P2 lineage were independently checked against source commit `fb9016c6c3041ec0e77098e631d62138fbae582e`. The verifier matched creation/runtime bytecode, deployer/writer identity, exact calldata, event data, successor parentage and final claim head. The chain witnesses package lineage only; it does not certify climate impact or issue a carbon credit.
 
 ## Engineering evidence
 
@@ -157,7 +159,7 @@ A second challenge was designing selective re-verification conservatively. The a
 - preserved immutable predecessor/successor package lineage;
 - created an independent full-recomputation oracle rather than testing the analyzer against itself;
 - added a minimal smart contract without introducing token, marketplace or payment distractions;
-- built fail-closed boundaries that prevent the demo from claiming testnet deployment, certification or field accuracy without evidence.
+- completed and independently verified a real Ethereum Sepolia P1 → P2 provenance lineage while preserving fail-closed certification and field-accuracy boundaries.
 
 ## What we learned
 
@@ -173,7 +175,6 @@ For trustworthy MRV, systems need to answer not only “what is the current resu
 
 ## What's next
 
-- complete one public-testnet P1 → P2 anchor sequence;
 - validate the workflow with real MRV / verification practitioners;
 - expand executable methodology coverage without pretending unsupported institutional rules are known;
 - add production-grade authentication, tenant isolation and secure original-file custody;

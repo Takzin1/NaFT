@@ -26,7 +26,7 @@ Use this checklist only after the hackathon branch CI is green.
 
 Before any public statement says “anchored on-chain”:
 
-- [ ] `src/climatechain-testnet-record.js` status is still `NOT_SUBMITTED` unless all evidence below exists.
+- [ ] `src/climatechain-testnet-record.js` is `VERIFIED_TESTNET` only because every evidence item below exists and passes the independent RPC verifier.
 - [ ] Public testnet network name is recorded.
 - [ ] Numeric chain ID is recorded.
 - [ ] Contract address is recorded.

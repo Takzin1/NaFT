@@ -8,17 +8,22 @@ function check(value,label){try{assert.ok(value,label);passed++;}catch(e){failed
 function eq(a,b,label){check(canonicalize(a)===canonicalize(b),label);}
 
 const testnet=climateChainTestnetRecord();
-eq(testnet.status,'NOT_SUBMITTED','testnet record defaults to not submitted');
-check(validateClimateChainTestnetRecord(testnet).ok===true,'default testnet record validates');
-check(testnet.contract_address===null&&testnet.genesis_tx_hash===null&&testnet.successor_tx_hash===null,'unverified testnet record carries no chain evidence');
+eq(testnet.status,'VERIFIED_TESTNET','testnet record is independently verified');
+check(validateClimateChainTestnetRecord(testnet).ok===true,'verified testnet record validates');
+check(testnet.chain_id===11155111&&/^0x[a-fA-F0-9]{40}$/.test(testnet.contract_address),'verified testnet record carries Sepolia chain evidence');
+const notSubmittedFixture={
+  schema:'naft-climatechain-testnet-record-1',status:'NOT_SUBMITTED',network:null,chain_id:null,
+  contract_address:null,deploy_tx_hash:null,genesis_tx_hash:null,successor_tx_hash:null,
+  explorer_base_url:null,source_commit:null,compiler:'solc 0.8.24',verified_at:null,boundary:'test fixture'
+};
 let invalidCaught=false;
 try {
-  validateClimateChainTestnetRecord(Object.assign({},testnet,{network:'Sepolia'}));
+  validateClimateChainTestnetRecord(Object.assign({},notSubmittedFixture,{network:'Sepolia'}));
 } catch(e) { invalidCaught=e.message.includes('UNVERIFIED_TESTNET_FIELDS_POPULATED'); }
 check(invalidCaught,'partial unverified testnet evidence fails closed');
 invalidCaught=false;
 try {
-  validateClimateChainTestnetRecord(Object.assign({},testnet,{status:'VERIFIED_TESTNET'}));
+  validateClimateChainTestnetRecord(Object.assign({},notSubmittedFixture,{status:'VERIFIED_TESTNET'}));
 } catch(e) { invalidCaught=e.message.includes('TESTNET_NETWORK_REQUIRED'); }
 check(invalidCaught,'verified status requires complete chain evidence');
 

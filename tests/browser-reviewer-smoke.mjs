@@ -120,7 +120,7 @@ for(const phrase of [
   'Japanese rice-paddy methane MRV',
   'The currently adopted edition and coefficient applicability are not asserted by this demo.',
   'Blockchain witnesses version lineage; it does not decide climate truth.',
-  'NOT SUBMITTED',
+  'VERIFIED TESTNET',
   'change classes',
   'adversarial cases',
   'tested synthetic state space',
@@ -146,7 +146,7 @@ const expectedClimate=[
 if(JSON.stringify(climateMetrics)!==JSON.stringify(expectedClimate)) throw new Error('UNEXPECTED_CLIMATECHAIN_METRICS:'+JSON.stringify(climateMetrics));
 
 await evaluate("document.querySelector('[data-action=\\\"climatechain-anchor-plan\\\"]').click(); true");
-await until("ClimateChainDemo.anchorPlan!==null && document.querySelector('.climate-anchor')!==null && document.body.innerText.includes('Anchor-plan status: NOT_SUBMITTED') && document.body.innerText.includes('NOT SUBMITTED')",'climatechain anchor plan');
+await until("ClimateChainDemo.anchorPlan!==null && document.querySelector('.climate-anchor')!==null && document.body.innerText.includes('Anchor-plan status: NOT_SUBMITTED') && document.body.innerText.includes('VERIFIED TESTNET')",'climatechain anchor plan');
 const anchorPlan=await evaluate("(function(p){return {status:p.chain_status,formal:p.formal_certification,issued:p.carbon_credit_issued,genesis:p.genesis.previous_package_hash,successorParentMatches:p.successor.previous_package_hash===p.genesis.package_hash,lineage:p.lineage_checks};})(ClimateChainDemo.anchorPlan)");
 if(anchorPlan.status!=='NOT_SUBMITTED'||anchorPlan.formal!==false||anchorPlan.issued!==false||anchorPlan.genesis!==('0x'+'0'.repeat(64))||!anchorPlan.successorParentMatches||!anchorPlan.lineage.successor_supersedes_previous) {
   throw new Error('CLIMATECHAIN_ANCHOR_PLAN_INVALID:'+JSON.stringify(anchorPlan));

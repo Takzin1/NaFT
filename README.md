@@ -2,6 +2,8 @@
 
 > **IEEE ClimateChain Global Hackathon 2026 branch** — [Open the public judge-first ClimateChain demo](https://takzin1.github.io/NaFT/#/climatechain) or use `naft-app.html#/climatechain` locally. It connects a real-world agricultural MRV reference context to selective re-verification, explicit trust boundaries, practical adoption roles and a minimal MRV provenance smart contract—without changing NaFT's off-chain verification semantics. See [submission guide](docs/ieee-climatechain-2026.md), [build log](BUILD_LOG.md), [testnet runbook](docs/testnet-anchor-runbook.md), [submission checklist](docs/submission-checklist.md), [4-minute demo script](docs/climatechain-video-script.md), [Devpost submission draft](docs/devpost-submission-draft.md), [judge Q&A](docs/judge-qa.md) and [submission freeze procedure](docs/submission-freeze.md).
 
+**Public-testnet evidence:** Ethereum Sepolia (chain ID 11155111) is now `VERIFIED_TESTNET`. Contract `0x1B7a3d1217Ffe5Ddd7d80E9734CeB6E32d4293B0`; deployment/P1/P2 lineage was independently checked against deployment source commit `fb9016c6c3041ec0e77098e631d62138fbae582e`. Blockchain witnesses package lineage only; it does not certify climate truth or issue carbon credits.
+
 
 **版管理されたMRV証憑コンパイラ＋差分再検証エンジン。**
 
