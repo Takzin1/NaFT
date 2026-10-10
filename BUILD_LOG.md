@@ -46,7 +46,7 @@ Work added specifically on this branch:
 6. **Regression coverage**
    - Node tests cover impact counts, package lineage, real-world/context boundaries, adoption roles, anchor argument shape and contract guards;
    - real headless Chrome checks the English judge-first narrative, mobile overflow, calculated metrics and anchor-plan boundary;
-   - branch-specific ClimateChain checks total 61 assertions on top of the 1165 baseline assertions.
+   - branch-specific ClimateChain checks total 69 assertions on top of the 1165 baseline assertions.
 
 7. **Testnet completion runbook**
    - documents the human-signed deployment and two-transaction lineage flow;
@@ -102,3 +102,13 @@ A real public-testnet deployment and P1 → P2 lineage are now recorded on Ether
    - kept the browser planner's local NOT_SUBMITTED status separate from the VERIFIED_TESTNET public evidence record;
    - expanded unit/Chrome regression checks; added one-command read-only verifier and complete judge-ready submission pack;
    - prepared verified-chain four-minute English video narration, without claiming external video upload or Devpost submission.
+
+
+16. **ClimateChain practical value / judge clarity pass (October 10, 2026)**
+   - displayed a fictional agricultural MRV aggregator scenario (100 **synthetic** claims, no actual farm records) with a clearly hypothetical all-claims review baseline;
+   - bound 30 impact cases, 70 unaffected cases and the 15/15 automatic/evidence split to the live analyzer output rather than to hardcoded marketing claims;
+   - added a standalone reusable `docs/assets/naft-climatechain-architecture.svg` separating off-chain semantic evaluation/human review from the on-chain Sepolia package lineage witness;
+   - aligned Devpost draft, IEEE judge submission pack and 4-minute English demo script with the scenario and architecture;
+   - added 8 deterministic checks and browser checks for SVG asset loading, honest pre-run state and live results;
+   - green CI #350 on `f386b6a6` prior to final documentation update: **1234 assertions passed / 0 failures**, Chrome smoke + Pages successful;
+   - retained the original verified P1/P2 chain evidence; no new signing/deployment, real farmer or institutional acceptance claim.
