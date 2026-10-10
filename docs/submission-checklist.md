@@ -1,12 +1,12 @@
 # IEEE ClimateChain 2026 — Submission Checklist
 
-Use this checklist only after the hackathon branch CI is green.
+Use this checklist only after hackathon-branch **push CI** is green. Redundant pull-request CI is intentionally skipped on this branch, not failed.
 
 ## 1. Repository state
 
 - [ ] Branch is `hackathon/ieee-climatechain-2026`.
 - [ ] Draft PR #20 points to the intended submission head.
-- [ ] GitHub Actions push and pull-request runs are green on the same head SHA.
+- [ ] GitHub Actions **push run** is green on the exact SHA (the duplicate PR run is intentionally skipped).
 - [ ] `bash tests/run.sh` passes.
 - [ ] Solidity 0.8.24 compilation passes.
 - [ ] README test count matches the actual ClimateChain assertion count.
@@ -36,7 +36,7 @@ Before any public statement says “anchored on-chain”:
 - [ ] Explorer base URL is recorded.
 - [ ] Exact source commit SHA is recorded.
 - [ ] Verification timestamp is recorded.
-- [ ] The record validates under `validateClimateChainTestnetRecord()`.
+- [ ] The record validates under `validateClimateChainTestnetRecord()` and `bash scripts/verify-live-sepolia.sh` reaches `VERIFIED_TESTNET_RPC` on a responding public RPC.
 - [ ] Browser demo changes to `VERIFIED TESTNET` only after the complete record validates.
 
 ## 4. Devpost copy boundaries
@@ -78,3 +78,5 @@ Safe claims:
 - [ ] Record final Devpost project URL.
 - [ ] Record final demo video URL.
 - [ ] Re-check the live Devpost deadline and required fields immediately before submission.
+
+See [judge-ready submission pack](ieee-submission-pack.md) for the Etherscan/source proof, four-click demo, English video script and manual external completion steps.
