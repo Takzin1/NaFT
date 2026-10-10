@@ -146,10 +146,22 @@ const expectedClimate=[
 if(JSON.stringify(climateMetrics)!==JSON.stringify(expectedClimate)) throw new Error('UNEXPECTED_CLIMATECHAIN_METRICS:'+JSON.stringify(climateMetrics));
 
 await evaluate("document.querySelector('[data-action=\\\"climatechain-anchor-plan\\\"]').click(); true");
-await until("ClimateChainDemo.anchorPlan!==null && document.querySelector('.climate-anchor')!==null && document.body.innerText.includes('Anchor-plan status: NOT_SUBMITTED') && document.body.innerText.includes('VERIFIED TESTNET')",'climatechain anchor plan');
+await until("ClimateChainDemo.anchorPlan!==null && document.querySelector('.climate-anchor')!==null && document.body.innerText.includes('Browser planner status: NOT_SUBMITTED') && document.body.innerText.includes('VERIFIED TESTNET')",'climatechain anchor plan');
 const anchorPlan=await evaluate("(function(p){return {status:p.chain_status,formal:p.formal_certification,issued:p.carbon_credit_issued,genesis:p.genesis.previous_package_hash,successorParentMatches:p.successor.previous_package_hash===p.genesis.package_hash,lineage:p.lineage_checks};})(ClimateChainDemo.anchorPlan)");
 if(anchorPlan.status!=='NOT_SUBMITTED'||anchorPlan.formal!==false||anchorPlan.issued!==false||anchorPlan.genesis!==('0x'+'0'.repeat(64))||!anchorPlan.successorParentMatches||!anchorPlan.lineage.successor_supersedes_previous) {
   throw new Error('CLIMATECHAIN_ANCHOR_PLAN_INVALID:'+JSON.stringify(anchorPlan));
+}
+const publicChainProof=await evaluate("(function(){var p=ClimateChainDemo.anchorPlan,r=climateChainTestnetRecord(),links=Array.from(document.querySelectorAll('.climate-anchor a')).map(function(a){return a.href;});return {status:r.status,source:r.source_commit,claim:p.claim_id,contract:r.contract_address,p1:p.genesis.package_hash,p2:p.successor.package_hash,links:links,detail:document.querySelector('.climate-anchor').innerText};})()");
+if(publicChainProof.status!=='VERIFIED_TESTNET'||
+   publicChainProof.source!=='fb9016c6c3041ec0e77098e631d62138fbae582e'||
+   publicChainProof.claim!=='CLIMATE-086'||
+   publicChainProof.p1!=='0xe69e7df04f5f3640d94de510308e71a3229fe7c71fe8cb437bfc084623b25477'||
+   publicChainProof.p2!=='0xe5ee259abdc624bd6fd8cdf72fa72eef11397ba54556c01f2ce294824d70f71e'||
+   !publicChainProof.links.some(x=>x.includes('/tx/0x85c25a7ee239d7178c7266bf50e22c41bd30debfc7e37e579d437f1730d8fc34'))||
+   !publicChainProof.links.some(x=>x.includes('/tx/0xb5aef9810d6eb9c7516c0c9c6aadcf05fe952fb9170338fb915a5aa204579ac5'))||
+   !publicChainProof.links.some(x=>x.includes('/commit/'+publicChainProof.source))||
+   !publicChainProof.detail.includes('The browser itself does not broadcast a transaction.')) {
+   throw new Error('PUBLIC_TESTNET_PROOF_MISMATCH:'+JSON.stringify(publicChainProof));
 }
 
 await evaluate("location.hash='#/methodologies'; true");

@@ -62,7 +62,9 @@ function climateTestnetStatusCard(record) {
       '<a href="'+esc(explorer.contract)+'" target="_blank" rel="noopener noreferrer">Contract</a> · '+
       '<a href="'+esc(explorer.deployment)+'" target="_blank" rel="noopener noreferrer">Deploy Tx</a> · '+
       '<a href="'+esc(explorer.genesis)+'" target="_blank" rel="noopener noreferrer">P1 Tx</a> · '+
-      '<a href="'+esc(explorer.successor)+'" target="_blank" rel="noopener noreferrer">P2 Tx</a>'+
+      '<a href="'+esc(explorer.successor)+'" target="_blank" rel="noopener noreferrer">P2 Tx</a> · '+
+      '<a href="https://github.com/Takzin1/NaFT/commit/'+esc(record.source_commit)+'" target="_blank" rel="noopener noreferrer">Deployment source</a> · '+
+      '<a href="https://github.com/Takzin1/NaFT/blob/hackathon/ieee-climatechain-2026/scripts/verify-climatechain-testnet.mjs" target="_blank" rel="noopener noreferrer">Read-only verifier</a>'+
       '</span>';
   }
   return '<div class="climate-status"><span class="pill '+cls+'">'+label+'</span><span>'+detail+'</span>'+links+'</div>';
@@ -190,11 +192,15 @@ function pgClimateChainDemo() {
     out+='<section class="card climate-anchor"><span class="eyebrow">Blockchain provenance witness</span><h2>Two-step anchor plan</h2>'+
       '<p>The contract stores package hashes and lineage only. MRV logic remains deterministic and off-chain.</p>'+
       '<div class="flow"><span>Genesis package</span><span>→</span><span>Successor package</span><span>→</span><span>Claim head</span></div>'+
-      '<p><b>Anchor-plan status:</b> '+esc(plan.chain_status)+'</p>'+
+      '<p><b>Browser planner status:</b> '+esc(plan.chain_status)+' (this button prepares arguments locally; it never sends a transaction).</p>'+
       climateTestnetStatusCard(testnet)+
       (testnet.status==='VERIFIED_TESTNET'
-        ? '<div class="reviewer-boundary"><b>Public testnet evidence recorded.</b> Explorer/network metadata are stored in the dedicated testnet record. The chain still witnesses lineage only; it does not certify climate impact.</div>'
-        : '<div class="notice"><b>No transaction has been sent.</b> This browser demo only prepares exact <code>bytes32</code> arguments for <code>NaFTMRVAnchor.anchorPackage</code>. A real testnet transaction must be independently submitted and recorded before claiming on-chain anchoring.</div>')+
+        ? '<div class="reviewer-boundary"><b>Previously anchored on Ethereum Sepolia · '+esc(plan.claim_id)+'.</b> '+
+          'P1 package <code>'+esc(plan.genesis.package_hash.slice(0,16))+'…</code> → '+
+          'P2 package <code>'+esc(plan.successor.package_hash.slice(0,16))+'…</code>. '+
+          'The independent read-only verifier reconstructed this lineage from the deployment source commit and checked bytecode, transaction calldata, events and final head. '+
+          'The browser itself does not broadcast a transaction. Blockchain witnesses lineage; it cannot certify climate truth.</div>'
+        : '<div class="notice"><b>No public testnet transaction recorded.</b> This browser demo only prepares exact <code>bytes32</code> arguments for <code>NaFTMRVAnchor.anchorPackage</code>.</div>')+
       '<details open><summary>Prepared transaction arguments</summary>'+jsonView(plan)+'</details>'+
       button('Download anchor plan JSON','climatechain-export-anchor',false)+
       '</section>';
@@ -232,7 +238,7 @@ function handleClimateChainAction(action) {
   if(action==='climatechain-anchor-plan') {
     if(!ClimateChainDemo.impact) throw new Error('RUN_IMPACT_ANALYSIS_FIRST');
     ClimateChainDemo.anchorPlan=buildClimateChainAnchorPlan(ClimateChainDemo.impact);
-    ClimateChainDemo.message='Anchor arguments prepared locally; no blockchain transaction submitted.';
+    ClimateChainDemo.message='Anchor arguments prepared locally; no transaction broadcast from this browser. Public Sepolia reference evidence is shown separately.';
   }
   if(action==='climatechain-export-impact'&&ClimateChainDemo.impact) {
     downloadJSON(canonicalize(ClimateChainDemo.impact),'naft-climatechain-impact.json');

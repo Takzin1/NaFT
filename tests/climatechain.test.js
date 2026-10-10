@@ -11,6 +11,8 @@ const testnet=climateChainTestnetRecord();
 eq(testnet.status,'VERIFIED_TESTNET','testnet record is independently verified');
 check(validateClimateChainTestnetRecord(testnet).ok===true,'verified testnet record validates');
 check(testnet.chain_id===11155111&&/^0x[a-fA-F0-9]{40}$/.test(testnet.contract_address),'verified testnet record carries Sepolia chain evidence');
+check(testnet.source_commit==='fb9016c6c3041ec0e77098e631d62138fbae582e','record pins the actual deploy source commit');
+check(testnet.contract_address.toLowerCase()==='0x1b7a3d1217ffe5ddd7d80e9734ceb6e32d4293b0','record pins the actual verified Sepolia contract');
 const notSubmittedFixture={
   schema:'naft-climatechain-testnet-record-1',status:'NOT_SUBMITTED',network:null,chain_id:null,
   contract_address:null,deploy_tx_hash:null,genesis_tx_hash:null,successor_tx_hash:null,
@@ -92,6 +94,9 @@ check(!!row.successor&&typeof row.successor.package_hash==='string','representat
 
 const plan=buildClimateChainAnchorPlan(impact);
 eq(plan.chain_status,'NOT_SUBMITTED','browser never claims blockchain submission');
+eq(plan.claim_id,'CLIMATE-086','the demo selects the witnessed example claim');
+eq(plan.genesis.package_hash,'0xe69e7df04f5f3640d94de510308e71a3229fe7c71fe8cb437bfc084623b25477','browser P1 package matches anchored package');
+eq(plan.successor.package_hash,'0xe5ee259abdc624bd6fd8cdf72fa72eef11397ba54556c01f2ce294824d70f71e','browser P2 package matches anchored successor');
 check(plan.formal_certification===false,'anchor is not formal certification');
 check(plan.carbon_credit_issued===false,'anchor does not issue a carbon credit');
 eq(plan.genesis.previous_package_hash,ZERO_BYTES32,'genesis has zero parent');
