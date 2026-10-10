@@ -79,7 +79,7 @@ For ClimateChain, the branch adds:
 - an English judge-first demo;
 - a minimal Solidity `NaFTMRVAnchor` contract;
 - exact two-step anchor-plan generation for an existing package and successor;
-- a fail-closed public-testnet evidence record;
+- a fail-closed, independently verified Ethereum Sepolia testnet evidence record;
 - real-browser CI, Solidity ABI/bytecode compilation, local-EVM contract behavior tests and read-only source-to-chain verification.
 
 ## Blockchain design
@@ -115,7 +115,9 @@ The contract rejects:
 
 **VERIFIED_TESTNET — Ethereum Sepolia (chain ID 11155111)**
 
-Contract: `0x1B7a3d1217Ffe5Ddd7d80E9734CeB6E32d4293B0`
+Contract: [`0x1B7a3d1217Ffe5Ddd7d80E9734CeB6E32d4293B0`](https://sepolia.etherscan.io/address/0x1B7a3d1217Ffe5Ddd7d80E9734CeB6E32d4293B0)
+
+[Deploy tx](https://sepolia.etherscan.io/tx/0x7695a040d1639ebf5b2fcc96ec6c879e5ccc28c46d95d9371f906769b8a12188) · [P1](https://sepolia.etherscan.io/tx/0x85c25a7ee239d7178c7266bf50e22c41bd30debfc7e37e579d437f1730d8fc34) · [P2](https://sepolia.etherscan.io/tx/0xb5aef9810d6eb9c7516c0c9c6aadcf05fe952fb9170338fb915a5aa204579ac5)
 
 The deployment and P1 → P2 lineage were independently checked against source commit `fb9016c6c3041ec0e77098e631d62138fbae582e`. The verifier matched creation/runtime bytecode, deployer/writer identity, exact calldata, event data, successor parentage and final claim head. The chain witnesses package lineage only; it does not certify climate impact or issue a carbon credit.
 
@@ -184,8 +186,16 @@ For trustworthy MRV, systems need to answer not only “what is the current resu
 
 JavaScript · Solidity 0.8.24 · SHA-256 · GitHub Actions · GitHub Pages · deterministic JSON/provenance graph tooling
 
+## Independent reproduction
+
+From the IEEE hackathon branch, run `bash scripts/verify-live-sepolia.sh`. It performs source-bound RPC verification without a private key or gas. A public RPC must be available. See the [judge-ready submission pack](ieee-submission-pack.md).
+
 ## Repository
 
-https://github.com/Takzin1/NaFT
+https://github.com/Takzin1/NaFT/tree/hackathon/ieee-climatechain-2026
 
 Hackathon work is isolated on `hackathon/ieee-climatechain-2026` and documented in `BUILD_LOG.md`.
+
+## External submission status
+
+This is a copy-ready draft, **not** proof of video upload or completed Devpost submission. Verify current organizer fields/deadline, upload the compliant video and save Devpost confirmation separately.
