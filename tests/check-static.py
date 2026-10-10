@@ -23,6 +23,8 @@ for target in script_targets:
 
 # Reviewer Demo is a browser runtime module, not a test-only helper.
 # Prevent a silent fallback to the ordinary UI when REVIEWER_DEMO_ROUTE is undefined.
+assert 'href="src/climatechain-theme.css"' in html, 'ClimateChain scoped theme stylesheet not loaded'
+assert (root / 'src/climatechain-theme.css').is_file(), 'ClimateChain scoped theme stylesheet missing'
 assert 'src/reviewer-demo.js' in script_targets, 'reviewer-demo.js exists but is not loaded by naft-app.html'
 assert script_targets.index('src/reviewer-demo.js') < script_targets.index('src/mrv-ui.js'), (
     'reviewer-demo.js must load before mrv-ui.js so REVIEWER_DEMO_ROUTE is defined at startup'

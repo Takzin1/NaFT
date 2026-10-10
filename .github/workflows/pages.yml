@@ -1,8 +1,6 @@
-name: Deploy NaFT Reviewer Demo to GitHub Pages
+name: Manual NaFT Pages Fallback
 
 on:
-  push:
-    branches: [main]
   workflow_dispatch:
 
 permissions:
@@ -12,11 +10,14 @@ permissions:
 
 concurrency:
   group: pages
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 jobs:
-  test:
+  verify-and-deploy:
     runs-on: ubuntu-latest
+    environment:
+      name: ${{ github.ref == 'refs/heads/main' && 'github-pages' || 'github-pages-climatechain' }}
+      url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -24,19 +25,12 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 24
-      - name: Run regression, impact proof and Mitou checks
+      - name: Compile ClimateChain provenance contract
+        run: npx --yes solc@0.8.24 --abi --bin contracts/NaFTMRVAnchor.sol --output-dir /tmp/naft-solc
+      - name: Run regression, impact proof and ClimateChain checks
         run: bash tests/run.sh
       - name: Verify committed generated reports
         run: git diff --exit-code -- reports/evaluation-kpis.json reports/mitou-impact-experiment.json reports/impact-proof.json
-
-  deploy:
-    needs: test
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
       - name: Configure Pages
         uses: actions/configure-pages@v5
         with:
@@ -47,4 +41,4 @@ jobs:
           path: .
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@v5

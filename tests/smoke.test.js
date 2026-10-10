@@ -149,7 +149,7 @@ const statement='I inspected the evidence and declarations, and attest this rese
   setActor('operator');db.users.find(u=>u.id==='operator').status='inactive';await blocked(()=>exportMonitoringJSON(blockedActivity.id,true),'ROLE_BLOCKED','inactive operator cannot export');db=clone(pristine);setActor('reviewer');
   eq(DB_KEY,'naft_mrv_core_v1','independent persistence namespace');
   check(!['wallets','transactions','candidate_units','unit_transfers','unit_retirements','projects','rewards','reservations'].some(k=>k in db),'dataset contains only MRV domains');
-  check(!fs.existsSync(path.join(root,'contracts')),'unreferenced contract directory removed');
+  var contractDir=path.join(root,'contracts'),contractFiles=fs.existsSync(contractDir)?fs.readdirSync(contractDir).filter(function(name){return name.endsWith('.sol');}).sort():[];check(JSON.stringify(contractFiles)===JSON.stringify(['NaFTMRVAnchor.sol']),'only minimal ClimateChain provenance contract retained');
   for(const symbol of ['issueCandidateUnit','transferCandidateUnit','retireCandidateUnit','reviewAction','execSupport','addTx','pgIEEEDemo'])check(typeof global[symbol]==='undefined','removed runtime symbol '+symbol);
   const runtime=fs.readFileSync(path.join(root,'naft-app.html'),'utf8')+fs.readFileSync(path.join(root,'src/mrv-core.js'),'utf8')+fs.readFileSync(path.join(root,'src/mrv-ui.js'),'utf8');
   check(!/qrcodejs|ERC1155|CarbonMarketplace|wallet|marketplace|tokenomics|#\/ieee/i.test(runtime),'removed runtime/domain dependencies absent');
