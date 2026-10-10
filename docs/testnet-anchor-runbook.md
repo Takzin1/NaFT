@@ -1,3 +1,5 @@
+> **Historical deployment instructions. Ethereum Sepolia deploy + P1 + P2 were already completed and independently verified. Do not rerun the signing/deploy process for IEEE.** For verification only, run `bash scripts/verify-live-sepolia.sh` without a private key. [Current judge-ready pack](ieee-submission-pack.md).
+
 # ClimateChain testnet anchor runbook
 
 This runbook starts **after** the repository CI is green. It intentionally does not store private keys, RPC credentials, or wallet secrets.
@@ -98,7 +100,7 @@ It never needs a private key and does not send a transaction.
 
 > NaFT anchors the version lineage of MRV packages on a public testnet. The chain witnesses package hashes and parentage only; it does not certify climate impact or issue a carbon credit.
 
-Until all checklist items are available, keep the demo wording as **NOT_SUBMITTED**.
+The public testnet evidence is now **VERIFIED_TESTNET**. A browser-generated *local* anchor plan still has `chain_status: NOT_SUBMITTED` because the browser does not send a new transaction. These are separate statuses.
 
 ## Update the repository record
 
