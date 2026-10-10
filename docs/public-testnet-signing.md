@@ -1,3 +1,5 @@
+> **Deployment completed: historical reference only.** Do not run this signing procedure again for the IEEE submission. Use `bash scripts/verify-live-sepolia.sh` for read-only verification instead. No private key is required for verification.
+
 # Public testnet signing — Codespaces one-command flow
 
 This is the only ClimateChain step that needs the human-controlled testnet wallet.
