@@ -145,7 +145,12 @@ function climateRoleCard(item) {
 }
 
 function climateChainHeader() {
-  return '<header class="reviewer-header"><a class="reviewer-home" href="#/methodologies">Research UI</a><span class="eyebrow">IEEE ClimateChain Hackathon · NaFT</span><h1>Version-Aware Climate MRV</h1><p>Carbon markets need evidence that survives methodology change.</p></header>';
+  return '<header class="reviewer-header"><div class="climate-topbar">'+
+    '<a class="climate-brand" href="#/climatechain" aria-label="NaFT ClimateChain demo home">'+
+    '<span class="climate-logomark" aria-hidden="true">N</span><span class="climate-brand-name">NaFT<small>CLIMATECHAIN LAB</small></span></a>'+
+    '<div class="climate-topbar-right"><span class="climate-event">IEEE ClimateChain Hackathon 2026</span>'+
+    '<a class="reviewer-home" href="#/methodologies">Research UI ↗</a></div></div>'+
+    '<h1>Version-Aware Climate MRV</h1><p>Carbon markets need evidence that survives methodology change.</p></header>';
 }
 
 function pgClimateChainDemo() {
@@ -153,24 +158,43 @@ function pgClimateChainDemo() {
   var reference=climateReferenceScenario();
   var trust=climateTrustModel();
   var testnet=climateTestnetStatus();
-  var out='<section class="card reviewer-hero"><span class="eyebrow">Carbon Markets & Emissions Transparency</span>'+
-    '<h2>When climate MRV rules change, which existing claims actually need re-verification?</h2>'+
-    '<p><b>NaFT turns methodology change into a traceable engineering decision:</b> re-verify the claims whose semantics changed, preserve the unaffected claims, and create an auditable successor lineage.</p>'+
+  var out='<section class="card reviewer-hero climate-hero" aria-labelledby="climate-hero-title">'+
+    '<div class="climate-hero-grid"><div class="climate-hero-primary">'+
+    '<span class="eyebrow climate-hero-label"><span class="climate-pulse" aria-hidden="true"></span>Carbon Markets &amp; Emissions Transparency</span>'+
+    '<h2 id="climate-hero-title">When climate MRV rules change, <span>know what needs re-verification.</span></h2>'+
+    '<p class="climate-hero-description"><b>NaFT turns methodology change into a traceable engineering decision.</b> Find affected claims, preserve unaffected ones, and link each successor to the exact package it replaces.</p>'+
+    '<div class="climate-hero-actions">'+button('Run 100-claim methodology update','climatechain-run',false)+'</div>'+
+    '<p class="climate-hero-caption">LIVE SYNTHETIC DEMO · NAFT-SYNTHETIC@1 → @2 · Only intensive claims receive additional requirements.</p>'+
+    '</div><aside class="climate-hero-evidence" aria-label="Independently verified public testnet proof">'+
+    '<span class="eyebrow">Independently verifiable</span><h3>Proof that can be inspected.</h3>'+
     climateTestnetStatusCard(testnet)+
     '<div class="climate-proof-strip"><div class="climate-proof"><strong>5</strong><span>change classes</span></div><div class="climate-proof"><strong>614</strong><span>adversarial cases</span></div><div class="climate-proof"><strong>0 FN</strong><span>tested synthetic state space</span></div></div>'+
-    '<div class="reviewer-boundary"><b>Research prototype boundary.</b> The impact experiment uses synthetic methodology versions and synthetic claims. It does not certify emission reductions, issue credits, or connect to an external registry.</div>'+
-    '<div class="flow"><span>Rule changes</span><span>→</span><span>Trace dependencies</span><span>→</span><span>Re-verify affected claims</span><span>→</span><span>Anchor lineage</span></div>'+
-    button('Run 100-claim methodology update','climatechain-run',false)+
-    '<p class="muted">Scenario: NAFT-SYNTHETIC@1 → @2 adds requirements that apply only to intensive claims.</p></section>';
+    '<div class="climate-boundary-note"><b>Research prototype.</b> Synthetic claims; no certification, credit issuance, or claim of real-world accuracy.</div>'+
+    '</aside></div><div class="climate-process" aria-label="MRV change-control process">'+
+    '<div class="climate-process-step"><span>01</span> Rules change</div>'+
+    '<div class="climate-process-step"><span>02</span> Trace dependencies</div>'+
+    '<div class="climate-process-step"><span>03</span> Re-verify affected</div>'+
+    '<div class="climate-process-step"><span>04</span> Witness lineage</div>'+
+    '</div></section>';
 
   out+='<section class="card climate-reference"><span class="eyebrow">Real-world reference context</span><h2>Why this problem exists outside the demo</h2>'+
     '<p>NaFT is motivated by evidence-heavy climate programs such as <b>'+esc(reference.domain)+'</b>. The repository retains an '+esc(reference.methodology)+' in which evidence categories include:</p>'+
-    '<div class="grid">'+reference.evidence_examples.map(function(item){return '<div class="metric"><span>Evidence</span><strong style="font-size:18px">'+esc(item)+'</strong></div>';}).join('')+'</div>'+
+    '<div class="grid">'+reference.evidence_examples.map(function(item){return '<div class="climate-evidence-item">'+esc(item)+'</div>';}).join('')+'</div>'+
     '<div class="notice"><b>Boundary:</b> '+esc(reference.source_status)+' '+esc(reference.experiment_boundary)+'</div></section>';
 
   if(impact) {
     var c=impact.counts,row=climateChainRepresentative(impact);
-    out+='<section class="card climate-impact"><span class="eyebrow">Selective re-verification</span><h2>Impact analysis result</h2>'+
+    var total=c.total||c.potentially_affected;
+    var reviewPercent=total>0?Math.max(0,Math.min(100,c.require_reverification/total*100)):0;
+    var unaffectedPercent=total>0?Math.max(0,Math.min(100,c.UNAFFECTED/total*100)):0;
+    out+='<section class="card climate-impact"><span class="eyebrow">01 / Selective re-verification</span><h2>One rule change. Not every claim changes.</h2>'+
+      '<p>The impact analyzer computes the affected set from the synthetic methodology transition. Nothing in this breakdown is a claimed productivity improvement.</p>'+
+      '<div class="climate-distribution">'+
+      '<div class="climate-distribution-head"><b>100-claim change-impact breakdown</b><span>computed from live analyzer output</span></div>'+
+      '<div class="climate-distribution-bar" role="img" aria-label="'+esc(c.require_reverification)+' require re-verification; '+esc(c.UNAFFECTED)+' unaffected out of '+esc(total)+' claims">'+
+      '<span class="climate-part-review" style="width:'+reviewPercent+'%"></span>'+
+      '<span class="climate-part-unaffected" style="width:'+unaffectedPercent+'%"></span></div>'+
+      '<div class="climate-distribution-legend"><span><b>'+esc(c.require_reverification)+'</b> re-verify</span><span><b>'+esc(c.UNAFFECTED)+'</b> unaffected</span></div></div>'+
       '<div class="metric-grid">'+
       climateMetric('Candidate claims',c.potentially_affected,'same methodology family')+
       climateMetric('Re-verify',c.require_reverification,'semantic dependency changed')+
@@ -189,7 +213,7 @@ function pgClimateChainDemo() {
 
   if(ClimateChainDemo.anchorPlan) {
     var plan=ClimateChainDemo.anchorPlan;
-    out+='<section class="card climate-anchor"><span class="eyebrow">Blockchain provenance witness</span><h2>Two-step anchor plan</h2>'+
+    out+='<section class="card climate-anchor"><span class="eyebrow">02 / Public provenance witness</span><h2>From package P1 to P2, on chain.</h2>'+
       '<p>The contract stores package hashes and lineage only. MRV logic remains deterministic and off-chain.</p>'+
       '<div class="flow"><span>Genesis package</span><span>→</span><span>Successor package</span><span>→</span><span>Claim head</span></div>'+
       '<p><b>Browser planner status:</b> '+esc(plan.chain_status)+' (this button prepares arguments locally; it never sends a transaction).</p>'+
@@ -206,18 +230,18 @@ function pgClimateChainDemo() {
       '</section>';
   }
 
-  out+='<section class="card climate-trust"><span class="eyebrow">Trust model</span><h2>External witness, not climate truth</h2>'+
+  out+='<section class="card climate-trust"><span class="eyebrow">03 / Explicit trust boundary</span><h2>External witness, not climate truth</h2>'+
     '<div class="grid"><article><h3>On-chain</h3><p>'+trust.on_chain.map(esc).join(' · ')+'</p></article>'+
     '<article><h3>Off-chain</h3><p>'+trust.off_chain.map(esc).join(' · ')+'</p></article>'+
     '<article><h3>Never claimed</h3><p>'+trust.never_claimed.map(esc).join(' · ')+'</p></article></div>'+
     '<p><b>'+esc(trust.design_rule)+'</b> The anchor contract rejects duplicate package hashes, missing parents and lineage forks.</p></section>';
 
-  out+='<section class="card climate-adoption"><span class="eyebrow">Practical adoption</span><h2>Who uses NaFT?</h2><div class="grid">'+
+  out+='<section class="card climate-adoption"><span class="eyebrow">04 / From prototype to operations</span><h2>Who uses NaFT?</h2><div class="grid">'+
     climateAdoptionRoles().map(climateRoleCard).join('')+
     '</div><div class="flow"><span>Project aggregator</span><span>→</span><span>NaFT compiler</span><span>→</span><span>Verification operator</span><span>→</span><span>Registry / program</span></div>'+
     '<p class="muted">NaFT is infrastructure for evidence and verification operations; it is not a consumer carbon-credit wallet.</p></section>';
 
-  out+='<section class="card climate-engineering"><span class="eyebrow">Engineering evidence</span><h2>Designed to fail closed</h2>'+
+  out+='<section class="card climate-engineering"><span class="eyebrow">05 / Engineering evidence</span><h2>Designed to fail closed</h2>'+
     '<div class="grid">'+
     climateMetric('Adversarial cases','614','independent full-recomputation oracle')+
     climateMetric('False negatives','0','within the tested synthetic state space')+
