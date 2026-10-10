@@ -18,7 +18,7 @@ Do not add new product scope after the freeze starts.
 For the intended submission SHA, require:
 
 - push CI success;
-- pull-request CI success;
+- the **hackathon-branch push CI** succeeds (the redundant pull-request CI for this exact branch is intentionally skipped; Skip is expected);
 - GitHub Pages deploy success;
 - Solidity ABI + bytecode compilation success;
 - browser ClimateChain flow success;
@@ -26,7 +26,11 @@ For the intended submission SHA, require:
 
 Do not mix evidence from different SHAs.
 
-## 3. Decide testnet state
+## 3. Confirm current VERIFIED_TESTNET state
+
+Ethereum Sepolia public evidence is already recorded. Run `bash scripts/verify-live-sepolia.sh` to re-check it **without re-deploying or signing**. The alternative historical states remain below as integrity guidance.
+
+## 3A. Historical testnet states
 
 Exactly one state is allowed.
 
@@ -64,7 +68,7 @@ Submission timestamp:
 
 After the final green SHA is known:
 
-- keep PR #20 open/draft until the submission strategy is finalized;
+- keep PR #20 open/draft unless explicitly instructed to mark ready or merge;
 - create a dedicated release/tag or frozen release branch from the exact submission SHA;
 - do not move that frozen ref after submission.
 
@@ -96,3 +100,5 @@ Re-check the live Devpost page for:
 - any last-minute organizer clarification.
 
 The repository cannot guarantee that external competition requirements have not changed.
+
+Do not interpret green CI or published Pages as proof of an uploaded video or submitted Devpost entry. These external actions need their own URLs/confirmation.
