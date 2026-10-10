@@ -164,3 +164,72 @@ body[data-page="climatechain"] summary:focus-visible{outline:3px solid #f8cf7a;o
   body[data-page="climatechain"] *::before,
   body[data-page="climatechain"] *::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}
 }
+
+/* ClimateChain 2026: practical operating scenario and reusable architecture figure */
+body[data-page="climatechain"] .climate-scenario{
+  background:linear-gradient(180deg,#fff 0%,#f7fcf8 100%);
+  border-top:4px solid #b6e59d;
+}
+body[data-page="climatechain"] .climate-section-top{
+  display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;
+}
+body[data-page="climatechain"] .climate-context-label{
+  font-size:10px;letter-spacing:.11em;font-weight:850;color:#396b57;
+  background:#eaf6e8;border:1px solid #b9dfc3;border-radius:99px;padding:6px 11px;
+}
+body[data-page="climatechain"] .climate-scenario-steps{
+  display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:24px 0 18px;
+}
+body[data-page="climatechain"] .climate-scenario-steps article{
+  min-width:0;border:1px solid #d7e7db;border-radius:14px;background:#fff;padding:19px;
+}
+body[data-page="climatechain"] .climate-scenario-index{
+  display:block;font:750 11px/1.4 ui-monospace,monospace;letter-spacing:.08em;color:#398768;
+}
+body[data-page="climatechain"] .climate-scenario-steps h3{margin:11px 0 7px;color:#173b32}
+body[data-page="climatechain"] .climate-scenario-steps p{font-size:13px;color:#526f62;margin:0}
+body[data-page="climatechain"] .climate-scenario-result{
+  display:grid;grid-template-columns:repeat(3,minmax(0,1fr));border-radius:16px;
+  background:#0c2e29;padding:20px;gap:12px;color:#fff;margin:18px 0;
+}
+body[data-page="climatechain"] .climate-scenario-result>div{
+  padding:10px 16px;min-width:0;border-right:1px solid #a8ceb72c;
+}
+body[data-page="climatechain"] .climate-scenario-result>div:last-child{border:0}
+body[data-page="climatechain"] .climate-scenario-caption{
+  color:#b6d6c4;font-size:11px;display:block;font-weight:700;line-height:1.55;min-height:34px;
+}
+body[data-page="climatechain"] .climate-scenario-result strong{
+  display:block;font-size:clamp(30px,4vw,48px);letter-spacing:-.06em;
+  color:#d0f7a5;line-height:1.2;margin:7px 0;
+}
+body[data-page="climatechain"] .climate-scenario-result small{
+  display:block;color:#a7c8b6;line-height:1.55;font-size:11px;
+}
+body[data-page="climatechain"] .climate-scenario-limit{
+  border-left:3px solid #d4a85e;background:#fff9ed;padding:12px 16px;
+  border-radius:8px;color:#685941;font-size:12px;
+}
+body[data-page="climatechain"] .climate-architecture{
+  background:linear-gradient(180deg,#fff,#f7fbf8);
+}
+body[data-page="climatechain"] .climate-architecture-figure{margin:20px 0 0}
+body[data-page="climatechain"] .climate-architecture-figure>a{
+  display:block;border-radius:16px;overflow:hidden;border:1px solid #31574b;
+  background:#0a211e;
+}
+body[data-page="climatechain"] .climate-architecture-figure img{
+  display:block;width:100%;height:auto;max-width:100%;
+}
+body[data-page="climatechain"] .climate-architecture-figure figcaption{
+  font-size:11px;line-height:1.6;color:#657d72;margin-top:11px;
+}
+@media(max-width:720px){
+  body[data-page="climatechain"] .climate-scenario-steps{grid-template-columns:minmax(0,1fr)}
+  body[data-page="climatechain"] .climate-scenario-result{grid-template-columns:minmax(0,1fr);gap:0;padding:15px}
+  body[data-page="climatechain"] .climate-scenario-result>div{
+    border-right:0;border-bottom:1px solid #a8ceb72c;padding:14px 8px;
+  }
+  body[data-page="climatechain"] .climate-scenario-result>div:last-child{border:0}
+  body[data-page="climatechain"] .climate-scenario-caption{min-height:0}
+}

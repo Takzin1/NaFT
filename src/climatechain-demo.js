@@ -144,6 +144,49 @@ function climateRoleCard(item) {
   return '<article class="card"><span class="eyebrow">'+esc(item.role)+'</span><p>'+esc(item.need)+'</p></article>';
 }
 
+
+function climateScenarioSection(impact) {
+  var c=impact?impact.counts:null;
+  var display=function(value){return c?esc(value):'—';};
+  return '<section class="card climate-scenario" aria-labelledby="climate-scenario-title">'+
+    '<div class="climate-section-top"><span class="eyebrow">Practical climate workflow · illustrative only</span>'+
+    '<span class="climate-context-label">FICTIONAL AGGREGATOR / SYNTHETIC CLAIMS</span></div>'+
+    '<h2 id="climate-scenario-title">One operator. 100 claims. A changed methodology.</h2>'+
+    '<p>Imagine a project aggregator coordinating evidence for <b>100 synthetic rice-paddy MRV claims</b>. '+
+    'A new synthetic methodology version adds requirements to the intensive pathway. The operator must decide which records need attention, and which are unaffected.</p>'+
+    '<div class="climate-scenario-steps" role="list">'+
+    '<article role="listitem"><span class="climate-scenario-index">01 / TRIGGER</span><h3>Requirements change</h3>'+
+      '<p>NAFT-SYNTHETIC@1 → @2. This is a modeled change, not an official AG-005 amendment.</p></article>'+
+    '<article role="listitem"><span class="climate-scenario-index">02 / TRIAGE</span><h3>Trace affected claims</h3>'+
+      '<p>NaFT examines dependency bindings rather than treating every claim as changed.</p></article>'+
+    '<article role="listitem"><span class="climate-scenario-index">03 / ACTION</span><h3>Review or request evidence</h3>'+
+      '<p>Re-evaluate eligible claims, stop when required evidence is missing, and retain predecessor packages.</p></article>'+
+    '</div>'+
+    '<div class="climate-scenario-result" aria-live="polite">'+
+      '<div><span class="climate-scenario-caption">All-claims review queue · hypothetical comparison</span>'+
+      '<strong>100</strong><small>Illustrative baseline, not observed industry practice</small></div>'+
+      '<div><span class="climate-scenario-caption">NaFT re-verification set · computed</span>'+
+      '<strong>'+display(c&&c.require_reverification)+'</strong><small>'+ (c?'15 automatically re-evaluated · 15 evidence required':'Click the live demo above to compute the result') +'</small></div>'+
+      '<div><span class="climate-scenario-caption">Unaffected claims · computed</span>'+
+      '<strong>'+display(c&&c.UNAFFECTED)+'</strong><small>Unchanged semantic dependencies; not a field cost-savings result</small></div>'+
+    '</div>'+
+    '<p class="climate-scenario-limit"><b>Not a climate-impact measurement:</b> This illustrates a possible verification workflow with synthetic claims. No participating farms, measured emissions reduction, labor savings, registry approval, or commercial adoption is asserted.</p>'+
+    '</section>';
+}
+
+function climateArchitectureSection() {
+  return '<section class="card climate-architecture" aria-labelledby="climate-architecture-title">'+
+    '<span class="eyebrow">Why this is different / Architecture</span>'+
+    '<h2 id="climate-architecture-title">Verify evidence semantics off-chain. Witness package lineage on-chain.</h2>'+
+    '<p>NaFT focuses on the gap between changing methodology rules and a durable audit history. The chain records package hashes and parentage; it cannot assess the underlying observation or methodology eligibility.</p>'+
+    '<figure class="climate-architecture-figure">'+
+      '<a href="docs/assets/naft-climatechain-architecture.svg" target="_blank" rel="noopener noreferrer" aria-label="Open full-size editable NaFT system architecture diagram">'+
+        '<img src="docs/assets/naft-climatechain-architecture.svg" width="1600" height="760" loading="lazy" alt="NaFT architecture diagram: evidence and methodology versions flow through an off-chain evidence compiler, dependency-based impact analysis, selective re-verification, and P1-to-P2 package lineage; only package hashes and lineage are witnessed by the Sepolia contract." />'+
+      '</a>'+
+      '<figcaption>Architecture is a technical design, not a claim of a live registry integration or an officially certified methodology. Open the diagram to inspect it at full size.</figcaption>'+
+    '</figure></section>';
+}
+
 function climateChainHeader() {
   return '<header class="reviewer-header"><div class="climate-topbar">'+
     '<a class="climate-brand" href="#/climatechain" aria-label="NaFT ClimateChain demo home">'+
@@ -176,6 +219,8 @@ function pgClimateChainDemo() {
     '<div class="climate-process-step"><span>03</span> Re-verify affected</div>'+
     '<div class="climate-process-step"><span>04</span> Witness lineage</div>'+
     '</div></section>';
+
+  out+=climateScenarioSection(impact);
 
   out+='<section class="card climate-reference"><span class="eyebrow">Real-world reference context</span><h2>Why this problem exists outside the demo</h2>'+
     '<p>NaFT is motivated by evidence-heavy climate programs such as <b>'+esc(reference.domain)+'</b>. The repository retains an '+esc(reference.methodology)+' in which evidence categories include:</p>'+
@@ -229,6 +274,8 @@ function pgClimateChainDemo() {
       button('Download anchor plan JSON','climatechain-export-anchor',false)+
       '</section>';
   }
+
+  out+=climateArchitectureSection();
 
   out+='<section class="card climate-trust"><span class="eyebrow">03 / Explicit trust boundary</span><h2>External witness, not climate truth</h2>'+
     '<div class="grid"><article><h3>On-chain</h3><p>'+trust.on_chain.map(esc).join(' · ')+'</p></article>'+
