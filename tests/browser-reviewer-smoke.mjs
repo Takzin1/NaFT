@@ -114,6 +114,15 @@ if(climateDocMeta.lang!=='en'||climateDocMeta.title!=='NaFT — Version-Aware Cl
   throw new Error('CLIMATECHAIN_DOCUMENT_METADATA:'+JSON.stringify(climateDocMeta));
 }
 const climateFirstView=await evaluate("({scrollWidth:document.documentElement.scrollWidth,innerWidth:window.innerWidth,hasOperationalControls:!!document.querySelector('#actor,#activity,nav'),text:document.body.innerText})");
+const climateVisual=await evaluate("({page:document.body.dataset.page,themeLoaded:Array.from(document.styleSheets).some(function(s){return s.href&&s.href.includes('climatechain-theme.css');}),heroGradient:getComputedStyle(document.querySelector('.climate-hero')).backgroundImage,heroRadius:getComputedStyle(document.querySelector('.climate-hero')).borderRadius,heroContent:!!document.querySelector('.climate-hero-evidence .climate-status .verified'),primaryRect:(function(){var r=document.querySelector('.climate-hero-primary').getBoundingClientRect();return {x:r.x,y:r.y};})(),proofRect:(function(){var r=document.querySelector('.climate-hero-evidence').getBoundingClientRect();return {x:r.x,y:r.y};})()})");
+if(climateVisual.page!=='climatechain'||!climateVisual.themeLoaded||
+   !climateVisual.heroGradient.includes('linear-gradient')||
+   !climateVisual.heroContent||
+   Math.abs(climateVisual.primaryRect.x-climateVisual.proofRect.x)>2||
+   climateVisual.proofRect.y<=climateVisual.primaryRect.y){
+   throw new Error('CLIMATECHAIN_MOBILE_THEME_OR_STACK_INVALID:'+JSON.stringify(climateVisual));
+}
+
 if(climateFirstView.scrollWidth>climateFirstView.innerWidth) throw new Error('CLIMATECHAIN_HORIZONTAL_OVERFLOW:'+JSON.stringify(climateFirstView));
 if(climateFirstView.hasOperationalControls) throw new Error('CLIMATECHAIN_HEADER_NOT_ISOLATED:'+JSON.stringify(climateFirstView));
 for(const phrase of [
@@ -144,6 +153,12 @@ const expectedClimate=[
   ['New evidence needed','15']
 ];
 if(JSON.stringify(climateMetrics)!==JSON.stringify(expectedClimate)) throw new Error('UNEXPECTED_CLIMATECHAIN_METRICS:'+JSON.stringify(climateMetrics));
+const climateDistribution=await evaluate("(function(){var bar=document.querySelector('.climate-distribution-bar');var review=bar.querySelector('.climate-part-review');var rest=bar.querySelector('.climate-part-unaffected');return {aria:bar.getAttribute('aria-label'),review:review.getBoundingClientRect().width/bar.getBoundingClientRect().width,unaffected:rest.getBoundingClientRect().width/bar.getBoundingClientRect().width};})()");
+if(!climateDistribution.aria.includes('30 require re-verification; 70 unaffected out of 100 claims')||
+  Math.abs(climateDistribution.review-.3)>.025||Math.abs(climateDistribution.unaffected-.7)>.025) {
+  throw new Error('CLIMATECHAIN_VISUALIZED_COUNTS_NOT_DERIVED:'+JSON.stringify(climateDistribution));
+}
+
 
 await evaluate("document.querySelector('[data-action=\\\"climatechain-anchor-plan\\\"]').click(); true");
 await until("ClimateChainDemo.anchorPlan!==null && document.querySelector('.climate-anchor')!==null && document.body.innerText.includes('Browser planner status: NOT_SUBMITTED') && document.body.innerText.includes('VERIFIED TESTNET')",'climatechain anchor plan');
@@ -164,8 +179,21 @@ if(publicChainProof.status!=='VERIFIED_TESTNET'||
    throw new Error('PUBLIC_TESTNET_PROOF_MISMATCH:'+JSON.stringify(publicChainProof));
 }
 
+// Confirm desktop side-by-side judge hero and return to mobile before checking research workflows.
+await send('Emulation.setDeviceMetricsOverride',{width:1440,height:900,deviceScaleFactor:1,mobile:false});
+const climateDesktop=await evaluate("({scrollWidth:document.documentElement.scrollWidth,innerWidth:window.innerWidth,primary:(function(){var r=document.querySelector('.climate-hero-primary').getBoundingClientRect();return {x:r.x,y:r.y};})(),proof:(function(){var r=document.querySelector('.climate-hero-evidence').getBoundingClientRect();return {x:r.x,y:r.y};})()})");
+if(climateDesktop.scrollWidth>climateDesktop.innerWidth||
+  climateDesktop.proof.x<=climateDesktop.primary.x||
+  Math.abs(climateDesktop.primary.y-climateDesktop.proof.y)>100) {
+  throw new Error('CLIMATECHAIN_DESKTOP_GRID_INVALID:'+JSON.stringify(climateDesktop));
+}
+await send('Emulation.setDeviceMetricsOverride',{width:375,height:812,deviceScaleFactor:1,mobile:true});
+
 await evaluate("location.hash='#/methodologies'; true");
 await until("document.body.innerText.includes('Rule Packを版で固定する')",'methodologies route render');
+const researchScope=await evaluate("({page:document.body.dataset.page,hasClimateHero:!!document.querySelector('.climate-hero'),background:getComputedStyle(document.body).backgroundColor})");
+if(researchScope.page!=='research'||researchScope.hasClimateHero) throw new Error('CLIMATECHAIN_THEME_LEAK:'+JSON.stringify(researchScope));
+
 const researchDocMeta=await evaluate("({lang:document.documentElement.lang,title:document.title})");
 if(researchDocMeta.lang!=='ja'||researchDocMeta.title!=='NaFT — Version-aware MRV Evidence Compiler') {
   throw new Error('RESEARCH_DOCUMENT_METADATA:'+JSON.stringify(researchDocMeta));
