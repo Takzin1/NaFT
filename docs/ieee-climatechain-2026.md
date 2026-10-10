@@ -6,6 +6,8 @@
 
 **Public demo:** https://takzin1.github.io/NaFT/#/climatechain
 
+**Submission pack:** [Judge-ready final evidence and video path](ieee-submission-pack.md)
+
 NaFT is a version-aware MRV evidence compiler. It binds evidence to an exact methodology version, constructs a dependency/provenance graph, and determines which claims require re-verification when methodology, evidence, parameters, field data or activity data change.
 
 The ClimateChain branch adds a minimal blockchain provenance witness for the resulting versioned MRV packages. The chain is not used to decide climate truth.
@@ -160,6 +162,16 @@ The provenance witness is now independently verified on **Ethereum Sepolia (chai
 The read-only verifier reconstructed the contract and deterministic P1 → P2 plan from that recorded source commit and matched creation bytecode, runtime bytecode, writer identity, exact calldata, event data, parent linkage and final `headByClaim`.
 
 This is a provenance witness only. It does not certify climate truth, methodology eligibility, registry acceptance or carbon-credit issuance.
+
+### Independent read-only verification
+
+From the exact hackathon branch:
+
+```bash
+bash scripts/verify-live-sepolia.sh
+```
+
+No signing key, transaction or fee is required. The check depends on a responding Sepolia RPC and reuses the recorded deployment source commit.
 
 ## Submission assets
 
