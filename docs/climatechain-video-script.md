@@ -1,77 +1,55 @@
-# IEEE ClimateChain 2026 — 4 Minute Demo Script
+# IEEE ClimateChain 2026 — 4-minute English demo script
 
-Target length: **about 4:00–4:20**. Keep the browser on `#/climatechain` unless an explorer transaction is shown.
+**Target:** 3:55–4:15. Real screen recording with English narration and readable captions. This is a script; it does **not** mean a video has been recorded or uploaded.
 
-## 0:00–0:25 — Problem
+**Entry:** https://takzin1.github.io/NaFT/#/climatechain
 
-> Carbon markets depend on evidence. But evidence is not static. Methodologies, parameters and required records change over time. When that happens, project operators need to know which historical claims must be reviewed again — without silently reusing stale decisions or rechecking everything.
+## 0:00–0:25 — Problem (show hero)
 
-Show the hero and the agricultural MRV reference context.
+> Carbon markets depend on evidence. But the rules governing that evidence change. Methodologies, parameters and required documents evolve. When that happens, operators must identify exactly which historical claims need another review. Rechecking everything is wasteful, but keeping a materially stale claim is unsafe.
 
-## 0:25–0:50 — What NaFT is
+## 0:25–0:50 — What NaFT is (point at four-stage flow)
 
-> NaFT is a version-aware MRV evidence compiler. It binds claims to an exact methodology version, builds a dependency and provenance graph, and traces the impact of later changes.
+> NaFT is a version-aware MRV evidence compiler and selective re-verification engine. It binds records to exact methodology versions and builds deterministic dependency and provenance graphs. When a rule or piece of evidence changes, NaFT traces which claims are affected, and why.
 
-Point at the flow: rule change → trace dependencies → re-verify affected claims → anchor lineage.
+## 0:50–1:35 — Run the experiment (click **Run 100-claim methodology update**)
 
-## 0:50–1:35 — Main live demo
+> We begin with one hundred synthetic claims under methodology version one. Version two changes requirements for intensive claims only. NaFT finds thirty that require re-verification and seventy unaffected. Of the thirty, fifteen can be automatically re-evaluated. Fifteen stop and require new evidence.
 
-Click **Run 100-claim methodology update**.
+> This thirty/seventy split is based on the fixture we constructed. It is not a measured efficiency gain or a field result.
 
-> In this synthetic workload, 100 claims were created under version one. Version two introduces additional requirements that only affect the intensive claims.
+Hold the five metrics visibly for several seconds.
 
-Show:
+## 1:35–2:05 — Inspect CLIMATE-086 (open **Why this claim changed**)
 
-- 100 candidate claims
-- 30 require re-verification
-- 70 unaffected
-- 15 auto re-evaluated
-- 15 need new evidence
+> For the example claim CLIMATE-086, NaFT shows the changed dependency and a successor package that explicitly supersedes its predecessor. The original package remains immutable. Missing evidence causes a fail-closed state, and old human decisions cannot silently carry over when their binding changes.
 
-> These numbers are fixture-derived, not a performance claim. The important point is that the decision is derived from explicit dependencies and change semantics.
+## 2:05–2:55 — Show on-chain evidence (click **Prepare blockchain anchor plan**)
 
-## 1:35–2:05 — Why one claim changed
+> This is not merely a planned blockchain feature. The same deterministic package lineage is recorded on Ethereum Sepolia: genesis package P1, then successor P2, with P2 pointing back to P1.
 
-Open the representative lineage detail.
+Show **VERIFIED TESTNET**; open **P1 Tx**, **P2 Tx** and **Deployment source** links. Show the public contract or P2 transaction on Etherscan.
 
-> For this claim, NaFT can show why the rule change matters, which dependency was affected, and the exact successor package. The new package explicitly supersedes the old one rather than mutating history.
+> The browser button only recomputes the transaction arguments; it does not broadcast another transaction. Our independent read-only verifier reconstructed the exact contract bytecode and package plan from the recorded source commit, then checked calldata, events, writer identity and the final chain head.
 
-Show old package → successor package.
+## 2:55–3:25 — Trust boundary and adoption (scroll to Trust model and Who uses NaFT?)
 
-## 2:05–2:35 — Fail-closed behavior
+> Blockchain does not verify climate truth. It witnesses package hashes and lineage. Methodology interpretation, evidence authenticity and human review remain off-chain. Aggregators can organize many claims, verification operators can focus on affected cases, and programs can inspect lineage without receiving raw private evidence.
 
-> If required evidence is missing, NaFT does not turn uncertainty into a pass. And human decisions are bound to the input and methodology state, so a stale decision cannot silently survive a later change.
+## 3:25–3:55 — Technical proof (show Engineering evidence)
 
-Briefly point to the evidence-required count and trust boundary.
+> The impact analyzer was compared against an independent full-recomputation oracle across six hundred fourteen deterministic adversarial changes and five change classes. We observed zero false negatives within that tested synthetic state space, while allowing conservative extra review. This is engineering evidence, not proof of field savings or formal certification.
 
-## 2:35–3:10 — Blockchain provenance
+## 3:55–4:10 — Closing (return to NaFT heading)
 
-Click **Prepare blockchain anchor plan**.
+> Carbon markets need evidence that survives methodology change. NaFT makes the evolution of climate MRV evidence selectively re-verifiable, explainable and independently traceable.
 
-If testnet record is still `NOT_SUBMITTED`:
+## Recording/finishing checklist
 
-> The browser prepares exact package-lineage hashes but does not pretend that a blockchain transaction exists. Until a real public-testnet transaction is independently confirmed, the project remains explicitly NOT SUBMITTED.
-
-If the record is `VERIFIED_TESTNET`:
-
-> The same package lineage is anchored to a public testnet. The blockchain witnesses package hashes and parentage. It does not decide climate truth or issue a carbon credit.
-
-Show explorer evidence only if the verified record is complete.
-
-## 3:10–3:35 — Practical adoption
-
-> NaFT is not a consumer wallet. A project aggregator uses it to organize claims, a verification operator uses it to focus review on affected cases, and a registry or program can inspect package lineage without receiving raw private evidence on-chain.
-
-Show the three adoption cards.
-
-## 3:35–3:55 — Engineering evidence
-
-> The prototype is tested across five change classes. An independent full-recomputation oracle covers 614 deterministic adversarial changes. We observed zero false negatives within that tested synthetic state space, while keeping the limitations explicit.
-
-Show the engineering evidence section.
-
-## 3:55–4:10 — Closing
-
-> Carbon credits need more than a ledger. They need evidence that survives change. NaFT makes climate MRV version-aware, selectively re-verifiable and independently traceable.
-
-End on the NaFT title and the ClimateChain track name.
+- Use a real browser capture, not mock transactions or simulated Etherscan screens.
+- Confirm **VERIFIED TESTNET** and all contract/deploy/P1/P2 links in a clean browser first.
+- Make the transaction hashes readable, use 1080p or higher, clear narration and English captions.
+- Never show MetaMask recovery phrases/private keys, Infura keys, RPC credentials or GitHub secrets.
+- Confirm the **current official contest requirements** (including accepted video duration) before recording.
+- Upload a publicly accessible or organizer-accepted unlisted video and check playback without login.
+- Insert actual video URL and final Devpost URL in [submission pack](ieee-submission-pack.md) only after they exist.
