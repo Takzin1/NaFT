@@ -113,6 +113,18 @@ const climateDocMeta=await evaluate("({lang:document.documentElement.lang,title:
 if(climateDocMeta.lang!=='en'||climateDocMeta.title!=='NaFT — Version-Aware Climate MRV | IEEE ClimateChain 2026') {
   throw new Error('CLIMATECHAIN_DOCUMENT_METADATA:'+JSON.stringify(climateDocMeta));
 }
+const scenarioBefore=await evaluate("(function(){var s=document.querySelector('.climate-scenario');return {exists:!!s,labels:s&&s.innerText.includes('FICTIONAL AGGREGATOR / SYNTHETIC CLAIMS'),values:s&&Array.from(s.querySelectorAll('.climate-scenario-result strong')).map(x=>x.textContent.trim()),limit:s&&s.innerText.includes('No participating farms, measured emissions reduction')};})()");
+if(!scenarioBefore.exists||!scenarioBefore.labels||!scenarioBefore.limit||
+   JSON.stringify(scenarioBefore.values)!==JSON.stringify(['100','—','—'])) {
+   throw new Error('CLIMATECHAIN_PRACTICAL_SCENARIO_INITIAL_STATE:'+JSON.stringify(scenarioBefore));
+}
+const diagramBefore=await evaluate("({exists:!!document.querySelector('.climate-architecture img'),alt:document.querySelector('.climate-architecture img')?.alt,src:document.querySelector('.climate-architecture img')?.getAttribute('src')})");
+if(!diagramBefore.exists||!diagramBefore.src?.includes('naft-climatechain-architecture.svg')||
+   !diagramBefore.alt?.includes('off-chain evidence compiler')) {
+   throw new Error('CLIMATECHAIN_ARCHITECTURE_MISSING:'+JSON.stringify(diagramBefore));
+}
+await evaluate("document.querySelector('.climate-architecture img').scrollIntoView();true");
+await until("document.querySelector('.climate-architecture img').complete && document.querySelector('.climate-architecture img').naturalWidth===1600",'architecture SVG browser load');
 const climateFirstView=await evaluate("({scrollWidth:document.documentElement.scrollWidth,innerWidth:window.innerWidth,hasOperationalControls:!!document.querySelector('#actor,#activity,nav'),text:document.body.innerText})");
 const climateVisual=await evaluate("({page:document.body.dataset.page,themeLoaded:Array.from(document.styleSheets).some(function(s){return s.href&&s.href.includes('climatechain-theme.css');}),heroGradient:getComputedStyle(document.querySelector('.climate-hero')).backgroundImage,heroRadius:getComputedStyle(document.querySelector('.climate-hero')).borderRadius,heroContent:!!document.querySelector('.climate-hero-evidence .climate-status .verified'),primaryRect:(function(){var r=document.querySelector('.climate-hero-primary').getBoundingClientRect();return {x:r.x,y:r.y};})(),proofRect:(function(){var r=document.querySelector('.climate-hero-evidence').getBoundingClientRect();return {x:r.x,y:r.y};})()})");
 if(climateVisual.page!=='climatechain'||!climateVisual.themeLoaded||
@@ -144,6 +156,14 @@ if(JSON.stringify(adoptionRoles)!==JSON.stringify(expectedAdoptionRoles)) throw 
 
 await evaluate("document.querySelector('[data-action=\\\"climatechain-run\\\"]').click(); true");
 await until("ClimateChainDemo.impact!==null && document.querySelectorAll('.climate-impact .metric').length===5",'climatechain impact render');
+const scenarioAfter=await evaluate("Array.from(document.querySelectorAll('.climate-scenario-result strong')).map(x=>x.textContent.trim())");
+if(JSON.stringify(scenarioAfter)!==JSON.stringify(['100','30','70'])) {
+   throw new Error('CLIMATECHAIN_PRACTICAL_SCENARIO_NOT_COMPUTED:'+JSON.stringify(scenarioAfter));
+}
+const scenarioAction=await evaluate("document.querySelector('.climate-scenario-result').innerText");
+if(!scenarioAction.includes('15 automatically re-evaluated')||!scenarioAction.includes('15 evidence required')){
+   throw new Error('CLIMATECHAIN_SCENARIO_SPLIT_NOT_COMPUTED:'+scenarioAction);
+}
 const climateMetrics=await evaluate("Array.from(document.querySelectorAll('.climate-impact .metric')).map(function(x){return [x.querySelector('span').textContent.trim(),x.querySelector('strong').textContent.trim()];})");
 const expectedClimate=[
   ['Candidate claims','100'],

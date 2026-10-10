@@ -79,6 +79,17 @@ check(!trust.on_chain.some(x=>x.includes('raw evidence')),'raw evidence is not p
 check(trust.never_claimed.includes('formal certification'),'formal certification remains outside trust claim');
 check(trust.design_rule.includes('does not decide climate truth'),'blockchain trust boundary is explicit');
 
+const diagram=fs.readFileSync('docs/assets/naft-climatechain-architecture.svg','utf8');
+check(diagram.includes('OFF-CHAIN / DETERMINISTIC EVALUATION + HUMAN REVIEW'),'diagram separates off-chain MRV judgment');
+check(diagram.includes('ON-CHAIN / ETHEREUM SEPOLIA'),'diagram isolates public on-chain witness');
+check(diagram.includes('package hashes + parentage only'),'diagram limits chain proof to hashes and lineage');
+check(diagram.includes('synthetic workload')&&!diagram.includes('measured field benefit'),'diagram marks experimental boundary');
+const scenarioSource=fs.readFileSync('src/climatechain-demo.js','utf8');
+check(scenarioSource.includes('FICTIONAL AGGREGATOR / SYNTHETIC CLAIMS'),'scenario explicitly fictional');
+check(scenarioSource.includes('display(c&&c.require_reverification)')&&scenarioSource.includes('display(c&&c.UNAFFECTED)'),'scenario results are computed, not hardcoded');
+check(scenarioSource.includes('c.AUTO_REEVALUATED')&&scenarioSource.includes('c.EVIDENCE_REQUIRED'),'scenario subgroups use real analyzer counts');
+check(scenarioSource.includes('No participating farms, measured emissions reduction, labor savings'),'scenario disclaims unmeasured impacts');
+
 const impact=runClimateChainImpact();
 eq(impact.counts.total,100,'100 synthetic claims evaluated');
 eq(impact.counts.require_reverification,30,'30 claims require re-verification');

@@ -61,6 +61,14 @@ The main demo applies a synthetic methodology transition to 100 claims and compu
 
 The 30 / 70 split is fixture-derived, not a performance claim. The point of the demo is the dependency-aware decision and explicit lineage, not the ratio itself.
 
+## Practical workflow and measurable boundaries
+
+The user scenario is deliberately narrow: a **fictional project aggregator coordinating 100 synthetic rice-paddy methane MRV claims**. When a modeled methodology revision changes evidence obligations for intensive claims, NaFT identifies 30 requiring re-verification (15 automatically re-evaluated; 15 needing additional evidence) while 70 have unchanged semantic dependencies. The operator can prioritize that queue and examine the exact evidence or rule dependency underlying each affected claim.
+
+A review of all 100 is shown only as a **hypothetical comparison**, not a recorded industry baseline. The 30/70 split is produced by this fixture and **does not establish time savings, verified emission reductions, participating farms, or real-world acceptance**.
+
+**What distinguishes the architecture:** deterministic evidence compilation and dependency-aware re-verification happen **off-chain**; only package hashes and version parentage are witnessed by Ethereum Sepolia. The [source architecture diagram](assets/naft-climatechain-architecture.svg) exposes that boundary. No live registry integration is claimed.
+
 ## How we built it
 
 The research core is a build-free deterministic JavaScript implementation with:

@@ -166,7 +166,7 @@ function climateScenarioSection(impact) {
       '<div><span class="climate-scenario-caption">All-claims review queue · hypothetical comparison</span>'+
       '<strong>100</strong><small>Illustrative baseline, not observed industry practice</small></div>'+
       '<div><span class="climate-scenario-caption">NaFT re-verification set · computed</span>'+
-      '<strong>'+display(c&&c.require_reverification)+'</strong><small>'+ (c?'15 automatically re-evaluated · 15 evidence required':'Click the live demo above to compute the result') +'</small></div>'+
+      '<strong>'+display(c&&c.require_reverification)+'</strong><small>'+ (c?esc(c.AUTO_REEVALUATED)+' automatically re-evaluated · '+esc(c.EVIDENCE_REQUIRED)+' evidence required':'Click the live demo above to compute the result') +'</small></div>'+
       '<div><span class="climate-scenario-caption">Unaffected claims · computed</span>'+
       '<strong>'+display(c&&c.UNAFFECTED)+'</strong><small>Unchanged semantic dependencies; not a field cost-savings result</small></div>'+
     '</div>'+

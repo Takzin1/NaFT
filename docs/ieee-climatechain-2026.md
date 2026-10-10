@@ -23,6 +23,12 @@ The submission is intentionally narrow:
 - re-checking every historical claim is wasteful, while missing a materially affected claim is unsafe;
 - package lineage needs an external witness without pretending that a ledger validates climate impact.
 
+## Concrete operating scenario (fictional, synthetic)
+
+The public demo now includes the working perspective of a **fictional rice-paddy MRV project aggregator**. It receives a simulated methodology update while coordinating **100 synthetic claims**. Based on the actual analyzer output, 30 claims need re-verification (15 automatically re-evaluated; 15 blocked pending evidence), and 70 are unaffected. The alternative of reviewing every claim is a **hypothetical** comparison, not a measured baseline or evidence of actual labor savings.
+
+See the [standalone NaFT architecture SVG](assets/naft-climatechain-architecture.svg), which explicitly separates off-chain evidence/rule semantics, selective re-verification, and human decisions from the real Sepolia P1→P2 provenance witness. No participating farms, emission reductions, currently adopted AG-005 compatibility, or registry acceptance are asserted.
+
 ## Real-world reference context
 
 The judge-first demo uses **Japanese rice-paddy methane MRV** as a real-world reference context because the retained AG-005 reference flow is evidence-heavy. Example evidence categories include pre-project baseline records, project records, drainage start/end evidence, heading-date records, field-area records and sustainability records.

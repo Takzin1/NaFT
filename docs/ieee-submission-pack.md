@@ -18,11 +18,21 @@
 
 **Track candidate:** Carbon Markets & Emissions Transparency. Confirm exact live track wording before submitting.
 
+## Real operational problem, illustrated safely
+
+**Illustrative persona:** a fictional Japanese rice-paddy methane MRV project aggregator responsible for organizing **100 synthetic claims**, not 100 participating farms.
+
+**Trigger:** a deliberately synthetic methodology change (`NAFT-SYNTHETIC@1 → @2`) adds requirements to intensive claims. NaFT traces dependency bindings and computes **30 requiring re-verification** (15 eligible for automatic re-evaluation, 15 blocked for missing evidence) and **70 unaffected**. A hypothetical all-claims review queue would cover 100 claims, but this is only a comparison scenario, **not observed operational practice or a measured 70% time/cost saving**.
+
+**Decision workflow:** project aggregator identifies changed claims → verification operator checks impacted cases/evidence gaps → a successor package supersedes its predecessor → the package hashes and lineage are independently witnessed on Sepolia. A program or registry could inspect hashes, but **no live registry integration or acceptance is claimed**.
+
+**Reusable architecture figure:** [NaFT off-chain/on-chain architecture (SVG)](assets/naft-climatechain-architecture.svg). The image is vector-based for readable slides and video, and is displayed directly in the live judge demo.
+
 ## Four-click demonstration
 
 1. Show **VERIFIED TESTNET** and open the source/transaction links.
 2. Click **Run 100-claim methodology update**. Show 100 candidates / 30 re-verify / 70 unaffected / 15 automatically re-evaluated / 15 new evidence required.
-3. Expand **Why this claim changed**: deterministic example `CLIMATE-086`.
+3. Show the **fictional aggregator scenario** and the **30/70 computed visual**; expand **Why this claim changed** for deterministic example `CLIMATE-086`.
 4. Click **Prepare blockchain anchor plan**. Compare the P1/P2 hashes on-screen with the public Etherscan transactions.
 
 **Important:** `NOT_SUBMITTED` in the **browser planner** means the button only constructs data locally and doesn't broadcast. The **separate public-testnet record** is `VERIFIED_TESTNET` because transactions were already sent and independently verified.
