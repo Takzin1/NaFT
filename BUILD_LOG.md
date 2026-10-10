@@ -46,7 +46,7 @@ Work added specifically on this branch:
 6. **Regression coverage**
    - Node tests cover impact counts, package lineage, real-world/context boundaries, adoption roles, anchor argument shape and contract guards;
    - real headless Chrome checks the English judge-first narrative, mobile overflow, calculated metrics and anchor-plan boundary;
-   - branch-specific ClimateChain checks total 56 assertions on top of the 1165 baseline assertions.
+   - branch-specific ClimateChain checks total 61 assertions on top of the 1165 baseline assertions.
 
 7. **Testnet completion runbook**
    - documents the human-signed deployment and two-transaction lineage flow;
@@ -94,3 +94,11 @@ A real public-testnet deployment and P1 → P2 lineage are now recorded on Ether
    - independently reconstructed the contract and anchor plan from deployment source commit `fb9016c6c3041ec0e77098e631d62138fbae582e`;
    - matched creation/runtime bytecode, writer identity, exact calldata, anchor events, P1→P2 parentage and final `headByClaim`;
    - keeps blockchain semantics limited to provenance witnessing, not climate certification.
+
+
+15. **Final IEEE evidence and submission hardening**
+   - verified CLIMATE-086's demo P1/P2 hashes against the previously anchored Sepolia packages;
+   - linked demo to P1, P2, deployment source and independent read-only verification;
+   - kept the browser planner's local NOT_SUBMITTED status separate from the VERIFIED_TESTNET public evidence record;
+   - expanded unit/Chrome regression checks; added one-command read-only verifier and complete judge-ready submission pack;
+   - prepared verified-chain four-minute English video narration, without claiming external video upload or Devpost submission.
