@@ -16,6 +16,6 @@ assert.match(html,/src="src\/gikuten-ja\.js"/);
 assert.match(html,/src="src\/mrv-ui\.js"/);
 assert.ok(html.indexOf('src/mrv-ui.js')<html.indexOf('src/gikuten-ja.js'));
 assert.match(html,/#\/reviewer-demo/);
-assert.match(html,/src="src\/gikuten.css"/);
+assert.match(html,/href="src\/gikuten.css"/);
 assert.ok(fs.readFileSync('naft-app.html','utf8').includes('src/mrv-ui.js'));
 console.log('技育展日本語版の表示文言・機械可読値・読み込み順を検証: OK');
