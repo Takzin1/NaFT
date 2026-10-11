@@ -13,6 +13,10 @@ NaFTは、方法論・証憑・係数・人間判断を版付きで保持し、�
 
 内部PASS、Pack release approval、最終宣誓は正式認証ではありません。外部登録簿へ接続しません。
 
+## 技育展向け日本語デモ
+
+[**技育展向け日本語版を開く**](gikuten.html#/reviewer-demo)（リポジトリ内でのリンク）｜[操作手順](docs/gikuten-demo.md)。オリジナルの研究UIを変更せず、日本語ページから100件の合成変更影響実験、判断の失効、6段階のMRVワークフローを操作できます。公開後のブラウザURLは `https://takzin1.github.io/NaFT/gikuten.html#/reviewer-demo` を想定します。**このブランチだけでは公開されません。** 計算用データは合成データで、30/70は性能指標ではありません。
+
 ## 実行・テスト
 
 Node.js 20+、Python 3、bashを使用します。GitHub ActionsではNode 24で全テストを実行します。ビルド、外部CDN、実行時依存パッケージはありません。

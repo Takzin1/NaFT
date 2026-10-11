@@ -11,5 +11,6 @@ node tests/smoke.test.js
 node tests/compiler.test.js
 node tests/mitou-impact.test.js
 node tests/impact-proof.test.js
+node tests/gikuten-ja.test.js
 python3 tests/check-static.py
 bash tests/security.sh
