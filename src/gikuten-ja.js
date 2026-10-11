@@ -202,9 +202,14 @@ var GIKUTEN_JA = [
 ].sort(function(a,b){return b[0].length-a[0].length;});
 
 function gikutenTranslateText(source) {
-  var result=String(source);
+  // ブラウザ表示中に機械識別子を部分翻訳しない。JSON・コード値の同一性を厳守する。
+  var protectedIds=[];
+  var result=String(source).replace(/\bNAFT-[A-Z0-9_-]+(?:@[A-Z0-9_.-]+)?\b/g,function(id){
+    var slot=protectedIds.length;protectedIds.push(id);
+    return '\uE000'+slot+'\uE001';
+  });
   GIKUTEN_JA.forEach(function(pair) {result=result.split(pair[0]).join(pair[1]);});
-  return result;
+  return result.replace(/\uE000(\d+)\uE001/g,function(_,i){return protectedIds[Number(i)];});
 }
 function gikutenLocalize(root) {
   if(!root||typeof document==='undefined')return;
