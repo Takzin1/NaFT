@@ -1,0 +1,32 @@
+/* 技育展向け日本語デモ専用。既存NaFTの計算・権限・検証には影響しない。 */
+:root{--paper:#f4f7fb;--ink:#15283d;--muted:#506278;--line:#d7e0ea;--accent:#145f87}
+body{font-family:"Hiragino Kaku Gothic ProN","Yu Gothic",Meiryo,system-ui,sans-serif;background:linear-gradient(140deg,#edf6fa 0%,#f7fafc 46%,#eef4f8 100%);color:var(--ink)}
+header,main,footer{max-width:1120px}
+header{padding-top:26px}
+header:not(.reviewer-header){background:linear-gradient(135deg,#142f47,#175c76);max-width:1120px;margin:16px auto 0;border-radius:18px;color:#fff;box-shadow:0 12px 42px rgba(20,53,75,.13)}
+header:not(.reviewer-header) p,header:not(.reviewer-header) label{color:#eef6fa}
+header:not(.reviewer-header) a:not([aria-current=page]){color:#12567b}
+header:not(.reviewer-header) .pill{color:#274151}
+header:not(.reviewer-header) .notice{background:#fff5e7;color:#583c11}
+header:not(.reviewer-header) h1{letter-spacing:-.04em}
+nav{gap:7px}nav a{font-weight:650;border-radius:10px}
+.card{border-radius:16px;box-shadow:0 5px 24px rgba(19,41,66,.035);border-color:#d8e3ed}
+.card h2{letter-spacing:-.035em;line-height:1.35}
+button,.reviewer-cta{background:#125b83;border-color:#125b83;border-radius:10px;font-weight:700;min-height:42px}
+button:hover:not(:disabled){background:#0a4667}
+a{color:#145f87}
+.reviewer-header{background:transparent;padding-top:18px}
+.reviewer-header h1{color:#163751;font-size:clamp(28px,4.1vw,38px)}
+.reviewer-header .eyebrow{color:#376d8b;letter-spacing:.06em}
+.reviewer-hero{background:linear-gradient(145deg,#ffffff,#f2f8fc);border:1px solid #bed7e5}
+.reviewer-hero h2{font-size:clamp(23px,3.5vw,33px);letter-spacing:-.045em}
+.reviewer-boundary{background:#eaf3f8;border-color:#126187}
+.reviewer-step{background:#fff;border-color:#dae6ec;padding:13px 17px}
+.reviewer-composition{background:#fafcfe}
+.metric{background:#f0f8fc;border-color:#cde0ec}
+.metric strong{color:#126187;font-size:clamp(27px,3.8vw,38px)}
+.notice{border-radius:4px 9px 9px 4px}
+.gikuten-banner{display:flex;align-items:center;flex-wrap:wrap;gap:10px;margin:0 0 17px;color:#215373;font-size:13px;font-weight:600}
+.gikuten-tag{border-radius:100px;padding:5px 11px;background:#126187;color:#fff;font-size:12px;letter-spacing:.04em}
+footer{font-size:12px}
+@media(max-width:640px){header:not(.reviewer-header){margin:8px 8px 0;border-radius:13px}header,main,footer{padding:17px}.reviewer-hero h2{font-size:23px}.gikuten-banner{align-items:flex-start}.metric strong{font-size:28px}nav a{flex:1 1 40%;text-align:center}}
