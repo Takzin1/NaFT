@@ -120,3 +120,7 @@ The [2026-10-18 cross-language verification report](docs/asia-ipcc-jcm-independe
 
 ### Actual upstream-byte checks & five CH₄ adapters (2026-10-19)
 GitHub Actions [source acquisition run](https://github.com/Takzin1/NaFT/actions/runs/39142424578) retrieved **six** originals ephemerally and matched Zenodo-listed MD5, with recorded SHA-256 and first-row **column headers only** in [source provenance report](research/asia-source-dock-2026-10-19/verified-ephemeral-acquisition.json). No originals republished; license, site/date/QC and institutional adoption not validated. China's raw hourly header uses `CH4-umol/m2/s` while its daily aggregate uses `CH4-gC/m2/day`; normalized adapters now cover both with distinct units/CH₄-C handling and synthetic independent arithmetic. Actual publisher observations **are not yet scientifically replayed**. Next IEEE Dock remains metadata-only.
+
+## Japan–IEEE independent methane computation crosscheck (2026-10-19)
+
+[Portable BigInt/Decimal independent CH4 oracle](docs/japan-ieee-independent-methane-oracle-2026-10-19.md) adds eight synthetic verification scenarios across five flux units, missingness and zero controls. IEEE and Japan share identical source engine/fixture SHA values. Japanese CI also runs `tests/japan-ieee-oracle-parity.test.mjs` to compare five existing Japanese research adapters against the independent two-language pair. **This proves only arithmetic consistency, not replication of verified original field measurements or certified J-Credits.**

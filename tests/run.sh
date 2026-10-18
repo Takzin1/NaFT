@@ -23,6 +23,8 @@ node tests/japan-raw-flux.test.mjs
 python3 tests/japan-raw-flux-independent.test.py
 node tests/japan-observation-adapters.test.mjs
 python3 tests/japan-observation-adapters-independent.test.py
+node tests/independent-observation-dual.test.mjs
+node tests/japan-ieee-oracle-parity.test.mjs
 node tests/asia-source-dock.test.mjs
 python3 scripts/harvest-asia-source-index.py
 node tests/asia-native-field-header.test.mjs
