@@ -114,6 +114,16 @@ The [2026-10-18 cross-language verification report](docs/asia-ipcc-jcm-independe
 
 [観測方式別の単位換算と欠測・QCの厳格な扱い](docs/japan-observation-adapter-coverage-2026-10-19.md)を追加。3形式（区間平均 mg-CH₄/m²/day、日次 g-CH₄/m²/day、渦相関 nmol-CH₄/m²/s）を厳密に区別し、全件連続の従来v1を維持する。観測不足時は観測済み部分のみ積算し、通期値は null。JavaScript BigInt と Python Decimal の独立検算をCIへ追加。テスト入力は**全て合成**であり、出版社の観測原本や認証計算ではない。
 
+## ローカル観測CSVを安全に再演算（2026-10-19）
+
+日本語版の研究用CLIで、既存の5つの合成テストに加え、任意のローカル観測CSVとmanifestを **外部通信なし** で入力できるようになりました：
+
+```sh
+node scripts/replay-japan-observation-adapters.mjs --csv path/to/intervals.csv --manifest path/to/manifest.json
+```
+
+仕様・対応単位・SHA-256原バイト一致・QC区間・欠測時の通期積算拒否については[日本語の外部観測CSV取込ガイド](docs/japan-offline-observation-import-2026-10-19.md)を参照。**真正な原著観測原本や制度的な排出削減の認証が完了したことを意味しません。**
+
 ## Asia observation sources & IEEE source dock (2026-10-19)
 
 [Asia research source acquisition and future IEEE dock](docs/asia-source-observation-acquisition-ieee-dock-2026-10-19.md): 8 DOI-indexed scientific sources (7 publisher-advertised MD5 file checksums), strict observation vs model distinction, 5-file Zenodo original-byte *ephemeral* acquisition attempts with SHA-256 + MD5 checks, and a portable **metadata-only** IEEE dock exporter. Use `node scripts/asia-source-dock-export.mjs` and `python3 scripts/harvest-asia-source-index.py --fetch` in a network-enabled environment. Publisher originals have **not** been copied into this repository or approved for redistribution; licenses and scientific calibration/AG-005 eligibility remain pending.
