@@ -86,6 +86,41 @@ def inspect_zip(data):
    result.append({'name':fn[:200],'size_bytes':info.file_size,'crc32':format(info.CRC,'08x')})
   return result[:40]
 
+def inspect_csv_byte_shape(data):
+ # Structural metadata only. Do NOT print any rows, observational values,
+ # time-series samples or proprietary fields from a user/source file.
+ # In particular latin1 rendering here is not a validated encoding claim.
+ header=data.split(b'\n',1)[0].removesuffix(b'\r')
+ tokens=header.split(b',')
+ invalid=[]
+ ascii_or_hex=[]
+ for i,token in enumerate(tokens):
+  try:ascii_or_hex.append(token.decode('ascii'))
+  except UnicodeDecodeError:
+   invalid.append(i)
+   ascii_or_hex.append('NON_ASCII_HEX:'+token.hex())
+ raw_lines=data.split(b'\n')
+ if raw_lines and raw_lines[-1]==b'':raw_lines.pop()
+ data_lines=raw_lines[1:]
+ lengths={}
+ for line in data_lines[:400]:
+  row=line.removesuffix(b'\r')
+  count=row.count(b',')+1
+  lengths[str(count)]=lengths.get(str(count),0)+1
+ try:header.decode('utf-8-sig');header_utf8=True
+ except UnicodeDecodeError:header_utf8=False
+ return {'header_count':len(tokens),
+         'header_fields_ascii_or_hex':ascii_or_hex[:40],
+         'non_ascii_header_field_indexes':invalid,
+         'header_utf8_decodable':header_utf8,
+         'header_raw_sha256':hashlib.sha256(header).hexdigest(),
+         'raw_line_count':len(raw_lines),
+         'data_row_count':len(data_lines),
+         'sample_400_row_column_counts':lengths,
+         'byte_order_mark_utf8':data.startswith(b'\xef\xbb\xbf'),
+         'crlf_line_endings':data.count(b'\r\n'),
+         'lf_line_endings':data.count(b'\n')}
+
 def inspect_scientific_header(data,s,f):
  # Only structural headers; never echo unpublished measurement rows.
  if s['id']=='KR_GIMJE_DAILY_2022_2024' and f['filename']=='ch4.zip':
@@ -125,6 +160,8 @@ def fetch(s,f):
  if f['filename'].endswith('.zip'):output['archive_members']=inspect_zip(data)
  if s['source_class'] in ('CHAMBER_DAILY_RESEARCH_OBSERVATION','EDDY_OBSERVATION_AND_METADATA'):
   output['structural_preview']=inspect_scientific_header(data,s,f)
+  if s['id']=='CN_RICE_EDDY_EAST_2023' and f['filename'].endswith('.csv'):
+   output['native_byte_shape']=inspect_csv_byte_shape(data)
  return output
 
 def main():

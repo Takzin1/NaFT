@@ -30,6 +30,7 @@ node tests/independent-observation-dual.test.mjs
 node tests/japan-ieee-oracle-parity.test.mjs
 node tests/asia-source-dock.test.mjs
 python3 scripts/harvest-asia-source-index.py
+python3 tests/asia-source-byte-shape.test.py
 node tests/asia-native-field-header.test.mjs
 node tests/china-rice-native-preflight.test.mjs
 python3 tests/asia-ephemeral-provenance.test.py
