@@ -88,8 +88,8 @@ for(const [id,contract] of Object.entries(nativeSourceContracts)){
  eq(row.published_md5,contract.publisher_md5);
  eq(row.downloaded_sha256,contract.ephemeral_sha256);
  eq(row.size_bytes,contract.expected_size);
- eq(row.structural_findings.header,contract.header.slice(0,id===daily?8:6).map(s=>
-  s.startsWith('NON_ASCII_HEX:')?'Ta-<?>':s).slice(0,id===daily?8:6)); // original short report only pins prefix
+ eq(row.structural_findings.header,contract.header.slice(0,id===daily?8:18).map(s=>
+  s.startsWith('NON_ASCII_HEX:')?'Ta-<?>':s)); // original short report only pins prefix
  const exact=encoded(contract.header,[id===daily?dailyRows[0]:hourlyRows[0]]);
  const header=exact.subarray(0,exact.indexOf(10));
  eq(createHash('sha256').update(header).digest('hex'),contract.header_sha256);
