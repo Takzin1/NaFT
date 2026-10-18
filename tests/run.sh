@@ -34,6 +34,7 @@ python3 tests/asia-source-byte-shape.test.py
 node tests/asia-native-field-header.test.mjs
 node tests/china-rice-native-preflight.test.mjs
 python3 tests/japanflux-jp-hrt-v200-source.test.py
+node tests/japanflux-jp-hrt-source-gate.test.mjs
 python3 tests/asia-ephemeral-provenance.test.py
 python3 tests/check-static.py
 bash tests/security.sh
