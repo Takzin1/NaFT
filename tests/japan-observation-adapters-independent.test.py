@@ -10,7 +10,9 @@ ROOT_FIX=ROOT/'research/japan-observation-adapters-2026-10-19'
 SUPPORTED={
  'INTERVAL_MG_CH4_M2_DAY_V1':('mg_CH4_m2_day','INTERVAL_MEAN_FLUX_RATE',604800,None),
  'DAILY_G_CH4_M2_DAY_V1':('g_CH4_m2_day','DAILY_INTERVAL_MEAN_FLUX_RATE',86400,86400),
- 'EDDY_NMOL_CH4_M2_S_V1':('nmol_CH4_m2_s','EDDY_INTERVAL_MEAN_FLUX_RATE',3600,None)}
+ 'EDDY_NMOL_CH4_M2_S_V1':('nmol_CH4_m2_s','EDDY_INTERVAL_MEAN_FLUX_RATE',3600,None),
+ 'EDDY_UMOL_CH4_M2_S_V1':('umol_CH4_m2_s','EDDY_INTERVAL_MEAN_FLUX_RATE',3600,None),
+ 'DAILY_G_CH4_C_M2_DAY_V1':('g_CH4_C_m2_day','DAILY_INTERVAL_MEAN_FLUX_RATE',86400,86400)}
 PRECISION=D('0.000000001')
 def date(s):
  assert len(s)==20 and s.endswith('Z')
@@ -22,7 +24,7 @@ def independent(csv_bytes,meta):
  assert meta['schema']=='naft-observation-series-v2'
  assert meta['data_class']=='SYNTHETIC'
  assert meta['gap_fill_policy']=='FORBID'
- assert meta['gas']=='CH4' and meta['mass_basis']=='CH4_MOLECULAR'
+ assert meta['gas']=='CH4' and meta['mass_basis']==('CH4_C' if meta['adapter_id']=='DAILY_G_CH4_C_M2_DAY_V1' else 'CH4_MOLECULAR')
  assert not meta['original_publisher_bytes_verified']
  assert not meta['conditions_independently_matched']
  adapter=meta['adapter_id'];unit,sem,maxsec,exact=SUPPORTED[adapter]
@@ -44,7 +46,11 @@ def independent(csv_bytes,meta):
   qc=row['qc_status']
   if qc in ('OBSERVED_GOOD','OBSERVED_ACCEPTABLE'):
    val=D(row['value'])
-   if adapter=='EDDY_NMOL_CH4_M2_S_V1':
+   if adapter=='EDDY_UMOL_CH4_M2_S_V1':
+    amount+=val*D(sec)*D('16.04')/D('1000')
+   elif adapter=='DAILY_G_CH4_C_M2_DAY_V1':
+    amount+=val*D(sec)*D(1000)*D(16)/D(12)/D(86400)
+   elif adapter=='EDDY_NMOL_CH4_M2_S_V1':
     amount+=val*D(sec)*D('16.04')/D('1000000')
    elif adapter=='DAILY_G_CH4_M2_DAY_V1':
     amount+=val*D(sec)*D(1000)/D(86400)
@@ -97,6 +103,18 @@ class TestAdaptersIndependent(unittest.TestCase):
   self.assertEqual(calc['observed_integral'],D('2.250000000'))
   self.assertEqual(calc['observed_integral'],D(js['observed_only_integral_mg_ch4_m2']))
   self.assertEqual(js['full_window_total_mg_ch4_m2'],js['observed_only_integral_mg_ch4_m2'])
+ def test_umol_conversion(self):
+  file,manifest=self.data('umol');calc=independent(file,manifest);js=self.call_js('umol')
+  self.assertEqual(calc['observed_integral'],D('14.436000000'))
+  self.assertEqual(calc['observed_integral'],D(js['observed_only_integral_mg_ch4_m2']))
+  self.assertEqual(calc['observed_integral_per_ha'],D(js['observed_only_integral_kg_ch4_ha']))
+  self.assertEqual(js['input_mass_basis'],'CH4_MOLECULAR')
+ def test_daily_ch4_c_conversion(self):
+  file,manifest=self.data('carbon');calc=independent(file,manifest);js=self.call_js('carbon')
+  self.assertEqual(calc['observed_integral'],D('16.000000000'))
+  self.assertEqual(calc['observed_integral'],D(js['observed_only_integral_mg_ch4_m2']))
+  self.assertEqual(calc['observed_integral_per_ha'],D(js['observed_only_integral_kg_ch4_ha']))
+  self.assertEqual(js['input_mass_basis'],'CH4_C')
  def test_no_publisher_authenticity(self):
   for key in ('daily','eddy','interval'):
    js=self.call_js(key)
