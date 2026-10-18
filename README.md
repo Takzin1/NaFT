@@ -134,6 +134,10 @@ node scripts/reconcile-japan-observation.mjs synthetic-interval
 
 [突合プロトコル・負例・原著検証の未実施事項](docs/japan-aggregate-reconciliation-2026-10-19.md)を参照。**同梱データも参照集計値も人工データ**であり、原著原本・実測物理再現・J-クレジットの正式算定ではありません。部分的な観測区間の値を全期値に外挿せず、未確認の一致を第三者認証へ昇格させません。
 
+## JapanFlux V2.00 BADMプロトコル監査（JP-Hrt）
+
+原著ZIP内のBADM **6冊**を照合。BADMは **UTC_OFFSET=+9** と記録するが、CH4手法は原著PDF（HREA/chamber）とBADM（Eddy Covariance）で**不一致**。BADMのCH4開始日2013-08-31より前に、CSVのFCH4数値候補が**1,689行**存在。矛盾は自動解消せず、原著に基づく人間レビューまで観測値の積算を拒否する。[元データの矛盾・機器・日時・QCの監査記録](docs/japanflux-jp-hrt-badm-source-conflicts-2026-10-19.md)。
+
 ## JapanFlux2024 V2.00 JP-Hrt（日本水田CH₄・実ZIP）
 
 ユーザーが提供したVersion 2.00の原著ZIPを解凍・構造検査。30分ごとのフラックス候補17,520行中、FCH4に数値があるのは1,915行（10.930%）、欠測15,605行。日次FCH4は365行すべて欠測。元資料のCH₄測定方法はHREA＋チャンバーで、**測定QC、元単位、タイムゾーンは未検証**。新しい検査CLIとQC意味論ゲートを追加し、数値候補から年間排出量を推定することを禁止。

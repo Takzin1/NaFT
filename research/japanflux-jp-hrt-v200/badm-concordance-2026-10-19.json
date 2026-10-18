@@ -1,0 +1,62 @@
+{
+  "schema": "naft-japanflux-jp-hrt-badm-protocol-v1",
+  "site_id": "JP-Hrt",
+  "version": "2.00",
+  "archive_sha256": "bffad17bd7acf962eb1af9fa4f2092c038a813291b9fc4c79e548674101d40eb",
+  "dataset_doi": "10.17592/001.2024121020",
+  "source_metadata_url": "https://ads.nipr.ac.jp/data/meta/A20241210-020",
+  "badm_sha256": {
+    "Site_General_Info": "ed2c231a290eab9aa297b491104e8c0977a986152f4a1658cfe913bad4e7f847",
+    "Instrument": "dca1e8ca1d1c5572ca83a0363385a982af9972185da719615c20b86e960d1d95",
+    "Instrument_Ops": "eaca9bc2aa28ba9ee139a20f72220852c5d4af5d1128631b8e89f3ea105693ca",
+    "Disturbance_and_Management": "3bcf6b6a55dbaf5e9841b442064485ebbc8af6e658042d8108fb68a0516d4ac3",
+    "Soil": "2b7ae9266ce49825d5f88bfdc1dced755c4eef5dc55ca58a5bab0c344e0ceb33",
+    "VegCover": "68583d5e04dbf77b0d7bd665791edda663383a823ea8a39acffd92ffad2256fa"
+  },
+  "site_utc_offset_hours_declared": 9,
+  "timezone_column_mapping_independently_validated": false,
+  "badm_flux_variables": [
+    "CO2",
+    "H2O",
+    "CH4"
+  ],
+  "badm_flux_methods": [
+    "Eddy Covariance",
+    "Eddy Covariance",
+    "Eddy Covariance"
+  ],
+  "badm_flux_start_dates": [
+    "20130831",
+    "20130831",
+    "20130831"
+  ],
+  "pdf_ch4_method": "HREA_AND_CHAMBER_FOR_CH4",
+  "method_disagreement": true,
+  "instrument_model_identifiers": [
+    "GA_OP-Campbell EC150",
+    "GA_CP-Picarro G2301-f",
+    "SA-Campbell CSAT-3A"
+  ],
+  "instrument_ch4_channel_mapping_verified": false,
+  "water_management_vocabulary": "Irrigation",
+  "hh_numeric_candidate_count": 1915,
+  "hh_missing_count": 15605,
+  "hh_first_numeric_native": "201306010700",
+  "hh_last_numeric_native": "201309201030",
+  "hh_numeric_before_badm_start": 1689,
+  "badm_start_inconsistent_with_hh_numeric_period": true,
+  "source_FCH4_native_unit_verified": false,
+  "per_row_ch4_qc_flag_available": false,
+  "measured_vs_gapfilled_resolved": false,
+  "emission_integral": null,
+  "certified_tco2e": null,
+  "status": "BADM_METHOD_AND_START_DATE_CONFLICT_REVIEW_REQUIRED",
+  "required_human_review": [
+    "PDF_HREA_CHAMBER_VS_BADM_EC_CH4",
+    "BADM_20130831_START_VS_20130601_NUMERIC_ROWS",
+    "FCH4_COLUMN_PHYSICAL_UNIT_AND_PROCESSING",
+    "DECLARED_UTC_PLUS_9_VS_HH_TIME_CONVENTION",
+    "PER_ROW_CH4_QC_AND_INSTRUMENT_MAPPING"
+  ],
+  "evidence_note": "Examined user-supplied JP-Hrt 2.00 ZIP and six source BADM workbooks offline. Derived metadata only; raw XLSX data and flux row measurements not committed. Contradictory source descriptions do not establish whether either method label is the actual FCH4 production process."
+}
