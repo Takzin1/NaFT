@@ -57,4 +57,24 @@ vm.runInContext(fs.readFileSync('src/japan-field-study-fixture.js','utf8'),brows
 assert.deepEqual(JSON.parse(JSON.stringify(browser.NAFT_JP_STUDY_FIXTURE)),fixture);
 const html=fs.readFileSync('gikuten.html','utf8');
 yes(html.includes('src/japan-field-study-fixture.js')&&html.includes('src/japan-field-study-replay.js')&&html.includes('src/gikuten-field-study-addon.js'));
+
+const accKeys=['site_id','calendar_year','crop_cycle','treatment_regime','measurement_start','measurement_end','soil_class','irrigation_schedule','organic_management','fertilizer_schedule','flux_measurement_method','climate_record_id','gas','mass_basis','plot_lineage'];
+const accCtx=Object.fromEntries(accKeys.map(k=>[k,'SYNTH_'+k]));
+accCtx.gas='CH4';accCtx.mass_basis='kg_CH4_per_ha_period';
+const acc={data_status:'SYNTHETIC',observed:{area_ha:'2',rate_kg_ch4_ha:'100',context:accCtx},predicted:{area_ha:'1',rate_kg_ch4_ha:'90',context:{...accCtx}}};
+const split=box.naftJpSyntheticAttribution(acc);
+yes(split.status==='SYNTHETIC_ACCOUNTING_NOT_CAUSAL');
+yes(split.total_difference_kg_ch4==='110');
+yes(split.area_contribution_kg_ch4==='95');
+yes(split.rate_contribution_kg_ch4==='15');
+yes(split.causal_attribution===null&&split.field_environment_recreated===false);
+const denied=box.naftJpSyntheticAttribution({...acc,data_status:'PRIMARY_MEASUREMENT'});
+yes(denied.status==='BLOCKED_PRIMARY_ENVIRONMENT_UNVERIFIED'&&denied.total_difference_kg_ch4===undefined);
+const mismatch=box.naftJpSyntheticAttribution({...acc,predicted:{...acc.predicted,context:{...accCtx,calendar_year:'1993'}}});
+yes(mismatch.status==='BLOCKED_CONTEXT_MISMATCH'&&mismatch.mismatched_context.includes('calendar_year'));
+const missing=box.naftJpSyntheticAttribution({...acc,observed:{...acc.observed,context:{...accCtx,soil_class:'UNKNOWN'}}});
+yes(missing.status==='BLOCKED_CONTEXT_MISMATCH'&&missing.missing_context.includes('soil_class'));
+bad(()=>box.naftJpSyntheticAttribution({...acc,predicted:{...acc.predicted,rate_kg_ch4_ha:'nan'}}),/OBS_INVALID_DECIMAL/);
+bad(()=>box.naftJpSyntheticAttribution({...acc,predicted:{...acc.predicted,area_ha:'0'}}),/ACCOUNTING_NONPOSITIVE_AREA/);
+
 console.log('JP_ORIGINAL_FIELD_REPLAY_PASS: '+count+' research-only checks');

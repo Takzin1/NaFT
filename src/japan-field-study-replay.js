@@ -108,7 +108,7 @@ function naftJpNishimuraReplay(d){
     independently_summed_mg_m2:naftJpFormatScaled(sum),reported_annual_mg_m2:naftJpFormatScaled(annual),
     reported_minus_summed_mg_m2:naftJpFormatScaled(residual),
     rounding_bound_mg_m2:naftJpFormatScaled(printedTolerance),
-    discrepancy_explained_by_display_resolution:true,
+    display_resolution_compatible:true,discrepancy_cause_verified:false,
     period_accounting_not_causal_attribution:true,
     printed_sd_not_independent_standard_error:true,
     daily_time_series_reproduced:false,certified_tco2e:null};
@@ -150,4 +150,44 @@ function naftJpModelResidual(d,x){
   quantitative_causal_decomposition_allowed:false,
   status_reason:'No matched raw daily temperature, water depth, soil redox and flux data; do not attribute residual percentage to mechanisms.',
   official_jcredit_credits:null};
+}
+
+
+// Conditional two-factor accounting, not causal decomposition.
+// Only synthetic, fully matched context is allowed; primary observations need independently attested raw series.
+const NAFT_JP_CONTEXT_REQUIRED=['site_id','calendar_year','crop_cycle','treatment_regime',
+ 'measurement_start','measurement_end','soil_class','irrigation_schedule','organic_management',
+ 'fertilizer_schedule','flux_measurement_method','climate_record_id','gas','mass_basis','plot_lineage'];
+function naftJpSyntheticAttribution(x){
+ if(!x||x.data_status!=='SYNTHETIC'){
+  return {status:'BLOCKED_PRIMARY_ENVIRONMENT_UNVERIFIED',area_contribution_kg_ch4:null,
+   rate_contribution_kg_ch4:null,causal_attribution:null,original_raw_measurement_verified:false};
+ }
+ const obs=x.observed,pred=x.predicted,missing=[],mismatched=[];
+ for(const k of NAFT_JP_CONTEXT_REQUIRED){
+  const a=obs&&obs.context&&obs.context[k],b=pred&&pred.context&&pred.context[k];
+  if(typeof a!=='string'||!a||a==='UNKNOWN'||typeof b!=='string'||!b||b==='UNKNOWN')missing.push(k);
+  else if(a!==b)mismatched.push(k);
+ }
+ if(missing.length||mismatched.length)return {status:'BLOCKED_CONTEXT_MISMATCH',
+  missing_context:missing,mismatched_context:mismatched,
+  area_contribution_kg_ch4:null,rate_contribution_kg_ch4:null,
+  causal_attribution:null,original_raw_measurement_verified:false};
+ if(obs.context.gas!=='CH4'||obs.context.mass_basis!=='kg_CH4_per_ha_period')
+  naftJpStop('ACCOUNTING_UNIT_MISMATCH');
+ const ao=naftJpScaled(obs.area_ha),ap=naftJpScaled(pred.area_ha);
+ const ro=naftJpScaled(obs.rate_kg_ch4_ha),rp=naftJpScaled(pred.rate_kg_ch4_ha);
+ if(ao<=0n||ap<=0n)naftJpStop('ACCOUNTING_NONPOSITIVE_AREA');
+ // Scale 10^6; assignment of last scaled digit to rate factor preserves exact arithmetic identity.
+ const total=(ao*ro-ap*rp)/NAFT_JP_OBS_SCALE;
+ const area=((ao-ap)*(ro+rp))/(2n*NAFT_JP_OBS_SCALE);
+ const rate=total-area;
+ return {status:'SYNTHETIC_ACCOUNTING_NOT_CAUSAL',
+  total_difference_kg_ch4:naftJpFormatScaled(total),
+  area_contribution_kg_ch4:naftJpFormatScaled(area),
+  rate_contribution_kg_ch4:naftJpFormatScaled(rate),
+  rounding_remainder_kg_ch4:'0',causal_attribution:null,
+  original_raw_measurement_verified:false,field_environment_recreated:false,
+  formula:'Delta_area=(Ao-Ap)(ro+rp)/2; Delta_rate=(ro-rp)(Ao+Ap)/2',
+  numeric_parity_preserved:true};
 }

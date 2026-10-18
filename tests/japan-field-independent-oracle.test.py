@@ -97,4 +97,17 @@ class TestPublishedAggregateOracle(unittest.TestCase):
  def test_no_environment_proof(self):
   self.assertFalse(self.raw['future_source']['original_bytes_downloaded'])
   self.assertEqual(self.raw['future_source']['status'],'SOURCE_METADATA_VERIFIED_FILE_IMPORT_PENDING')
+ def test_synthetic_area_rate_decomposition(self):
+  a,b,ra,rb=D('2'),D('1'),D('100'),D('90')
+  diff=a*ra-b*rb
+  a_part=(a-b)*(ra+rb)/D(2)
+  r_part=(ra-rb)*(a+b)/D(2)
+  result=self.js['synthetic_area_rate_accounting']
+  self.assertEqual(D(result['total_difference_kg_ch4']),diff)
+  self.assertEqual(D(result['area_contribution_kg_ch4']),a_part)
+  self.assertEqual(D(result['rate_contribution_kg_ch4']),r_part)
+  self.assertEqual(diff,a_part+r_part)
+  self.assertIsNone(result['causal_attribution'])
+  self.assertFalse(result['field_environment_recreated'])
+
 if __name__=='__main__':unittest.main(verbosity=2)

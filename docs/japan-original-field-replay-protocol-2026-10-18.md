@@ -79,3 +79,9 @@ bash tests/run.sh
 \`\`\`
 
 **未解決:** 原著の時系列数値・付随実測環境・適法な原ファイル取得、AG-005 Ver.3.5の現行公式算定、NID係数、実圃場における環境条件マッチング、正式なクレジット量。どれも \`null / 未検証\` で維持する。
+
+## 5. 同一条件が揃った場合だけ使う合成の二因子算術按分（2026-10-18追補）
+
+同一圃場・作期・測定窓・土壌・水管理・気象参照・観測法等15条件を照合し、いずれかが空白・UNKNOWN・不一致なら `BLOCKED_CONTEXT_MISMATCH`。現状、実測原本が検証済みでないため `PRIMARY_MEASUREMENT` は `BLOCKED_PRIMARY_ENVIRONMENT_UNVERIFIED` とし、恣意的に認証済みフラグを付けても通さない。**合成データだけ**を対象として、観測Q=Ao×roと予測Q=Ap×rpの差を、面積と排出強度の対称二因子按分で算術分解する。 `Delta_area=(Ao-Ap)*(ro+rp)/2`、`Delta_rate=(ro-rp)*(Ao+Ap)/2`。合成例ではAo=2ha, ro=100kg/ha、Ap=1ha, rp=90kg/haからΔ=110kg、面積成分95kg、強度成分15kg。これは原因別・気象別の寄与率や誤差の推定ではない。原著公表集計値にこの成分を自動適用しない。JavaScriptの固定小数点と独立Python Decimalで照合する。
+
+また、集計値の丸め差について `discrepancy_explained_by_display_resolution` の過剰な断定を `display_resolution_compatible` と `discrepancy_cause_verified:false` に修正した。
