@@ -18,12 +18,11 @@
     ' <a href="docs/japan-original-field-replay-protocol-2026-10-18.md" target="_blank" rel="noopener noreferrer">実測条件・按分プロトコル・出典</a></small>';
   root.appendChild(section);
   const output=section.querySelector('#jp-original-studies-result');
-  section.querySelector('#jp-replay-original-studies').addEventListener('click',async function(){
+  section.querySelector('#jp-replay-original-studies').addEventListener('click',function(){
     output.textContent='原著の公表集計値を照合中…';
     try{
-      const r=await fetch('data/japan-original-field-observation-aggregates.json',{cache:'no-store'});
-      if(!r.ok)throw Error('OBSERVATION_FIXTURE_HTTP_'+r.status);
-      const f=await r.json();
+      const f=globalThis.NAFT_JP_STUDY_FIXTURE;
+      if(!f)throw Error('OBSERVATION_STATIC_FIXTURE_NOT_AVAILABLE');
       const y=naftJpYagiReplay(f),n=naftJpNishimuraReplay(f);
       output.textContent=JSON.stringify({
         注意:'論文掲載の実測集計値だけを再計算。原本測定ログ・気象条件の再現・J-クレジット認証は行わない。',
