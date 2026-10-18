@@ -56,6 +56,7 @@ def select(index):
  priority=[('KR_GIMJE_DAILY_2022_2024','ch4.zip'),
            ('KR_GIMJE_DAILY_2022_2024','input_fields_meta.xlsx'),
            ('CN_RICE_EDDY_EAST_2023','Supporting information data2.csv'),
+           ('CN_RICE_EDDY_EAST_2023','Supporting information data1.csv'),
            ('ASIA_OUYANG_8DAY_2022','RiceCH4_mgCH4m2day_annual.zip'),
            ('SEA9_TIER2_INVENTORY_2026','zenodo_package_v1.0.0.zip')]
  by_id={x['id']:x for x in index['sources']}
