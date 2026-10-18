@@ -28,7 +28,7 @@ eq(s.scientific_amount_mg_ch4_m2,null);
 eq(s.official_factor_applicable,null);
 eq(s.certified_tco2e,null);
 eq(s.published_csv_FCH4_method_trace_verified,false);
-eq(JSON.stringify(s),JSON.stringify(reviewJapanfluxJpHrtSource(real)));
+eq(JSON.stringify(s),JSON.stringify(reviewJapanfluxJpHrtSource(real,badm)));
 blocked(x=>{x.source_version='1.00'},'SOURCE_IDENTITY');
 blocked(x=>{x.archive_type='SYNTHETIC_TEST_ONLY'},'SOURCE_IDENTITY');
 blocked(x=>{x.archive_sha256='a'.repeat(64)},'SOURCE_SHA256');
