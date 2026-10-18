@@ -48,6 +48,10 @@ const unsafe=ctx.japanFieldAllocateAreaRate({...a,data_status:'PRIMARY_MEASUREME
 ok(unsafe.status==='BLOCKED_UNATTESTED_PRIMARY'&&unsafe.source_verified===false);
 reject(()=>ctx.japanFieldAllocateAreaRate({...a,observed:{...a.observed,area_ha:-2}}),/INVALID_FIELD_NUMBER/);
 reject(()=>ctx.japanFieldAllocateAreaRate({...a,predicted:{...a.predicted,rate_kg_ch4_ha:Infinity}}),/INVALID_FIELD_NUMBER/);
+const bundled={Math,Number,Set,Error};vm.createContext(bundled);
+vm.runInContext(fs.readFileSync('src/gikuten-field-data.js','utf8'),bundled);
+const bundledData=vm.runInContext('JSON.stringify(JAPAN_FIELD_PUBLISHED_DATA)',bundled);
+ok(bundledData===JSON.stringify(fixture));
 const html=fs.readFileSync('gikuten.html','utf8');
-ok(html.includes('src/japan-field-replay.js')&&html.includes('src/gikuten-field-panel.js'));
+ok(html.includes('src/japan-field-replay.js')&&html.includes('src/gikuten-field-panel.js')&&html.includes('src/gikuten-field-data.js'));
 console.log('JAPAN_FIELD_REPLAY_PASS: '+n+' assertions, original full field records not present');
