@@ -4,7 +4,7 @@
 
 ## State before this PR
 
-The existing [published observation baseline](../../data/japan-original-field-observation-aggregates.json) preserves Yagi (1996) within-year treatment aggregates and Nishimura (2004) annual CH₄/N₂O-N cumulative figures. Independent BigInt vs Python Decimal checks replay the paper's printed aggregates; the full daily/2-hour flux data, weather, soil redox, water depth, instrument calibration and original scanned tables are **not available** in the repository. No model-vs-observation physical replication exists yet.
+The existing [published observation baseline](../data/japan-original-field-observation-aggregates.json) preserves Yagi (1996) within-year treatment aggregates and Nishimura (2004) annual CH₄/N₂O-N cumulative figures. Independent BigInt vs Python Decimal checks replay the paper's printed aggregates; the full daily/2-hour flux data, weather, soil redox, water depth, instrument calibration and original scanned tables are **not available** in the repository. No model-vs-observation physical replication exists yet.
 
 ## New ingestion contract
 
