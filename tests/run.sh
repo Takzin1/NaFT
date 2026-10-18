@@ -13,5 +13,7 @@ node tests/mitou-impact.test.js
 node tests/impact-proof.test.js
 node tests/gikuten-ja.test.js
 node tests/japan-calculation-reference.test.js
+node tests/asia-mrv-compat.test.js
+node tests/gikuten-asia-addon.test.js
 python3 tests/check-static.py
 bash tests/security.sh
