@@ -17,7 +17,7 @@ const rewrite=(orig,edited,override={})=>{
  return [csv,{...orig,csv_sha256:createHash('sha256').update(csv).digest('hex'),...override}];
 };
 const daily=get('daily'),eddy=get('eddy'),interval=get('interval');
-ok(Object.keys(observationAdapters).length===3);
+ok(Object.keys(observationAdapters).length===5);
 const d=replayObservationSeries(daily.csv,daily.manifest);
 eq(d.coverage_status,'PARTIAL_OBSERVED');eq(d.observed_only_integral_mg_ch4_m2,'1.250000000');
 eq(d.observed_only_integral_kg_ch4_ha,'0.012500000');
