@@ -30,7 +30,7 @@ bash tests/run.sh
 4. 参照値の `source_uri/site_id/plot_id/treatment/measurement_method/observation_start_utc/observation_end_utc/country/gas/mass_basis/data_class/source_license_status` がmanifestとすべて同値。参照値の `csv_sha256` は入力CSVのSHA-256と一致させる。**これらは本人が宣言した一致であって、第三者による環境適合性の実証ではない。**
 5. `aggregate_semantics=EXPLICIT_WINDOW_CUMULATIVE_CH4`、`window_basis=EXPLICIT_OBSERVED_INTERVALS`、`aggregate_unit=mg_CH4_m2`。参照値の質量基準は `CH4_MOLECULAR` のみに限定。CH₄-C（炭素質量）の元データは観測Adapterの内部換算機能と混同しないよう、本突合エンジンでは意図的に**未対応として停止**。
 6. `data_class` は `SYNTHETIC` または `USER_SUPPLIED_UNVERIFIED` に限る。入力が `original_publisher_bytes_verified=true`、`conditions_independently_matched=true` または `official_eligibility_verified=true` を自称しても拒否。
-7. 出典自体・論文集計の出典原本は独立検証しない。報告値と表示桁 `printed_resolution_mg_ch4_m2`（正の小数）を**参照データ側で別々に宣言**する。計算値との差分 `replayed_minus_reported` を9桁小数の符号付きmg/m²で出力。
+7. 出典自体・論文集計の出典原本は独立検証しない。報告値と表示桁 `printed_resolution_mg_ch4_m2`（正の10のべき乗。例：0.01、0.1、1、10）を**参照データ側で別々に宣言**する。表示報告値は宣言した桁の格子に一致しなければ拒否し、任意の許容幅指定は認めない。計算値との差分 `replayed_minus_reported` を9桁小数の符号付きmg/m²で出力。
 
 ### 出力解釈
 
