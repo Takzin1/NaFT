@@ -11,20 +11,28 @@ const MASS_MOLAR_G='16.04';
 const ADAPTERS=Object.freeze({
   'INTERVAL_MG_CH4_M2_DAY_V1':Object.freeze({
     unit:'mg_CH4_m2_day',sampling_semantics:'INTERVAL_MEAN_FLUX_RATE',
-    max_seconds:604800n,exact_seconds:null
+    mass_basis:'CH4_MOLECULAR',max_seconds:604800n,exact_seconds:null
   }),
   'DAILY_G_CH4_M2_DAY_V1':Object.freeze({
     unit:'g_CH4_m2_day',sampling_semantics:'DAILY_INTERVAL_MEAN_FLUX_RATE',
-    max_seconds:DAY,exact_seconds:DAY
+    mass_basis:'CH4_MOLECULAR',max_seconds:DAY,exact_seconds:DAY
   }),
   'EDDY_NMOL_CH4_M2_S_V1':Object.freeze({
     unit:'nmol_CH4_m2_s',sampling_semantics:'EDDY_INTERVAL_MEAN_FLUX_RATE',
-    max_seconds:3600n,exact_seconds:null
+    mass_basis:'CH4_MOLECULAR',max_seconds:3600n,exact_seconds:null
   })
+  'EDDY_UMOL_CH4_M2_S_V1':Object.freeze({
+    unit:'umol_CH4_m2_s',sampling_semantics:'EDDY_INTERVAL_MEAN_FLUX_RATE',
+    mass_basis:'CH4_MOLECULAR',max_seconds:3600n,exact_seconds:null
+  }),
+  'DAILY_G_CH4_C_M2_DAY_V1':Object.freeze({
+    unit:'g_CH4_C_m2_day',sampling_semantics:'DAILY_INTERVAL_MEAN_FLUX_RATE',
+    mass_basis:'CH4_C',max_seconds:DAY,exact_seconds:DAY
+  }),
 });
 export const observationAdapters=Object.freeze(
   Object.fromEntries(Object.entries(ADAPTERS).map(([id,a])=>[id,{unit:a.unit,
-    sampling_semantics:a.sampling_semantics,max_seconds:String(a.max_seconds),
+    sampling_semantics:a.sampling_semantics,mass_basis:a.mass_basis,max_seconds:String(a.max_seconds),
     exact_seconds:a.exact_seconds===null?null:String(a.exact_seconds)}])));
 
 function digits(s,name,nullable=false){
@@ -55,6 +63,10 @@ function productForAdapter(value,seconds,id){
  // All terms in mg CH4 / m², exact rationals with 6-decimal input.
  if(id==='INTERVAL_MG_CH4_M2_DAY_V1')return [v*seconds,SCALE*DAY];
  if(id==='DAILY_G_CH4_M2_DAY_V1')return [v*seconds*1000n,SCALE*DAY];
+ if(id==='EDDY_UMOL_CH4_M2_S_V1')
+  return [v*seconds*1604n,SCALE*100000n]; // µmol to mg CH4; ×1000 vs nmol
+ if(id==='DAILY_G_CH4_C_M2_DAY_V1')
+  return [v*seconds*4000n,SCALE*3n*DAY]; // g(CH4-C) ×16/12 ×1000mg/g
  if(id==='EDDY_NMOL_CH4_M2_S_V1'){
   // nmol/s * (16.04 g/mol) * 10^-6 mg/nmol * seconds.
   return [v*seconds*1604n,SCALE*100000000n];
@@ -71,7 +83,7 @@ function validManifest(m,buf){
  if(!adapter||m.unit!==adapter.unit||m.sampling_semantics!==adapter.sampling_semantics)
   FAIL('OBS_UNIT_OR_ADAPTER_MISMATCH');
  if(!['JP','KR','TW','VN','PH'].includes(m.country)||m.gas!=='CH4'||
-    m.mass_basis!=='CH4_MOLECULAR'||m.gap_fill_policy!=='FORBID')
+    m.mass_basis!==adapter.mass_basis||m.gap_fill_policy!=='FORBID')
   FAIL('OBS_GAS_JURISDICTION_OR_GAP_POLICY');
  if(m.data_class!=='SYNTHETIC'&&m.data_class!=='USER_SUPPLIED_UNVERIFIED')
   FAIL('OBS_DATA_CLASS_UNSUPPORTED');
@@ -83,7 +95,7 @@ function validManifest(m,buf){
    FAIL('OBS_REQUIRED_METADATA:'+key);
  }
  if(m.time_basis!=='UTC_EXPLICIT_INTERVALS')FAIL('OBS_TIME_SEMANTICS_UNSUPPORTED');
- if(m.adapter_id==='EDDY_NMOL_CH4_M2_S_V1'&&m.molar_mass_g_mol!==MASS_MOLAR_G)
+ if((m.adapter_id==='EDDY_NMOL_CH4_M2_S_V1'||m.adapter_id==='EDDY_UMOL_CH4_M2_S_V1')&&m.molar_mass_g_mol!==MASS_MOLAR_G)
   FAIL('OBS_MOLAR_MASS_NOT_PINNED');
  const start=utc(m.observation_start_utc),end=utc(m.observation_end_utc);
  if(end<=start||end-start>366n*DAY)FAIL('OBS_WINDOW_INVALID');
@@ -132,7 +144,7 @@ export function replayObservationSeries(csvBytes,manifest){
  return {
   schema:'naft-observation-replay-v2',status:'RESEARCH_UNATTESTED',coverage_status:coverage,
   data_class:manifest.data_class,adapter_id:manifest.adapter_id,gas:'CH4',
-  input_unit:manifest.unit,output_unit:'mg_CH4/m2_observed_intervals',
+  input_unit:manifest.unit,input_mass_basis:manifest.mass_basis,output_unit:'mg_CH4/m2_observed_intervals',
   observed_only_integral_mg_ch4_m2:amount,observed_only_integral_kg_ch4_ha:kg,
   full_window_total_mg_ch4_m2:coverage==='COMPLETE_OBSERVED'?amount:null,
   full_window_total_kg_ch4_ha:coverage==='COMPLETE_OBSERVED'?kg:null,
