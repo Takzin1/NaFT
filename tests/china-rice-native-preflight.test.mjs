@@ -94,6 +94,23 @@ for(const [id,contract] of Object.entries(nativeSourceContracts)){
  const header=exact.subarray(0,exact.indexOf(10));
  eq(createHash('sha256').update(header).digest('hex'),contract.header_sha256);
 }
+const captured=JSON.parse(readFileSync('research/asia-source-dock-2026-10-19/native-byte-shape-2026-10-19.json','utf8'));
+eq(captured.files.length,2);
+eq(captured.original_file_bytes_committed,false);
+eq(captured.license_reviewed,false);
+eq(captured.actual_charset_independently_identified,false);
+for(const item of captured.files){
+ const contract=nativeSourceContracts[item.source_id];
+ assert.ok(contract);n++;
+ eq(item.publisher_md5,contract.publisher_md5);
+ eq(item.actual_sha256,contract.ephemeral_sha256);
+ eq(item.byte_size,contract.expected_size);
+ eq(item.header_sha256,contract.header_sha256);
+ eq(item.columns,contract.header.length);
+ eq(item.utf8_header_decodable,false);
+ eq(item.non_ascii_header_field_hex,'54612da1e6');
+ eq(item.first_400_rows_column_count,item.columns);
+}
 const folder=mkdtempSync(join(tmpdir(),'naft-native-'));
 try{
  const file=join(folder,'native.csv');writeFileSync(file,dBytes);
