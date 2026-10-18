@@ -1,0 +1,63 @@
+'use strict';
+// Generated from the same published aggregate fixture; no fetch/network runtime.
+var JAPAN_FIELD_PUBLISHED_DATA={
+  "schema": "naft-jp-field-published-aggregate-1",
+  "created": "2026-10-18",
+  "provenance_status": "SECONDARY_TRANSCRIPTION_ORIGINAL_TABLE_NOT_RECHECKED",
+  "raw_observation_series_available": false,
+  "study_measurement_protocol_independently_verified": false,
+  "formal_jcredit_eligibility": null,
+  "units": {
+    "yagi": "g_CH4_per_m2_period",
+    "nishimura": "mg_CH4_per_m2_segment"
+  },
+  "sources": [
+    {
+      "study_id": "YAGI_1996",
+      "title_short": "Yagi et al. 1996 rice-field methane water management",
+      "doi": "10.1029/96GB00517",
+      "url": "https://doi.org/10.1029/96GB00517",
+      "source_kind": "PUBLISHED_AGGREGATE_TRANSCRIPTION",
+      "country": "JP",
+      "site_coordinates": null,
+      "soil": null,
+      "water_depth_series": null,
+      "temperature_series": null,
+      "flux_time_series": null,
+      "plot_replication": null,
+      "experimental_setup_verified": false,
+      "years": [
+        {
+          "year": 1991,
+          "continuous_flooding_g_m2": "14.8",
+          "intermittent_drainage_g_m2": "8.63"
+        },
+        {
+          "year": 1993,
+          "continuous_flooding_g_m2": "9.49",
+          "intermittent_drainage_g_m2": "5.18"
+        }
+      ]
+    },
+    {
+      "study_id": "NISHIMURA_2004",
+      "title_short": "Nishimura et al. 2004 automated-chamber annual rice-field CH4",
+      "doi": "10.1029/2003GB002207",
+      "url": "https://doi.org/10.1029/2003GB002207",
+      "source_kind": "PUBLISHED_AGGREGATE_TRANSCRIPTION",
+      "country": "JP",
+      "site_coordinates": null,
+      "soil": null,
+      "water_depth_series": null,
+      "temperature_series": null,
+      "flux_time_series": null,
+      "plot_replication": null,
+      "experimental_setup_verified": false,
+      "year": 2002,
+      "growing_mg_m2": "3180",
+      "fallow_mg_m2": "-51",
+      "published_annual_mg_m2": "3128",
+      "published_precision_mg_m2": "1"
+    }
+  ]
+};
