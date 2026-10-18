@@ -82,7 +82,7 @@ function validManifest(m,buf){
  const adapter=ADAPTERS[m.adapter_id];
  if(!adapter||m.unit!==adapter.unit||m.sampling_semantics!==adapter.sampling_semantics)
   FAIL('OBS_UNIT_OR_ADAPTER_MISMATCH');
- if(!['JP','KR','TW','VN','PH'].includes(m.country)||m.gas!=='CH4'||
+ if(!['JP','KR','TW','VN','PH','CN'].includes(m.country)||m.gas!=='CH4'||
     m.mass_basis!==adapter.mass_basis||m.gap_fill_policy!=='FORBID')
   FAIL('OBS_GAS_JURISDICTION_OR_GAP_POLICY');
  if(m.data_class!=='SYNTHETIC'&&m.data_class!=='USER_SUPPLIED_UNVERIFIED')
