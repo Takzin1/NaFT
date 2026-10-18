@@ -105,3 +105,7 @@ The [2026-10-18 cross-language verification report](docs/asia-ipcc-jcm-independe
 - `python3 tests/japan-field-independent-oracle.test.py`
 
 日本語 `gikuten.html` に研究用「⑤原著論文の実測集計値」カードを追加。原著の生測定ファイル、日次の気象・水位、土壌、フラックス原系列を取得できていないため、**同一環境の物理シミュレーション、因果的な差分配分、J-Credit認証量は未実装**。
+
+## 日本の実測観測原本を受け入れるオフライン時系列ゲート（2026-10-19）
+
+[原著観測生データ取込・独立再積算プロトコル](docs/japan-raw-flux-ingestion-2026-10-19.md)で、SHA-256原本一致・UTC区間の重複/欠測・観測単位・区間平均フラックスの積算と、別実装Python Decimalを検証する。**現在のCSVは人工生成した48時間データ**で、Yagi/Nishimuraの元の測定時系列ではない。出版社原本・測定法・気象/土壌の照合・第三者検証がない限り、正式算定・因果帰属・認証には使わず停止する。
