@@ -15,18 +15,13 @@ function init(){
  root.appendChild(el);
  const output=el.querySelector('#ja-field-output');
  let data=null;
- const link='research/japan-field-replay-2026-10-18/published-aggregates.json';
- // Same-origin JSON only. No remote third-party data, no user data persistence.
- fetch(link,{cache:'no-store'}).then(r=>{
-  if(!r.ok)throw Error('FETCH_HTTP_'+r.status);
-  return r.text();
- }).then(raw=>{
-  if(raw.length>30000)throw Error('FIXTURE_TOO_LARGE');
-  data=JSON.parse(raw);
-  // Source and table-value checks execute before calling it 'loaded'.
+ // The bundled fixture is checked against the JSON source in CI; no runtime network calls.
+ try{
+  if(typeof JAPAN_FIELD_PUBLISHED_DATA==='undefined')throw Error('OFFLINE_FIXTURE_MISSING');
+  data=JAPAN_FIELD_PUBLISHED_DATA;
   japanFieldReplayYagi(data);japanFieldReplayNishimura(data);
-  output.textContent='公表集計値の暫定転記を読み込みました。原著の原表・観測原本は未検証です。';
- }).catch(e=>{output.textContent='研究フィクスチャ読込停止: '+e.message});
+  output.textContent='オフラインの暫定転記フィクスチャを確認しました。原著原表・観測原本は未検証です。';
+ }catch(e){data=null;output.textContent='研究フィクスチャ検証停止: '+e.message;}
  function show(fn){
   if(!data){output.textContent='研究用データ未確認のため停止';return;}
   try{output.textContent=JSON.stringify(fn(),null,2)}
