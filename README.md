@@ -86,3 +86,8 @@ Compilerはclock・乱数をPackage生成に使いません。同じ入力・Pac
 `naft_mrv_core_v1`の既存storeを使用します。通常ブラウザはメモリのみで再読込時に消去、`window.storage`があれば同じadapterで保存します。新しいrunは旧runを履歴として残し、旧Packageの現行exportを停止します。従来AG-005操作のID・日時は実行ごとに変わります。
 
 [Architecture](docs/architecture.md) · [Data model](docs/data-model.md) · [Human boundaries](docs/human-in-the-loop.md) · [Limitations](docs/known-limitations.md) · [研究段階](docs/mitou-advanced-concept.md) · [Before / After](reports/baseline.json) · [MIT License](LICENSE)
+
+## Monsoon Asia MRV arithmetic research (2026-10-18)
+
+[Asia-Japan baseline comparison and change-impact gaps](docs/asia-mrv-baseline-parity-2026-10-18.md) · [Research source manifest](research/asia-mrv-2026-10-18/source-manifest.json) · [IPCC/Taiwan/Philippines bounded fixtures](research/asia-mrv-2026-10-18/fixtures.json).
+The Japanese research screen also offers read-only IPCC arithmetic replay and CH₄ mass-basis parity. **Research only: no official factor transfer, field claims, actual savings, or certification.**

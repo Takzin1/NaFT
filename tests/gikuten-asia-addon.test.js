@@ -1,0 +1,10 @@
+'use strict';
+const assert=require('node:assert/strict'),fs=require('node:fs');
+const html=fs.readFileSync('gikuten.html','utf8'),addon=fs.readFileSync('src/gikuten-asia-addon.js','utf8');
+assert.match(html,/src="src\/asia-mrv-compat\.js"/);
+assert.match(html,/src="src\/gikuten-asia-addon\.js"/);
+assert.ok(html.indexOf('src/gikuten-calculation-lab.js')<html.indexOf('src/gikuten-asia-addon.js'));
+assert.ok(html.indexOf('src/asia-mrv-compat.js')<html.indexOf('src/gikuten-asia-addon.js'));
+assert.match(addon,/japan-calculation-lab/);assert.match(addon,/naftAsiaPhysicalCompare/);
+assert.match(addon,/naftAsiaRegulatoryFactorGate/);assert.match(addon,/naftAsiaIpcc2019Example/);
+console.log('JA_ASIA_RESEARCH_PANEL_PASS: sources, render insertion and research-only actions');
