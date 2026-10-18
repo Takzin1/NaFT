@@ -60,6 +60,12 @@ export function reconcileObservationAggregate(csvBytes,manifest,reference){
  const report=fixed9(reference.reported_cumulative_mg_ch4_m2,'RECON_REPORTED_DECIMAL_INVALID');
  const resolution=fixed9(reference.printed_resolution_mg_ch4_m2,'RECON_RESOLUTION_INVALID');
  if(resolution<=0n)stop('RECON_RESOLUTION_NONPOSITIVE');
+ // A printed display step should be a decimal power of ten, not an arbitrary
+ // user-chosen tolerance. The claimed printed value must lie on that grid.
+ let quantum=resolution;
+ while(quantum%10n===0n)quantum/=10n;
+ if(quantum!==1n)stop('RECON_RESOLUTION_NOT_DECIMAL_STEP');
+ if(report%resolution!==0n)stop('RECON_REPORTED_PRECISION_MISMATCH');
  // On the ingestion side, summation is exact until the existing replay output
  // rounds to 9 decimal places. The comparison never substitutes a modelled total.
  const observed=fixed9(replay.full_window_total_mg_ch4_m2,'RECON_REPLAY_TOTAL_INVALID');
