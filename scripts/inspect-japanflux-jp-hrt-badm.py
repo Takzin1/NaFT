@@ -135,6 +135,8 @@ def summarize(tables, hh_bytes, hashes):
     reader = csv.DictReader(io.StringIO(hh_bytes.decode("utf-8"), newline=""))
     check("TIMESTAMP_START" in reader.fieldnames and "FCH4" in reader.fieldnames,
           "BADM_NATIVE_CSV_COLUMNS")
+    check(not any(name in reader.fieldnames for name in ("FCH4_QC", "FCH4_1_1_1_QC")),
+          "BADM_CH4_QC_FLAG_ALREADY_PRESENT_REVIEW_REQUIRED")
     for row in reader:
         val = row["FCH4"]
         if val in ("-9999", "-9999.0", ""):
@@ -145,6 +147,11 @@ def summarize(tables, hh_bytes, hashes):
               "BADM_UNSUPPORTED_RATE_LEXEME")
         date = row["TIMESTAMP_START"]
         check(re.fullmatch(r"\d{12}", date) is not None, "BADM_NATIVE_TIMESTAMP_SHAPE")
+        try:
+            parsed = datetime.strptime(date, "%Y%m%d%H%M")
+            check(parsed.strftime("%Y%m%d%H%M") == date, "BADM_NATIVE_TIMESTAMP_NONCANONICAL")
+        except ValueError as exc:
+            raise Blocked("BADM_NATIVE_TIMESTAMP_INVALID") from exc
         numeric += 1
         first = min(first, date) if first else date
         last = max(last, date) if last else date
