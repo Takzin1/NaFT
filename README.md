@@ -124,6 +124,16 @@ node scripts/replay-japan-observation-adapters.mjs --csv path/to/intervals.csv -
 
 仕様・対応単位・SHA-256原バイト一致・QC区間・欠測時の通期積算拒否については[日本語の外部観測CSV取込ガイド](docs/japan-offline-observation-import-2026-10-19.md)を参照。**真正な原著観測原本や制度的な排出削減の認証が完了したことを意味しません。**
 
+## 日本語版：観測期間累積量と参照集計値の安全な突合（2026-10-19）
+
+前段のローカルCSV再演算に続き、全観測期間・出典URI・圃場/処理区・観測法・ガス/質量基準の**宣言値が一致**する場合だけ、観測積算値と提供者の参照集計値を比較する研究用CLIを追加しました。
+
+```sh
+node scripts/reconcile-japan-observation.mjs synthetic-interval
+```
+
+[突合プロトコル・負例・原著検証の未実施事項](docs/japan-aggregate-reconciliation-2026-10-19.md)を参照。**同梱データも参照集計値も人工データ**であり、原著原本・実測物理再現・J-クレジットの正式算定ではありません。部分的な観測区間の値を全期値に外挿せず、未確認の一致を第三者認証へ昇格させません。
+
 ## Asia observation sources & IEEE source dock (2026-10-19)
 
 [Asia research source acquisition and future IEEE dock](docs/asia-source-observation-acquisition-ieee-dock-2026-10-19.md): 8 DOI-indexed scientific sources (7 publisher-advertised MD5 file checksums), strict observation vs model distinction, 5-file Zenodo original-byte *ephemeral* acquisition attempts with SHA-256 + MD5 checks, and a portable **metadata-only** IEEE dock exporter. Use `node scripts/asia-source-dock-export.mjs` and `python3 scripts/harvest-asia-source-index.py --fetch` in a network-enabled environment. Publisher originals have **not** been copied into this repository or approved for redistribution; licenses and scientific calibration/AG-005 eligibility remain pending.
