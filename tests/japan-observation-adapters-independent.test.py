@@ -5,6 +5,7 @@ from pathlib import Path
 from datetime import datetime,timezone
 from decimal import Decimal as D, ROUND_HALF_UP
 import csv,hashlib,io,json,subprocess,unittest
+from tempfile import TemporaryDirectory
 ROOT=Path(__file__).resolve().parents[1]
 ROOT_FIX=ROOT/'research/japan-observation-adapters-2026-10-19'
 SUPPORTED={
@@ -22,11 +23,12 @@ def date(s):
 def independent(csv_bytes,meta):
  assert hashlib.sha256(csv_bytes).hexdigest()==meta['csv_sha256']
  assert meta['schema']=='naft-observation-series-v2'
- assert meta['data_class']=='SYNTHETIC'
+ assert meta['data_class'] in ('SYNTHETIC','USER_SUPPLIED_UNVERIFIED')
  assert meta['gap_fill_policy']=='FORBID'
  assert meta['gas']=='CH4' and meta['mass_basis']==('CH4_C' if meta['adapter_id']=='DAILY_G_CH4_C_M2_DAY_V1' else 'CH4_MOLECULAR')
  assert not meta['original_publisher_bytes_verified']
  assert not meta['conditions_independently_matched']
+ assert not meta['official_eligibility_verified']
  adapter=meta['adapter_id'];unit,sem,maxsec,exact=SUPPORTED[adapter]
  assert meta['unit']==unit and meta['sampling_semantics']==sem
  content=csv_bytes.decode('utf-8',errors='strict')
@@ -145,4 +147,30 @@ class TestAdaptersIndependent(unittest.TestCase):
   file,manifest=self.data('eddy')
   self.assertIn(b'-5.000000',file)
   self.assertGreater(independent(file,manifest)['observed_integral'],D(0))
+
+ def test_local_user_supplied_independent_parity(self):
+  # Independent Decimal integration of arbitrary, unverified local inputs,
+  # compared to the actual JS public CLI (not an internal JS helper).
+  raw,meta=self.data('daily')
+  meta['data_class']='USER_SUPPLIED_UNVERIFIED'
+  with TemporaryDirectory(prefix='naft-japan-') as folder:
+   path=Path(folder)
+   csv_path=path/'local-observations.csv'
+   meta_path=path/'source-manifest.json'
+   csv_path.write_bytes(raw)
+   meta_path.write_text(json.dumps(meta),encoding='utf-8')
+   job=subprocess.run(
+    ['node','scripts/replay-japan-observation-adapters.mjs',
+     '--manifest',str(meta_path),'--csv',str(csv_path)],
+    cwd=ROOT,stdout=subprocess.PIPE,stderr=subprocess.PIPE,text=True,timeout=20)
+   self.assertEqual(job.returncode,0,job.stderr)
+   js=json.loads(job.stdout)
+   py=independent(raw,meta)
+   self.assertEqual(js['data_class'],'USER_SUPPLIED_UNVERIFIED')
+   self.assertEqual(D(js['observed_only_integral_mg_ch4_m2']),py['observed_integral'])
+   self.assertEqual(D(js['observed_only_integral_kg_ch4_ha']),py['observed_integral_per_ha'])
+   self.assertEqual(D(js['measured_coverage_percent']),py['coverage_pct'])
+   self.assertEqual(int(js['excluded_qc_seconds']),py['excluded_qc_seconds'])
+   self.assertIsNone(js['full_window_total_mg_ch4_m2'])
+   self.assertIsNone(js['certified_tco2e'])
 if __name__=='__main__':unittest.main(verbosity=2)
