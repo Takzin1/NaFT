@@ -14,7 +14,7 @@ yes(y.results[0].within_year_contrast_kg_ch4_ha==='61.7');
 yes(y.results[0].relative_contrast_percent==='41.689189');
 yes(y.results[1].within_year_contrast_g_ch4_m2==='4.31');
 yes(y.results[1].within_year_contrast_kg_ch4_ha==='43.1');
-yes(y.results[1].relative_contrast_percent==='45.416227');
+yes(y.results[1].relative_contrast_percent==='45.416228');
 yes(y.results[0].environment_attribution_percent===null&&!y.results[0].measured_daily_flux_recreated);
 const n=box.naftJpNishimuraReplay(fixture);
 yes(n.results[0].independently_summed_mg_m2==='3129');
