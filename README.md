@@ -91,3 +91,7 @@ Compilerはclock・乱数をPackage生成に使いません。同じ入力・Pac
 
 [Asia-Japan baseline comparison and change-impact gaps](docs/asia-mrv-baseline-parity-2026-10-18.md) · [Research source manifest](research/asia-mrv-2026-10-18/source-manifest.json) · [IPCC/Taiwan/Philippines bounded fixtures](research/asia-mrv-2026-10-18/fixtures.json).
 The Japanese research screen also offers read-only IPCC arithmetic replay and CH₄ mass-basis parity. **Research only: no official factor transfer, field claims, actual savings, or certification.**
+
+## Independent IPCC and PH_AM004 calculation oracle (research only)
+
+The [2026-10-18 cross-language verification report](docs/asia-ipcc-jcm-independent-oracle-2026-10-18.md) introduces a 5-row IPCC Table 5.14B/C intermediate-rounding replay (410.472 Gg CH4/yr vs 409.7277036 unrounded) plus 4 Philippines PH_AM004 research uncertainty cases. JavaScript BigInt and independently implemented Python Decimal verify results, mutations, and optional reference/mandatory project pumping boundaries. Run `node scripts/asia-independent-replay.mjs`, `node tests/ipcc-stage-reference.test.mjs`, `python3 tests/asia-independent-oracle.test.py`. No certified emissions, actual farm observation or Japan AG-005 v3.5 compatibility is claimed.
