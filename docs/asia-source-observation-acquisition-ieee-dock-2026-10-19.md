@@ -4,7 +4,7 @@ Date: 2026-10-19. **Discovery != acquisition != valid field measurement != certi
 
 ## Catalog of research references
 
-See [machine-readable source index](../research/asia-source-dock-2026-10-19/source-index.json). Research landing pages/DOIs were rechecked 2026-10-19, but this environment cannot retrieve Zenodo binary files: its network returned a failed download/DNS. The record has 8 study/dataset sources and 7 publisher-advertised file checksums. The **actual scientific original SHA-256 values are null**. The cited MD5 values come from Zenodo *publisher listing*, not a successful independently downloaded file.
+See [machine-readable source index](../research/asia-source-dock-2026-10-19/source-index.json). Research landing pages/DOIs were rechecked 2026-10-19, but this environment cannot retrieve Zenodo binary files: its network returned a failed download/DNS. The record has 8 study/dataset sources and 7 publisher-advertised file checksums. **Update after GitHub Actions acquisition:** six originals (two Korean, two Chinese, one Monsoon Asia model ZIP, one SEA-9 research ZIP) were fetched ephemerally with Zenodo-published MD5 matches in [run 39142424578](https://github.com/Takzin1/NaFT/actions/runs/39142424578); exact SHA-256, lengths and headers are in [verified ephemeral report](../research/asia-source-dock-2026-10-19/verified-ephemeral-acquisition.json). No original scientific raw bytes were committed or redistributed. Licensing and full measurement QC remain unreviewed. The **actual scientific original SHA-256 values are null**. The cited MD5 values come from Zenodo *publisher listing*, not a successful independently downloaded file.
 
 | Source | Scientific layer | DOI / research URL | Ingest plan |
 | --- | --- | --- | --- |
@@ -23,7 +23,7 @@ Zenodo landing pages show publisher-side MD5 values, but the license *display* i
 
 \`python3 scripts/harvest-asia-source-index.py\` checks the source register **offline**.
 
-\`python3 scripts/harvest-asia-source-index.py --fetch\` on an internet-connected machine attempts five strictly allowlisted Zenodo files (two Korean, one China, one annual Asia model and one SEA-9 inventory ZIP). Downloads are held **only in memory**, up to 15MB each, with HTTPS hostname/redirect restrictions. Every original downloaded byte stream is checked against the **publisher-advertised MD5**, SHA-256 is computed, ZIP is inspected for member paths and oversized content without extracting it, and a source-specific report is printed to stdout. A verified MD5 is a byte-consistency check with the published checksum — **not a validated experimental condition, independently validated license, or certification**.
+\`python3 scripts/harvest-asia-source-index.py --fetch\` on an internet-connected machine attempts six strictly allowlisted Zenodo files (two Korean, one China, one annual Asia model and one SEA-9 inventory ZIP). Downloads are held **only in memory**, up to 15MB each, with HTTPS hostname/redirect restrictions. Every original downloaded byte stream is checked against the **publisher-advertised MD5**, SHA-256 is computed, ZIP is inspected for member paths and oversized content without extracting it, and a source-specific report is printed to stdout. A verified MD5 is a byte-consistency check with the published checksum — **not a validated experimental condition, independently validated license, or certification**.
 
 A separate manually dispatchable / branch-triggered [GitHub workflow](../.github/workflows/asia-source-harvest.yml) attempts these remote fetches. Its CI result and logs, not the landing-page index, establish whether any bytes were actually fetched. Failures remain visible and do not promote the source stage. Raw scientific ZIPs are never committed or published by the workflow.
 
@@ -49,3 +49,13 @@ Only then move from \`SOURCE_CATALOG_ONLY\` to independently checked data and bu
 For a field observation, retain site ID, observation date support, farm management, soil class, climate context, flux measuring method, instrument calibration/QC and observation completeness. Compare annual vs cropping season separately. Missing periods stay missing. Even if an archived research series can be reproduced numerically, it is not a Japan J-Credit-certified quantity.
 
 **This phase commits source metadata + a reproducible acquisition and future IEEE docking tool, not unpublished datasets or any verified original observation values.**
+
+## Original-header discovery and the unit mismatch it exposed
+
+The publisher-MD5-matched Korean ch4.zip contains **60 CSV members**; first inspected header `DAT,tavg,course_type,ch4_flux,rain_mm`. The source description identifies `ch4_flux` as daily `g-CH4/m²/day`, but the raw CSV uses **DAT rather than absolute dates** and has no explicit QC column. Exact transplant date, QC definitions, treatment codes, observation calendar and crop year must be joined from the field workbook and reviewed before reconstructing date intervals.
+
+The Chinese source has **two distinct scientific rate representations**:
+- `Supporting information data1.csv` hourly/time-specific record includes `Year,Month,Day,Hour,Minute,DOY` and `CH4-umol/m2/s`. Research conversion uses `µmol(CH4) × 16.04 g/mol × 1e-3 mg/µmol × seconds`; source-specific time support, timezone and missing QC still need review.
+- `Supporting information data2.csv` daily/seasonal record includes `Year,DOY` and `CH4-gC/m2/day` (carbon mass). **Do not interpret this as molecular CH4**: `g(CH4-C) × (16/12) × 1000mg/g` is the historical reference mass conversion. Confirm original article's column definition and year/day accounting before source calculations.
+
+These are structural observations of source files, **not field flux replays, actual field emissions, independent calibration or AG-005-eligible emission factors**. `scripts/lib/asia-native-field-header.mjs` blocks premature normalization of original source headers; `scripts/lib/japan-observation-adapters.mjs` includes five *synthetic normalized input* adapters as testable scientific scaffolding. Source files themselves are still not present in the repository.
