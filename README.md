@@ -113,3 +113,7 @@ The [2026-10-18 cross-language verification report](docs/asia-ipcc-jcm-independe
 ## Observation Adapter Registry + QC Coverage v2 (2026-10-19)
 
 [観測方式別の単位換算と欠測・QCの厳格な扱い](docs/japan-observation-adapter-coverage-2026-10-19.md)を追加。3形式（区間平均 mg-CH₄/m²/day、日次 g-CH₄/m²/day、渦相関 nmol-CH₄/m²/s）を厳密に区別し、全件連続の従来v1を維持する。観測不足時は観測済み部分のみ積算し、通期値は null。JavaScript BigInt と Python Decimal の独立検算をCIへ追加。テスト入力は**全て合成**であり、出版社の観測原本や認証計算ではない。
+
+## Asia observation sources & IEEE source dock (2026-10-19)
+
+[Asia research source acquisition and future IEEE dock](docs/asia-source-observation-acquisition-ieee-dock-2026-10-19.md): 8 DOI-indexed scientific sources (7 publisher-advertised MD5 file checksums), strict observation vs model distinction, 5-file Zenodo original-byte *ephemeral* acquisition attempts with SHA-256 + MD5 checks, and a portable **metadata-only** IEEE dock exporter. Use `node scripts/asia-source-dock-export.mjs` and `python3 scripts/harvest-asia-source-index.py --fetch` in a network-enabled environment. Publisher originals have **not** been copied into this repository or approved for redistribution; licenses and scientific calibration/AG-005 eligibility remain pending.

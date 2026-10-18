@@ -23,5 +23,7 @@ node tests/japan-raw-flux.test.mjs
 python3 tests/japan-raw-flux-independent.test.py
 node tests/japan-observation-adapters.test.mjs
 python3 tests/japan-observation-adapters-independent.test.py
+node tests/asia-source-dock.test.mjs
+python3 scripts/harvest-asia-source-index.py
 python3 tests/check-static.py
 bash tests/security.sh
