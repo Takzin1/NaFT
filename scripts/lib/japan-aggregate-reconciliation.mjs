@@ -37,6 +37,7 @@ export function reconcileObservationAggregate(csvBytes,manifest,reference){
     reference.aggregate_unit!=='mg_CH4_m2'||
     reference.window_basis!=='EXPLICIT_OBSERVED_INTERVALS')
   stop('RECON_REFERENCE_SCHEMA_OR_UNIT_UNSUPPORTED');
+ if(manifest.mass_basis!=='CH4_MOLECULAR')stop('RECON_INPUT_MASS_BASIS_UNSUPPORTED');
  if(!isValidSourceClass(reference.data_class)||reference.data_class!==manifest.data_class)
   stop('RECON_DATA_CLASS_MISMATCH');
  if(reference.original_publisher_bytes_verified!==false||
