@@ -70,3 +70,12 @@ Every input is either \`SYNTHETIC\` or \`USER_SUPPLIED_UNVERIFIED\`. An input-pr
 4. Apply Japanese J-Credit AG-005 current methodology, emission factors and applicability as a separate authoritative versioned Rule Pack only after primary text and factors are independently checked.
 
 **References for potential future acquisition (not used as data):** [JapanFlux2024 JP-Hrt](https://ads.nipr.ac.jp/data/meta/A20241210-020), [Zenodo rice methane research](https://zenodo.org/records/17111992), [FLUXNET KR-CRK](https://fluxnet.org/sites/siteinfo/KR-CRK). No download or independent file license verification occurred as part of this PR.
+
+## Addendum: Source-informed Chinese CH₄ units (2026-10-19)
+
+Zenodo [10.5281/zenodo.8067998](https://doi.org/10.5281/zenodo.8067998) original CSV files were fetched temporarily and verified against publisher MD5 in [GitHub run](https://github.com/Takzin1/NaFT/actions/runs/39142424578). Inspecting **headers only** identified `CH4-umol/m2/s` for hourly eddy records and `CH4-gC/m2/day` for daily sums. Separate normalized adapters were added:
+
+- `EDDY_UMOL_CH4_M2_S_V1`: 16.04 g/mol pinned for µmol-CH₄ molecular flux; 1 µmol-CH₄/m²/s for 3600 s = **57.744 mg-CH₄/m²** (synthetic).
+- `DAILY_G_CH4_C_M2_DAY_V1`: daily CH₄ carbon-mass basis, 0.012 g(CH₄-C)/m²/day = **16 mg-CH₄/m²** (synthetic).
+
+Both inherit source authenticity and full/partial coverage restrictions from v2. A native-header classifier **fails closed** for Gimje DAT without verified transplant date and Chinese source header before independent review. There is **no claim that measured source values were normalized/ingested or that current AG-005 rules use these Chinese factors**.

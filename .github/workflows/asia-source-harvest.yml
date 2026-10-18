@@ -1,0 +1,28 @@
+name: NaFT Asia research source acquisition (ephemeral)
+on:
+  push:
+    branches:
+      - "feat/asia-observation-source-harvest-dock-*"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  research-source-provenance:
+    runs-on: ubuntu-latest
+    timeout-minutes: 7
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Validate source catalog without network
+        run: python3 scripts/harvest-asia-source-index.py
+      - name: Fetch public Zenodo originals ephemerally and verify publisher MD5
+        run: python3 scripts/harvest-asia-source-index.py --fetch
+      - name: No scientific binaries included in git
+        run: |
+          if git status --short | grep -qE 'research/asia-source-dock.*(zip|xlsx|nc|csv)$'; then
+            echo "::error::Unexpected scientific source binary in repository"
+            exit 1
+          fi
+          echo "Source-original bytes never committed by this workflow."
