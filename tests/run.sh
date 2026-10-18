@@ -22,6 +22,7 @@ python3 tests/japan-field-independent-oracle.test.py
 node tests/japan-raw-flux.test.mjs
 python3 tests/japan-raw-flux-independent.test.py
 node tests/japan-observation-adapters.test.mjs
+node tests/japan-offline-import-cli.test.mjs
 python3 tests/japan-observation-adapters-independent.test.py
 node tests/independent-observation-dual.test.mjs
 node tests/japan-ieee-oracle-parity.test.mjs
