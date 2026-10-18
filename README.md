@@ -109,3 +109,7 @@ The [2026-10-18 cross-language verification report](docs/asia-ipcc-jcm-independe
 ## 日本の実測観測原本を受け入れるオフライン時系列ゲート（2026-10-19）
 
 [原著観測生データ取込・独立再積算プロトコル](docs/japan-raw-flux-ingestion-2026-10-19.md)で、SHA-256原本一致・UTC区間の重複/欠測・観測単位・区間平均フラックスの積算と、別実装Python Decimalを検証する。**現在のCSVは人工生成した48時間データ**で、Yagi/Nishimuraの元の測定時系列ではない。出版社原本・測定法・気象/土壌の照合・第三者検証がない限り、正式算定・因果帰属・認証には使わず停止する。
+
+## Observation Adapter Registry + QC Coverage v2 (2026-10-19)
+
+[観測方式別の単位換算と欠測・QCの厳格な扱い](docs/japan-observation-adapter-coverage-2026-10-19.md)を追加。3形式（区間平均 mg-CH₄/m²/day、日次 g-CH₄/m²/day、渦相関 nmol-CH₄/m²/s）を厳密に区別し、全件連続の従来v1を維持する。観測不足時は観測済み部分のみ積算し、通期値は null。JavaScript BigInt と Python Decimal の独立検算をCIへ追加。テスト入力は**全て合成**であり、出版社の観測原本や認証計算ではない。

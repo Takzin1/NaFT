@@ -21,5 +21,7 @@ node tests/japan-field-study-replay.test.js
 python3 tests/japan-field-independent-oracle.test.py
 node tests/japan-raw-flux.test.mjs
 python3 tests/japan-raw-flux-independent.test.py
+node tests/japan-observation-adapters.test.mjs
+python3 tests/japan-observation-adapters-independent.test.py
 python3 tests/check-static.py
 bash tests/security.sh
