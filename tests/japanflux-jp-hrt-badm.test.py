@@ -6,6 +6,7 @@ import tempfile
 import unittest
 import zipfile
 from pathlib import Path
+from datetime import datetime, timedelta
 
 ROOT=Path(__file__).resolve().parents[1]
 spec=importlib.util.spec_from_file_location('jp_badm', ROOT/'scripts/inspect-japanflux-jp-hrt-badm.py')
@@ -39,10 +40,9 @@ def tables():
 def fake_hh():
     header='TIMESTAMP_START,FCH4\n'
     # Unique synthetic date labels are shape-valid; values are NOT real flux.
-    pre=['20130601%02d%02d,1.0\n'%(i//60,i%60) for i in range(0,1689)]
-    # Independent non-original mock labels; the numeric strings are used only
-    # to test classification counts and source date discrepancy.
-    post=['20130920%02d%02d,0.5\n'%(i//60,i%60) for i in range(0,226)]
+    # Synthetic ISO-valid dates, not original observation values.
+    pre=[(datetime(2013,6,1,7)+timedelta(minutes=30*i)).strftime('%Y%m%d%H%M')+',1.0\n' for i in range(1689)]
+    post=[(datetime(2013,9,20)+timedelta(minutes=30*i)).strftime('%Y%m%d%H%M')+',0.5\n' for i in range(226)]
     return (header+''.join(pre)+''.join(post)+('201301010000,-9999\n'*15605)).encode()
 
 class Cases(unittest.TestCase):
