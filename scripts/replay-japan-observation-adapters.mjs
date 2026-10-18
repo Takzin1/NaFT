@@ -4,7 +4,7 @@ import {replayObservationSeries} from './lib/japan-observation-adapters.mjs';
 const BASE='research/japan-observation-adapters-2026-10-19/';
 try {
  const args=process.argv.slice(2);
- if(args.length!==1||!['daily','eddy','interval'].includes(args[0]))
+ if(args.length!==1||!['daily','eddy','interval','umol','carbon'].includes(args[0]))
   throw Error('USAGE: node scripts/replay-japan-observation-adapters.mjs daily|eddy|interval');
  const key=args[0];
  const manifestFile=BASE+key+'.manifest.json',dataFile=BASE+key+'.csv';
