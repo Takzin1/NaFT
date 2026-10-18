@@ -20,12 +20,12 @@ const n=box.naftJpNishimuraReplay(fixture);
 yes(n.results[0].independently_summed_mg_m2==='3129');
 yes(n.results[0].reported_minus_summed_mg_m2==='-1');
 yes(n.results[0].rounding_bound_mg_m2==='1.5');
-yes(n.results[0].reported_annual_kg_basis_ha==='31.280000');
+yes(n.results[0].reported_annual_kg_basis_ha==='31.28');
 yes(n.results[1].independently_summed_mg_m2==='60.3');
 yes(n.results[1].reported_minus_summed_mg_m2==='-0.1');
 yes(n.results[1].rounding_bound_mg_m2==='0.15');
-yes(n.results[1].reported_annual_kg_basis_ha==='0.602000');
-yes(n.results[1].reported_annual_kg_n2o_ha==='0.946000');
+yes(n.results[1].reported_annual_kg_basis_ha==='0.602');
+yes(n.results[1].reported_annual_kg_n2o_ha==='0.946');
 yes(n.results[1].certified_tco2e===null);
 const model={study:'YAGI_1996',year:1991,site_id:'YAGI_EXPERIMENTAL_JAPAN_FIELD',
  crop_cycle:'REPORTED_CROPPING_SEASON',water_regime:'CONTINUOUS_FLOOD',
