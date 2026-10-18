@@ -112,10 +112,10 @@ function naftJpNishimuraReplay(d){
     period_accounting_not_causal_attribution:true,
     printed_sd_not_independent_standard_error:true,
     daily_time_series_reproduced:false,certified_tco2e:null};
-  const annualKgOfReportedSpecies=naftJpRatio(annual,100n); // mg/m² -> 0.01 kg/ha
+  const annualKgOfReportedSpecies=naftJpFormatScaled(annual/100n); // mg/m² -> 0.01 kg/ha
   output.reported_annual_kg_basis_ha=annualKgOfReportedSpecies;
   if(row.gas==='N2O')output.reported_annual_kg_n2o_ha=
-    naftJpRatio(annual*44n,2800n); // (mg N/m²)*0.01*(44/28)
+    naftJpFormatScaled(annual*44n/2800n); // (mg N/m²)*0.01*(44/28)
   return output;
  });
  if(seen.size!==2)naftJpStop('NISHIMURA_REQUIRED_GASES_MISSING');
