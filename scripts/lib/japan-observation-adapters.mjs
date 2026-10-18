@@ -20,7 +20,7 @@ const ADAPTERS=Object.freeze({
   'EDDY_NMOL_CH4_M2_S_V1':Object.freeze({
     unit:'nmol_CH4_m2_s',sampling_semantics:'EDDY_INTERVAL_MEAN_FLUX_RATE',
     mass_basis:'CH4_MOLECULAR',max_seconds:3600n,exact_seconds:null
-  })
+  }),
   'EDDY_UMOL_CH4_M2_S_V1':Object.freeze({
     unit:'umol_CH4_m2_s',sampling_semantics:'EDDY_INTERVAL_MEAN_FLUX_RATE',
     mass_basis:'CH4_MOLECULAR',max_seconds:3600n,exact_seconds:null
