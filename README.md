@@ -134,6 +134,12 @@ node scripts/reconcile-japan-observation.mjs synthetic-interval
 
 [突合プロトコル・負例・原著検証の未実施事項](docs/japan-aggregate-reconciliation-2026-10-19.md)を参照。**同梱データも参照集計値も人工データ**であり、原著原本・実測物理再現・J-クレジットの正式算定ではありません。部分的な観測区間の値を全期値に外挿せず、未確認の一致を第三者認証へ昇格させません。
 
+## 原著ネイティブCSVのデータ形式チェック（日本語版・第3弾）
+
+中国水田の研究公開データ（Zenodo 10.5281/zenodo.8067998）の一時取得記録に基づき、日次CH₄-Cと時間別CH₄の**元ファイル列構造・原バイトのハッシュ・日付/DOY整合性**を検査するオフラインCLIを追加した。ソース別の単位を混ぜず、時刻解釈・QC・ライセンス未確認の段階では、積算・補間・J-クレジット相当量の計算をしない。
+
+[原著ファイル事前検査の手順と制約](docs/china-rice-native-preflight-2026-10-19.md)。合成の列構造データでテストし、原著の観測原本はリポジトリに収録していない。
+
 ## Asia observation sources & IEEE source dock (2026-10-19)
 
 [Asia research source acquisition and future IEEE dock](docs/asia-source-observation-acquisition-ieee-dock-2026-10-19.md): 8 DOI-indexed scientific sources (7 publisher-advertised MD5 file checksums), strict observation vs model distinction, 5-file Zenodo original-byte *ephemeral* acquisition attempts with SHA-256 + MD5 checks, and a portable **metadata-only** IEEE dock exporter. Use `node scripts/asia-source-dock-export.mjs` and `python3 scripts/harvest-asia-source-index.py --fetch` in a network-enabled environment. Publisher originals have **not** been copied into this repository or approved for redistribution; licenses and scientific calibration/AG-005 eligibility remain pending.
