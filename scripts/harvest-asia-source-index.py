@@ -3,6 +3,7 @@
 No raw scientific bytes are committed, extracted, executed or redistributed.
 """
 import argparse
+import csv
 import hashlib
 import json
 import re
@@ -84,6 +85,24 @@ def inspect_zip(data):
    result.append({'name':fn[:200],'size_bytes':info.file_size,'crc32':format(info.CRC,'08x')})
   return result[:40]
 
+def inspect_scientific_header(data,s,f):
+ # Only structural headers; never echo unpublished measurement rows.
+ if s['id']=='KR_GIMJE_DAILY_2022_2024' and f['filename']=='ch4.zip':
+  with zipfile.ZipFile(BytesIO(data)) as z:
+   members=sorted(v.filename for v in z.infolist() if v.filename.lower().endswith('.csv'))
+   if not members:return {'status':'NO_CSV_IN_ZIP'}
+   name=members[0]
+   first=z.read(name)
+   if len(first)>100000:raise ValueError('OBS_CSV_PREVIEW_SIZE_LIMIT')
+   row=next(csv.reader(first.decode('utf-8-sig',errors='replace').splitlines()))
+   return {'status':'CSV_HEADER_INSPECTED','first_member':name,
+           'csv_member_count':len(members),'header':row[:30],
+           'first_member_size_bytes':len(first)}
+ if s['id']=='CN_RICE_EDDY_EAST_2023' and f['filename'].endswith('.csv'):
+  row=next(csv.reader(data.decode('utf-8-sig',errors='replace').splitlines()))
+  return {'status':'CSV_HEADER_INSPECTED','header':row[:30]}
+ return {'status':'NOT_AN_OBSERVATION_CSV_PREVIEW'}
+
 def fetch(s,f):
  url=source_url(s,f)
  req=urllib.request.Request(url,headers={'User-Agent':'NaFT-research-integrity/1.0 (source citation Zenodo)'})
@@ -103,6 +122,8 @@ def fetch(s,f):
          'official_jcredit_usable':False,
          'research_computation_ready':False}
  if f['filename'].endswith('.zip'):output['archive_members']=inspect_zip(data)
+ if s['source_class'] in ('CHAMBER_DAILY_RESEARCH_OBSERVATION','EDDY_OBSERVATION_AND_METADATA'):
+  output['structural_preview']=inspect_scientific_header(data,s,f)
  return output
 
 def main():
