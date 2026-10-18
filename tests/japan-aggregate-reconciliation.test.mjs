@@ -34,12 +34,12 @@ assert.match(valid.reference_json_sha256,/^[a-f0-9]{64}$/);count++;
 eq(JSON.stringify(replay()),JSON.stringify(valid));
 // Positive and negative differences are signed; the comparison never invents
 // a scientific explanation for numerical compatibility with display precision.
-const less=replay({...reference,reported_cumulative_mg_ch4_m2:'2.255'});
-eq(less.replayed_minus_reported_mg_ch4_m2,'-0.005000000');
+const less=replay({...reference,reported_cumulative_mg_ch4_m2:'2.3',printed_resolution_mg_ch4_m2:'0.1'});
+eq(less.replayed_minus_reported_mg_ch4_m2,'-0.050000000');
 eq(less.display_resolution_compatible,true);
 eq(less.rounding_cause_verified,false);
-const more=replay({...reference,reported_cumulative_mg_ch4_m2:'2.244'});
-eq(more.replayed_minus_reported_mg_ch4_m2,'0.006000000');
+const more=replay({...reference,reported_cumulative_mg_ch4_m2:'2.24'});
+eq(more.replayed_minus_reported_mg_ch4_m2,'0.010000000');
 eq(more.display_resolution_compatible,false);
 const negativeRef=replay({...reference,reported_cumulative_mg_ch4_m2:'-0.25'});
 eq(negativeRef.replayed_minus_reported_mg_ch4_m2,'2.500000000');
@@ -62,6 +62,9 @@ reject(()=>replay({...reference,reported_cumulative_mg_ch4_m2:'NaN'}),/RECON_REP
 reject(()=>replay({...reference,printed_resolution_mg_ch4_m2:'0'}),/RECON_RESOLUTION_NONPOSITIVE/);
 reject(()=>replay({...reference,printed_resolution_mg_ch4_m2:'-1'}),/RECON_RESOLUTION_NONPOSITIVE/);
 reject(()=>replay({...reference,printed_resolution_mg_ch4_m2:'0.0000000001'}),/RECON_RESOLUTION_INVALID/);
+reject(()=>replay({...reference,printed_resolution_mg_ch4_m2:'0.07'}),/RECON_RESOLUTION_NOT_DECIMAL_STEP/);
+reject(()=>replay({...reference,reported_cumulative_mg_ch4_m2:'2.255'}),/RECON_REPORTED_PRECISION_MISMATCH/);
+reject(()=>replay({...reference,printed_resolution_mg_ch4_m2:'0.1'}),/RECON_REPORTED_PRECISION_MISMATCH/);
 // Integrity must be checked from raw input bytes, not from a caller's displayed replay.
 reject(()=>replay(reference,meta,Buffer.concat([csv,Buffer.from('tamper')])),/OBS_SHA256_MISMATCH/);
 // Same declared context is insufficient when the observed window is incomplete.
