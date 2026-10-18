@@ -95,3 +95,7 @@ The Japanese research screen also offers read-only IPCC arithmetic replay and CH
 ## Independent IPCC and PH_AM004 calculation oracle (research only)
 
 The [2026-10-18 cross-language verification report](docs/asia-ipcc-jcm-independent-oracle-2026-10-18.md) introduces a 5-row IPCC Table 5.14B/C intermediate-rounding replay (410.472 Gg CH4/yr vs 409.7277036 unrounded) plus 4 Philippines PH_AM004 research uncertainty cases. JavaScript BigInt and independently implemented Python Decimal verify results, mutations, and optional reference/mandatory project pumping boundaries. Run `node scripts/asia-independent-replay.mjs`, `node tests/ipcc-stage-reference.test.mjs`, `python3 tests/asia-independent-oracle.test.py`. No certified emissions, actual farm observation or Japan AG-005 v3.5 compatibility is claimed.
+
+## 日本の水田実測・原著報告集計値の独立計算プロトコル（研究用）
+
+[Yagi (1996) と Nishimura (2004) の公表集計値の算術再現／差分按分条件](docs/japan-field-replay-protocol-2026-10-18.md)を追加。日本語版 `gikuten.html` に研究用の読取専用パネルを追加。原著の一次PDF表・時系列の取得と観測条件の第三者確認は**未実施**。測定を再現したのではなく暫定転記された公表集計値の単位換算と差分検算に限る。原本照合不能なら気象・土壌・水管理起因の差分按分や正式J-クレジット認証はしない。
