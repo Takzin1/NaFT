@@ -109,7 +109,7 @@ export function preflightChinaNativeCsv(originalBytes,{source_id,data_class}={})
  let last=null,calendarDiscontinuities=0,unknownRateLexemes=0,numericRateLexemes=0;
  for(const line of rows){
   const cells=line.split(',');
-  if(cells.length!==header.length)fail('NATIVE_SOURCE_ROW_COLUMNS');
+  if(cells.length!==contract.header.length)fail('NATIVE_SOURCE_ROW_COLUMNS');
   const year=integer(cells[0],1900,2100);
   const doy=integer(cells[hourly?5:1],1,366);
   const month=integer(cells[hourly?1:2],1,12);
