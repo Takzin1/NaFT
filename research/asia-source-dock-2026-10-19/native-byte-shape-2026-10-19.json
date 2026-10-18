@@ -1,0 +1,52 @@
+{
+  "schema": "naft-native-original-byte-shape-v1",
+  "inspected_date": "2026-10-19",
+  "source_doi": "10.5281/zenodo.8067998",
+  "acquisition_run": "https://github.com/Takzin1/NaFT/actions/runs/39173681784",
+  "prior_checksum_run": "https://github.com/Takzin1/NaFT/actions/runs/39142424578",
+  "original_file_bytes_committed": false,
+  "raw_values_committed": false,
+  "actual_charset_independently_identified": false,
+  "measurement_qc_verified": false,
+  "timestamp_interval_semantics_verified": false,
+  "license_reviewed": false,
+  "official_eligibility_verified": false,
+  "files": [
+    {
+      "filename": "Supporting information data2.csv",
+      "source_id": "CN_2023_DAILY_CARBON",
+      "data_class": "ORIGINAL_SOURCE_BYTES_MATCHED_EPHEMERAL",
+      "publisher_md5": "08ff8209e69bc6719a70fe5e83a1bd0c",
+      "actual_sha256": "391dc360ca653782b87f15c43142ced239ba006103a7644d498bbe7f7629e224",
+      "byte_size": 150805,
+      "header_sha256": "edcd107e254a732377025888926b835886e4737b4147bc021183af4fb5739cc1",
+      "columns": 16,
+      "row_count": 993,
+      "line_endings": "CRLF",
+      "first_400_rows_column_count": 16,
+      "non_ascii_header_field_index": 12,
+      "non_ascii_header_field_hex": "54612da1e6",
+      "utf8_header_decodable": false,
+      "source_mass_basis": "CH4_C",
+      "source_rate_unit": "g_CH4_C_m2_day"
+    },
+    {
+      "filename": "Supporting information data1.csv",
+      "source_id": "CN_2023_HOURLY_MOLECULAR",
+      "data_class": "ORIGINAL_SOURCE_BYTES_MATCHED_EPHEMERAL",
+      "publisher_md5": "d131f18e37fe0a19ef7d65c2c69d0d58",
+      "actual_sha256": "6b0418f1cb6d95be9330109cffaff05f86c135507c3b3ce6d281c1a11f0738e0",
+      "byte_size": 13280065,
+      "header_sha256": "5e9ee10acab746fabb03bf936324ebdc93fdc79566ea737b84deeea29eba30d6",
+      "columns": 18,
+      "row_count": 99408,
+      "line_endings": "CRLF",
+      "first_400_rows_column_count": 18,
+      "non_ascii_header_field_index": 6,
+      "non_ascii_header_field_hex": "54612da1e6",
+      "utf8_header_decodable": false,
+      "source_mass_basis": "CH4_MOLECULAR",
+      "source_rate_unit": "umol_CH4_m2_s"
+    }
+  ]
+}
