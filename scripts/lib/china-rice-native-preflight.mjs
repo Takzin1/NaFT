@@ -7,13 +7,15 @@
 import {createHash} from 'node:crypto';
 
 const fail=code=>{throw Error(code)};
-const DAILY=['Year','DOY','Month','day','NEE-gC/m2/day','Re-gC/m2/day','GPP-gC/m2/day','CH4-gC/m2/day'];
-const HOURLY=['Year','Month','Day','Hour','Minute','DOY','Ta-<?>','RH-%','VPD-kpa','Rg-W/m2','SWC-m3/m3','Rain-mm','WTD-cm','Gc-mm/s','NEE-mgCO2/m2/s','Re-mgCO2/m2/s','GPP-mgCO2/m2/s','CH4-umol/m2/s'];
+const NON_ASCII_TEMP='NON_ASCII_HEX:54612da1e6';
+const DAILY=['Year','DOY','Month','day','NEE-gC/m2/day','Re-gC/m2/day','GPP-gC/m2/day','CH4-gC/m2/day','LAI-m2/m2','WTD-m','Gc-mm/s','SWC-m3/m3',NON_ASCII_TEMP,'VPD-kpa','Rg-MJ/m2','CH4/GPP-%'];
+const HOURLY=['Year','Month','Day','Hour','Minute','DOY',NON_ASCII_TEMP,'RH-%','VPD-kpa','Rg-W/m2','SWC-m3/m3','Rain-mm','WTD-cm','Gc-mm/s','NEE-mgCO2/m2/s','Re-mgCO2/m2/s','GPP-mgCO2/m2/s','CH4-umol/m2/s'];
 const SOURCES=Object.freeze({
  CN_2023_DAILY_CARBON:Object.freeze({
   filename:'Supporting information data2.csv',
   header:Object.freeze(DAILY),rate_column:'CH4-gC/m2/day',source_unit:'g_CH4_C_m2_day',
   mass_basis:'CH4_C',expected_size:150805,
+  header_sha256:'edcd107e254a732377025888926b835886e4737b4147bc021183af4fb5739cc1',
   publisher_md5:'08ff8209e69bc6719a70fe5e83a1bd0c',
   ephemeral_sha256:'391dc360ca653782b87f15c43142ced239ba006103a7644d498bbe7f7629e224'
  }),
@@ -21,6 +23,7 @@ const SOURCES=Object.freeze({
   filename:'Supporting information data1.csv',
   header:Object.freeze(HOURLY),rate_column:'CH4-umol/m2/s',source_unit:'umol_CH4_m2_s',
   mass_basis:'CH4_MOLECULAR',expected_size:13280065,
+  header_sha256:'5e9ee10acab746fabb03bf936324ebdc93fdc79566ea737b84deeea29eba30d6',
   publisher_md5:'d131f18e37fe0a19ef7d65c2c69d0d58',
   ephemeral_sha256:'6b0418f1cb6d95be9330109cffaff05f86c135507c3b3ce6d281c1a11f0738e0'
  })
@@ -29,7 +32,7 @@ export const nativeSourceContracts=Object.freeze(
  Object.fromEntries(Object.entries(SOURCES).map(([id,s])=>[id,Object.freeze({
    filename:s.filename,header:s.header,rate_column:s.rate_column,source_unit:s.source_unit,
    mass_basis:s.mass_basis,publisher_md5:s.publisher_md5,ephemeral_sha256:s.ephemeral_sha256,
-   expected_size:s.expected_size
+   expected_size:s.expected_size,header_sha256:s.header_sha256
  } )])));
 
 const POSITIVE=/^(?:0|[1-9]\d*)$/;
@@ -52,8 +55,9 @@ function ordinal(year,month,day,doy){
  return Math.floor(stamp/60000);
 }
 function splitStrict(text){
- // Deliberately unsupported: unknown CSV quoting, encoded line breaks,
- // duplicate headers and source encodings require a separately reviewed parser.
+ // Parse ASCII separators as one-byte delimiters after a byte-preserving
+ // latin1 transformation. This is NOT an assertion of the source's encoding.
+ // Unsupported CSV quoting / embedded line breaks remain blocked.
  if(text.startsWith('\ufeff')||text.includes('\0')||text.includes('"')||
     text.includes('\r')&&!text.includes('\r\n')||!text.endsWith('\n'))
   fail('NATIVE_ENCODING_OR_CSV_STRUCTURE_UNSUPPORTED');
@@ -81,16 +85,26 @@ export function preflightChinaNativeCsv(originalBytes,{source_id,data_class}={})
  // independently pinned checksum metadata before source-shaped inspection.
  if(data_class==='USER_SUPPLIED_UNVERIFIED'&&!matches)
   fail('NATIVE_PINNED_SOURCE_DIGEST_MISMATCH');
- let text;
- try{text=new TextDecoder('utf-8',{fatal:true}).decode(originalBytes);}
- catch{fail('NATIVE_UTF8_DECODE_FAILED');}
  if(originalBytes.length>=3&&originalBytes[0]===0xef&&originalBytes[1]===0xbb&&originalBytes[2]===0xbf)
   fail('NATIVE_ENCODING_OR_CSV_STRUCTURE_UNSUPPORTED');
- const rows=splitStrict(text);
- const header=rows.shift().split(',');
- if(header.length!==contract.header.length||header.some((x,i)=>x!==contract.header[i]))
+ // A source's non-UTF8 temperature label is examined as raw bytes, never
+ // silently replaced with U+FFFD or a guessed scientific label.
+ const headerEnd=originalBytes.indexOf(0x0a);
+ if(headerEnd<0)fail('NATIVE_SOURCE_HEADER_MISMATCH');
+ const headerRaw=originalBytes.subarray(0,originalBytes[headerEnd-1]===13?headerEnd-1:headerEnd);
+ if(createHash('sha256').update(headerRaw).digest('hex')!==contract.header_sha256)
   fail('NATIVE_SOURCE_HEADER_MISMATCH');
- const column=header.indexOf(contract.rate_column);
+ const headerTokens=headerRaw.toString('latin1').split(',').map(token=>
+  /[^\x00-\x7F]/.test(token)?'NON_ASCII_HEX:'+Buffer.from(token,'latin1').toString('hex'):token);
+ if(headerTokens.length!==contract.header.length||headerTokens.some((t,i)=>t!==contract.header[i]))
+  fail('NATIVE_SOURCE_HEADER_MISMATCH');
+ // The native original has 0xa1e6 in the temperature header, invalid UTF8;
+ // byte-preserving latin1 permits *structural inspection only*. Never turn
+ // these fields into typed measurements or normalize their timestamps.
+ const rows=splitStrict(originalBytes.toString('latin1'));
+ rows.shift();
+ const column=contract.header.indexOf(contract.rate_column);
+
  const hourly=source_id==='CN_2023_HOURLY_MOLECULAR';
  let last=null,calendarDiscontinuities=0,unknownRateLexemes=0,numericRateLexemes=0;
  for(const line of rows){
@@ -122,6 +136,10 @@ export function preflightChinaNativeCsv(originalBytes,{source_id,data_class}={})
   source_original_data_redistributed:false,
   publisher_license_independently_reviewed:false,
   rows_inspected:rows.length,
+  raw_header_sha256:contract.header_sha256,
+  header_columns:contract.header.length,
+  source_character_encoding_verified:false,
+  non_utf8_header_preserved_as_bytes:true,
   rate_column:contract.rate_column,source_unit:contract.source_unit,
   mass_basis:contract.mass_basis,syntactic_numeric_lexemes:numericRateLexemes,
   unparsed_or_missing_rate_lexemes:unknownRateLexemes,
@@ -137,6 +155,6 @@ export function preflightChinaNativeCsv(originalBytes,{source_id,data_class}={})
   missing_requirements:['TIMEZONE_AND_INTERVAL_MEANING','PUBLISHER_LICENSE_REVIEW',
     'SOURCE_QC_FLAG_MAPPING','MEASUREMENT_METHOD_AND_CALIBRATION',
     'PERIOD_AND_FIELD_TREATMENT_REVIEW'],
-  warning:'Native header, calendar, and pinned-byte checks do not establish QC, time intervals, or source authenticity. No flux integration is permitted.'
+  warning:'Pinned native header byte structure is verified without decoding its unknown charset. No QC, time-zone, interval meaning, scientific authenticity or flux integration is attested.'
  };
 }
