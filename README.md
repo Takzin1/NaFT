@@ -134,6 +134,10 @@ node scripts/reconcile-japan-observation.mjs synthetic-interval
 
 [突合プロトコル・負例・原著検証の未実施事項](docs/japan-aggregate-reconciliation-2026-10-19.md)を参照。**同梱データも参照集計値も人工データ**であり、原著原本・実測物理再現・J-クレジットの正式算定ではありません。部分的な観測区間の値を全期値に外挿せず、未確認の一致を第三者認証へ昇格させません。
 
+## JapanFlux JP-Hrt：小宮氏博士論文（2013年日本EC測定）と公開CH₄系列の区別
+
+2015年度の小宮氏博士論文第2章で、**2013年の日本側CH₄はClosed-path EC（Picarro G2301-f／CSAT3A）**、比較対象の**2014年タイ側はHREA**だったことを確認。デスパイク・二重回転・ラグ・高周波損失補正、風向・u*・雨天・信号強度・定常性・Footprintの研究QC条件を、原典ページ番号とともに登録した。博士論文の10.1 g CH₄/m²は**気温回帰による欠測補完を伴う栽培期間の推定収支**で、JapanFlux V2.00 ALLVARS_HHの1,915行の非補完フラックスと同一の再現値ではない。JapanFlux論文の公開**nmol CH₄ m⁻² s⁻¹**という単位仕様と、元観測値の未確認のQC・較正・時刻は分離し、積算を引き続き禁止する。[原著対照と新プロトコルレジストリ](docs/japanflux-jp-hrt-komiya-thesis-lineage-2026-10-19.md)。
+
 ## JapanFlux V2.00 BADMプロトコル監査（JP-Hrt）
 
 原著ZIP内のBADM **6冊**を照合。BADMは **UTC_OFFSET=+9** と記録するが、CH4手法は原著PDF（HREA/chamber）とBADM（Eddy Covariance）で**不一致**。BADMのCH4開始日2013-08-31より前に、CSVのFCH4数値候補が**1,689行**存在。矛盾は自動解消せず、原著に基づく人間レビューまで観測値の積算を拒否する。[元データの矛盾・機器・日時・QCの監査記録](docs/japanflux-jp-hrt-badm-source-conflicts-2026-10-19.md)。
