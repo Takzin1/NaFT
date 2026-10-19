@@ -1,4 +1,5 @@
 import {auditJapanfluxJpHrtBadm} from './japanflux-jp-hrt-badm-gate.mjs';
+import {auditJpHrtThesisLineage} from './japanflux-jp-hrt-thesis-lineage-gate.mjs';
 /* JP-Hrt v2.00 post-inspection data-semantics gate.
  * A numeric FCH4-shaped field does not mean observed, valid, QC-approved,
  * correctly unit-normalized, or within any credited monitoring period.
@@ -12,7 +13,7 @@ const DATA=Object.freeze({
  hourly_half_hourly:{sha:'3692a7b3d4da4b8fb19eade724f785289c74e94a63de4742e62d9e08c01d2e95',rows:17520,numeric:1915,missing:15605,fields:85},
  daily:{sha:'447f5f97fa45c9f3ff9339c1a574210d51077e115c096b159a5b4e55a61ed9dc',rows:365,numeric:0,missing:365,fields:89}
 });
-export function reviewJapanfluxJpHrtSource(report,badm){
+export function reviewJapanfluxJpHrtSource(report,badm,thesisLineage){
  if(!report||report.schema!=='naft-japanflux-jp-hrt-v200-native-preflight-v1'||
    report.source_id!=='A20241210-020'||report.site_id!=='JP-Hrt'||
    report.source_version!=='2.00'||report.archive_type!=='UPLOADED_ORIGINAL_SHA_MATCH')
@@ -34,6 +35,7 @@ export function reviewJapanfluxJpHrtSource(report,badm){
    report.certified_tco2e!==null)
   BLOCK('JP_HRT_UNSUPPORTED_ATTESTATION_OR_NORMALIZATION');
  const badmAudit=auditJapanfluxJpHrtBadm(badm);
+ const literatureAudit=auditJpHrtThesisLineage(thesisLineage);
  const observations={};
  for(const [period,expected] of Object.entries(DATA)){
   const x=report[period];
@@ -61,7 +63,7 @@ export function reviewJapanfluxJpHrtSource(report,badm){
  return {
   schema:'naft-source-semantic-gate-v1',
   source_id:'A20241210-020',site_id:'JP-Hrt',source_version:'2.00',
-  status:'SOURCE_CH4_QC_AND_UNIT_SEMANTICS_BLOCKED',
+  status:'SOURCE_CH4_ROW_QC_AND_LINEAGE_BLOCKED',
   classes:Object.freeze({
    NUMERIC_QC_UNKNOWN:observations.hourly_half_hourly.numeric_lexemes_processing_unknown,
    MISSING:observations.hourly_half_hourly.missing_flux_rows,
@@ -71,6 +73,11 @@ export function reviewJapanfluxJpHrtSource(report,badm){
   }),
   evidence:observations,
   badm_audit:badmAudit,
+  literature_protocol_audit:literatureAudit,
+  published_fch4_unit_from_essd_spec:'nmol_CH4_m2_s',
+  published_fch4_unit_spec_confirmed:true,
+  individual_fch4_row_calibration_verified:false,
+  thesis_study_budget_comparable_to_non_gapfilled_fch4:false,
   source_methods_in_conflict:true,
   badm_declared_utc_offset_hours:9,
   timezone_resolved_for_observations:false,
@@ -81,6 +88,6 @@ export function reviewJapanfluxJpHrtSource(report,badm){
   modeled_annual_emissions:null,
   official_factor_applicable:null,
   certified_tco2e:null,
-  next_gate:'REVIEW_SOURCE_FCH4_UNITS_TIMEZONE_QC_AND_METHOD_WITH_ORIGINAL_DOCUMENTATION'
+  next_gate:'REVIEW_SITE_TEAM_PRE_SUBMISSION_FCH4_PIPELINE_ROW_QC_TIME_SUPPORT_AND_BADM_DATE_DISCREPANCY'
  };
 }
