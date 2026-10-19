@@ -6,6 +6,7 @@ const equal=(a,b)=>JSON.stringify(a)===JSON.stringify(b);
 const EXPECTED_PDF='613b17df36750cc0917d5c142c377d4f42f58a21b14c14cdaaf591f63b8d376e';
 const EXPECTED_ZIP='bffad17bd7acf962eb1af9fa4f2092c038a813291b9fc4c79e548674101d40eb';
 const QC=['WIND_DIRECTION_JAPAN','USTAR_LOW_TURBULENCE','RAINFALL','EC150_CO2_OR_H2O_SIGNAL_STRENGTH','NONSTATIONARITY','FOOTPRINT_RICE_PADDY'];
+const REJECTION=['WIND_SECTOR_76_TO_107_DEG','USTAR_LE_0_07_M_S_DURING_LOW_TURBULENCE','DURING_RAIN','EITHER_SIGNAL_BELOW_0_7','SIX_5MIN_VS_30MIN_COVARIANCE_DISCREPANCY_GT_40_PERCENT','PADDY_FIELD_SOURCE_FRACTION_BELOW_60_PERCENT'];
 const REQUIREMENTS=[
  'SITE_TEAM_PRE_SUBMISSION_RAW_TO_FCH4_PROVENANCE',
  'PER_ROW_QC_AND_GAP_FILL_STATE',
@@ -37,6 +38,8 @@ export function auditJpHrtThesisLineage(data){
   !equal(x.correction_steps,['DESPIKING','DOUBLE_ROTATION','LAG_TIME_COMPENSATION','BANDPASS_COVARIANCE_HIGH_FREQUENCY_LOSS'])||
   !Array.isArray(x.quality_rules_study_only)||
   !equal(x.quality_rules_study_only.map(r=>r.rule),QC)||
+  !equal(x.quality_rules_study_only.map(r=>r.reject_if),REJECTION)||
+  x.quality_rules_study_only[0].threshold_definition!=='76_to_107_degrees'||
   x.quality_rules_study_only[1].threshold!=='0.07 m s-1'||
   x.quality_rules_study_only[3].threshold!==0.7||
   x.quality_rules_study_only[4].threshold_percent!==40||
