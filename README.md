@@ -134,6 +134,10 @@ node scripts/reconcile-japan-observation.mjs synthetic-interval
 
 [突合プロトコル・負例・原著検証の未実施事項](docs/japan-aggregate-reconciliation-2026-10-19.md)を参照。**同梱データも参照集計値も人工データ**であり、原著原本・実測物理再現・J-クレジットの正式算定ではありません。部分的な観測区間の値を全期値に外挿せず、未確認の一致を第三者認証へ昇格させません。
 
+## Tellus B 2012：EC計算オプション比較（JP-HrtのCH₄とは別研究）
+
+添付Tellus2013.pdfは実際には**2012年刊行のUeyama et al.論文**。7地点の熱・水蒸気・CO₂測定を比較し、水田は2005年の**真瀬（MSE）**で、2013年の平塚JP-HrtやCH₄の生測定は対象外。Flux CalculatorとFlux Analysis Toolを区別し、10Hz→30分値の座標回転・遅延・高周波損失等を研究用**比較チェックリスト**として登録。JP-Hrt CH₄の実使用設定・QC・補正係数・排出量と偽認定することを拒否する。[原著と実装上の注意](docs/japanflux-tellus-ueyama-2012-ec-reference-2026-10-19.md)。
+
 ## JapanFlux JP-Hrt：小宮氏博士論文（2013年日本EC測定）と公開CH₄系列の区別
 
 2015年度の小宮氏博士論文第2章で、**2013年の日本側CH₄はClosed-path EC（Picarro G2301-f／CSAT3A）**、比較対象の**2014年タイ側はHREA**だったことを確認。デスパイク・二重回転・ラグ・高周波損失補正、風向・u*・雨天・信号強度・定常性・Footprintの研究QC条件を、原典ページ番号とともに登録した。博士論文の10.1 g CH₄/m²は**気温回帰による欠測補完を伴う栽培期間の推定収支**で、JapanFlux V2.00 ALLVARS_HHの1,915行の非補完フラックスと同一の再現値ではない。JapanFlux論文の公開**nmol CH₄ m⁻² s⁻¹**という単位仕様と、元観測値の未確認のQC・較正・時刻は分離し、積算を引き続き禁止する。[原著対照と新プロトコルレジストリ](docs/japanflux-jp-hrt-komiya-thesis-lineage-2026-10-19.md)。
