@@ -38,6 +38,7 @@ node tests/japanflux-jp-hrt-source-gate.test.mjs
 node tests/japanflux-jp-hrt-thesis-lineage.test.mjs
 node tests/japanflux-tellus-ec-reference.test.mjs
 node tests/rice-standards-source-gate.test.mjs
+node tests/research-readiness-report.test.mjs
 python3 tests/japanflux-jp-hrt-badm.test.py
 python3 tests/asia-ephemeral-provenance.test.py
 python3 tests/check-static.py

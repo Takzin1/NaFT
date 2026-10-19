@@ -17,6 +17,17 @@ NaFTは、方法論・証憑・係数・人間判断を版付きで保持し、�
 
 [**技育展向け日本語版を開く**](gikuten.html#/reviewer-demo)（リポジトリ内でのリンク）｜[操作手順](docs/gikuten-demo.md)。オリジナルの研究UIを変更せず、日本語ページから100件の合成変更影響実験、判断の失効、6段階のMRVワークフローを操作できます。公開後のブラウザURLは `https://takzin1.github.io/NaFT/gikuten.html#/reviewer-demo` を想定します。**このブランチだけでは公開されません。** 計算用データは合成データで、30/70は性能指標ではありません。
 
+## NaFT Research Evidence Readiness（第三者検証用レポート）
+
+小宮氏のJP-Hrt元10Hz→公開FCH4処理履歴を照会中でも進められる、**研究証拠の充足状況レポート**を追加。実測・公開仕様・論文の研究値・演習用計算・認証の各境界を独立した7つの主張と、優先度付き7つの未解決エビデンス要求として提示する。JP-Hrt 1,915件のQC不明数値を観測合格に昇格させたり、Gold Standardの演習削減量を認証扱いしたりする入力は拒否。個人のメールや元観測データは公開しない。
+
+```bash
+node scripts/report-research-readiness.mjs --format markdown
+node scripts/report-research-readiness.mjs --format json
+```
+
+同じレジストリから同じSHA-256のレポートを得られる（ハッシュは**データの出典独立認証や電子署名ではない**）。[手順・証拠の限界](docs/research-readiness-evidence-report-2026-10-19.md)。このレポートは正式なVVB検証やCO₂e認証ではない。
+
 ## 実行・テスト
 
 Node.js 20+、Python 3、bashを使用します。GitHub ActionsではNode 24で全テストを実行します。ビルド、外部CDN、実行時依存パッケージはありません。
