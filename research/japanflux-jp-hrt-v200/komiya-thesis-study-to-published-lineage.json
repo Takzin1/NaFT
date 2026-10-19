@@ -1,0 +1,170 @@
+{
+  "schema": "naft-jp-hrt-multi-source-lineage-v1",
+  "prepared_date": "2026-10-19",
+  "site_id": "JP-Hrt",
+  "site_version": "2.00",
+  "citations": {
+    "komiya_dissertation": {
+      "title": "Methane and carbon dioxide dynamics in temperate and tropical rice paddy fields",
+      "author": "Shujiro Komiya",
+      "degree_period": "2015年度",
+      "repository_url": "https://meiji.repo.nii.ac.jp/records/14850",
+      "permalink": "http://hdl.handle.net/10291/19662",
+      "user_supplied_pdf_sha256": "613b17df36750cc0917d5c142c377d4f42f58a21b14c14cdaaf591f63b8d376e",
+      "pdf_not_independently_publisher_hashed": true,
+      "selected_pdf_pages": [
+        16,
+        18,
+        19,
+        20,
+        22,
+        23,
+        40,
+        43,
+        44
+      ]
+    },
+    "japanflux_data_paper": {
+      "title": "The JapanFlux2024 dataset for eddy covariance observations covering Japan and East Asia from 1990 to 2023",
+      "doi": "10.5194/essd-17-3807-2025",
+      "url": "https://essd.copernicus.org/articles/17/3807/2025/",
+      "sections": [
+        "2.4",
+        "2.5"
+      ],
+      "site_version_not_determined_by_paper": true
+    },
+    "japanflux_site_dataset": {
+      "doi": "10.17592/001.2024121020",
+      "version": "2.00",
+      "original_zip_sha256": "bffad17bd7acf962eb1af9fa4f2092c038a813291b9fc4c79e548674101d40eb"
+    }
+  },
+  "observational_thesis": {
+    "id": "KOMIYA_JAPAN_2013_CLOSED_PATH_EC_STUDY",
+    "scope": "STUDY_LEVEL_NOT_PER_PUBLISHED_CSV_ROW",
+    "country": "JP",
+    "year": 2013,
+    "site": "Hiratsuka paddy fields, Kanagawa",
+    "ch4_instrument": "Picarro G2301-f",
+    "sonic_anemometer": "Campbell CSAT3A",
+    "ch4_method": "CLOSED_PATH_EDDY_COVARIANCE",
+    "thai_comparison_method": "HREA_IN_THAI_2014_NOT_JP_2013",
+    "raw_sampling_hz": 10,
+    "flux_interval_minutes": 30,
+    "flux_calculation_equation": "KOMIYA_THESIS_EQ_2_5",
+    "flux_calculation_native_unit": "mg_CH4_m2_s",
+    "ch4_input": "dry_mole_fraction_and_vertical_wind_covariance",
+    "correction_steps": [
+      "DESPIKING",
+      "DOUBLE_ROTATION",
+      "LAG_TIME_COMPENSATION",
+      "BANDPASS_COVARIANCE_HIGH_FREQUENCY_LOSS"
+    ],
+    "source_pdf_pages": [
+      18,
+      19
+    ],
+    "quality_rules_study_only": [
+      {
+        "rule": "WIND_DIRECTION_JAPAN",
+        "reject_if": "WIND_SECTOR_76_TO_107_DEG",
+        "threshold_definition": "76_to_107_degrees"
+      },
+      {
+        "rule": "USTAR_LOW_TURBULENCE",
+        "reject_if": "USTAR_LE_0_07_M_S_DURING_LOW_TURBULENCE",
+        "threshold": "0.07 m s-1"
+      },
+      {
+        "rule": "RAINFALL",
+        "reject_if": "DURING_RAIN"
+      },
+      {
+        "rule": "EC150_CO2_OR_H2O_SIGNAL_STRENGTH",
+        "reject_if": "EITHER_SIGNAL_BELOW_0_7",
+        "threshold": 0.7
+      },
+      {
+        "rule": "NONSTATIONARITY",
+        "reject_if": "SIX_5MIN_VS_30MIN_COVARIANCE_DISCREPANCY_GT_40_PERCENT",
+        "threshold_percent": 40
+      },
+      {
+        "rule": "FOOTPRINT_RICE_PADDY",
+        "reject_if": "PADDY_FIELD_SOURCE_FRACTION_BELOW_60_PERCENT",
+        "threshold_percent": 60
+      }
+    ],
+    "quality_rules_documented_pdf_page": 22,
+    "study_ch4_gapfill": {
+      "method": "SITE_SPECIFIC_LOG_CH4_VS_AIR_TEMPERATURE_REGRESSION",
+      "applied_to": "MISSING_30_MIN_CH4_FOR_STUDY_BUDGET_ESTIMATE",
+      "coefficients_or_fitted_parameters_available_in_current_evidence": false,
+      "pdf_pages": [
+        22,
+        23
+      ]
+    },
+    "study_budgets": [
+      {
+        "period": "DAT36_TO_90",
+        "g_CH4_m2": 6.8,
+        "includes_study_gapfill": true
+      },
+      {
+        "period": "DAT0_TO_115",
+        "g_CH4_m2": 10.1,
+        "includes_study_gapfill": true
+      }
+    ],
+    "budget_source_pdf_page": 43,
+    "field_period": {
+      "transplanting_jp": "2013-06-05",
+      "flooding_start": "2013-05-31",
+      "midseason_drainage_start": "2013-07-18",
+      "midseason_drainage_end": "2013-07-24",
+      "study_co2_wind_observation_start": "2013-05-31",
+      "year_fch4_rows_original_japanflux_not_verified_equal_study_rows": true
+    }
+  },
+  "published_japanflux": {
+    "id": "JAPANFLUX_2024_PUBLISHED_PRODUCT_NOT_STUDY_BUDGET",
+    "source_kind": "SITE_SUBMISSION_THEN_NETWORK_FORMAT_AND_PROCESSING",
+    "public_30min_ch4_unit_from_essd_section_2_5": "nmol_CH4_m2_s",
+    "unit_assertion_scope": "DATA_PAPER_COLUMN_SPECIFICATION_ONLY",
+    "network_ch4_gapfill_policy": "NO_NETWORK_WIDE_CH4_GAP_FILL",
+    "site_team_pre_submission_imputation_status": "UNKNOWN",
+    "site_fch4_data_product": "ALLVARS_HH",
+    "site_team_precursor_measurement_to_public_fch4_mapping": "UNVERIFIED",
+    "site_team_per_record_qc_provenance": "UNVERIFIED",
+    "site_timestamp_utc_conversion_approved": false,
+    "site_QC_to_thesis_rule_verification": false,
+    "site_unit_not_equal_independent_ch4_calibration": true,
+    "retained_qc_unknown_numeric_rows": 1915,
+    "missing_rows": 15605
+  },
+  "badm_legacy_conflicts": {
+    "method_pdf_general": "HREA_AND_CHAMBER_FOR_CH4",
+    "method_badm": "EDDY_COVARIANCE_FOR_CH4",
+    "method_komiya_japan_2013": "CLOSED_PATH_EDDY_COVARIANCE",
+    "thesis_and_badm_method_family_consistent": true,
+    "pdf_to_fch4_method_unresolved": true,
+    "badm_reported_ch4_start": "2013-08-31",
+    "earlier_fch4_numeric_candidates": 1689,
+    "early_rows_source_trace_unresolved": true
+  },
+  "status": "LITERATURE_PROTOCOL_IDENTIFIED_PUBLISHED_FCH4_ROW_MAPPING_BLOCKED",
+  "safe_to_use_in_observation_integral": false,
+  "safe_to_use_in_jcredit": false,
+  "certified_tco2e": null,
+  "scientific_replayed_total": null,
+  "missing_requirements": [
+    "SITE_TEAM_PRE_SUBMISSION_RAW_TO_FCH4_PROVENANCE",
+    "PER_ROW_QC_AND_GAP_FILL_STATE",
+    "DATE_START_BADM_DISCREPANCY_RESOLUTION",
+    "JP_HRT_PDF_METHOD_DESCRIPTION_RECONCILIATION",
+    "TIMESTAMP_TIME_BASIS_VALIDATION",
+    "INDEPENDENT_BUDGET_REPLAY_WITH_COVERAGE"
+  ]
+}
