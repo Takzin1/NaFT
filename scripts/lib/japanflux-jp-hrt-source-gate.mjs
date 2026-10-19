@@ -1,5 +1,6 @@
 import {auditJapanfluxJpHrtBadm} from './japanflux-jp-hrt-badm-gate.mjs';
 import {auditJpHrtThesisLineage} from './japanflux-jp-hrt-thesis-lineage-gate.mjs';
+import {auditTellusEcOptionsReference} from './japanflux-ec-tellus-reference-gate.mjs';
 /* JP-Hrt v2.00 post-inspection data-semantics gate.
  * A numeric FCH4-shaped field does not mean observed, valid, QC-approved,
  * correctly unit-normalized, or within any credited monitoring period.
@@ -13,7 +14,7 @@ const DATA=Object.freeze({
  hourly_half_hourly:{sha:'3692a7b3d4da4b8fb19eade724f785289c74e94a63de4742e62d9e08c01d2e95',rows:17520,numeric:1915,missing:15605,fields:85},
  daily:{sha:'447f5f97fa45c9f3ff9339c1a574210d51077e115c096b159a5b4e55a61ed9dc',rows:365,numeric:0,missing:365,fields:89}
 });
-export function reviewJapanfluxJpHrtSource(report,badm,thesisLineage){
+export function reviewJapanfluxJpHrtSource(report,badm,thesisLineage,ecOptionsReference=null){
  if(!report||report.schema!=='naft-japanflux-jp-hrt-v200-native-preflight-v1'||
    report.source_id!=='A20241210-020'||report.site_id!=='JP-Hrt'||
    report.source_version!=='2.00'||report.archive_type!=='UPLOADED_ORIGINAL_SHA_MATCH')
@@ -36,6 +37,7 @@ export function reviewJapanfluxJpHrtSource(report,badm,thesisLineage){
   BLOCK('JP_HRT_UNSUPPORTED_ATTESTATION_OR_NORMALIZATION');
  const badmAudit=auditJapanfluxJpHrtBadm(badm);
  const literatureAudit=auditJpHrtThesisLineage(thesisLineage);
+ const ecReferenceAudit=ecOptionsReference===null?null:auditTellusEcOptionsReference(ecOptionsReference);
  const observations={};
  for(const [period,expected] of Object.entries(DATA)){
   const x=report[period];
@@ -74,6 +76,7 @@ export function reviewJapanfluxJpHrtSource(report,badm,thesisLineage){
   evidence:observations,
   badm_audit:badmAudit,
   literature_protocol_audit:literatureAudit,
+  ec_method_options_supplementary_audit:ecReferenceAudit,
   published_fch4_unit_from_essd_spec:'nmol_CH4_m2_s',
   published_fch4_unit_spec_confirmed:true,
   individual_fch4_row_calibration_verified:false,
