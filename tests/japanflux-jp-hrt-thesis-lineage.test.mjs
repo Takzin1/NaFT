@@ -43,6 +43,8 @@ reject(x=>x.observational_thesis.flux_calculation_native_unit='nmol_CH4_m2_s','T
 reject(x=>x.observational_thesis.correction_steps.splice(0,1),'THESIS_EC_METHOD');
 reject(x=>x.observational_thesis.quality_rules_study_only[1].threshold='0.05 m s-1','THESIS_EC_METHOD');
 reject(x=>x.observational_thesis.quality_rules_study_only[4].threshold_percent=0,'THESIS_EC_METHOD');
+reject(x=>x.observational_thesis.quality_rules_study_only[0].reject_if='ALL_DIRECTIONS','THESIS_EC_METHOD');
+reject(x=>x.observational_thesis.quality_rules_study_only[2].reject_if='RAIN_PERMITTED','THESIS_EC_METHOD');
 reject(x=>x.observational_thesis.quality_rules_study_only[5].threshold_percent=100,'THESIS_EC_METHOD');
 reject(x=>x.observational_thesis.study_ch4_gapfill.method='ZERO_FILL','THESIS_BUDGET');
 reject(x=>x.observational_thesis.study_ch4_gapfill.coefficients_or_fitted_parameters_available_in_current_evidence=true,'THESIS_BUDGET');
