@@ -4,14 +4,21 @@ import {reviewJapanfluxJpHrtSource} from '../scripts/lib/japanflux-jp-hrt-source
 
 const real=JSON.parse(readFileSync('research/japanflux-jp-hrt-v200/selected-native-source-coverage.json','utf8'));
 const badm=JSON.parse(readFileSync('research/japanflux-jp-hrt-v200/badm-concordance-2026-10-19.json','utf8'));
+const lineage=JSON.parse(readFileSync('research/japanflux-jp-hrt-v200/komiya-thesis-study-to-published-lineage.json','utf8'));
 let n=0;
 const eq=(a,b)=>{assert.deepEqual(a,b);n++};
 const blocked=(edit,pattern)=>{
  const x=structuredClone(real);edit(x);
- assert.throws(()=>reviewJapanfluxJpHrtSource(x,badm),new RegExp(pattern));n++;
+ assert.throws(()=>reviewJapanfluxJpHrtSource(x,badm,lineage),new RegExp(pattern));n++;
 };
-const s=reviewJapanfluxJpHrtSource(real,badm);
-eq(s.status,'SOURCE_CH4_QC_AND_UNIT_SEMANTICS_BLOCKED');
+const s=reviewJapanfluxJpHrtSource(real,badm,lineage);
+eq(s.status,'SOURCE_CH4_ROW_QC_AND_LINEAGE_BLOCKED');
+eq(s.published_fch4_unit_from_essd_spec,'nmol_CH4_m2_s');
+eq(s.published_fch4_unit_spec_confirmed,true);
+eq(s.individual_fch4_row_calibration_verified,false);
+eq(s.thesis_study_budget_comparable_to_non_gapfilled_fch4,false);
+eq(s.literature_protocol_audit.thesis_study_method,'CLOSED_PATH_EDDY_COVARIANCE');
+eq(s.literature_protocol_audit.thesis_budget_replicated_from_japanflux_csv,false);
 eq(s.badm_audit.status,'CONFLICTING_SOURCE_METHOD_AND_START_DATE');
 eq(s.badm_audit.earlier_native_numeric_flux_candidates,1689);
 eq(s.badm_declared_utc_offset_hours,9);
@@ -28,7 +35,7 @@ eq(s.scientific_amount_mg_ch4_m2,null);
 eq(s.official_factor_applicable,null);
 eq(s.certified_tco2e,null);
 eq(s.published_csv_FCH4_method_trace_verified,false);
-eq(JSON.stringify(s),JSON.stringify(reviewJapanfluxJpHrtSource(real,badm)));
+eq(JSON.stringify(s),JSON.stringify(reviewJapanfluxJpHrtSource(real,badm,lineage)));
 blocked(x=>{x.source_version='1.00'},'SOURCE_IDENTITY');
 blocked(x=>{x.archive_type='SYNTHETIC_TEST_ONLY'},'SOURCE_IDENTITY');
 blocked(x=>{x.archive_sha256='a'.repeat(64)},'SOURCE_SHA256');
@@ -51,7 +58,7 @@ blocked(x=>{x.daily.native_timestamp_timezone='UTC'},'COVERAGE_OR_QC');
 blocked(x=>{x.daily.fch4_duplicate_columns_equal=false},'COVERAGE_OR_QC');
 const badmBlocked=(fn,pattern)=>{
  const altered=structuredClone(badm);fn(altered);
- assert.throws(()=>reviewJapanfluxJpHrtSource(real,altered),new RegExp(pattern));n++;
+ assert.throws(()=>reviewJapanfluxJpHrtSource(real,altered,lineage),new RegExp(pattern));n++;
 };
 badmBlocked(x=>{x.site_utc_offset_hours_declared=0},'BADM_SOURCE_FACTS');
 badmBlocked(x=>{x.badm_flux_methods[2]='HREA'},'BADM_SOURCE_FACTS');
@@ -63,4 +70,8 @@ badmBlocked(x=>{x.timezone_column_mapping_independently_validated=true},'BADM_SC
 badmBlocked(x=>{x.source_FCH4_native_unit_verified=true},'BADM_SCIENTIFIC_CLEARANCE');
 badmBlocked(x=>{x.emission_integral='5'},'BADM_SCIENTIFIC_CLEARANCE');
 badmBlocked(x=>{x.per_row_ch4_qc_flag_available=true},'BADM_SCIENTIFIC_CLEARANCE');
+assert.throws(()=>reviewJapanfluxJpHrtSource(real,badm),/LITERATURE_SOURCE_IDENTITY/);n++;
+const falsified=structuredClone(lineage);
+falsified.published_japanflux.site_team_precursor_measurement_to_public_fch4_mapping='VERIFIED';
+assert.throws(()=>reviewJapanfluxJpHrtSource(real,badm,falsified),/PUBLISHED_DATA_PROVENANCE/);n++;
 console.log('JP_HRT_SEMANTIC_GATE_PASS: '+n+' hard provenance/QC/normalization boundaries');
