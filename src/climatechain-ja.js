@@ -1,0 +1,151 @@
+'use strict';
+// UI-only translation adapter. Original IEEE algorithms, identifiers, source hashes,
+// JSON, public Sepolia evidence and existing Japanese AG-005 machinery are unchanged.
+// Translate visible text nodes; preserve HTML attributes and <pre>/<code> payloads.
+var CLIMATECHAIN_JAPANESE_LABELS={
+  'Research UI ↗':'日本語研究UI ↗',
+  'Version-Aware Climate MRV':'版管理型 気候MRV',
+  'Carbon markets need evidence that survives methodology change.':'方法論が改定されても検証可能な証拠を、カーボン市場へ。',
+  'Carbon Markets &amp; Emissions Transparency':'カーボン市場と排出情報の透明性',
+  'When climate MRV rules change, ':'気候MRVのルールが改定されたら、',
+  'know what needs re-verification.':'どの申請を再検証するべきかを特定する。',
+  'NaFT turns methodology change into a traceable engineering decision.':'NaFTは方法論改定を追跡可能な判断へ変換します。',
+  ' Find affected claims, preserve unaffected ones, and link each successor to the exact package it replaces.':' 影響対象を特定し、非影響対象を維持し、後継版と元のパッケージを連結します。',
+  'Run 100-claim methodology update':'合成100件の方法論改定を実行',
+  'LIVE SYNTHETIC DEMO':'合成データによるライブ実験',
+  'Only intensive claims receive additional requirements.':'特定区分のみ追加要件の対象。',
+  'Independently verifiable':'独立検証可能',
+  'Proof that can be inspected.':'検証できる技術的証拠',
+  'change classes':'変更区分','adversarial cases':'反例テスト',
+  'tested synthetic state space':'試験した合成条件内',
+  'Research prototype.':'研究プロトタイプ。',
+  'Synthetic claims; no certification, credit issuance, or claim of real-world accuracy.':'合成申請のみ。正式認証・クレジット発行・実環境精度を主張しません。',
+  'Rules change':'方法論変更','Trace dependencies':'依存関係追跡',
+  'Re-verify affected':'影響対象の再検証','Witness lineage':'変更履歴の証跡化',
+  'Real-world reference context':'現実の制度との接点',
+  'Why this problem exists outside the demo':'この問題が実際の制度にも存在する理由',
+  'Reference evidence, not a carbon-credit claim':'参考文献による研究であり、認証済みクレジットではない',
+  'Inspect source-attributed Japan baseline →':'日本の出典付き研究資料を見る →',
+  'Verification protocol →':'検証手順 →',
+  'Research-only AG-005 calculation CLI →':'研究用AG-005計算CLI →',
+  'Boundary:':'検証範囲：','Not field evidence:':'実測の証明ではない：',
+  '01 / Selective re-verification':'01 / 選択的再検証',
+  'One rule change. Not every claim changes.':'方法論が変わっても、すべての申請が変わるわけではない。',
+  'The impact analyzer computes the affected set from the synthetic methodology transition. Nothing in this breakdown is a claimed productivity improvement.':'合成方法論の改定について、解析器が影響する申請を実際に計算します。この比率は作業効率の実測結果ではありません。',
+  '100-claim change-impact breakdown':'100件の変更影響内訳',
+  'computed from live analyzer output':'解析器の実行結果',
+  'Candidate claims':'対象申請','Re-verify':'再検証','Unaffected':'影響なし',
+  'Automatically re-evaluated':'自動再評価','Needs new evidence':'新たな証憑が必要',
+  'same methodology family':'同じ方法論系列',
+  'semantic dependency changed':'依存関係の実質変更',
+  'no successor generated':'後継版は生成しない',
+  'View claim trace':'申請の変更理由を表示',
+  'Download impact analysis JSON':'影響解析JSONを保存',
+  'Download audit receipt JSON':'監査レシートJSONを保存',
+  'Prepare blockchain anchor plan':'ブロックチェーン記録計画を作成',
+  'Run tamper challenge':'改ざん検知を検証',
+  'Verify all three pillars':'3要素を独立検証',
+  'Download 3-pillar proof JSON':'3要素の証明JSONを保存',
+  'From package P1 to P2, on chain.':'公開チェーン上のP1からP2への継承記録',
+  'Genesis package':'元のパッケージ',
+  'Successor package':'後継パッケージ',
+  'Claim head':'申請の最新記録',
+  'Browser planner status:':'ブラウザ内での準備状態：',
+  'Prepared transaction arguments':'送信前の引数（送信はしない）',
+  'Download anchor plan JSON':'アンカー計画JSONを保存',
+  'Change one evidence byte. Detect an invalid manifest.':'証拠の1バイトを変えて改ざん検知を確かめる',
+  'Before':'変更前','After':'変更後','Tamper rejected':'改ざんを拒否',
+  'Inspect failure codes and package hash changes':'失敗コードとハッシュの変化を見る',
+  'Download tamper challenge JSON':'改ざん検証JSONを保存',
+  'External witness, not climate truth':'公開証跡は環境測定の真実を保証しない',
+  'On-chain':'オンチェーン','Off-chain':'オフチェーン','Never claimed':'主張しない内容',
+  'Who uses NaFT?':'NaFTの利用者',
+  'Project aggregator':'プロジェクト統括者',
+  'MRV / verification operator':'MRV・検証担当者',
+  'Registry / carbon program':'登録簿・制度運営者',
+  'Designed to fail closed':'不明な場合は安全側で停止',
+  'Adversarial cases':'反例テスト',
+  'False negatives':'偽陰性',
+  'Change classes':'変更の種類',
+  'within the tested synthetic state space':'試験した合成条件内',
+  'methodology · evidence · parameter · field · activity':'方法論・証拠・係数・圃場・活動',
+  'Contract':'コントラクト','Deploy Tx':'配置取引',
+  'P1 Tx':'P1取引','P2 Tx':'P2取引',
+  'Read-only verifier':'読み取り専用検証器',
+  'VERIFIED TESTNET':'検証済みテストネット',
+  'NOT SUBMITTED':'未送信',
+  'Japan / attributed research baseline · 2026-10-18':'日本の出典付き研究情報 · 2026-10-18',
+  'Japanese rice-paddy methane MRV':'日本の水田メタンMRV',
+  'AG-005 reference context':'AG-005参照資料',
+  'NaFT is motivated by evidence-heavy climate programs such as ':'NaFTは証憑管理が重要な制度・プロジェクトを対象に研究しています。例：',
+  '. The repository retains an ':'。リポジトリには',
+  ' in which evidence categories include:':'があり、次のような証拠区分を参照します：',
+  'pre-project baseline records':'開始前の基準年記録',
+  'project record':'プロジェクト記録',
+  'drainage start and end evidence':'中干し開始・終了の証拠',
+  'heading-date record':'出穂日の記録',
+  'field-area record':'圃場面積の記録',
+  'sustainability record':'持続可能性に関する記録',
+  'Japan-focused MRV reference: ':'日本のMRV研究資料：',
+  ' reported trial-site treatment designs (2008–2009), ':'件の試験地の管理区分（2008～2009年）、',
+  ' selected research aggregate ratios with standard errors, ':'件の研究集計比と標準誤差、',
+  ' published operator-program totals, and ':'件の事業実績集計、',
+  ' descriptive AG-005 evidence fields. Source links and supplied-archive SHA-256 are pinned for replay.':'件のAG-005証憑要件の記述。原典URLと提供ファイルのSHA-256を記録しています。',
+  'Auto re-evaluated':'自動再評価','New evidence needed':'追加証憑が必要',
+  'deterministic successor':'決定論的に後継版を作成',
+  'fail closed':'根拠不足のため停止',
+  'Representative lineage':'代表的な更新履歴',
+  'Why this claim changed':'この申請が変更された理由',
+  'Submission integrity / reproducible · synthetic':'提出物の完全性・再現可能性（合成）',
+  'Detect errors. Re-verify only changes. Inspect Sepolia lineage.':'エラーを検知し、変更部分を再検証し、Sepoliaで継承関係を確認',
+  '01 / Error detection · PASS':'01 / 改ざん検出：成功',
+  'Altered raw evidence fails SHA-256 integrity checks and the compiler blocks it.':'元の証拠を変更するとSHA-256が一致せず、コンパイラが処理を拒否します。',
+  '02 / Selective re-verification · PASS':'02 / 選択的再検証：成功',
+  'Independent full-compilation oracle confirms ':'独立した全件再計算により、',
+  ' to re-verify, ':'件の再検証対象、',
+  ' unaffected and ':'件の非影響対象、',
+  ' requiring evidence.':'件の追加証拠が必要であると確認。',
+  '03 / Sepolia · RECORDED':'03 / Sepoliaに既存証跡あり',
+  'Local P1 → P2 hashes match the prepared successor lineage. Public testnet transactions are linked; this browser does not independently query RPC or submit transactions.':'ローカルP1→P2のハッシュが後継関係と一致します。公開テストネットの過去取引を参照するだけで、この画面からRPCの独立照会や送信は行いません。',
+  '02 / Public provenance witness':'02 / 公開の由来証跡',
+  'The contract stores package hashes and lineage only. MRV logic remains deterministic and off-chain.':'スマートコントラクトはパッケージのハッシュと継承関係のみ保持。MRVの判定はオフチェーンで実施します。',
+  ' (this button prepares arguments locally; it never sends a transaction).':'（このボタンは引数をローカルで作るだけで送信しません）。',
+  'Previously anchored on Ethereum Sepolia':'Ethereum Sepoliaに過去の記録あり',
+  'The browser itself does not broadcast a transaction. Blockchain witnesses lineage; it cannot certify climate truth.':'ブラウザから取引を送信しません。チェーンが証明するのは継承関係であり、環境測定の真実ではありません。',
+  '03 / Adversarial evidence check · synthetic':'03 / 合成データによる改ざん検出',
+  'This local challenge mutates the raw content while retaining its original expected SHA-256. The deterministic compiler must fail closed.':'元のSHA-256を変えずに内容だけを変更し、コンパイラが安全側で拒否するか検査します。',
+  'untampered synthetic input':'改変前の合成入力',
+  'expected hash no longer matches':'期待ハッシュと不一致',
+  'not a certification claim':'認証済みという意味ではない',
+  '03 / Explicit trust boundary':'03 / 信頼の境界',
+  ' The anchor contract rejects duplicate package hashes, missing parents and lineage forks.':' コントラクトは重複ハッシュ、親パッケージ欠落、継承の分岐を拒否します。',
+  '04 / From prototype to operations':'04 / 研究から実運用への課題',
+  'NaFT is infrastructure for evidence and verification operations; it is not a consumer carbon-credit wallet.':'NaFTは証拠・検証業務のための研究基盤で、一般消費者向けのクレジット財布ではありません。',
+  '05 / Engineering evidence':'05 / 技術的検証',
+  'independent full-recomputation oracle':'独立した全件再計算による照合',
+  'Unknown institutional requirements remain unsupported; missing evidence does not become a pass; stale human decisions do not silently survive input or methodology changes.':'確認できない制度要件は未対応のまま停止し、証拠不足を合格に変えず、古い人間の判断を無断で引き継ぎません。',
+  'These are engineering results, not field accuracy, measured cost savings, verifier acceptance, or universal proof.':'これらは工学的な検証結果であり、現場精度・費用削減の実測・検証機関の受入れ・普遍的な証明ではありません。'
+};
+var climateJapaneseKeys=Object.keys(CLIMATECHAIN_JAPANESE_LABELS).sort(function(a,b){return b.length-a.length;});
+function climateJapaneseText(text) {
+  for(var i=0;i<climateJapaneseKeys.length;i++){
+    var k=climateJapaneseKeys[i];
+    if(text.indexOf(k)>=0)text=text.split(k).join(CLIMATECHAIN_JAPANESE_LABELS[k]);
+  }
+  return text;
+}
+function climateJapaneseHtml(html) {
+  // Preserve machine-readable inspector JSON and output code fragments byte for byte.
+  return html.split(/(<pre\b[^>]*>[\s\S]*?<\/pre>|<code\b[^>]*>[\s\S]*?<\/code>)/gi)
+    .map(function(part){
+      if(/^<(pre|code)\b/i.test(part))return part;
+      return part.replace(/>([^<>]+)</g,function(_,visible){
+        return '>'+climateJapaneseText(visible)+'<';
+      });
+    }).join('');
+}
+// Wrappers do not alter the original function or evaluation state.
+var climatePageOriginal=pgClimateChainDemo;
+pgClimateChainDemo=function(){return climateJapaneseHtml(climatePageOriginal());};
+var climateHeaderOriginal=climateChainHeader;
+climateChainHeader=function(){return climateJapaneseHtml(climateHeaderOriginal());};
