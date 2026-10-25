@@ -17,3 +17,7 @@ NAFT-SYNTHETIC 1/2 are invented engineering protocols under a separate methodolo
 ## 2026-09-21 repair re-check boundary
 
 AG-005の現行制度版は本repositoryに登録していない。e-Gov一次資料でVer.3.3は確認でき、第三者資料では2025年9月のVer.3.4参照が確認できるが、現行最新版の原文byte snapshot / SHA-256 / effective statusを本repositoryでは独立固定していない。したがって`AG-005@3.1-reference`から実在版へのinstitutional diffをNaFTの実証結果として扱わない。
+
+## 関連するDMRV研究文献（2026-10-25）
+
+[先行研究5本の根拠台帳・方法論との差異](dmrv-literature-2026-10-25.md)と[機械可読ソースレジストリ](../research/literature-2026-10-25/source-register.json)を追加。IEEE Access、PACT、オラクル問題、ZKP研究、ICVCM DMRV報告を整理。**文献であり、観測原データや正式算定Packではない。** 検証: `node tests/dmrv-literature-register.test.mjs`。
