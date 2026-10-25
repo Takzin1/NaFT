@@ -6,6 +6,9 @@ node tests/climatechain-japanese.test.mjs
 node tests/ieee-audit.test.mjs
 node tests/ieee-triad-proof.test.mjs
 node tests/ieee-source-snapshot.test.mjs
+node tests/ieee-observation-receipt.test.mjs
+node tests/ieee-observation-dual-replay.test.mjs
+node tests/ieee-source-provenance-gateway.test.mjs
 node tests/ieee-benchmark.test.mjs
 node tests/carboncredit-source-audit.test.mjs
 for script in src/*.js; do node --check "$script"; done
