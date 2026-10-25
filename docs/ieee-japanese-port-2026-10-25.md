@@ -38,3 +38,18 @@ node tests/ieee-benchmark.test.mjs
 ## 出典
 IEEE原実装：[NaFT IEEE ClimateChain edition](https://github.com/Takzin1/NaFT-IEEE_Climate_Hackathon_Edition)。
 公式J-クレジット制度との完全適合ではなく、公式採択方法論の現行版と、旧文書・参照版は分けて管理する。研究ベースは `docs/methodology-sources.md`。
+
+## 追加：独立観測計算・原典受入の移植
+
+- `scripts/ieee-observation-receipt.mjs`: 入力CSVと研究アダプターの原本Hashに束縛した研究用検証レシート。出版社の真正性は別。
+- `scripts/ieee-observation-dual-replay.mjs` と `scripts/ieee-observation-independent-oracle.py`: JSの計算とPython Decimalの独立計算を実際に比較し、不一致なら停止。
+- `scripts/ieee-source-provenance-gateway.mjs`: DOI・DataCiteメタデータ・ローカル原本の整合性を厳格に検査し、ユーザー自己申告だけによる正式データへの格上げを拒否。
+- `research/japan-primary-evidence-2026-10-18/japanflux-jp-hrt-intake-pending.json`: JapanFlux原データが未認証・未取得であることを記録する**制御用メタデータのみ**。観測生データは含めない。
+
+```bash
+node tests/ieee-observation-receipt.test.mjs
+node tests/ieee-observation-dual-replay.test.mjs
+node tests/ieee-source-provenance-gateway.test.mjs
+```
+
+独立するのは**演算実装**であり、外部研究者による査読や原観測の品質を保証するものではない。実データの整合性が確認できない場合、排出削減量と認証値は引き続きnull。
