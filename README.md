@@ -164,3 +164,5 @@ GitHub Actions [source acquisition run](https://github.com/Takzin1/NaFT/actions/
 ## Japan–IEEE independent methane computation crosscheck (2026-10-19)
 
 [Portable BigInt/Decimal independent CH4 oracle](docs/japan-ieee-independent-methane-oracle-2026-10-19.md) adds eight synthetic verification scenarios across five flux units, missingness and zero controls. IEEE and Japan share identical source engine/fixture SHA values. Japanese CI also runs `tests/japan-ieee-oracle-parity.test.mjs` to compare five existing Japanese research adapters against the independent two-language pair. **This proves only arithmetic consistency, not replication of verified original field measurements or certified J-Credits.**
+
+**研究文献更新（2026-10-25）**：[DMRV文献5本の出典・制約・適用範囲](docs/dmrv-literature-2026-10-25.md)を追加。研究根拠専用で、認証や算定エンジンには未接続。
