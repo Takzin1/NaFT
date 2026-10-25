@@ -36,7 +36,7 @@ function render(){
     else if(typeof REVIEWER_DEMO_ROUTE!=='undefined'&&route===REVIEWER_DEMO_ROUTE) page=pgReviewerDemo();
     else page={methodologies:pgMethodologies,evidence:pgEvidence,readiness:pgReadiness,exceptions:pgExceptions,review:pgReview,packages:pgPackages}[route](a);
   }catch(e){page='<section class="card error">表示を停止しました: '+esc(e.message)+'</section>';}
-  var compiler=(route===CLIMATECHAIN_ROUTE||typeof REVIEWER_DEMO_ROUTE!=='undefined'&&route===REVIEWER_DEMO_ROUTE)?'':(typeof compilerPanel==='function'?compilerPanel(route):'');
+  var compiler=((typeof CLIMATECHAIN_ROUTE!=='undefined'&&route===CLIMATECHAIN_ROUTE)||(typeof REVIEWER_DEMO_ROUTE!=='undefined'&&route===REVIEWER_DEMO_ROUTE))?'':(typeof compilerPanel==='function'?compilerPanel(route):'');
   document.getElementById('app').innerHTML=header(route)+'<main><div class="status '+(UI.error?'error':'')+'" role="status" aria-live="polite">'+esc(UI.message)+'</div>'+compiler+page+'</main><footer>'+esc(DISCLAIMER)+'<p>Data: '+(typeof window.storage!=='undefined'?'Artifact storage':'this browser session only; reload clears data')+'</p></footer>';
 }
 function readValue(id){var el=document.getElementById(id);return el?el.value:'';}
