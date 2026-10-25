@@ -1,0 +1,95 @@
+{
+  "schema": "naft-ec-calculation-options-reference-v1",
+  "source": {
+    "title": "Influences of various calculation options on heat, water and carbon fluxes determined by open- and closed-path eddy covariance methods",
+    "authors_lead": "Masahito Ueyama",
+    "published_year": 2012,
+    "year_in_user_filename": 2013,
+    "doi": "10.3402/tellusb.v64i0.19048",
+    "url": "https://doi.org/10.3402/tellusb.v64i0.19048",
+    "user_supplied_file": "Tellus2013.pdf",
+    "pdf_sha256": "17f2cc3951d7d853d0ffe269f55dca5d469e4d3f755b761a74a50b2fb0cd5218",
+    "pdf_size_bytes": 1632633,
+    "pdf_pages": 26,
+    "source_license_display": "CC_BY_NC_3_0",
+    "binary_pdf_redistributed": false
+  },
+  "study": {
+    "sites": [
+      "BRW",
+      "UAF",
+      "TSE",
+      "TMK",
+      "MSE",
+      "FHK",
+      "PDF"
+    ],
+    "rice_paddy_site_id": "MSE",
+    "rice_paddy_site_name": "Mase, Japan",
+    "rice_paddy_site_data_year": 2005,
+    "compared_fluxes": [
+      "SENSIBLE_HEAT_H",
+      "LATENT_HEAT_LE",
+      "CO2_FC"
+    ],
+    "ch4_experiment_data_present": false,
+    "jp_hrt_2013_in_study": false,
+    "raw_sampling_frequency_hz": 10,
+    "flux_averaging_minutes": 30,
+    "raw_to_half_hour_software": "Flux Calculator",
+    "downstream_ustar_gapfill_partition_software": "Flux Analysis Tool",
+    "appendices": [
+      "QC_B",
+      "USTAR_C",
+      "PARTITION_D",
+      "GAP_FILL_E"
+    ]
+  },
+  "option_comparison": {
+    "figure3_pdf_page": 7,
+    "table2_pdf_page": 6,
+    "steps_ordered": [
+      "DESPIKING",
+      "COORDINATE_ROTATION",
+      "CROSSWIND_AND_WATER_VAPOR_CORRECTION_FOR_SONIC_TEMPERATURE",
+      "BLOCK_AVERAGING_AND_OPTIONAL_DETREND",
+      "LAG_TIME_CORRECTION",
+      "COVARIANCE",
+      "HIGH_FREQUENCY_LOSS_CORRECTION",
+      "WPL_DENSITY_CORRECTION_IF_APPLICABLE",
+      "OPEN_PATH_SELF_HEATING_ONLY_IF_APPLICABLE"
+    ],
+    "alternatives": [
+      "DOUBLE_ROTATION",
+      "PLANAR_FIT_ROTATION",
+      "EXTENDED_DOUBLE_ROTATION",
+      "TRIPLE_ROTATION",
+      "FIRST_OR_SECOND_ORDER_DETREND",
+      "OPEN_VS_CLOSED_PATH",
+      "WITHOUT_HIGH_FREQUENCY_LOSS_CORRECTION"
+    ],
+    "source_pages": [
+      4,
+      5,
+      6,
+      7
+    ],
+    "experiment_specific_controls_not_jp_hrt_settings": true,
+    "nominal_sensitivity_transfer_to_ch4_allowed": false
+  },
+  "scope_gate": {
+    "source_type": "METHODOLOGICAL_COMPARISON_ONLY",
+    "application_to": "EC_PROCESSING_OPTION_SENSITIVITY_REFERENCE",
+    "approved_for_jp_hrt_2013_ch4_settings": false,
+    "approved_for_jp_hrt_fch4_row_qc": false,
+    "approved_for_ch4_bias_factor": false,
+    "approved_for_ch4_gapfill": false,
+    "approved_for_japanflux_data_products": false,
+    "confirmed_2013_flux_calculator_version": null,
+    "confirmed_2013_processing_configuration": null,
+    "independent_ch4_raw_waveforms_available": false,
+    "published_ch4_fch4_reconstruction": null,
+    "certified_tco2e": null
+  },
+  "methodological_warning": "The uploaded paper evaluates heat, H2O and CO2 fluxes at seven sites (including MSE 2005), not JP-Hrt 2013 methane. Its algorithm options guide a verification checklist only; do not reuse its site-specific biases, QC flags, thresholds or settings as actual CH4 evidence."
+}
