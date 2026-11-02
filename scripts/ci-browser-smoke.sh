@@ -25,7 +25,19 @@ cleanup_chrome() {
     chrome_pid=''
   fi
   if [[ -n "$profile_dir" ]]; then
-    rm -rf -- "$profile_dir"
+    # Chromium forks children that may briefly recreate Default/ after the
+    # parent exits. Retry cleanup without replacing a real test's exit status.
+    profile_removed=false
+    for i in 1 2 3 4; do
+      if rm -rf -- "$profile_dir" 2>/dev/null; then
+        profile_removed=true
+        break
+      fi
+      sleep 0.25
+    done
+    if [[ "$profile_removed" != true ]]; then
+      echo "::warning::Chrome profile cleanup deferred to ephemeral runner: $profile_dir"
+    fi
     profile_dir=''
   fi
 }
@@ -35,7 +47,8 @@ cleanup() {
     kill "$server_pid" 2>/dev/null || true
     wait "$server_pid" 2>/dev/null || true
   fi
-  rm -f -- "$http_log" "$chrome_log"
+  rm -f -- "$http_log" "$chrome_log" || true
+  return 0
 }
 trap cleanup EXIT
 
