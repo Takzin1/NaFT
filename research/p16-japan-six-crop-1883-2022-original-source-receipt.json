@@ -1,0 +1,68 @@
+{
+  "schema": "naft-p16-japan-crop-archive-1883-2022-source-receipt-v1",
+  "archive_sha256": "8e8ec4ef894f179b9d3ceb66fe8e9319f707b45cc652f4ece50a29a14e8772e6",
+  "original_archive_bytes": 1062661,
+  "main_csv_sha256": "6cfaec5fe79fcead2149c2427490e57acbf9c4f24c370e847131c9bde41a920e",
+  "main_csv_bytes": 17163494,
+  "source_workbook_sha256": "2b31928c9e67a9c22c3b3f1947429e4edb9e9002b014f7d487090c4e0ae404ec",
+  "prefecture_code_csv_sha256": "e9f060db9bbdaf659ff20de0e104bb657087d71e53acec3d040708995432cd2a",
+  "japanese_calendar_csv_sha256": "60486f75c7b1944a2b0c4446880f4b20d45fc46adc7dbbf93d095864d025638a",
+  "original_record_count": 146160,
+  "geography": {
+    "prefecture_entries": 47,
+    "regional_totals": 10,
+    "national_total": 1
+  },
+  "years": {
+    "first": 1883,
+    "last": 2022,
+    "count": 140
+  },
+  "crops": [
+    "Barley",
+    "Potato",
+    "Rice",
+    "Soybean",
+    "SweetPotato",
+    "Wheat"
+  ],
+  "variables": [
+    "production_tonnes",
+    "surface_ha",
+    "yield_tonnes_per_ha"
+  ],
+  "nationally_aggregated_crop_years": 840,
+  "packed_national_vectors_sha256": "c67875e44bb2fecd4a6c0f56d35918bcc10cc6f28b5e9cc155a8897ec8176dac",
+  "source_record_categories": {
+    "Calculated data": 67200,
+    "Crop Statistical investigation (Sakumotu-Toukei-Chousa)": 30550,
+    "NA": 1974,
+    "Statistics of Agriculture and Commerce": 1128,
+    "Statistics of Agriculture and Commerce (Nou-Shoumu-Toukeihyou)": 21432,
+    "Statistics of Ministry of Agriculture and Foresty (Nou-Rin-Shou-Toukeihyou)": 19270,
+    "野菜生産出荷統計(長期累年)": 4606
+  },
+  "national_all_zero_years_for_potato_soybean_sweetpotato": [
+    1885,
+    1886,
+    1888,
+    1889,
+    1890,
+    1891,
+    1893
+  ],
+  "other_crops_national_all_zero_years": 0,
+  "sweetpotato_2022_prefecture_zero_records": 41,
+  "maximum_original_yield_rounding_error_tonnes_per_ha": 0.005,
+  "national_area_production_vs_prefecture_sum_discrepancies": 0,
+  "regional_area_production_vs_prefecture_sum_discrepancies": 0,
+  "registered_raw_source_redistributed": false,
+  "publisher_license_verified_for_public_raw_redistribution": false,
+  "historical_administrative_boundary_harmonization_verified": false,
+  "historical_zero_means_absence_of_crop_verified": false,
+  "cross_vintage_2023_2025_direct_comparison_authorized": false,
+  "official_abatement_tco2e": null,
+  "note": "2022 and earlier historical series is source-derived; the ZIP source workbook cites historical bibliographies with coverage ending in 2012, not a separately independently checked 2022 MAFF original.",
+  "positive_production_zero_reported_area_records": 59,
+  "positive_production_zero_area_interpretation": "SOURCE_PRESENT_NONDERIVABLE_YIELD_NO_AUTO_CORRECTION"
+}
