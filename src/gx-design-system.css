@@ -1,0 +1,168 @@
+/* NaFT Climate Evidence Studio / DESIGN.md v1.
+   No remote assets. Research/official boundaries take precedence over aesthetic.
+   ClimateChain competition route keeps its separately scoped visual system. */
+:root{
+ --gx-forest:#12392f;--gx-deep:#092a25;--gx-fern:#366c54;
+ --gx-lime:#bae883;--gx-mist:#f5f8f3;--gx-paper:#fff;
+ --gx-ink:#14352e;--gx-muted:#536b63;--gx-border:#d8e4da;
+ --gx-shadow:0 12px 42px rgba(15,52,38,.08);
+ --gx-r-sm:8px;--gx-r-md:14px;--gx-r-lg:24px;
+}
+body:not([data-page="climatechain"]){
+ --paper:var(--gx-mist);--ink:var(--gx-ink);--muted:var(--gx-muted);
+ --line:var(--gx-border);--accent:#1a6950;
+ background:radial-gradient(ellipse at 0% 0%,#e1f1e2 0,transparent 35%),var(--gx-mist);
+ color:var(--gx-ink);font-family:ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,
+ "Hiragino Kaku Gothic ProN","Yu Gothic",Meiryo,sans-serif;
+ -webkit-font-smoothing:antialiased;
+}
+body:not([data-page="climatechain"]) #app>header,
+body:not([data-page="climatechain"]) #app>main,
+body:not([data-page="climatechain"]) #app>footer{
+ max-width:1280px;padding-inline:clamp(16px,3vw,44px);
+}
+body:not([data-page="climatechain"]) #app>header:not(.reviewer-header){
+ background:linear-gradient(128deg,#12392f 0%,#0b2c27 70%,#0a2522 100%);
+ border:1px solid #356553;border-radius:0 0 28px 28px;color:#f2faef;
+ padding:32px clamp(20px,4vw,48px) 26px;
+ position:relative;isolation:isolate;overflow:hidden;box-shadow:0 21px 55px #0c34212d;
+}
+body:not([data-page="climatechain"]) #app>header:not(.reviewer-header)::after{
+ content:"";position:absolute;z-index:-1;pointer-events:none;
+ width:520px;height:520px;top:-315px;right:-180px;border:1px solid #c1e5a939;
+ border-radius:50%;box-shadow:0 0 0 60px #c1e5a916,0 0 0 120px #c1e5a90d,0 0 0 180px #c1e5a908;
+}
+body:not([data-page="climatechain"]) #app>header:not(.reviewer-header) .eyebrow{
+ color:#c4eea5;font-size:11px;letter-spacing:.18em;font-weight:800;
+}
+body:not([data-page="climatechain"]) #app>header:not(.reviewer-header) h1{
+ font-size:clamp(34px,4.2vw,61px);font-weight:820;letter-spacing:-.048em;
+ line-height:1.08;max-width:720px;margin:16px 0 16px;text-wrap:balance;
+}
+body:not([data-page="climatechain"]) #app>header:not(.reviewer-header)>p{
+ max-width:720px;color:#c5ddcf;font-size:15px;line-height:1.75;
+}
+body:not([data-page="climatechain"]) #app>header:not(.reviewer-header) .row{
+ margin:22px 0 8px;align-items:center;
+}
+body:not([data-page="climatechain"]) #app>header:not(.reviewer-header) label{color:#d6e8da;font-size:12px;letter-spacing:.03em}
+body:not([data-page="climatechain"]) #app>header:not(.reviewer-header) select{
+ display:block;min-width:155px;margin-top:6px;background:#f8fbf6;color:#16392f;
+ border-color:#8fbaa2;padding:10px 13px;border-radius:var(--gx-r-sm);font-size:14px;
+}
+body:not([data-page="climatechain"]) #app>header:not(.reviewer-header) .pill{
+ border:1px solid #93bba263;color:#c8e2d1;background:#245343;
+ padding:8px 12px;border-radius:999px;
+}
+body:not([data-page="climatechain"]) #app>header:not(.reviewer-header) .reviewer-cta{
+ background:#ffffff10;color:#e1f5e9;border:1px solid #78ae9380;
+ border-radius:11px;padding:10px 14px;margin:12px 7px 4px 0;
+ font-size:13px;font-weight:650;transition:background .18s ease,transform .18s ease;
+}
+body:not([data-page="climatechain"]) #app>header:not(.reviewer-header) .reviewer-cta:hover{
+ background:#e3f2d322;color:white;transform:translateY(-1px);
+}
+body:not([data-page="climatechain"]) #app>header:not(.reviewer-header) nav{
+ display:flex;gap:7px;flex-wrap:wrap;padding:11px;margin:18px 0 12px;
+ background:#051c1a77;border:1px solid #7db09a3c;border-radius:17px;
+}
+body:not([data-page="climatechain"]) #app>header:not(.reviewer-header) nav a{
+ color:#d8e8e0;background:transparent;border:1px solid transparent;
+ border-radius:10px;padding:10px 12px;font-size:12px;font-weight:750;min-height:44px;
+ display:inline-flex;align-items:center;
+}
+body:not([data-page="climatechain"]) #app>header:not(.reviewer-header) nav a:hover{background:#ffffff1a}
+body:not([data-page="climatechain"]) #app>header:not(.reviewer-header) nav a[aria-current="page"]{
+ color:#0c3025;background:var(--gx-lime);border-color:var(--gx-lime);
+}
+body:not([data-page="climatechain"]) #app>header:not(.reviewer-header) .notice{
+ background:#f9edcc;color:#553f1a;border:1px solid #e4be6e;border-left:5px solid #bf7921;
+ border-radius:9px;padding:13px 18px;font-size:13px;line-height:1.6;
+}
+body:not([data-page="climatechain"]) #app>main{padding-block:25px 52px}
+body:not([data-page="climatechain"]) .card{
+ background:#fff;border-color:var(--gx-border);border-radius:21px;
+ box-shadow:var(--gx-shadow);padding:clamp(18px,2.6vw,32px);
+}
+body:not([data-page="climatechain"]) .card h2{
+ color:var(--gx-deep);font-size:clamp(22px,2.4vw,30px);
+ line-height:1.22;letter-spacing:-.025em;
+}
+body:not([data-page="climatechain"]) .card .eyebrow{color:#246c4d;font-weight:750}
+body:not([data-page="climatechain"]) button{
+ border-radius:11px;background:#1b654a;color:white;min-height:42px;
+ padding:10px 17px;font-weight:700;border-color:#1b654a;
+}
+body:not([data-page="climatechain"]) button:hover:not(:disabled){background:#104c3a}
+body:not([data-page="climatechain"]) button.secondary{
+ color:#19543f;background:white;border-color:#60987d;
+}
+body:not([data-page="climatechain"]) input:not([type="checkbox"]):not([type="file"]),
+body:not([data-page="climatechain"]) textarea,
+body:not([data-page="climatechain"]) select{
+ border:1px solid #869d92;border-radius:10px;padding:10px 12px;
+}
+body:not([data-page="climatechain"]) :is(a,button,input,textarea,select,summary):focus-visible{
+ outline:3px solid #df9b27;outline-offset:3px;
+}
+body:not([data-page="climatechain"]) th{
+ background:#f1f7f2;font-weight:750;color:#26453a;
+}
+body:not([data-page="climatechain"]) td,body:not([data-page="climatechain"]) th{border-bottom-color:#d5e4d8}
+body:not([data-page="climatechain"]) footer{color:#536c61;background:#edf3ee;border-top:1px solid #cddcd0}
+body[data-page="gx-data"] #app>header{margin-bottom:0}
+body[data-page="gx-data"] #app>main{padding-top:25px}
+.gx-kicker{display:block;color:#247455;font-size:11px;font-weight:800;letter-spacing:.15em;text-transform:uppercase}
+.gx-hero{
+ background:linear-gradient(115deg,#123b30 0%,#0a2b27 85%);
+ color:#f4fbf1;border:1px solid #46755d;box-shadow:0 24px 52px #123b302a;
+ border-radius:24px;padding:clamp(25px,4vw,52px);
+ display:grid;grid-template-columns:minmax(0,1.65fr) minmax(200px,.75fr);
+ gap:20px;position:relative;overflow:hidden;margin-bottom:20px;align-items:center;
+}
+.gx-hero .gx-kicker{color:#b9eda0}
+.gx-hero h2{font-size:clamp(28px,3.9vw,52px);line-height:1.13;letter-spacing:-.055em;margin:16px 0;color:white}
+.gx-hero p{color:#d2e6d9;max-width:700px;line-height:1.8}
+.gx-honesty{display:inline-block;color:#f4e5c7;border:1px solid #e6c58b69;
+ background:#896d3438;padding:9px 12px;border-radius:999px;font-size:12px;font-weight:700;margin-top:10px}
+.gx-hero-art{text-align:center;position:relative;min-height:180px;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.gx-hero-art>span:first-child{font-size:clamp(72px,9vw,120px);font-weight:800;letter-spacing:-.08em;color:#b9eda0;line-height:1}
+.gx-hero-art>span:nth-child(2){font-size:11px;letter-spacing:.2em;color:#d5ead6;font-weight:700}
+.gx-hero-ring{position:absolute;border:1px solid #aad39c63;width:260px;height:260px;border-radius:50%;z-index:0;pointer-events:none;box-shadow:0 0 0 35px #c5f29d0d,0 0 0 70px #c5f29d09}
+.gx-dashboard{background:#fff;padding:clamp(20px,3vw,38px);border:1px solid var(--gx-border);border-radius:23px;margin-bottom:18px;box-shadow:var(--gx-shadow)}
+.gx-section-heading h2,.gx-guard h2{font-size:clamp(22px,2.7vw,33px);letter-spacing:-.045em;line-height:1.2;margin:9px 0 12px;color:#12382e}
+.gx-section-heading p{color:#52695f;font-size:14px}
+.gx-period-grid,.gx-detail-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:24px}
+.gx-period-card,.gx-data-card{border:1px solid #d8e7db;border-radius:16px;padding:22px;background:linear-gradient(160deg,#fff,#f7faf6);min-width:0}
+.gx-period-card>strong,.gx-data-card>strong{display:block;font-size:clamp(23px,2.65vw,37px);color:#13392d;letter-spacing:-.055em;line-height:1.1;margin:14px 0 11px;overflow-wrap:anywhere;font-variant-numeric:tabular-nums}
+.gx-period-card>strong small,.gx-data-card>strong small{font-size:14px;letter-spacing:0;color:#65776c}
+.gx-period-card>span:not(.gx-kicker){display:block;font-size:12px;color:#5c7066}
+.gx-period-card a{display:inline-block;margin-top:15px;color:#1d614b;font-weight:750;text-underline-offset:3px;font-size:13px}
+.gx-data-card p{color:#63746a;font-size:13px;margin:0}
+.gx-filter-label{font-weight:750;color:#224e3c;margin:18px 0 6px}
+.gx-filter-select{min-width:220px;min-height:44px;background:#f8fbf8;color:#183b2c}
+.gx-advisory,.gx-anomaly{background:#fff8e8;border:1px solid #eccb94;color:#57431c;
+ padding:14px 17px;border-radius:12px;margin:19px 0 0;font-size:13px}
+.gx-source-panel{display:grid;grid-template-columns:1fr 1fr;gap:28px;margin-top:24px;border-top:1px solid #dce5dc;padding-top:22px}
+.gx-source-panel h3{font-size:16px;color:#163d2f;margin:0 0 8px}
+.gx-source-panel p,.gx-source-panel li{font-size:13px;color:#4e655c;line-height:1.7}
+.gx-source-panel ul{padding-left:20px;margin:8px 0}.gx-source-panel li{margin-bottom:9px}
+.gx-label{display:block;font-size:10px;color:#76654c;letter-spacing:.04em}
+.gx-guard{background:#eff7ef}
+.gx-guard-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:11px}
+.gx-guard-grid p{display:flex;flex-direction:column;gap:5px;border:1px solid #cadfce;border-radius:13px;background:#fff;padding:16px}
+.gx-guard-grid b{font-size:22px;line-height:1.1;color:#1c5a43}
+.gx-guard-grid span{font-size:12px;color:#53685c}
+@media(max-width:780px){
+ body:not([data-page="climatechain"]) #app>header:not(.reviewer-header){border-radius:0 0 20px 20px}
+ .gx-hero{grid-template-columns:1fr}.gx-hero-art{min-height:105px}.gx-hero-art>span:first-child{font-size:65px}.gx-hero-ring{width:180px;height:180px}
+ .gx-period-grid,.gx-detail-grid{grid-template-columns:1fr}
+ .gx-source-panel,.gx-guard-grid{grid-template-columns:1fr}
+ .gx-dashboard{padding:20px}.gx-hero{padding:24px}
+ body:not([data-page="climatechain"]) #app>header:not(.reviewer-header) nav{gap:3px;padding:7px}
+ body:not([data-page="climatechain"]) #app>header:not(.reviewer-header) nav a{font-size:12px}
+}
+@media(prefers-reduced-motion:reduce){
+ body:not([data-page="climatechain"]) *,body:not([data-page="climatechain"]) *::before,
+ body:not([data-page="climatechain"]) *::after{transition:none!important;animation:none!important;scroll-behavior:auto!important}
+}
