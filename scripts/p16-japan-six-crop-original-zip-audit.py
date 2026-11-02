@@ -185,7 +185,7 @@ def main():
   expected=json.loads(Path(args.public_register).read_text(encoding="utf8"))
   require(expected["schema"]=="naft-p16-japan-crop-archive-1883-2022-source-receipt-v1",
           "REGISTER_SCHEMA")
-  packed_sha=sha("\\n".join(k+":"+report["national_packed_base36"][k] for k in CROPS).encode("utf8"))
+  packed_sha=sha("\n".join(k+":"+report["national_packed_base36"][k] for k in CROPS).encode("utf8"))
   # These are original-source report invariants, not official source-file licensing approval.
   comparisons={
    "archive_sha256":report["archive_sha256"],
