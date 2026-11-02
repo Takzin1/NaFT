@@ -215,6 +215,18 @@ if(climateFinal.overflow||climateFinal.error||!climateFinal.hasTx)
 console.log('ClimateChain Japanese route, interactive impact, tamper and nonbroadcast anchor: PASS');
 console.log(JSON.stringify(climateCounts));
 
+// Research readiness Japanese route: real Chromium, narrow viewport, strict no-approval UI.
+await evaluate("location.hash='#/source-readiness'; true");
+await until("document.querySelectorAll('[data-evidence-blocker]').length===7 && document.body.innerText.includes('原観測・証憑の検証状況')",'source readiness route');
+const sourceReadiness=await evaluate("({hash:location.hash,blockers:document.querySelectorAll('[data-evidence-blocker]').length,p0:document.querySelectorAll('[data-evidence-blocker] strong').length,hasUnverified:document.body.innerText.includes('FCH4数値候補（QC不明）'),hasBoundary:document.body.innerText.includes('正式認証なし・年排出量未算定'),hasEmptyQC:document.body.innerText.includes('独立QC検証済みの観測値'),hasApproval:!!document.querySelector('[data-action=\\\"attest\\\"],[data-action=\\\"release\\\"]'),scrollWidth:document.documentElement.scrollWidth,innerWidth:window.innerWidth,error:!!document.querySelector('section.error')||!!document.querySelector('.status.error')})");
+if(sourceReadiness.hash!=='#/source-readiness'||sourceReadiness.blockers!==7||
+   !sourceReadiness.hasUnverified||!sourceReadiness.hasBoundary||
+   !sourceReadiness.hasEmptyQC||sourceReadiness.hasApproval||
+   sourceReadiness.scrollWidth>sourceReadiness.innerWidth||sourceReadiness.error)
+  throw new Error('BROWSER_SOURCE_READINESS_INVALID:'+JSON.stringify(sourceReadiness));
+console.log('Research Evidence Readiness Japanese route / seven blockers / mobile layout: PASS');
+console.log(JSON.stringify(sourceReadiness));
+
 if(runtimeProblems.length) throw new Error('BROWSER_RUNTIME_PROBLEMS:'+JSON.stringify(runtimeProblems));
 
 console.log('Reviewer Demo browser click/mobile: PASS');
