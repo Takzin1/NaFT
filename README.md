@@ -258,3 +258,9 @@ GitHub Actions [source acquisition run](https://github.com/Takzin1/NaFT/actions/
 [一次資料と実バイト検証の詳細](docs/p11-real-raw-chamber-and-rice-source-audit-ja-2026-11-03.md)。研究公開リポジトリの**CH₄機器サンプルCSV（3,005行・292,577 bytes）**をGitHubで原blobを照合し、原本全体と上流MITの著作権表示を保存した。 `node scripts/p11-original-chamber-source-audit.mjs audit` で濃度(ppm)、時刻、列構造、欠測、実バイトSHA-256、原ファイルGit blobを再演算。**水田由来・CH₄日次フラックス・正式CO₂eではない**。
 
 別の研究者が公開する**水田の2023年ガスクロマトグラフィーCSV（実在する718原観測時点、20採取日、AWD/MSD/CON）**も直接確認し、原Git blob、列と内訳を`research/p11-rice-chromatography-source-2026-11-03.json`に登録。データ専用の再配布ライセンスが確認できず**原CSVはNaFTに転載していない**。 `scripts/p11-rice-chromatography-guard.mjs verify-original FILE` はローカル原本を検査する。 `#/gx-data` に実原本と未転載原本の違いを示す研究データ受入パネルを追加。**e-Stat 2025確報原Excel・Gimje ZIPの直接取得はDNS制限により未達**。
+
+## P12｜ユーザー取得の2025年産e-Stat Excel原本を47都道府県・9指標で取込完了
+
+[P12原本のハッシュ・Excel列・検証仕様](docs/p12-estat-2025-real-xls-47prefecture-ja-2026-11-03.md)。**実際にアップロードされた `f002-07-001.xls`（71,680 bytes）**をBIFF8/OLE形式として読み、**2025年産の47都道府県×9指標**（水稲全体作付面積、主食用面積、ふるい上単収・収穫量、ふるい下収穫量、1.70mm単収・収穫量、子実用面積・収穫量）を `research/p12-estat-2025-prefecture-original-xls-v1.json` に追加。元バイナリSHA-256 `65892e3a1c095aad21f717ad4acc9787aad7d8d7e004b1c70f3284462ddca835`を固定し、元Excel原本の再現検証用 `scripts/p12-estat-2025-original-replay.py` を追加。**原.xlsバイナリ自体はリポジトリに転載しない**。
+
+`#/gx-data` では、県選択で**2025年産の主食用米確報**を2024年水稲全体とは別に表示。`node scripts/p12-estat-2025-prefecture-audit.mjs audit` と `node tests/p12-estat-2025-original-source.test.mjs` で47行×9列、全国値の端数、ふるい目幅差、年度定義の誤用を検査。2024年全水稲との単純比較と、公式J-クレジットtCO₂eへの昇格を禁止する。
