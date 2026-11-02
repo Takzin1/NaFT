@@ -1,6 +1,11 @@
 #!/usr/bin/env bash
 set -euo pipefail
 cd "$(dirname "$0")/.."
+node tests/japanflux-jp-hrt-thesis-lineage.test.mjs
+node tests/japanflux-tellus-ec-reference.test.mjs
+node tests/rice-standards-source-gate.test.mjs
+node tests/research-readiness-report.test.mjs
+node tests/research-readiness-ja.test.mjs
 node tests/dmrv-literature-register.test.mjs
 node tests/climatechain-japanese.test.mjs
 node tests/ieee-audit.test.mjs
