@@ -39,6 +39,6 @@ const invariant='<button data-action="climatechain-run" aria-label="Inspect pack
 const translated=climateJapaneseHtml(invariant);
 assert.match(translated,/data-action="climatechain-run"/);
 assert.match(translated,/aria-label="Inspect package hash"/);
-assert.match(translated,/<code>package hash<\\/code>/);
+assert.ok(translated.includes('<code>package hash</code>'));
 assert.match(climateJapaneseHtml('<p>Blockchain witnesses version lineage; it does not decide climate truth.</p>'),/ブロックチェーンは版の継承関係を記録します/);
 console.log('CLIMATECHAIN_JA_PORT_PASS: source-bound logic, Japanese text, 100 synthetic claims, tamper and Sepolia witness');
