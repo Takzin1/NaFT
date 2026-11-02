@@ -38,7 +38,7 @@ function gxGimjeSamplingQCPanel(){
  '<div class="gx-detail-grid">'+ann+'</div>'+
  '<div class="gx-detail-grid"><article class="gx-data-card">'+
  '<span class="gx-kicker">ORIGINAL DAILY GRID</span><strong>'+sep(a.grid)+'</strong>'+
- '<p>観測日'+sep(a.observed)+'件・CH₄非測定日'+sep(a.unmeasured)+'行。非測定日は0に補完しません。</p></article>'+
+ '<p>観測日'+sep(a.observed)+'件・CH₄非測定日'+sep(a.unmeasured)+'行。非測定日はゼロ補完しません。</p></article>'+
  '<article class="gx-data-card"><span class="gx-kicker">SAMPLING-INTERVAL REVIEW</span>'+
  '<strong>'+a.maxGap+' <small>日 / 最大観測間隔</small></strong>'+
  '<p>14日以上の観測間隔'+a.longGaps+'区間（2024年）。異常と即断せず、実験計画との照合が必要です。</p></article>'+
