@@ -1,0 +1,84 @@
+{
+  "schema": "naft-p17-remastered-1883-2022-v1",
+  "source_original_zip_sha256": "8e8ec4ef894f179b9d3ceb66fe8e9319f707b45cc652f4ece50a29a14e8772e6",
+  "source_original_csv_sha256": "6cfaec5fe79fcead2149c2427490e57acbf9c4f24c370e847131c9bde41a920e",
+  "columns": [
+    "crop",
+    "year",
+    "era",
+    "region_code",
+    "region",
+    "prefecture_code",
+    "prefecture",
+    "production_tonnes",
+    "area_ha",
+    "reported_yield_t_ha",
+    "production_source",
+    "area_source",
+    "yield_source",
+    "quality_flag"
+  ],
+  "crops": [
+    "Barley",
+    "Potato",
+    "Rice",
+    "Soybean",
+    "SweetPotato",
+    "Wheat"
+  ],
+  "raw_source_row_count": 146160,
+  "remastered_rows": 48720,
+  "files": {
+    "Barley": {
+      "path": "data/japan-crops-1883-2022/remastered-v1/barley.csv",
+      "size": 1972649,
+      "sha256": "eb9b337ce078c99b83ef9841c36d8c0b0c0849c92ffc0ba9494bb817e6e525cf",
+      "git_blob_sha1": "6c3a93b5973839c6bf0b8573753da4aff043e692",
+      "records": 8120
+    },
+    "Potato": {
+      "path": "data/japan-crops-1883-2022/remastered-v1/potato.csv",
+      "size": 1887150,
+      "sha256": "7ea6e4a0dd34ca675d6c8db56344be0904e07feeb22bef95cf44c34f1d153598",
+      "git_blob_sha1": "ba2bd6a4ca824a071307b0739d513f9a6b669231",
+      "records": 8120
+    },
+    "Rice": {
+      "path": "data/japan-crops-1883-2022/remastered-v1/rice.csv",
+      "size": 1984760,
+      "sha256": "2793862cd690bc121661085a5a3f01fdd3dfc81ed05c2c15ff145da34b2a0f28",
+      "git_blob_sha1": "e7e78b00c67a8b623b416754eb51ea8abf33f27c",
+      "records": 8120
+    },
+    "Soybean": {
+      "path": "data/japan-crops-1883-2022/remastered-v1/soybean.csv",
+      "size": 1941708,
+      "sha256": "973d9eea63350d5a48aff7725d4504eb4dcda13eec496296c68a1a2a47db0dd0",
+      "git_blob_sha1": "73c0ccab4146e328a670327e218ed2e03d1ef264",
+      "records": 8120
+    },
+    "SweetPotato": {
+      "path": "data/japan-crops-1883-2022/remastered-v1/sweetpotato.csv",
+      "size": 1972033,
+      "sha256": "cc3d24411ec6eb3f242e5583112c8842c8b50ea0f46418bea508924de1bd9e31",
+      "git_blob_sha1": "d618f0e2aacc458e1216759531eb1760fef39bdb",
+      "records": 8120
+    },
+    "Wheat": {
+      "path": "data/japan-crops-1883-2022/remastered-v1/wheat.csv",
+      "size": 1970824,
+      "sha256": "a2c29f27ce756eb82497aaa8f3b908df7a2c739eefbb271f2a2ce8d17b408352",
+      "git_blob_sha1": "1422b84df10b339e8ce1f37c7ad56ea67c5fa32b",
+      "records": 8120
+    }
+  },
+  "flag_counts": {
+    "SOURCE_REPORTED_NOT_INDEPENDENTLY_QCED": 44902,
+    "ALL_ZERO_SOURCE_VALUE_UNVERIFIED": 2500,
+    "POSITIVE_PRODUCTION_ZERO_REPORTED_AREA": 59,
+    "SOURCE_COVERAGE_GAP_SUSPECTED": 1218,
+    "PREFECTURE_ZERO_MEANING_UNVERIFIED": 41
+  },
+  "methodology": "pivot_three_original_metrics_with_column_level_source_and_original_numeric_lexemes;no_imputation",
+  "license": "ORIGINAL_SOURCE_RIGHTS_NOT_VERIFIED;NO_NEW_LICENSE_GRANTED"
+}
