@@ -6,6 +6,10 @@ node tests/japanflux-tellus-ec-reference.test.mjs
 node tests/rice-standards-source-gate.test.mjs
 node tests/research-readiness-report.test.mjs
 node tests/research-readiness-ja.test.mjs
+node tests/rice-methodology-router.test.mjs
+node tests/ieee-gs-worksheet-replay.test.mjs
+node tests/ieee-gs-selective-reverification.test.mjs
+node tests/p1-gs-independent-replay.test.mjs
 node tests/dmrv-literature-register.test.mjs
 node tests/climatechain-japanese.test.mjs
 node tests/ieee-audit.test.mjs
