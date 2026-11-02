@@ -100,6 +100,7 @@ def scan(files, full=False):
  require(len(state)==6*140*58 and len(seen)==146160,"DATA_CUBE_SHAPE")
  require(all(set(m)==set(VARIABLES) for m in state.values()),"INCOMPLETE_MEASUREMENT_TRIPLET")
  region_deviations=0;country_deviations=0;max_yield_abs_error=0.
+ positive_crop_zero_area=0
  region_pref_sums=defaultdict(lambda:defaultdict(float))
  country_pref_sums=defaultdict(lambda:defaultdict(float))
  for (crop,y,reg,pref),s in state.items():
@@ -112,7 +113,11 @@ def scan(files, full=False):
    err=abs(s["yield"]-s["production"]/s["surface"])
    max_yield_abs_error=max(max_yield_abs_error,err)
    require(err<=0.00501,"SOURCE_YIELD_ROUNDING_MISMATCH")
-  else:require(s["yield"]==0 and s["production"]==0,"ZERO_AREA_NONZERO_CROP")
+  else:
+   # Original data contain small positive production with reported area zero:
+   # retain and flag; never infer yield or silently revise the source.
+   require(s["yield"]==0,"ZERO_AREA_NONZERO_REPORTED_YIELD")
+   if s["production"]>0:positive_crop_zero_area+=1
   if pref=="p98":
    for metric in ("production","surface"):
     aggregate=region_pref_sums[(crop,y,reg)][metric]
@@ -123,6 +128,7 @@ def scan(files, full=False):
     if abs(s[metric]-total)>1e-6:country_deviations+=1
  require(region_deviations==0 and country_deviations==0,
          "NATIONAL_REGIONAL_DOUBLE_COUNT_OR_SUM_MISMATCH")
+ require(positive_crop_zero_area==59,"POSITIVE_PRODUCTION_ZERO_AREA_ANOMALY_COUNT_CHANGED")
  zero_years={}
  for crop in CROPS:
   dates=[y for y in range(1883,2023)
@@ -151,6 +157,7 @@ def scan(files, full=False):
   "national_prod_prefecture_sum_mismatches":country_deviations,
   "regional_prod_prefecture_sum_mismatches":region_deviations,
   "max_original_yield_rounding_error_t_per_ha":round(max_yield_abs_error,8),
+  "positive_production_zero_reported_area_count":positive_crop_zero_area,
   "suspected_placeholder_national_zero_years":zero_years,
   "zero_year_policy":"UNVERIFIED_AS_MISSING_NOT_CONFIRMED_ZERO",
   "national_packed_base36":packed,
@@ -200,7 +207,8 @@ def main():
    "national_area_production_vs_prefecture_sum_discrepancies":0,
    "regional_area_production_vs_prefecture_sum_discrepancies":0,
    "sweetpotato_2022_prefecture_zero_records":report["2022_sweet_potato_zero_prefecture_count"],
-   "maximum_original_yield_rounding_error_tonnes_per_ha":report["max_original_yield_rounding_error_t_per_ha"]
+   "maximum_original_yield_rounding_error_tonnes_per_ha":report["max_original_yield_rounding_error_t_per_ha"],
+   "positive_production_zero_reported_area_records":report["positive_production_zero_reported_area_count"]
   }
   for key,val in comparisons.items():
    require(expected[key]==val,"PUBLIC_REGISTER_MISMATCH:"+key)
