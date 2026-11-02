@@ -206,9 +206,9 @@ def write_private(path,records):
     dest=Path(path)
     require(dest.parent.is_dir() and not dest.exists(),'PRIVATE_REPORT_DESTINATION_EXISTS')
     # Private inspection only; never embedded in public static website.
-    with dest.open('x',encoding='utf8') as f:
-        import os
-        os.chmod(dest,0o600)
+    import os
+    fd=os.open(dest,os.O_WRONLY|os.O_CREAT|os.O_EXCL,0o600)
+    with os.fdopen(fd,'w',encoding='utf8') as f:
         json.dump({'scope':'PRIVATE_FIELD_QC_NOT_TO_BE_COMMITTED',
                    'authoritative_lab_qc':False,'fields':records},f,ensure_ascii=False,indent=2)
         f.write('\n')
