@@ -224,3 +224,9 @@ GitHub Actions [source acquisition run](https://github.com/Takzin1/NaFT/actions/
 [Gold Standardの2025年12月22日付SOC規則（一般対応期限2026年7月1日）と旧7月版の差異](docs/p5-clause-evidence-trace-ja-2026-11-02.md)を一次資料に基づき整理。Verra VM0051 v1.1のSOC管理、J-クレジットAG-005の**旧参考資料のみ**という限界も区分した。公開条項14件から必要証憑21種を引き当てる研究用トレースが可能。
 
 `node scripts/p5-clause-evidence-trace.mjs markdown fixtures/p5-gs-soc-clause-trace-request.json` で証憑の不足や時点レビュー候補を出力。旧規則での判定、制度横断混同、独立QCやクレジット認証への自動昇格は禁止する。**PDFの条文を自動抽出・比較したり、実測算定・認証を実行する仕組みではない。**
+
+## P6｜ユーザー提供の原著コピー3件の実SHA-256と出典ページを固定
+
+[原著の照合結果とVerra VM0051・Gold Standard教材の15ページ別調査事項](docs/p6-original-source-evidence-ja-2026-11-02.md)を追加。90ページのVM0051 v1.1 PDF、GS稲作研修シナリオPDF、GS旧AWD VVBチェックリストDOCXの**実コピーSHA-256が従来の出典台帳と一致**することを確認し、研究用に出典・条項・証憑・P5対応候補を連結した。原著の**元ファイル自体は再配布ライセンス未確認のため公開Repoには追加しない**。正式制度適合性、観測値、認証クレジットは引き続き未確認。
+
+`node scripts/p6-local-original-evidence.mjs markdown fixtures/p6-verra-original-evidence-review-request.json` が概要レポートの入口。合法的に取得した原文が手元にある場合のみ `verify-original SOURCE_ID /path/to/file` でローカル原本コピーを照合できる。
