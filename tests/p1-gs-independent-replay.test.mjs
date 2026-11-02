@@ -21,7 +21,7 @@ const make=(lane,values)=>({
    measurement_kind:lane==='TIER_3_DIRECT'?'DIRECT_CHAMBER':'REFERENCE_ONLY',
    practices:[],evidence:Object.fromEntries(
      registry.programs[program].lanes[lane].evidence_required.map(k=>[k,true]))},
- operands:values
+ operands:{...values}
 });
 const write=x=>writeFileSync(requestPath,JSON.stringify(x));
 let checks=0;function eq(a,b){assert.deepEqual(a,b);checks++;}
