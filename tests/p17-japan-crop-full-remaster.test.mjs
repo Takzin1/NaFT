@@ -37,7 +37,7 @@ for(const crop of crops){
  const buf=readFileSync(m.path);
  assert.equal(buf.length,m.size,crop+' size');
  assert.equal(createHash('sha256').update(buf).digest('hex'),m.sha256,crop+' sha256');
- assert.equal(createHash('sha1').update('blob '+buf.length+'\\0').update(buf).digest('hex'),m.git_blob_sha1,crop+' git sha');
+ assert.equal(createHash('sha1').update('blob '+buf.length+String.fromCharCode(0)).update(buf).digest('hex'),m.git_blob_sha1,crop+' git sha');
  const lines=buf.toString('utf8').trimEnd().split('\n');
  assert.equal(lines.length,8121,crop+' lines');
  assert.deepEqual(csvParse(lines[0]),headers);
