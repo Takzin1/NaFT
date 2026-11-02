@@ -1,0 +1,81 @@
+import assert from 'node:assert/strict';
+import {mkdtempSync,writeFileSync,rmSync} from 'node:fs';
+import {tmpdir} from 'node:os';
+import {join} from 'node:path';
+import {spawnSync} from 'node:child_process';
+import {createHash} from 'node:crypto';
+import {stableJson} from '../scripts/lib/research-readiness-report.mjs';
+import {
+ loadPreflightManifests,buildP2Preflight,verifyP2Preflight,renderP2PreflightJa
+} from '../scripts/p2-audit-packet-preflight.mjs';
+
+let count=0;
+const eq=(actual,expected)=>{assert.deepEqual(actual,expected);count++;};
+const denied=(fn,reason)=>{assert.throws(fn,new RegExp(reason));count++;};
+const fixtures=loadPreflightManifests();
+const original=JSON.stringify(fixtures);
+const report=buildP2Preflight(fixtures);
+eq(report.schema,'naft-p2-audit-packet-preflight-v1');
+eq(report.status,'BLOCKED_FOR_FORMAL_CLIMATE_OR_CREDIT_CLAIMS');
+eq(report.source_evidence.observed_half_hour_slots,17520);
+eq(report.source_evidence.numeric_ch4_qc_unknown,1915);
+eq(report.source_evidence.missing_ch4_slots,15605);
+eq(report.source_evidence.independently_qc_accepted_ch4_rows,0);
+eq(report.source_evidence.original_source_bytes_checked_by_this_packet,false);
+eq(report.blocker_counts,{total:7,P0:4,P1:3});
+eq(report.open_blockers.length,7);
+eq(report.open_blockers.every(x=>x.status==='OPEN'),true);
+eq(report.program_scopes.length,3);
+eq(report.program_scopes.map(x=>x.lane_count),[3,3,0]);
+eq(report.program_scopes.every(x=>x.formal_adoption_verified===false),true);
+eq(report.pending_review_sections.map(x=>x.id),['S01','S02','S03','S04','S05']);
+eq(report.source_publisher_identity_verified,false);
+eq(report.independent_python_oracle_executed_in_this_preflight,false);
+eq(report.certified_tco2e,null);
+eq(report.real_world_annual_ch4,null);
+eq(report.credit_issuance,null);
+eq(report.financial_or_registry_actions_performed,false);
+eq(report,buildP2Preflight());
+eq(JSON.stringify(fixtures),original);
+const {preflight_sha256,...unsigned}=report;
+eq(preflight_sha256,createHash('sha256').update(stableJson(unsigned)).digest('hex'));
+eq(verifyP2Preflight(report).status,'SOURCE_MANIFEST_PREFLIGHT_REPRODUCED');
+const markdown=renderP2PreflightJa(report);
+assert.match(markdown,/正式認証ではありません/);count++;
+assert.match(markdown,/P0: 4、P1: 3/);count++;
+assert.match(markdown,new RegExp(report.preflight_sha256));count++;
+assert.match(markdown,/公式認証tCO2e：未算定（null）/);count++;
+denied(()=>verifyP2Preflight({...report,certified_tco2e:4000}),'P2_PREFLIGHT_MISMATCH');
+denied(()=>renderP2PreflightJa({...report,source_publisher_identity_verified:true}),'P2_PREFLIGHT_HASH_MISMATCH');
+const changed=structuredClone(fixtures);
+changed.coverage.hourly_half_hourly.fch4_numeric_qc_unclassified_rows=0;
+assert.throws(()=>buildP2Preflight(changed));count++;
+const altered=structuredClone(fixtures);
+altered.rice.cross_source_conclusions.raw_binaries_redistributed=true;
+denied(()=>buildP2Preflight(altered),'RICE_SOURCE_IDENTITY_OR_BYTES_MISMATCH');
+const cmd=(...args)=>spawnSync(process.execPath,
+ ['scripts/p2-audit-packet-preflight.mjs',...args],
+ {encoding:'utf8',timeout:20000,maxBuffer:400000});
+const dir=mkdtempSync(join(tmpdir(),'naft-p2-preflight-'));
+try{
+ const json=cmd('--format','json');
+ eq(json.status,0);
+ eq(JSON.parse(json.stdout),report);
+ const md=cmd('--format','markdown');
+ eq(md.status,0);
+ eq(md.stdout,markdown);
+ const path=join(dir,'packet.json');
+ writeFileSync(path,json.stdout);
+ const verify=cmd('--verify',path);
+ eq(verify.status,0);
+ eq(JSON.parse(verify.stdout).preflight_sha256,report.preflight_sha256);
+ const fake={...report,certified_tco2e:999};
+ writeFileSync(path,JSON.stringify(fake));
+ const reject=cmd('--verify',path);
+ eq(reject.status!==0,true);
+ eq(reject.stderr.includes('P2_PREFLIGHT_MISMATCH'),true);
+ const invalid=cmd('--format','certified');
+ eq(invalid.status!==0,true);
+ eq(invalid.stdout,'');
+}finally{rmSync(dir,{recursive:true,force:true});}
+console.log('NAFT_P2_PREFLIGHT_PASS: '+count+' assertions; source metadata verified, no field data certification');

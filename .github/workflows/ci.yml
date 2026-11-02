@@ -1,73 +1,31 @@
 name: NaFT MRV Compiler CI
 on:
+  # Feature branches are validated once through their PR, including stacked PRs.
+  # Merged changes are checked again on main. No duplicate push + PR runs.
   push:
-    branches: [main, "feat/**"]
+    branches: [main]
   pull_request:
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
 permissions:
   contents: read
 jobs:
   core-and-security:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 0
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v7
         with:
           node-version: 24
+          package-manager-cache: false
       - name: Run Core regression, Compiler Corpus, syntax and security checks
         run: bash tests/run.sh
       - name: Browser Reviewer, Evidence file, six-route and Compiler role-flow checks
-        shell: bash
-        run: |
-          python3 -m http.server 4173 --bind 127.0.0.1 >/tmp/naft-http.log 2>&1 &
-          server_pid=$!
-          chrome="$(command -v google-chrome-stable || command -v google-chrome || command -v chromium || command -v chromium-browser || true)"
-          test -n "$chrome"
-          cleanup() {
-            kill ${chrome_pid:-} ${server_pid:-} 2>/dev/null || true
-          }
-          trap cleanup EXIT
-
-          server_ready=false
-          for i in {1..40}; do
-            if curl -fsS http://127.0.0.1:4173/naft-app.html >/dev/null; then
-              server_ready=true
-              break
-            fi
-            sleep 0.25
-          done
-          if [ "$server_ready" != true ]; then
-            echo "::error::Static HTTP server did not become ready"
-            cat /tmp/naft-http.log || true
-            exit 1
-          fi
-
-          "$chrome" --headless=new --no-sandbox --disable-gpu --disable-dev-shm-usage             --no-first-run --no-default-browser-check             --remote-debugging-address=127.0.0.1 --remote-debugging-port=9222             --user-data-dir=/tmp/naft-chrome             "http://127.0.0.1:4173/naft-app.html#/reviewer-demo" >/tmp/naft-chrome.log 2>&1 &
-          chrome_pid=$!
-
-          cdp_ready=false
-          for i in {1..80}; do
-            if curl -fsS http://127.0.0.1:9222/json/list >/dev/null; then
-              cdp_ready=true
-              break
-            fi
-            if ! kill -0 "$chrome_pid" 2>/dev/null; then
-              break
-            fi
-            sleep 0.25
-          done
-          if [ "$cdp_ready" != true ]; then
-            echo "::error::Chrome DevTools endpoint did not become ready"
-            echo "--- Chrome log ---"
-            cat /tmp/naft-chrome.log || true
-            echo "--- HTTP log ---"
-            cat /tmp/naft-http.log || true
-            exit 1
-          fi
-
-          node tests/browser-reviewer-smoke.mjs
-          node tests/browser-gikuten-smoke.mjs
+        run: bash scripts/ci-browser-smoke.sh
       - name: Verify reproducible Corpus KPI report
         run: git diff --exit-code -- reports/evaluation-kpis.json reports/mitou-impact-experiment.json reports/impact-proof.json
       - name: Check committed whitespace

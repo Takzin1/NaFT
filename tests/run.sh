@@ -1,11 +1,19 @@
 #!/usr/bin/env bash
 set -euo pipefail
 cd "$(dirname "$0")/.."
+bash -n scripts/ci-browser-smoke.sh
 node tests/japanflux-jp-hrt-thesis-lineage.test.mjs
 node tests/japanflux-tellus-ec-reference.test.mjs
 node tests/rice-standards-source-gate.test.mjs
 node tests/research-readiness-report.test.mjs
 node tests/research-readiness-ja.test.mjs
+node tests/rice-methodology-router.test.mjs
+node tests/ieee-gs-worksheet-replay.test.mjs
+node tests/ieee-gs-selective-reverification.test.mjs
+node tests/p1-gs-independent-replay.test.mjs
+node tests/p1-method-family-comparison.test.mjs
+node tests/p1-methods-ja.test.mjs
+node tests/p2-audit-packet-preflight.test.mjs
 node tests/dmrv-literature-register.test.mjs
 node tests/climatechain-japanese.test.mjs
 node tests/ieee-audit.test.mjs

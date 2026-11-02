@@ -56,6 +56,7 @@ function researchReadinessHeader(){
  return '<header><span class="eyebrow">NaFT · Research Evidence Readiness</span>'+
   '<h1>原観測・証憑の検証状況</h1><p>研究資料の出典、観測値の品質、制度別方法論を切り分ける読み取り専用の日本語版です。</p>'+
   '<nav aria-label="研究画面の切替"><a href="#/climatechain">ClimateChain差分再検証</a>'+
+  '<a href="#/method-family">制度別の方法論比較</a>'+
   '<a href="#/methodologies">NaFT MRV研究UI</a></nav></header>';
 }
 function researchReadinessItem(x){

@@ -1,0 +1,24 @@
+{
+  "schema": "naft-ieee-gs-worksheet-replay-request-v1",
+  "route": {
+    "schema": "naft-rice-method-route-request-v1",
+    "program": "GS_AWD_TRAINING_2024",
+    "requested_lane": "TIER_2_COUNTRY_SPECIFIC",
+    "project_scale": "LARGE",
+    "measurement_kind": "REFERENCE_ONLY",
+    "practices": [],
+    "evidence": {
+      "country_specific_factor_source": true,
+      "water_regime": true,
+      "cultivation_period": true,
+      "nitrogen_baseline_and_project": true,
+      "diesel_use": true,
+      "uncertainty_policy": true
+    }
+  },
+  "operands": {
+    "E8": "18.5891328",
+    "E22": "11.38820304",
+    "E60": "0.1"
+  }
+}
