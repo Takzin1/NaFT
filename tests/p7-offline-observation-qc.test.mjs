@@ -103,7 +103,7 @@ bad(()=>evaluateP7ObservationCSV('KR_GIMJE_DAILY_2022_2024',modify(bytes,1,
 bad(()=>evaluateP7ObservationCSV('KR_GIMJE_DAILY_2022_2024',modify(bytes,1,
  'R1,FIELD_A,2024-06-01,0.12,g_CH4_m2_day,SATELLITE_PROVED_AWD,STATIC_CHAMBER,REPORTED_PASS')),
  'WATER_STATE_UNSUPPORTED');
-bad(()=>evaluateP7ObservationCSV('KR_GIMJE_DAILY_2022_2024',Buffer.from('\xff\xfe')),
+bad(()=>evaluateP7ObservationCSV('KR_GIMJE_DAILY_2022_2024',Buffer.from([0xff,0xfe])),
  'CSV_UTF8');
 bad(()=>evaluateP7ObservationCSV('KR_GIMJE_DAILY_2022_2024',Buffer.from('"unclosed')),
  'CSV_UNCLOSED_QUOTES');
