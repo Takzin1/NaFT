@@ -1,0 +1,10 @@
+{
+  "schema": "naft-p2-method-soc-gate-request-v1",
+  "ag005_reference_version": "3.3",
+  "soil_evidence": {
+    "SOC_BASELINE": "MISSING",
+    "SOC_PROJECT": "MISSING",
+    "SOC_COMPARABILITY": "MISSING",
+    "SOC_ACCOUNTING": "MISSING"
+  }
+}

@@ -1,0 +1,100 @@
+{
+  "schema": "naft-p2-method-provenance-soc-register-v1",
+  "snapshot_date": "2026-11-02",
+  "purpose": "RESEARCH_GOVERNANCE_NOT_CURRENT_INSTITUTIONAL_POLICY",
+  "jcredit": {
+    "methodology_id": "AG-005",
+    "current_official_version": "UNKNOWN",
+    "current_adoption_verified": false,
+    "official_current_pdf_sha256": null,
+    "effective_date_verified": false,
+    "transition_rules_verified": false,
+    "executable_method_ready": false,
+    "legacy_executable_pack_version": "3.1-reference",
+    "legacy_executable_pack_sha256": "f861e4af40f3fa1fb3a0b54327cd7720f6e5028ae99455bf39274f97140a2050",
+    "history": [
+      {
+        "version": "3.1",
+        "source_kind": "PUBLIC_COMMENT_REFERENCE_HASH_PINNED",
+        "sha256": "f861e4af40f3fa1fb3a0b54327cd7720f6e5028ae99455bf39274f97140a2050",
+        "reference": "https://public-comment.e-gov.go.jp/pcm/download?seqNo=0000281460",
+        "allowed_use": "HISTORICAL_TEACHING_REFERENCE_ONLY"
+      },
+      {
+        "version": "3.3",
+        "source_kind": "EGOV_PRIMARY_TEXT_REVIEWED_BYTES_NOT_PINNED",
+        "sha256": null,
+        "reference": "https://public-comment.e-gov.go.jp/pcm/download?seqNo=0000288301",
+        "allowed_use": "SOURCE_DISCOVERY_ONLY"
+      },
+      {
+        "version": "3.4",
+        "source_kind": "SECONDARY_REFERENCE_NO_PRIMARY_BYTES",
+        "sha256": null,
+        "reference": null,
+        "allowed_use": "UNVERIFIED_VERSION_REFERENCE_ONLY"
+      },
+      {
+        "version": "3.5",
+        "source_kind": "MENTIONED_BUT_ORIGINAL_BYTES_UNVERIFIED",
+        "sha256": null,
+        "reference": null,
+        "allowed_use": "UNVERIFIED_VERSION_REFERENCE_ONLY"
+      }
+    ],
+    "source_docs": [
+      "docs/methodology-sources.md",
+      "docs/ja-ag005-gxets-cost-sync.md"
+    ],
+    "unresolved": [
+      "CURRENT_OFFICIAL_SOURCE_BYTES_AND_HASH",
+      "VERSION_EFFECTIVE_DATES_AND_TRANSITION",
+      "OFFICIAL_APPLICABLE_FACTORS_AND_RULES",
+      "INDEPENDENT_METHOD_APPLICABILITY_REVIEW"
+    ]
+  },
+  "gold_standard": {
+    "program": "GS_AWD_TRAINING_2024",
+    "soc_risk_checklist_status": "PRELIMINARY_RESEARCH_SCREENING_NOT_VERIFIED_OFFICIAL_RULE",
+    "reported_official_update_url": "https://globalgoals.goldstandard.org/methodology-standards-paris-agreement-alignment-and-other-updates/",
+    "update_document_bytes_verified": false,
+    "applicable_update_version_verified": false,
+    "checklist": [
+      {
+        "id": "SOC_BASELINE",
+        "meaning_ja": "基準期間の土壌有機炭素データと計測範囲",
+        "status": "SOURCE_EVIDENCE_REQUIRED"
+      },
+      {
+        "id": "SOC_PROJECT",
+        "meaning_ja": "事業期間のSOC変化と観測根拠",
+        "status": "SOURCE_EVIDENCE_REQUIRED"
+      },
+      {
+        "id": "SOC_COMPARABILITY",
+        "meaning_ja": "深度・採取時期・土地利用・測定法の比較可能性",
+        "status": "SOURCE_EVIDENCE_REQUIRED"
+      },
+      {
+        "id": "SOC_ACCOUNTING",
+        "meaning_ja": "SOC損失とCH4削減効果を区別した方法論別の会計",
+        "status": "SOURCE_EVIDENCE_REQUIRED"
+      }
+    ],
+    "formal_soc_method_calculation_enabled": false,
+    "current_method_applicability_verified": false,
+    "soil_carbon_change_tco2e": null,
+    "certified_tco2e": null,
+    "source_docs": [
+      "docs/p2-audit-packet-preflight-ja-2026-11-02.md"
+    ]
+  },
+  "policy": {
+    "reference_only": true,
+    "auto_adopt_new_method_version": false,
+    "auto_cross_program_formula_reuse": false,
+    "official_certification_allowed": false,
+    "missing_source_must_block": true,
+    "user_claimed_evidence_is_not_independent_verification": true
+  }
+}

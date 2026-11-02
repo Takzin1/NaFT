@@ -199,3 +199,9 @@ GitHub Actions [source acquisition run](https://github.com/Takzin1/NaFT/actions/
 - GitHub Actionsの過去のFailedは古いコミットの履歴。古いSHAの再実行で最新の修正が適用されるわけではないため、最新headのCIを確認する。
 - `node scripts/p2-audit-packet-preflight.mjs --format markdown`：P0/P1の出典レジストリ・未解決証拠・制度別適用の限界を統合した、研究用ハッシュ付き監査準備レポート。正式認証ではない。
 - [P2監査パケットの再現手順・受入基準](docs/p2-audit-packet-preflight-ja-2026-11-02.md)
+
+## P2｜AG-005の版候補とGold Standard SOCリスクの出典ゲート
+
+- `node scripts/p2-method-soc-gate.mjs markdown fixtures/p2-method-soc-research-request.json`：AG-005版候補（3.1〜3.5）を区別し、土壌有機炭素(SOC)の証憑4項目を研究用に点検。原資料が未検証のため、現行採択版・制度適格性・正式クレジットは**一切自動承認しない**。
+- `node scripts/p2-method-soc-gate.mjs generate fixtures/p2-method-soc-research-request.json > /tmp/p2-soc-receipt.json`、`verify`で出典/判定の再計算。独立した出版社署名・現地QC確認を示すものではない。
+- [版候補の出典境界、SOC証憑一覧、再現方法](docs/p2-ag005-soc-source-gates-ja-2026-11-02.md)
