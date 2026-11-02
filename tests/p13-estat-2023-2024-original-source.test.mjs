@@ -17,7 +17,14 @@ eq(a.map(x=>x.name),b.map(x=>x.name));
 eq(a.map(x=>x.excelRow),b.map(x=>x.excelRow));
 eq(a.map(x=>x.name),stats.map(x=>x.name.replace(/[県府都]$/,'')));
 eq(b.map(x=>x.area),stats.map(x=>x.area));
-eq(b.map(x=>x.yield10a),stats.map(x=>x.yield10a));
+const originalVsLegacy=b.flatMap((x,i)=>x.yield10a===stats[i].yield10a?[]:
+  [{code:x.code,name:x.name,original:x.yield10a,legacy:stats[i].yield10a}]);
+eq(originalVsLegacy,[
+  {code:'36',name:'徳島',original:470,legacy:480},
+  {code:'39',name:'高知',original:453,legacy:409},
+  {code:'45',name:'宮崎',original:481,legacy:487},
+  {code:'46',name:'鹿児島',original:470,legacy:477},
+]);
 eq(b.map(x=>x.harvest),stats.map(x=>x.harvest));
 eq(a.reduce((s,x)=>s+x.harvest,0),7164715);
 eq(b.reduce((s,x)=>s+x.harvest,0),7344993);
