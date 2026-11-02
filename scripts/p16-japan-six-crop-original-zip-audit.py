@@ -100,6 +100,13 @@ def scan(files, full=False):
  require(len(state)==6*140*58 and len(seen)==146160,"DATA_CUBE_SHAPE")
  require(all(set(m)==set(VARIABLES) for m in state.values()),"INCOMPLETE_MEASUREMENT_TRIPLET")
  region_deviations=0;country_deviations=0;max_yield_abs_error=0.
+ region_pref_sums=defaultdict(lambda:defaultdict(float))
+ country_pref_sums=defaultdict(lambda:defaultdict(float))
+ for (crop,y,reg,pref),s in state.items():
+  if pref not in ("p98","p99"):
+   for metric in ("production","surface"):
+    region_pref_sums[(crop,y,reg)][metric]+=s[metric]
+    country_pref_sums[(crop,y)][metric]+=s[metric]
  for (crop,y,reg,pref),s in state.items():
   if s["surface"]>0:
    err=abs(s["yield"]-s["production"]/s["surface"])
@@ -108,13 +115,11 @@ def scan(files, full=False):
   else:require(s["yield"]==0 and s["production"]==0,"ZERO_AREA_NONZERO_CROP")
   if pref=="p98":
    for metric in ("production","surface"):
-    aggregate=sum(vals[metric] for (c,yr,r,p),vals in state.items()
-       if c==crop and yr==y and r==reg and p not in ("p98","p99"))
+    aggregate=region_pref_sums[(crop,y,reg)][metric]
     if abs(s[metric]-aggregate)>1e-6:region_deviations+=1
   if pref=="p99":
    for metric in ("production","surface"):
-    total=sum(vals[metric] for (c,yr,r,p),vals in state.items()
-       if c==crop and yr==y and p not in ("p98","p99"))
+    total=country_pref_sums[(crop,y)][metric]
     if abs(s[metric]-total)>1e-6:country_deviations+=1
  require(region_deviations==0 and country_deviations==0,
          "NATIONAL_REGIONAL_DOUBLE_COUNT_OR_SUM_MISMATCH")
