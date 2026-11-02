@@ -1,0 +1,8 @@
+{
+  "schema": "naft-p3-method-pdf-intake-request-v1",
+  "program": "J_CREDIT_AG005",
+  "candidate_version": "3.3",
+  "source_page_url": "https://public-comment.e-gov.go.jp/pcm/download?seqNo=0000288301",
+  "declared_filename": "ag005-v33-local-supplied.pdf",
+  "acquisition": "LOCAL_USER_SUPPLIED_UNVERIFIED"
+}

@@ -1,0 +1,8 @@
+{
+  "schema": "naft-p3-method-pdf-intake-request-v1",
+  "program": "GOLD_STANDARD_SOC",
+  "candidate_version": "SOC_UPDATE_VERSION_UNVERIFIED",
+  "source_page_url": "https://globalgoals.goldstandard.org/methodology-standards-paris-agreement-alignment-and-other-updates/",
+  "declared_filename": "gold-soc-local-supplied.pdf",
+  "acquisition": "LOCAL_USER_SUPPLIED_UNVERIFIED"
+}

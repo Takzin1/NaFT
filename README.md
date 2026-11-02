@@ -205,3 +205,16 @@ GitHub Actions [source acquisition run](https://github.com/Takzin1/NaFT/actions/
 - `node scripts/p2-method-soc-gate.mjs markdown fixtures/p2-method-soc-research-request.json`：AG-005版候補（3.1〜3.5）を区別し、土壌有機炭素(SOC)の証憑4項目を研究用に点検。原資料が未検証のため、現行採択版・制度適格性・正式クレジットは**一切自動承認しない**。
 - `node scripts/p2-method-soc-gate.mjs generate fixtures/p2-method-soc-research-request.json > /tmp/p2-soc-receipt.json`、`verify`で出典/判定の再計算。独立した出版社署名・現地QC確認を示すものではない。
 - [版候補の出典境界、SOC証憑一覧、再現方法](docs/p2-ag005-soc-source-gates-ja-2026-11-02.md)
+
+## P3｜方法論PDFのローカル原典ハッシュ検査
+
+- `scripts/p3-method-document-intake.mjs` は、**利用者がローカルで用意したPDFのバイト列**を研究用レジストリのAG-005版候補またはGold Standard SOC案内情報に結び付ける。PDFマーカーの簡易確認、SHA-256、レシートの再実行照合を行うが、出版社からの正式取得・採択・内容解析・認証量の算定は一切主張しない。
+- `node scripts/p3-method-document-intake.mjs generate fixtures/p3-ag005-unverified-intake-request.json /path/to/locally-supplied.pdf` が基本形。原典ファイル自体はリポジトリへコミットせず、テストは合成PDFマーカーのみ。
+- [P3の実行手順、各検査の保証範囲と証憑収集の次の作業](docs/p3-method-document-intake-ja-2026-11-02.md)。
+
+## P4｜方法論PDFの変更検出・再検証候補の自動整理
+
+`scripts/p4-method-source-impact.mjs` はP3の旧/新ファイル受取検査を各々**再実行**し、宣言版・生PDFハッシュ・出典メタデータを比較する。制度横断の曖昧な変更は拒否し、同じ宣言版でPDFのバイトが変われば調査保留、制度の版が変わった場合も**条文・Rule Pack・原観測・再計算への影響候補**を提示するだけにする。正式原典・適用条件・認証量の検証はこの仕組みの範囲外。
+
+- [P4：状態分類、CLI、7/8領域のレビュー候補、次の独立再検証条件](docs/p4-method-source-impact-ja-2026-11-02.md)
+- 動作確認：`node tests/p4-method-source-impact.test.mjs`。CIは原典ではなく、**合成PDFマーカー**を使う。
