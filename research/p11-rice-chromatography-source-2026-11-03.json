@@ -1,0 +1,68 @@
+{
+  "schema": "naft-p11-real-rice-chromatography-review-v1",
+  "primary_source": {
+    "repo": "echeverriaseba/Thesis_Gasera",
+    "commit": "e51c176983c5bc5c38a6c7f15a0fcbb49052c58f",
+    "paper_doi": "10.1016/j.jenvman.2025.125060",
+    "study_title": "Climate change mitigation through irrigation strategies during rice growing season is off-set in fallow season",
+    "raw_csv_url": "https://raw.githubusercontent.com/echeverriaseba/Thesis_Gasera/e51c176983c5bc5c38a6c7f15a0fcbb49052c58f/data/Field_sheet_chrom_2023.csv",
+    "csv_path": "data/Field_sheet_chrom_2023.csv",
+    "git_blob_sha1": "575c6bc2826c1b0a7e829ea45463c77ac7048bbd",
+    "source_file_size_bytes": 122694,
+    "record_count": 718,
+    "header_field_count": 28,
+    "measure_type": "GAS_CHROMATOGRAPHY_CH4_CO2_N2O_CHAMBER_CONCENTRATION",
+    "temporal_type": "CHAMBER_SAMPLING_TIMEPOINTS_NOT_DAILY_FLUX",
+    "columns_anchored": [
+      "Index",
+      "Sampling_date",
+      "Tr1",
+      "Plot",
+      "Sample_time_min ",
+      "CCH4_ppm",
+      "CCO2_ppm",
+      "NN2O_ppm",
+      "Water_level_cm",
+      "Temp_soil"
+    ],
+    "treatment_counts": {
+      "AWD": 239,
+      "MSD": 239,
+      "CON": 240
+    },
+    "sampling_dates_count": 20,
+    "year": 2023,
+    "missing_cch4_numeric_cells": 0,
+    "negative_cch4_numeric_cells": 0,
+    "independent_qa_of_chromatograph": false,
+    "license": "NO_DATA_SPECIFIC_REUSE_LICENSE_FOUND_IN_PUBLIC_REPOSITORY",
+    "raw_csv_bytes_committed_to_naft": false,
+    "raw_csv_sha256_uncomputed": null
+  },
+  "supporting_files": [
+    {
+      "path": "data/Yield_2023.csv",
+      "git_blob_sha1": "853ed097935967a9a5c012d13abf06798d03beed",
+      "records": 15,
+      "bytes": 1170,
+      "type": "RICE_YIELD_MOISTURE_TREATMENT",
+      "directly_comparable_to_ch4_concentration": false
+    },
+    {
+      "path": "data/Field_records_Gasera.csv",
+      "git_blob_sha1": "b35b62c4eba5eb70fe01b3aa6c0fba06b6f49ea0",
+      "records": 537,
+      "bytes": 31785,
+      "type": "FIELD_MANAGEMENT_NOT_INDEPENDENT_SENSOR_CALIBRATION",
+      "directly_comparable_to_ch4_concentration": false
+    }
+  ],
+  "repository_manifest_access": "VERIFIED_GITHUB_FILE_CONTENT_AND_GIT_BLOB_METADATA",
+  "derived_metadata_does_not_republish_restricted_raw_csv": true,
+  "source_rice_ch4_measurements_identified": true,
+  "new_original_rice_raw_csv_files_copied_to_naft": 0,
+  "new_rice_daily_flux_rows_inserted": 0,
+  "certified_ch4_emission_factor": null,
+  "certified_tco2e": null,
+  "research_rule": "A concentration in ppm cannot be promoted to flux without chamber geometry, temperature, pressure, timed regression, chamber volume and human QC; author R regressions can be separately reproduced only after source checks."
+}
