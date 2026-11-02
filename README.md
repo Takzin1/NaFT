@@ -176,3 +176,12 @@ GitHub Actions [source acquisition run](https://github.com/Takzin1/NaFT/actions/
 独立再現用CLI：`scripts/ieee-replay-audit.mjs`, `scripts/ieee-triad-proof.mjs`, `scripts/ieee-benchmark.mjs`, `scripts/ieee-source-snapshot.mjs`。原IEEEの判定コード・hash・JSON・チェーン記録は変更せず、日本語訳はUI表示に限定。合成テストやtestnet証跡は実測削減・正式認証・経済的効果を立証しません。
 
 [移植内容・未実装の境界・再現手順](docs/ieee-japanese-port-2026-10-25.md)
+
+## 研究用・原観測証憑の検証状況（P0追加開発）
+
+**[観測データ・出典の日本語ビュー](naft-app.html#/source-readiness)**：固定された研究用メタデータを元に、JapanFlux JP-HrtのQC不明・欠測・測定開始日矛盾、およびGold Standard等の制度・文書間の不一致を表示します。公式な環境計測や認証結果を示す画面ではありません。
+
+- 研究出典ゲート・再現可能な不足証憑レポートをCLIとCIに統合（原センサー値・PDF・研究者の私信は再配布しません）。
+- `node scripts/report-research-readiness.mjs --format markdown`
+- [設計・既知の限界・テスト方法](docs/source-readiness-ja-2026-11-02.md)
+- この内容は**開発ブランチ上のPR候補**です。マージとWeb公開は完了していません。
