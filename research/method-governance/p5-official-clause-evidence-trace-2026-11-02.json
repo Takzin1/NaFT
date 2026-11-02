@@ -53,7 +53,7 @@
       "id": "AG005_3_1_REFERENCE",
       "program": "J_CREDIT_AG005",
       "document_type": "HISTORICAL_PUBLIC_COMMENT_REFERENCE",
-      "publication_date": "2024-11-01",
+      "publication_date": null,
       "listed_applicable_rule_update": false,
       "url": "https://public-comment.e-gov.go.jp/pcm/download?seqNo=0000281460",
       "official_listing_url": "https://japancredit.go.jp/about/methodology/",
@@ -61,7 +61,8 @@
       "raw_pdf_bytes_downloaded_to_repo": false,
       "source_review_state": "PAST_RESEARCH_REFERENCE_HASH_NOT_CURRENT_APPLICABILITY",
       "general_monitoring_window_from": null,
-      "automatic_certification": false
+      "automatic_certification": false,
+      "publication_date_precision": "HISTORICAL_MONTH_ONLY_2024_11_NOT_OFFICIAL_CURRENT"
     }
   ],
   "clauses": [
