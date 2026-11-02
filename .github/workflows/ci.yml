@@ -1,13 +1,19 @@
 name: NaFT MRV Compiler CI
 on:
+  # Feature branches are validated once through their PR, including stacked PRs.
+  # Merged changes are checked again on main. No duplicate push + PR runs.
   push:
-    branches: [main, "feat/**"]
+    branches: [main]
   pull_request:
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
 permissions:
   contents: read
 jobs:
   core-and-security:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
         with:
