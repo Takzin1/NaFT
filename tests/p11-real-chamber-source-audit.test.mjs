@@ -80,6 +80,7 @@ const license=readFileSync('research/p11-upstream-chamber-raw/UPSTREAM-LICENSE.t
 eq(license.includes('Michael W. Thayne'),true);
 eq(license.includes('MIT License'),true);
 const gx=readFileSync('src/gx-data-explorer.js','utf8'),scope={};vm.createContext(scope);
+vm.runInContext(readFileSync('src/gx-2025-prefecture.js','utf8'),scope,{timeout:3000});
 vm.runInContext(gx,scope,{timeout:3000});
 const rendered=scope.pgGxDataExplorer();
 eq(rendered.includes('3,005'),true);
