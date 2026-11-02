@@ -1,0 +1,210 @@
+{
+  "schema": "naft-p7-multi-source-observation-discovery-v1",
+  "snapshot_date": "2026-11-02",
+  "policy": "DISCOVERY_AND_OFFLINE_QC_ONLY",
+  "source_count": 7,
+  "unique_new_source_ids": 6,
+  "prior_indexed_source_ids": [
+    "KR_GIMJE_DAILY_2022_2024"
+  ],
+  "external_files_downloaded_this_change": 0,
+  "external_observation_rows_loaded_this_change": 0,
+  "raw_data_redistributed": false,
+  "independent_publisher_authentication": false,
+  "source_data_ready_for_institutional_mrv": false,
+  "live_weather_or_satellite_fetch_performed": false,
+  "permitted_upload_mode": "USER_SUPPLIED_CANONICAL_CSV_WITH_EXPLICIT_ORIGINAL_HASH_AND_QC",
+  "scientifically_verified_flows": 0,
+  "officially_certified_tco2e": null,
+  "sources": [
+    {
+      "id": "CN_WUHAN_AWD_GHG_2024",
+      "kind": "PADDY_GHG_STUDY_WORKBOOK",
+      "location": "CN",
+      "locator": "https://zenodo.org/records/14010496",
+      "doi": "10.5281/zenodo.14010496",
+      "title": "Effects of alternate wetting and drying irrigation on methane and nitrous oxide emissions from rice fields",
+      "published": "2024-10-30",
+      "artifact": {
+        "name": "AWD on greenhouse gas241102.xlsx",
+        "published_md5": "8d954606493316fa897d48b8f05f57d4",
+        "bytes_approx": 55800,
+        "independent_sha256": null
+      },
+      "license": "RECORD_LICENSE_NOT_EXPLICITLY_VERIFIED",
+      "availability": "DISCOVERED_NO_RAW_BYTES",
+      "unit_semantics": "WORKBOOK_SCHEMA_NOT_INSPECTED",
+      "purpose": [
+        "OBSERVATION_DESIGN_RESEARCH",
+        "AWD_CH4_N2O_CROSS_STUDY"
+      ],
+      "not_allowed": [
+        "DIRECT_CANONICAL_CSV_IMPORT",
+        "AUTOMATIC_FACTOR_ADOPTION"
+      ]
+    },
+    {
+      "id": "ES_EBULLITION_ML_2026",
+      "kind": "PROCESSED_ML_STUDY_REPRODUCIBILITY",
+      "location": "ES",
+      "locator": "https://doi.org/10.5281/zenodo.21259926",
+      "doi": "10.5281/zenodo.21259926",
+      "title": "Data and code for Leveraging Machine Learning to Predict and Quantify Methane Ebullition in Rice Paddy Fields",
+      "published": "2026-08-17",
+      "artifact": {
+        "name": null,
+        "published_md5": null,
+        "bytes_approx": null,
+        "independent_sha256": null
+      },
+      "license": "CC_BY_4_0_REPORTED_BY_UNIVERSITY_CATALOG_NOT_RAW_RECHECKED",
+      "availability": "DISCOVERED_NO_RAW_BYTES",
+      "unit_semantics": "DATA_DICTIONARY_NOT_INSPECTED",
+      "purpose": [
+        "EXTERNAL_MODEL_REPLAY",
+        "METHANE_EBULLITION_MODEL_VALIDATION"
+      ],
+      "not_allowed": [
+        "DIRECT_CANONICAL_CSV_IMPORT",
+        "AUTO_CALIBRATION_WITHOUT_DATA_DICTIONARY"
+      ]
+    },
+    {
+      "id": "FAO_QCL_RICE_STATS",
+      "kind": "NATIONAL_ANNUAL_AGRICULTURE_STATISTICS",
+      "location": "GLOBAL",
+      "locator": "https://data.fao.org/catalog/iso/d24a448b-3b62-4c09-8c1d-4a39bb599876",
+      "doi": null,
+      "title": "FAOSTAT crop production, yield and harvested area",
+      "published": "2025-12-15",
+      "artifact": {
+        "name": null,
+        "published_md5": null,
+        "bytes_approx": null,
+        "independent_sha256": null
+      },
+      "license": "CC_BY_4_0_OFFICIAL_CATALOG",
+      "availability": "METADATA_VERIFIED_NO_RAW_ROWS",
+      "unit_semantics": "ANNUAL_COUNTRY_HARVESTED_AREA_NOT_FIELD_AREA",
+      "purpose": [
+        "COUNTRY_SCALE_CONTEXT",
+        "RICE_PRODUCTION_TREND"
+      ],
+      "not_allowed": [
+        "DIRECT_CANONICAL_CSV_IMPORT",
+        "FIELD_LEVEL_AREA_INFERENCE",
+        "CH4_FLUX_GROUND_TRUTH"
+      ]
+    },
+    {
+      "id": "NASA_POWER_AG_DAILY",
+      "kind": "GRIDDED_WEATHER_DAILY_API",
+      "location": "GLOBAL",
+      "locator": "https://power.larc.nasa.gov/docs/services/api/temporal/daily/",
+      "doi": null,
+      "title": "NASA POWER daily agroclimatology point API",
+      "published": null,
+      "artifact": {
+        "name": null,
+        "published_md5": null,
+        "bytes_approx": null,
+        "independent_sha256": null
+      },
+      "license": "REUSE_TERMS_NOT_INDEPENDENTLY_REVIEWED",
+      "availability": "API_DOCUMENTATION_VERIFIED_NO_VALUE_FETCH",
+      "unit_semantics": "GRIDDED_AGROCLIMATE_NOT_CHAMBER_EMISSIONS",
+      "purpose": [
+        "TEMP_RAIN_COVARIATES",
+        "METEOROLOGICAL_COVERAGE"
+      ],
+      "not_allowed": [
+        "DIRECT_CANONICAL_CSV_IMPORT",
+        "CH4_FLUX_GROUND_TRUTH",
+        "POINT_IS_FIELD_LEVEL_MEASUREMENT"
+      ]
+    },
+    {
+      "id": "COPERNICUS_SENTINEL1_GRD",
+      "kind": "SATELLITE_SAR_SCENE_CATALOG",
+      "location": "GLOBAL",
+      "locator": "https://dataspace.copernicus.eu/data-collections/copernicus-sentinel-missions/sentinel-1",
+      "doi": null,
+      "title": "Copernicus Sentinel-1 C-band SAR GRD",
+      "published": null,
+      "artifact": {
+        "name": null,
+        "published_md5": null,
+        "bytes_approx": null,
+        "independent_sha256": null
+      },
+      "license": "SOURCE_PRODUCT_TERMS_NOT_INDEPENDENTLY_REVIEWED",
+      "availability": "CATALOG_DISCOVERED_NO_SCENE_BYTES",
+      "unit_semantics": "SAR_BACKSCATTER_NOT_WATER_DEPTH_MEASUREMENT",
+      "purpose": [
+        "FIELD_FLOOD_TIMING_AUXILIARY",
+        "RS_INDEPENDENT_SPOT_CHECK"
+      ],
+      "not_allowed": [
+        "DIRECT_CANONICAL_CSV_IMPORT",
+        "CH4_FLUX_GROUND_TRUTH",
+        "AWD_STATUS_AUTOMATIC_PROOF"
+      ]
+    },
+    {
+      "id": "IPCC_2019_RF_VOL4_CH5",
+      "kind": "INVENTORY_METHOD_REFERENCE",
+      "location": "GLOBAL",
+      "locator": "https://www.ipcc-tfi.iges.or.jp/public/2019rf/vol4.html",
+      "doi": null,
+      "title": "2019 Refinement to 2006 IPCC Guidelines, Vol 4 Ch 5 Cropland",
+      "published": null,
+      "artifact": {
+        "name": null,
+        "published_md5": null,
+        "bytes_approx": null,
+        "independent_sha256": null
+      },
+      "license": "REFERENCE_DISTRIBUTION_LICENSE_UNREVIEWED",
+      "availability": "OFFICIAL_INDEX_FOUND_NO_ORIGINAL_BYTES",
+      "unit_semantics": "INVENTORY_GUIDANCE_NOT_AUTOMATIC_VERRA_JCREDIT_FACTOR",
+      "purpose": [
+        "METHOD_ORIGIN_AND_INVENTORY_COMPARISON"
+      ],
+      "not_allowed": [
+        "DIRECT_CANONICAL_CSV_IMPORT",
+        "AUTOMATIC_FACTOR_ADOPTION",
+        "CROSS_PROGRAM_APPROVAL"
+      ]
+    },
+    {
+      "id": "KR_GIMJE_DAILY_2022_2024",
+      "kind": "PADDY_CHAMBER_DAILY_RESEARCH_OBSERVATIONS",
+      "location": "KR",
+      "locator": "https://zenodo.org/records/17111992",
+      "doi": "10.5281/zenodo.17111992",
+      "title": "Daily methane emissions from Gimje rice paddies 2022-2024",
+      "published": "2025-09-13",
+      "artifact": {
+        "name": "ch4.zip",
+        "published_md5": "b9ada3a76a2bce1dbd3c9c77f51424f7",
+        "bytes_approx": 66312,
+        "independent_sha256": null,
+        "github_public_blob_sha1": "55a376b6ce071a22f7676e15d5a88b5fd6c1babe",
+        "github_repository": "lhs0218/gimje_ch4",
+        "github_ref": "45525f01642c3069d03177e8801070da1dcb3450"
+      },
+      "license": "RECORD_LICENSE_NOT_EXPLICITLY_VERIFIED",
+      "availability": "PREVIOUSLY_INDEXED_GITHUB_BLOB_ID_ADDED_NO_RAW_REPLAY",
+      "unit_semantics": "PUBLISHED_DAILY_G_CH4_M2_DAY_NEEDS_NATIVE_HEADER_QC",
+      "purpose": [
+        "CHAMBER_DAILY_REPLAY_CANDIDATE",
+        "SOURCE_SPECIFIC_ADAPTER"
+      ],
+      "not_allowed": [
+        "DIRECT_CANONICAL_CSV_IMPORT",
+        "AUTOMATIC_FIELD_QC",
+        "J_CREDIT_APPROVED_DATA"
+      ]
+    }
+  ]
+}

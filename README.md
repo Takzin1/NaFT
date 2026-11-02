@@ -230,3 +230,9 @@ GitHub Actions [source acquisition run](https://github.com/Takzin1/NaFT/actions/
 [原著の照合結果とVerra VM0051・Gold Standard教材の15ページ別調査事項](docs/p6-original-source-evidence-ja-2026-11-02.md)を追加。90ページのVM0051 v1.1 PDF、GS稲作研修シナリオPDF、GS旧AWD VVBチェックリストDOCXの**実コピーSHA-256が従来の出典台帳と一致**することを確認し、研究用に出典・条項・証憑・P5対応候補を連結した。原著の**元ファイル自体は再配布ライセンス未確認のため公開Repoには追加しない**。正式制度適合性、観測値、認証クレジットは引き続き未確認。
 
 `node scripts/p6-local-original-evidence.mjs markdown fixtures/p6-verra-original-evidence-review-request.json` が概要レポートの入口。合法的に取得した原文が手元にある場合のみ `verify-original SOURCE_ID /path/to/file` でローカル原本コピーを照合できる。
+
+## P7｜追加の水田観測・気象・衛星ソース7件とオフラインCH₄品質検査
+
+[出典リストと実装状況（日本語）](docs/p7-data-source-expansion-and-offline-qc-ja-2026-11-02.md)。新規6ソース（中国AWD実験、メタン気泡放出ML、FAOSTAT、NASA POWER、Copernicus Sentinel-1、IPCC）と既存Gimje1件の詳細な状態を管理。**新規原観測の生ファイル取得は0、検証済み観測行も0**。元データがない状態で数値を作らない。
+
+研究者が原データの意味を確認して手元で作る正規化CSVに対し、`node scripts/p7-offline-observation-qc.mjs analyze KR_GIMJE_DAILY_2022_2024 /path/to/normalized.csv` でSHA-256固定、欠測・単位・二重記録・測定法・QC申告の不整合を検査できる。気象データ、国別統計、衛星SARを直接CH₄実測へ置換することは禁止。制度上の正式適用・測定品質認証・CO₂e算定は実装対象外。
