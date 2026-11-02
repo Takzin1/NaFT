@@ -62,5 +62,7 @@
   "historical_zero_means_absence_of_crop_verified": false,
   "cross_vintage_2023_2025_direct_comparison_authorized": false,
   "official_abatement_tco2e": null,
-  "note": "2022 and earlier historical series is source-derived; the ZIP source workbook cites historical bibliographies with coverage ending in 2012, not a separately independently checked 2022 MAFF original."
+  "note": "2022 and earlier historical series is source-derived; the ZIP source workbook cites historical bibliographies with coverage ending in 2012, not a separately independently checked 2022 MAFF original.",
+  "positive_production_zero_reported_area_records": 59,
+  "positive_production_zero_area_interpretation": "SOURCE_PRESENT_NONDERIVABLE_YIELD_NO_AUTO_CORRECTION"
 }
