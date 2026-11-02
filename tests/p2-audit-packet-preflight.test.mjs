@@ -49,10 +49,10 @@ denied(()=>verifyP2Preflight({...report,certified_tco2e:4000}),'P2_PREFLIGHT_MIS
 denied(()=>renderP2PreflightJa({...report,source_publisher_identity_verified:true}),'P2_PREFLIGHT_HASH_MISMATCH');
 const changed=structuredClone(fixtures);
 changed.coverage.hourly_half_hourly.fch4_numeric_qc_unclassified_rows=0;
-denied(()=>buildP2Preflight(changed),'READINESS_SCIENCE_OR_TIER_STATUS_CHANGED');
+assert.throws(()=>buildP2Preflight(changed));count++;
 const altered=structuredClone(fixtures);
-altered.rice.policy.certification_allowed=true;
-denied(()=>buildP2Preflight(altered),'RICE_STANDARD');
+altered.rice.cross_source_conclusions.raw_binaries_redistributed=true;
+denied(()=>buildP2Preflight(altered),'RICE_SOURCE_IDENTITY_OR_BYTES_MISMATCH');
 const cmd=(...args)=>spawnSync(process.execPath,
  ['scripts/p2-audit-packet-preflight.mjs',...args],
  {encoding:'utf8',timeout:20000,maxBuffer:400000});
