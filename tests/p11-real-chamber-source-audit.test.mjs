@@ -4,6 +4,7 @@ import {tmpdir} from 'node:os';
 import {join} from 'node:path';
 import {spawnSync} from 'node:child_process';
 import {createHash} from 'node:crypto';
+import vm from 'node:vm';
 import {loadP11Registry,inspectP11Original,verifyP11Receipt}
  from '../scripts/p11-original-chamber-source-audit.mjs';
 let n=0;
@@ -78,5 +79,13 @@ try{
 const license=readFileSync('research/p11-upstream-chamber-raw/UPSTREAM-LICENSE.txt','utf8');
 eq(license.includes('Michael W. Thayne'),true);
 eq(license.includes('MIT License'),true);
+const gx=readFileSync('src/gx-data-explorer.js','utf8'),scope={};vm.createContext(scope);
+vm.runInContext(gx,scope,{timeout:3000});
+const rendered=scope.pgGxDataExplorer();
+eq(rendered.includes('3,005'),true);
+eq(rendered.includes('718'),true);
+eq(rendered.includes('炭素クレジットを自動計算'),true);
+eq(rendered.includes('水田由来とは確認していません'),true);
+eq(rendered.includes('原CSVはNaFTに複製していません'),true);
 console.log('NAFT_P11_PHYSICAL_CHAMBER_CSV_PASS: '+n+
  ' checks; 3005 genuine upstream source-file rows; 5 instrument deployments; not rice-field daily flux or certified CO2e');
