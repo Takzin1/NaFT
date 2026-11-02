@@ -205,3 +205,9 @@ GitHub Actions [source acquisition run](https://github.com/Takzin1/NaFT/actions/
 - `node scripts/p2-method-soc-gate.mjs markdown fixtures/p2-method-soc-research-request.json`：AG-005版候補（3.1〜3.5）を区別し、土壌有機炭素(SOC)の証憑4項目を研究用に点検。原資料が未検証のため、現行採択版・制度適格性・正式クレジットは**一切自動承認しない**。
 - `node scripts/p2-method-soc-gate.mjs generate fixtures/p2-method-soc-research-request.json > /tmp/p2-soc-receipt.json`、`verify`で出典/判定の再計算。独立した出版社署名・現地QC確認を示すものではない。
 - [版候補の出典境界、SOC証憑一覧、再現方法](docs/p2-ag005-soc-source-gates-ja-2026-11-02.md)
+
+## P3｜方法論PDFのローカル原典ハッシュ検査
+
+- `scripts/p3-method-document-intake.mjs` は、**利用者がローカルで用意したPDFのバイト列**を研究用レジストリのAG-005版候補またはGold Standard SOC案内情報に結び付ける。PDFマーカーの簡易確認、SHA-256、レシートの再実行照合を行うが、出版社からの正式取得・採択・内容解析・認証量の算定は一切主張しない。
+- `node scripts/p3-method-document-intake.mjs generate fixtures/p3-ag005-unverified-intake-request.json /path/to/locally-supplied.pdf` が基本形。原典ファイル自体はリポジトリへコミットせず、テストは合成PDFマーカーのみ。
+- [P3の実行手順、各検査の保証範囲と証憑収集の次の作業](docs/p3-method-document-intake-ja-2026-11-02.md)。
