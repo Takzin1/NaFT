@@ -42,5 +42,11 @@ function pgGxDataExplorer(){
  '<article class="gx-data-card"><span class="gx-kicker">公表玄米収穫量</span><strong>'+gxNum(current.harvest)+' <small>t</small></strong><p>面積×単収による再計算値は '+gxNum(Math.round(estimate))+'t</p></article></div>'+
  '<p class="gx-anomaly">統計の単位照合：再計算値 − 公表値 = '+gxNum(difference)+'t。端数・品目・収穫体系の相違は自動補正せず、原表を確認してください。</p>'+
  '<div class="gx-source-panel"><div><h3>原典と資料の状態</h3><p>全国共通の2024年統計は<a target="_blank" rel="noopener noreferrer" href="https://www.pref.hokkaido.lg.jp/ns/nsk/kome/index3.html">北海道が公開する農水省比較表PDF</a>を参照。独立した原PDFバイト認証は未実施。</p></div><div><h3>地域の農業技術・PDF索引</h3><ul>'+localHtml+'</ul></div></div></section>'+
- '<section class="gx-dashboard gx-guard"><span class="gx-kicker">03 / REVIEW GATES</span><h2>計算を実行する前に、範囲を確認。</h2><div class="gx-guard-grid"><p><b>2024</b><span>全国47都道府県・水稲統計</span></p><p><b>2025</b><span>主食用米・確報、2024と比較不可</span></p><p><b>2026</b><span>9月25日時点の予測。確定値ではない</span></p></div><p><b>NaFTはここから公式炭素クレジットを自動計算・認証しません。</b> 正式な方法論・係数、圃場の一次証拠、測定QC、第三者検証が別途必要です。</p></section>';
+ '<section class="gx-dashboard gx-guard"><span class="gx-kicker">03 / REVIEW GATES</span><h2>計算を実行する前に、範囲を確認。</h2><div class="gx-guard-grid"><p><b>2024</b><span>全国47都道府県・水稲統計</span></p><p><b>2025</b><span>主食用米・確報、2024と比較不可</span></p><p><b>2026</b><span>9月25日時点の予測。確定値ではない</span></p></div><p><b>NaFTはここから公式炭素クレジットを自動計算・認証しません。</b> 正式な方法論・係数、圃場の一次証拠、測定QC、第三者検証が別途必要です。</p></section>'+gxChamberIntakePanel();
+}
+function gxChamberIntakePanel(){
+ return '<section class="gx-dashboard" aria-label="研究原本の受入状況"><div class="gx-section-heading"><span class="gx-kicker">04 / RAW FILE INTAKE</span><h2>原本を増やしても、認証量は増やさない。</h2><p>測定ファイルの取込と、温室効果ガス排出量の独立検証は別の処理です。</p></div>'+
+ '<div class="gx-detail-grid"><article class="gx-data-card"><span class="gx-kicker">原本CSVを取込済み</span><strong>3,005 <small>記録</small></strong><p>CH₄チャンバー計測器の濃度時系列（5測定セット）。Git blob一致で原本を固定。水田由来とは確認していません。</p><a target="_blank" rel="noopener noreferrer" href="https://github.com/mthayne527/fluxCH4">計測データ原典 ↗</a></article>'+
+ '<article class="gx-data-card"><span class="gx-kicker">水稲研究の原本を外部確認</span><strong>718 <small>記録</small></strong><p>2023年のガスクロマトグラフィー採取時点。AWD・MSD・CON。再配布権限未確認のため原CSVはNaFTに複製していません。</p><a target="_blank" rel="noopener noreferrer" href="https://github.com/echeverriaseba/Thesis_Gasera">水田データ原典 ↗</a></article>'+
+ '<article class="gx-data-card"><span class="gx-kicker">正式な認証排出削減量</span><strong>— <small>tCO₂e</small></strong><p>濃度(ppm)と排出フラックス、J-クレジット等の認証量を混同しないため、この画面では数値を算出しません。</p></article></div></section>';
 }
