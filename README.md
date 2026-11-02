@@ -192,3 +192,10 @@ GitHub Actions [source acquisition run](https://github.com/Takzin1/NaFT/actions/
 - `node scripts/p1-method-family-comparison.mjs --format markdown`：正式認証ではない、文書版付きの比較。
 - `node scripts/p1-gs-independent-replay.mjs generate fixtures/p1-gs-training-tier2-request.json`：Gold Standard教材の特定セル式をBigIntと独立Python Decimalで**同じ実行ごとに**照合。証憑の真正性、排出削減量、正式クレジットを認証しません。
 - [P1の設計・再現手順・科学的制約](docs/p1-method-comparison-ja-2026-11-02.md)。現在の開発PRがマージされるまで公開Pagesには反映されません。
+
+## CI節約とP2研究監査パケット（開発ブランチ）
+
+- `NaFT MRV Compiler CI`：`main` へのPushとPRの更新でのみ実行。重複していた `feat/**` Push CIを無効化し、PR単位の `concurrency.cancel-in-progress` で古い実行をキャンセルする。既存のGitHub Pagesデプロイチェックは維持。
+- GitHub Actionsの過去のFailedは古いコミットの履歴。古いSHAの再実行で最新の修正が適用されるわけではないため、最新headのCIを確認する。
+- `node scripts/p2-audit-packet-preflight.mjs --format markdown`：P0/P1の出典レジストリ・未解決証拠・制度別適用の限界を統合した、研究用ハッシュ付き監査準備レポート。正式認証ではない。
+- [P2監査パケットの再現手順・受入基準](docs/p2-audit-packet-preflight-ja-2026-11-02.md)
