@@ -236,3 +236,7 @@ GitHub Actions [source acquisition run](https://github.com/Takzin1/NaFT/actions/
 [出典リストと実装状況（日本語）](docs/p7-data-source-expansion-and-offline-qc-ja-2026-11-02.md)。新規6ソース（中国AWD実験、メタン気泡放出ML、FAOSTAT、NASA POWER、Copernicus Sentinel-1、IPCC）と既存Gimje1件の詳細な状態を管理。**新規原観測の生ファイル取得は0、検証済み観測行も0**。元データがない状態で数値を作らない。
 
 研究者が原データの意味を確認して手元で作る正規化CSVに対し、`node scripts/p7-offline-observation-qc.mjs analyze KR_GIMJE_DAILY_2022_2024 /path/to/normalized.csv` でSHA-256固定、欠測・単位・二重記録・測定法・QC申告の不整合を検査できる。気象データ、国別統計、衛星SARを直接CH₄実測へ置換することは禁止。制度上の正式適用・測定品質認証・CO₂e算定は実装対象外。
+
+## P8｜Gimje原データZIP＋圃場Excelのオフライン直接ドッキング
+
+[Zenodo配布元のMD5、著者RコードのDAT→日付変換、元観測ファイルの取込条件](docs/p8-gimje-native-source-docking-ja-2026-11-02.md)を確認し、`scripts/p8-gimje-native-dock.py` を追加。明示的な `acquire` で外部データを私有領域へ取得し、`dock ZIP XLSX CANONICAL_CSV RECEIPT_JSON` で原バイトMD5を照合した上でP7 QCに接続、`verify` で全レシートを再現できる。**原ZIP/XLSXはRepoに入れない。通信制限のため実原観測の取得と統合はまだ実施できていない。** テストは合成ファイルのみ。正式な認証CO₂eの計算は行わない。
