@@ -14,7 +14,7 @@ eq([a.length,b.length],[47,47]);
 eq(a.map(x=>x.code),b.map(x=>x.code));
 eq(a.map(x=>x.name),b.map(x=>x.name));
 eq(a.map(x=>x.excelRow),b.map(x=>x.excelRow));
-eq(a.map(x=>x.name),sandbox.GX_RICE_STATS.map(x=>x.name.replace(/[県府]$/,'')));
+eq(a.map(x=>x.name),sandbox.GX_RICE_STATS.map(x=>x.name.replace(/[県府都]$/,'')));
 eq(b.map(x=>x.area),sandbox.GX_RICE_STATS.map(x=>x.area));
 eq(b.map(x=>x.yield10a),sandbox.GX_RICE_STATS.map(x=>x.yield10a));
 eq(b.map(x=>x.harvest),sandbox.GX_RICE_STATS.map(x=>x.harvest));
