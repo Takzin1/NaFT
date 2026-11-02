@@ -1,0 +1,11 @@
+{
+  "schema": "naft-p6-source-claim-review-request-v1",
+  "source_id": "GS_TRAINING_SCENARIOS",
+  "claim_ids": [
+    "GS.TRAINING.SCENARIO_2"
+  ],
+  "evidence_status": {
+    "GS_TRAINING_WORKBOOK": "PROVIDED_UNVERIFIED",
+    "TRAINING_SCENARIO_ONLY": "PROVIDED_UNVERIFIED"
+  }
+}
