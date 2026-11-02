@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="NaFT 技育展2026 カーボンクレジット特化ピッチ｜水田の中干しを入口にMRV証憑の版管理・差分再検証を伝える12枚/5枚スライド">
+<title>NaFT｜技育展2026 カーボンクレジットPitch</title>
+<style>
+:root{--ink:#143931;--muted:#587267;--forest:#103b36;--green:#16845c;--mint:#a1dcc0;--paper:#f9f8f1;--card:#fff;--line:#d5e5db;--amber:#ea9c55;--amber-bg:#fff0de;--blue:#3e7e9d;--red:#d45046;--shadow:0 20px 65px #123c2924}
+*{box-sizing:border-box}html{font-family:system-ui,-apple-system,"Hiragino Kaku Gothic ProN","Yu Gothic",Meiryo,sans-serif;color:var(--ink)}body{margin:0;background:#e7ede7}button,a{font:inherit}button{cursor:pointer}a{color:var(--green)}
+header{display:flex;justify-content:space-between;align-items:center;padding:10px 18px;background:#0b3029;color:white;gap:12px;flex-wrap:wrap}
+.logo{font-size:20px;letter-spacing:.28em;font-weight:900}.header-tag{font-size:12px;color:#bce9d3}
+.controls{display:flex;align-items:center;gap:8px;flex-wrap:wrap}.controls a,.controls button{border:1px solid #6aa98e;background:transparent;color:#fff;border-radius:9px;padding:7px 12px;text-decoration:none;font-size:13px}.controls button:disabled{opacity:.35;cursor:default}.controls a[aria-current=page]{background:#207557}
+.stage{max-width:1280px;min-height:min(720px,calc(100vh - 114px));aspect-ratio:16/9;background:var(--paper);box-shadow:var(--shadow);margin:18px auto 0;overflow:hidden;position:relative}
+.slide{height:100%;width:100%;padding:4.6% 5.2% 4.2%;display:none;flex-direction:column;gap:2.2%;position:absolute;inset:0}
+.slide.active{display:flex}.slide.dark{background:var(--forest);color:white}.eyebrow{font-size:clamp(10px,1vw,14px);font-weight:900;color:var(--green);letter-spacing:.11em}.dark .eyebrow{color:var(--mint)}
+h1,h2,h3,p{margin:0}h1{font-size:clamp(27px,3.9vw,57px);line-height:1.28;letter-spacing:-.04em}h2{font-size:clamp(25px,3.1vw,44px);line-height:1.28;letter-spacing:-.04em}h3{font-size:clamp(16px,1.7vw,23px)}.lead{font-size:clamp(13px,1.4vw,20px);color:var(--muted);line-height:1.6}.dark .lead{color:#bde3cf}
+.flow{display:flex;align-items:stretch;justify-content:center;gap:2%;flex:1;min-height:0;margin-top:1.8%}.panel{background:var(--card);border:2px solid var(--line);border-radius:16px;padding:2.5%;flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:12px;min-width:0}.panel.green{background:#e9f5ec}.panel.orange{background:var(--amber-bg);border-color:#f1d5b9}.panel.blue{background:#e9f3f8;border-color:#d0e3ea}
+.arrow{font-size:clamp(20px,3vw,40px);align-self:center;color:var(--green);font-weight:900}.emoji{font-size:clamp(40px,5.4vw,76px);line-height:1.1}.big{font-size:clamp(46px,7vw,98px);font-weight:900;line-height:1;color:var(--green)}.orange .big{color:var(--red)}.pill{padding:8px 18px;background:#d9f0df;color:#196b4a;border-radius:999px;font-size:clamp(11px,1.1vw,15px);font-weight:900}.orange .pill{background:#ffe3ce;color:#a65529}
+.caption{font-size:clamp(12px,1.18vw,17px);line-height:1.45;color:var(--muted)}.note{color:var(--muted);font-size:clamp(10px,0.93vw,13px);line-height:1.55;margin-top:auto}.dark .note{color:#b9d5c8}
+.tiles{display:grid;grid-template-columns:repeat(10,1fr);gap:6px;width:min(52%,550px);align-content:center}.tile{aspect-ratio:1.23;border-radius:4px;background:var(--green)}.tile:nth-child(n+71){background:#ec9456}
+.metric{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;border-radius:14px;padding:20px;background:#e4f3eb}.metric.orange{background:#fff0df}.metric small{font-weight:800}
+.horizontal{display:flex;gap:3%;align-items:center;justify-content:center;flex:1}.horizontal>div{flex:1}.stack{display:flex;flex-direction:column;gap:14px;flex:1;justify-content:center}.center{text-align:center}.largeText{font-size:clamp(17px,1.8vw,27px);font-weight:850}
+.review{color:var(--green);font-weight:900}.stale{color:#c74b41;font-weight:900;font-size:clamp(32px,4.8vw,65px);letter-spacing:.08em}
+.statGrid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;flex:1;align-content:center}.stat{background:#fff;border:2px solid var(--line);border-radius:16px;padding:22px}.stat strong{display:block;font-size:clamp(29px,4vw,59px);color:var(--green)}.stat:nth-child(4) strong{color:#e98448}
+.cardRow{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;flex:1;align-content:center}.cardRow .panel{min-height:160px}
+.cover{flex-direction:row;align-items:center}.cover .left{width:67%;display:flex;flex-direction:column;gap:27px}.cover h1{font-size:clamp(29px,4vw,60px)}.cover .visual{width:32%;font-size:clamp(70px,11vw,160px);text-align:center}.callout{padding:18px 25px;background:#e8f5ec;color:#17684b;border-radius:12px;font-size:clamp(13px,1.45vw,22px);font-weight:900}
+.small{font-size:clamp(12px,1.15vw,18px)}.code{font-family:ui-monospace,Consolas,monospace;font-size:clamp(11px,1vw,15px);word-break:break-all}
+footer{max-width:1280px;margin:8px auto 25px;display:flex;justify-content:space-between;color:#456657;font-size:12px;align-items:center;gap:8px;padding:0 6px}.progress{height:5px;background:#c6d8ce;flex:1;max-width:400px;border-radius:10px;overflow:hidden}.progress>div{background:#178657;height:100%;transition:width .24s}.stage a{overflow-wrap:anywhere}
+:focus-visible{outline:3px solid #ffb155;outline-offset:3px}
+@media(max-width:700px){.stage{margin:8px auto 0;aspect-ratio:auto;min-height:75vh}.slide{padding:6%}.flow,.horizontal{gap:9px}.panel{padding:12px;border-radius:11px}.emoji{font-size:31px}.tiles{gap:3px}.statGrid{grid-template-columns:repeat(2,1fr);gap:10px}.stat{padding:12px}.cardRow{grid-template-columns:1fr;gap:6px}.cardRow .panel{min-height:80px}.cover .visual{font-size:58px}.note{font-size:10px}.big{font-size:44px}.pill{padding:5px 7px}.arrow{font-size:20px}.controls{gap:4px}.controls button,.controls a{padding:5px 7px}}
+@media(prefers-reduced-motion:reduce){.progress>div{transition:none}}
+</style>
+</head>
+<body>
+<header><div><span class="logo">NaFT</span> <span class="header-tag">技育展2026｜CARBON CREDIT × MRV</span></div><nav class="controls" aria-label="発表操作"><a href="?mode=full" id="full">12枚版</a><a href="?mode=short" id="short">5枚版</a><button id="prev" aria-label="前のスライド">← 戻る</button><span id="count" aria-live="polite">1 / 12</span><button id="next" aria-label="次のスライド">進む →</button></nav></header>
+<main class="stage" aria-label="NaFTプレゼンテーション">
+<section class="slide dark cover" data-title="表紙"><div class="left"><div class="eyebrow">VERSION-AWARE MRV / RE-VERIFICATION</div><h1>カーボンクレジットの<br>「証拠」を、変更に強く。</h1><p class="lead">水田の中干しを入口に、現場記録・証憑・人間判断を版付きで追跡するMRV研究プロトタイプ。</p><p class="small">弓田隆仁｜福島大学大学院</p></div><div class="visual" aria-hidden="true">🌾<br>🗂️</div><p class="note" style="position:absolute;bottom:5%;left:5%">研究プロトタイプ／正式なクレジット認証・発行ではありません。</p></section>
+<section class="slide" data-title="水田からクレジットへ"><div class="eyebrow">01 / FIELD TO CREDIT</div><h2>水田の活動だけでは、<br>クレジットの根拠にならない。</h2><p class="lead">活動記録・圃場情報・確認資料を、第三者が確かめられる形に。</p><div class="flow"><div class="panel green"><div class="emoji">🌾</div><h3>水田の中干し</h3><p class="caption">温室効果ガス削減に関わる活動の例</p></div><div class="arrow">→</div><div class="panel"><div class="emoji">📄</div><h3>証拠の記録</h3><p class="caption">いつ、どこで、何をしたか</p></div><div class="arrow">→</div><div class="panel blue"><div class="emoji">🔎</div><h3>検証・審査</h3><p class="caption">制度・第三者が判断</p></div></div><p class="note">中干しは業務説明の具体例。現行制度要件をNaFTが完全実装したことを示すものではありません。</p></section>
+<section class="slide" data-title="課題"><div class="eyebrow">02 / THE PAIN</div><h2>確認ルールが変わると、<br>過去の判断を追い直す。</h2><p class="lead">全部見直すと負担。見落とすと検証リスク。必要なのは「何に影響したか」の特定。</p><div class="flow"><div class="panel blue"><div class="emoji">🗃️</div><h3>過去の申請候補</h3><span class="pill">ルール v1</span></div><div class="arrow">→</div><div class="panel orange"><div class="emoji">⚠️</div><h3>ルール変更</h3><p class="caption">どの案件を再確認する？</p></div></div><div class="callout">NaFTは、変更した条件と各案件の証拠・依存関係を照合します。</div><p class="note">動画とデモで扱うv1→v2の改定は架空の研究用ルールであり、J-クレジット制度の公式改定ではありません。</p></section>
+<section class="slide" data-title="NaFTの解決策"><div class="eyebrow">03 / THE SOLUTION</div><h2>NaFTは「証拠を残し、<br>変更を追う」基盤。</h2><p class="lead">Evidence Compiler × Re-verification Engine</p><div class="flow"><div class="panel"><div class="emoji">📍</div><h3>圃場・活動記録</h3><p class="caption">原本ファイル・ハッシュ</p></div><div class="arrow">→</div><div class="panel green"><div class="emoji">⚙️</div><h3>NaFT</h3><p class="caption">証憑の構造化<br>版差分の解析</p></div><div class="arrow">→</div><div class="panel"><div class="emoji">🧾</div><h3>説明できる記録</h3><p class="caption">再確認対象と根拠</p></div></div><p class="note">本番の正式認証やクレジット発行をNaFTが代行するものではありません。</p></section>
+<section class="slide" data-title="MRVの仕組み"><div class="eyebrow">04 / HOW IT WORKS</div><h2>証憑から、検証用の<br>MRVパッケージへ。</h2><p class="lead">実装済みの研究ワークフローを、6つのステップで表現。</p><div class="cardRow"><div class="panel"><span class="pill">01–02</span><h3>ルール登録・証憑取込</h3><p class="caption">版とファイル同一性を記録</p></div><div class="panel green"><span class="pill">03–04</span><h3>評価・変更影響解析</h3><p class="caption">決定論的評価と依存関係</p></div><div class="panel orange"><span class="pill">05–06</span><h3>人間の確認・出力</h3><p class="caption">例外判断・最終確認は人が行う</p></div></div><p class="note">Operator / Reviewer / Maintainerはブラウザ内の研究用役割であり、本番の認証基盤ではありません。</p></section>
+<section class="slide" data-title="100件の合成実験"><div class="eyebrow">05 / SYNTHETIC EXPERIMENT</div><h2>100件すべてを<br>再確認する必要はない。</h2><p class="lead">架空の確認ルールを更新し、案件が依存する条件を比較。</p><div class="horizontal"><div id="tiles" class="tiles" role="img" aria-label="標準条件70件は緑色、追加条件30件はオレンジ色の合計100件"></div><div class="stack"><div class="metric"><span class="big">70</span><small>件・影響なし</small></div><div class="metric orange"><span class="big">30</span><small>件・再確認対象</small></div></div></div><p class="note">70/30は合成データの構成による結果。業務の70%削減でも、J-クレジットの実際の審査結果でもありません。</p></section>
+<section class="slide" data-title="30件の内訳"><div class="eyebrow">06 / FAIL CLOSED</div><h2>証拠が足りないなら、<br>自動で「合格」にしない。</h2><p class="lead">再確認30件が、必要な記録の有無に応じて分かれます。</p><div class="flow"><div class="panel green"><span class="big">15</span><h3>件・自動再評価</h3><p class="caption">合成ルールの条件を再計算</p></div><div class="arrow">＋</div><div class="panel orange"><span class="big">15</span><h3>件・追加証憑が不足</h3><p class="caption">人間の確認前に停止</p></div></div><div class="callout">自動再評価 ≠ 正式なクレジット承認</div><p class="note">センサー証憑の新規要件は合成ルールの設定であり、AG-005の公式変更ではありません。</p></section>
+<section class="slide" data-title="古い判断の失効"><div class="eyebrow">07 / HUMAN DECISION</div><h2>ルールや入力が変われば、<br>以前の判断は使い回さない。</h2><div class="flow"><div class="panel green"><div class="emoji">✅</div><h3>確認済み</h3><p class="caption">旧入力・旧ルールに対する判断</p></div><div class="arrow">→</div><div class="panel orange"><div class="stale">STALE</div><h3>判断の失効</h3><p class="caption">新しい条件では、再確認が必要</p></div></div><div class="callout">「誰が判断したか」だけでなく「いつの何を判断したか」を記録する。</div><p class="note">ハードエラーは人間の操作だけで上書きできない設計です。</p></section>
+<section class="slide" data-title="技術の核"><div class="eyebrow">08 / TECHNICAL EDGE</div><h2>版差分 × 依存関係 × 再計算。</h2><p class="lead">推測による判定ではなく、決定論的なルール評価と追跡可能な根拠。</p><div class="cardRow"><div class="panel"><div class="emoji">📚</div><h3>Versioned Pack</h3><p class="caption">使ったルールを固定</p></div><div class="panel"><div class="emoji">🔗</div><h3>Evidence / Provenance</h3><p class="caption">証拠・由来を追跡</p></div><div class="panel green"><div class="emoji">🔄</div><h3>Impact Analysis</h3><p class="caption">変更の影響を再計算</p></div></div><p class="note">JSON出力・ハッシュ・人間判断の失効を、研究用リポジトリで再現できます。</p></section>
+<section class="slide" data-title="検証実績"><div class="eyebrow">09 / ENGINEERING VALIDATION</div><h2>動くだけでなく、<br>反例でテストする。</h2><p class="lead">GitHubのテストスイートと、独立フル再計算による比較。</p><div class="statGrid"><div class="stat"><strong>1,165</strong><p>既存テスト（README記載）</p></div><div class="stat"><strong>614</strong><p>決定論的な反例ケース</p></div><div class="stat"><strong>0</strong><p>テスト範囲内の見逃し（FN）</p></div><div class="stat"><strong>107</strong><p>安全側の追加再検証（FP）</p></div></div><p class="note">FN=0は対象614ケース内だけの結果。実制度への普遍的な適合性・性能を証明しません。</p></section>
+<section class="slide" data-title="実装と今後"><div class="eyebrow">10 / STATUS & NEXT</div><h2>実装できたこと。<br>これから確かめること。</h2><div class="flow"><div class="panel green"><h3>✅ 現在の実装</h3><p class="caption">合成変更解析100件<br>ハッシュ付き証憑管理<br>依存関係の追跡<br>JSON出力・日本語デモ</p></div><div class="panel orange"><h3>🔎 今後の検証</h3><p class="caption">実際の方法論版への完全対応<br>実運用の検証精度<br>制度・検証機関との整合性<br>農業現場でのPoC</p></div></div><p class="note">AG-005現行版の完全実装やクレジット発行の実績を主張しません。</p></section>
+<section class="slide dark" data-title="日本語デモ"><div class="eyebrow">SEE IT WORK</div><h1>「100件」を、<br>実際に再計算できます。</h1><p class="lead">技育展向け日本語デモ｜ブラウザで動作確認</p><div class="panel" style="margin-top:2%;min-height:165px;flex:none"><div class="emoji">🌾 → 🧾 → 🔄</div><a class="code" href="gikuten.html#/reviewer-demo">gikuten.html#/reviewer-demo</a><p class="caption">水田の活動 → 証憑 → 変更 → 再検証</p></div><div class="callout">カーボンクレジットの「証拠」を、変更に強く。</div><p class="note">NaFTは研究プロトタイプです。正式なクレジット認証・発行は行いません。</p></section>
+</main>
+<footer><span id="pageLabel">01 / 12</span><div class="progress" aria-label="進捗"><div id="bar" style="width:8.33%"></div></div><span>← → キーで移動・Home/End・5枚版/12枚版切替</span></footer>
+<script>
+'use strict';
+const all=[...document.querySelectorAll('.slide')];
+const shortIndices=[0,1,3,5,11];
+const params=new URLSearchParams(location.search);
+const short=params.get('mode')==='short';
+const indices=short?shortIndices:all.map((_,i)=>i);
+document.getElementById(short?'short':'full').setAttribute('aria-current','page');
+document.getElementById('tiles').replaceChildren(...Array.from({length:100},()=>{const e=document.createElement('i');e.className='tile';return e;}));
+let pos=0;
+function show(next){
+  pos=Math.max(0,Math.min(indices.length-1,next));
+  all.forEach(s=>{s.classList.remove('active');s.setAttribute('aria-hidden','true');});
+  const s=all[indices[pos]];s.classList.add('active');s.removeAttribute('aria-hidden');
+  document.getElementById('count').textContent=(pos+1)+' / '+indices.length;
+  document.getElementById('pageLabel').textContent=String(pos+1).padStart(2,'0')+' / '+String(indices.length).padStart(2,'0')+' '+s.dataset.title;
+  document.getElementById('bar').style.width=((pos+1)/indices.length*100)+'%';
+  document.getElementById('prev').disabled=pos===0;
+  document.getElementById('next').disabled=pos===indices.length-1;
+}
+document.getElementById('prev').addEventListener('click',()=>show(pos-1));
+document.getElementById('next').addEventListener('click',()=>show(pos+1));
+document.addEventListener('keydown',e=>{if(e.altKey||e.ctrlKey||e.metaKey)return;if(e.key==='ArrowRight'||e.key===' '||e.key==='PageDown'){e.preventDefault();show(pos+1)}if(e.key==='ArrowLeft'||e.key==='PageUp'){e.preventDefault();show(pos-1)}if(e.key==='Home')show(0);if(e.key==='End')show(indices.length-1)});
+show(0);
+</script>
+</body>
+</html>
