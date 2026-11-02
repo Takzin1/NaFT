@@ -28,6 +28,8 @@ node tests/p11-rice-chromatography-guard.test.mjs
 node tests/p12-estat-2025-original-source.test.mjs
 node tests/p13-estat-2023-2024-original-source.test.mjs
 node tests/p14-gimje-real-source-audit.test.mjs
+python3 tests/p15-gimje-sampling-cadence.test.py
+node tests/p15-gimje-sampling-cadence-ui.test.mjs
 node tests/dmrv-literature-register.test.mjs
 node tests/climatechain-japanese.test.mjs
 node tests/ieee-audit.test.mjs
