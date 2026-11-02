@@ -132,6 +132,10 @@ function gxRiceHistoryCompare(code){
 }
 function gxRiceHistoryPanel(code){
   var comparison=gxRiceHistoryCompare(code),a=comparison.year2023,b=comparison.year2024;
+  var legacy=typeof GX_RICE_STATS!=='undefined'?GX_RICE_STATS.find(function(p){return p.code===code;}):null;
+  var discrepancy=legacy&&legacy.yield10a!==b.yield10a?
+    '<p class="gx-advisory"><b>既存P9 PDF参考値との不一致を検出：</b>2024年の単収は原本Excelで'+b.yield10a+
+      'kg/10a、既存P9参考カードで'+legacy.yield10a+'kg/10a。確定した出典整合が取れるまで値を自動上書きしません。</p>':'';
   var num=function(x){return Number(x).toLocaleString('ja-JP');};
   var sign=function(x){return (x>0?'+':'')+num(x);};
   return '<section class="gx-dashboard" aria-labelledby="gx-rice-history-title">'+
@@ -146,6 +150,7 @@ function gxRiceHistoryPanel(code){
     '<article class="gx-data-card"><span class="gx-kicker">2023→2024 / 同一定義のみ</span>'+
     '<strong>'+sign(comparison.deltaHarvestT)+' <small>t</small></strong>'+
     '<p>子実用面積 '+sign(comparison.deltaAreaHa)+'ha / 単収 '+sign(comparison.deltaYieldKg10a)+'kg/10a</p></article></div>'+
+    discrepancy+
     '<p class="gx-advisory">出典：2023年 '+a.excelRow+'行、2024年 '+b.excelRow+'行、原表D/E/F/G/I/J列。'+
     '2025年P12の「生産者ふるい上主食用米」とは直接比較しません。'+
     '県別公表値の合算と全国公表値には丸め差があり、原表数値を補正しません。</p>'+
