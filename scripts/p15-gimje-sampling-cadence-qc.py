@@ -133,8 +133,8 @@ def aggregate(records, zip_sha, xlsx_sha):
         groups_treatment[f['treatment']]['sample_counts_per_field'][f['observed_flux_rows']]+=1
         by_stage.update(f['observed_water_stage_counts'])
         by_stage_daily.update(f['daily_water_stage_counts'])
-        for map,group in ((groups_year,f['year']),(groups_treatment,f['treatment'])):
-            group['observed_water_stage_counts'].update(f['observed_water_stage_counts'])
+        for mapping,key in ((groups_year,f['year']),(groups_treatment,f['treatment'])):
+            mapping[key]['observed_water_stage_counts'].update(f['observed_water_stage_counts'])
         by_gap.update({int(k):v for k,v in f['sampling_gap_histogram'].items()})
         sample_counts[f['observed_flux_rows']]+=1
         overall.update({field:f[field] for field in (
