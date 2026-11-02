@@ -13,6 +13,7 @@ node tests/ieee-gs-selective-reverification.test.mjs
 node tests/p1-gs-independent-replay.test.mjs
 node tests/p1-method-family-comparison.test.mjs
 node tests/p1-methods-ja.test.mjs
+node tests/p2-audit-packet-preflight.test.mjs
 node tests/dmrv-literature-register.test.mjs
 node tests/climatechain-japanese.test.mjs
 node tests/ieee-audit.test.mjs
