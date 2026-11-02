@@ -211,3 +211,10 @@ GitHub Actions [source acquisition run](https://github.com/Takzin1/NaFT/actions/
 - `scripts/p3-method-document-intake.mjs` は、**利用者がローカルで用意したPDFのバイト列**を研究用レジストリのAG-005版候補またはGold Standard SOC案内情報に結び付ける。PDFマーカーの簡易確認、SHA-256、レシートの再実行照合を行うが、出版社からの正式取得・採択・内容解析・認証量の算定は一切主張しない。
 - `node scripts/p3-method-document-intake.mjs generate fixtures/p3-ag005-unverified-intake-request.json /path/to/locally-supplied.pdf` が基本形。原典ファイル自体はリポジトリへコミットせず、テストは合成PDFマーカーのみ。
 - [P3の実行手順、各検査の保証範囲と証憑収集の次の作業](docs/p3-method-document-intake-ja-2026-11-02.md)。
+
+## P4｜方法論PDFの変更検出・再検証候補の自動整理
+
+`scripts/p4-method-source-impact.mjs` はP3の旧/新ファイル受取検査を各々**再実行**し、宣言版・生PDFハッシュ・出典メタデータを比較する。制度横断の曖昧な変更は拒否し、同じ宣言版でPDFのバイトが変われば調査保留、制度の版が変わった場合も**条文・Rule Pack・原観測・再計算への影響候補**を提示するだけにする。正式原典・適用条件・認証量の検証はこの仕組みの範囲外。
+
+- [P4：状態分類、CLI、7/8領域のレビュー候補、次の独立再検証条件](docs/p4-method-source-impact-ja-2026-11-02.md)
+- 動作確認：`node tests/p4-method-source-impact.test.mjs`。CIは原典ではなく、**合成PDFマーカー**を使う。
