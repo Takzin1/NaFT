@@ -69,7 +69,7 @@ denied(()=>buildMethodSocGate({...req,soil_evidence:{...req.soil_evidence,SOC_PR
  'UNVERIFIED_SOURCE_STATUS_ONLY');
 denied(()=>buildMethodSocGate({...req,certified_tco2e:123}),
  'REQUEST_EXACT_KEYS');
-denied(()=>buildMethodSocGate({...req,soil_evidence:{...req.soil_evidence,__proto__:'x'}}),
+denied(()=>buildMethodSocGate({...req,soil_evidence:JSON.parse(JSON.stringify(req.soil_evidence).replace(/}$/,',"__proto__":"x"}'))}),
  'SOC_EVIDENCE_KEYS');
 const registryFake=structuredClone(registry);
 registryFake.jcredit.current_adoption_verified=true;
