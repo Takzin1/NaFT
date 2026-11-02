@@ -126,6 +126,56 @@ var CLIMATECHAIN_JAPANESE_LABELS={
   'Unknown institutional requirements remain unsupported; missing evidence does not become a pass; stale human decisions do not silently survive input or methodology changes.':'確認できない制度要件は未対応のまま停止し、証拠不足を合格に変えず、古い人間の判断を無断で引き継ぎません。',
   'These are engineering results, not field accuracy, measured cost savings, verifier acceptance, or universal proof.':'これらは工学的な検証結果であり、現場精度・費用削減の実測・検証機関の受入れ・普遍的な証明ではありません。'
 };
+
+// Extended Japanese UI vocabulary: presentation strings only; no machine IDs or exported JSON.
+Object.assign(CLIMATECHAIN_JAPANESE_LABELS,{
+  "The retained repository reference is AG-005 3.1-reference. The currently adopted edition and coefficient applicability are not asserted by this demo.": "保持している参照資料はAG-005 3.1参照版です。現行採用版や係数の適用可否を、このデモから断定しません。",
+  "The real-world context motivates the problem. The hackathon impact experiment itself uses NAFT-SYNTHETIC@1 -> @2 so the demo does not pretend to implement an official methodology revision.": "現実の制度を背景として研究していますが、この変更影響実験は合成ルールNAFT-SYNTHETIC@1→@2を使用します。正式な方法論改定を実装したものではありません。",
+  "Collect evidence across many farms / fields and know which claims need attention after a rule change.": "複数の農家・圃場の証拠を集約し、ルール改定時に対応が必要な申請を把握します。",
+  "Inspect only the affected claims, missing evidence and version lineage instead of silently reusing stale decisions.": "旧判断を無断で流用せず、影響する申請・不足する証拠・版の継承関係を確認します。",
+  "Verify package lineage and hashes without receiving raw private evidence on-chain.": "私的な原証拠をチェーンへ載せずに、パッケージのハッシュと継承関係を確認します。",
+  "Blockchain witnesses version lineage; it does not decide climate truth.": "ブロックチェーンは版の継承関係を記録しますが、環境測定の正しさは判定しません。",
+  "No public-testnet transaction is claimed yet. Exact deployment and lineage fields remain empty until confirmed.": "公開テストネットへの送信は未確認です。配置と継承関係の項目は、確認できるまで未設定とします。",
+  "No public testnet transaction recorded.": "公開テストネットへの記録なし。",
+  "Click the live demo above to compute the result": "上の実行ボタンから結果を計算してください",
+  "Evidence needed": "追加証拠が必要",
+  "Successor emitted": "後継版を生成",
+  "No successor generated": "後継版は生成されません",
+  "Semantic difference": "判定条件の実質的な変更",
+  "No active semantic difference": "有効な判定条件の変更なし",
+  "Download selected trace JSON": "選択した申請の履歴JSONを保存",
+  "Download impact JSON": "変更影響JSONを保存",
+  "Download reproducible audit receipt": "再現可能な監査レシートを保存",
+  "Run evidence tamper challenge": "証拠の改ざん検出を試す",
+  "Verify all 3 pillars": "3要素の整合性を検証",
+  "Download 3-pillar proof JSON": "3要素の証明JSONを保存",
+  "Synthetic 100-claim impact analysis completed.": "合成申請100件の変更影響解析が完了しました。",
+  "Synthetic claim filter: ": "合成申請の表示条件：",
+  "Inspecting synthetic trace ": "合成申請の変更履歴を表示：",
+  "All three synthetic integrity checks passed. Sepolia evidence is a recorded reference, not a live browser RPC check.": "合成データに対する3要素の整合性検証に成功しました。Sepoliaの証跡は既存記録であり、この画面によるRPC再照会ではありません。",
+  "Anchor arguments prepared locally; no transaction broadcast from this browser. Public Sepolia reference evidence is shown separately.": "記録用引数をローカルで作成しました。ブラウザから取引を送信していません。既存のSepolia公開証跡は別表示です。",
+  "Synthetic evidence tampering detected and blocked.": "合成証拠の改ざんを検知し、処理を停止しました。",
+  "Tamper challenge inconclusive; do not assert successful detection.": "改ざん検出の結果は不確定です。検出成功と断定しないでください。",
+  "The independent read-only verifier reconstructed this lineage from the deployment source commit and checked bytecode, transaction calldata, events and final head. ": "独立した読み取り専用検証器は、配置時ソースから継承関係を復元し、バイトコード・取引引数・イベント・最新記録を照合しました。",
+  "Project aggregator": "プロジェクト統括者",
+  "Verification operator": "検証担当者",
+  "Registry / program": "登録簿・制度運営者",
+  "NaFT compiler": "NaFTコンパイラ",
+  "formal certification": "正式認証",
+  "observation truth": "観測値の真正性",
+  "credit issuance": "クレジット発行",
+  "credit price": "クレジット価格",
+  "registry acceptance": "登録簿による受入れ",
+  "raw evidence bytes": "原証拠のバイト列",
+  "methodology interpretation": "方法論の解釈",
+  "deterministic evaluation": "決定論的評価",
+  "human decisions": "人による判断",
+  "package construction": "パッケージ生成",
+  "previous package hash": "前版パッケージハッシュ",
+  "methodology hash": "方法論ハッシュ",
+  "package hash": "パッケージハッシュ",
+  "block timestamp": "ブロック時刻"
+});
 var climateJapaneseKeys=Object.keys(CLIMATECHAIN_JAPANESE_LABELS).sort(function(a,b){return b.length-a.length;});
 function climateJapaneseText(text) {
   for(var i=0;i<climateJapaneseKeys.length;i++){
