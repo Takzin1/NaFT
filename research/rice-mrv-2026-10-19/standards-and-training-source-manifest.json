@@ -1,0 +1,146 @@
+{
+  "schema": "naft-rice-standards-evidence-pack-v1",
+  "status": "SOURCE_INSPECTED_CALCULATION_REPLAY_NOT_ATTESTED",
+  "date": "2026-10-19",
+  "source_files": {
+    "verra_vm0051_v11": {
+      "name": "方法論2026.pdf",
+      "bytes": 1335524,
+      "sha256": "9b9738840824f5919e3a76f8807c68743ae3d64b5d931cda27598f3ab32c64e2",
+      "publisher": "Verra",
+      "document_id": "VM0051",
+      "version": "1.1",
+      "date": "2026-07-14",
+      "pages": 90,
+      "source_url": "https://verra.org/methodologies/vm0051-improved-management-in-rice-production-systems-v1-1/",
+      "document_category": "VCS_METHODOLOGY",
+      "scope": "RICE_MANAGEMENT",
+      "approaches": {
+        "QA1": "BIOGEOCHEMICAL_MODEL",
+        "QA2": "CH4_DIRECT_CHAMBER_MEASUREMENT",
+        "QA3": "DEFAULT_EMISSION_FACTORS"
+      },
+      "baseline_lookback_min_years": 3,
+      "baseline_fields_require_historical_schedule": true,
+      "quantification_same_approach_for_baseline_and_project_same_source": true,
+      "qa2_direct_field_chamber_required": true,
+      "dmrv_appendix_page": 85,
+      "dmrv_requires_verifiable_evidence": true,
+      "official_certification_claim": false
+    },
+    "gold_scenarios": {
+      "name": "シナリオ3類型.pdf",
+      "bytes": 100924,
+      "sha256": "77519262ddf83e00a3dd04f89be7cef46a79f534c50496f1c770325e5f1ef461",
+      "publisher": "Gold Standard",
+      "pages": 2,
+      "document_category": "TRAINING_EXERCISE",
+      "scenario_count": 3,
+      "scenario_tier_labels": {
+        "Tier1": "SIMPLIFIED_DEFAULT_FACTORS",
+        "Tier2": "COUNTRY_SPECIFIC_FACTORS",
+        "Tier3": "DIRECT_MEASUREMENT"
+      },
+      "scenario_1": {
+        "hectares_year1": 1000,
+        "hectares_from_year2": 4000,
+        "crops_per_year": 2,
+        "baseline": "CONTINUOUS_FLOOD",
+        "project": "AWD"
+      },
+      "scenario_2": {
+        "hectares": 12000,
+        "baseline_emission_factor_kg_ch4_ha_day": "1.05",
+        "nitrogen_project_kg_ha": 110,
+        "nitrogen_baseline_kg_ha": 100,
+        "uncertainty_deduction_percent": 10
+      },
+      "scenario_3": {
+        "hectares": 10000,
+        "baseline_integrated_kg_ch4_ha_year": 420,
+        "project_integrated_kg_ch4_ha_year": 95,
+        "nitrogen_increase": false,
+        "diesel_l_ha": "0.5",
+        "uncertainty_deduction_percent": 10
+      }
+    },
+    "gold_calculation_tool": {
+      "name": "計算式ツール.xlsx",
+      "bytes": 219713,
+      "sha256": "92ddfcf926ec2eaead54e674c06a608f8a29b8e6ff0698a0468aa29152cd8040",
+      "publisher": "Gold Standard",
+      "methodology_title": "Methane Emission Reduction by Adjusted Water Management Practice in Rice Cultivation",
+      "methodology_version": "1.0",
+      "workbook_version": "1.1",
+      "cover_publication_date": "04.07.2024",
+      "document_category": "WORKBOOK_CALCULATION_ORACLE",
+      "sheets": [
+        "Instructions",
+        "Cover",
+        "Input_ER",
+        "Tier 1_Simplified",
+        "Tier 2_Country specific",
+        "Tier 3_Direct measurement",
+        "ER"
+      ],
+      "gwp_ch4_ar5": 28,
+      "gwp_n2o_ar5": 265,
+      "approaches": {
+        "Tier1": "SIMPLIFIED_DEFAULT_FACTORS",
+        "Tier2": "COUNTRY_SPECIFIC_FACTORS",
+        "Tier3": "DIRECT_MEASUREMENT"
+      },
+      "cell_references": {
+        "Tier 1_Simplified!E5": "=E9*E10*E14/1000*E15*(1-E30)",
+        "Tier 2_Country specific!E4": "=(E8-E22)*(1-E60)",
+        "Tier 3_Direct measurement!E4": "=(E8-E17)*(1-E49)",
+        "ER!F9": "=IF(F8=\"Tier 1\",'Tier 1_Simplified'!E5,IF(F8=\"Tier 2\",'Tier 2_Country specific'!E4,'Tier 3_Direct measurement'!E4))"
+      },
+      "original_workbook_republished": false,
+      "example_output_not_applicable_to_uploaded_scenario_inputs": true
+    },
+    "gold_validation_checklist": {
+      "name": "チェックリスト.docx",
+      "bytes": 276403,
+      "sha256": "532ec2c31daf95d911367b2516a5e0c67d17ba47031457c89d9d55844217478a",
+      "publisher": "Gold Standard",
+      "pages_rendered": 38,
+      "document_category": "VVB_VALIDATION_CHECKLIST",
+      "version": "1.0",
+      "publication_date": "2024-04-05",
+      "methodology": "Methane Emission Reduction by Adjusted Water Management Practice in Rice Cultivation",
+      "tier_labels_as_printed": {
+        "Tier1": "DIRECT_MEASUREMENT",
+        "Tier2": "COUNTRY_SPECIFIC_FACTORS",
+        "Tier3": "DEFAULT_EMISSION_FACTORS"
+      },
+      "checklist_method_tier_label_conflict_with_workbook": true,
+      "source_location": "Section E, question 23 (rendered PDF p.16)",
+      "review_findings": [
+        "CL",
+        "CAR",
+        "FAR"
+      ],
+      "requires_exact_section_or_cell_evidence_reference": true,
+      "checklist_not_a_2026_verra_approval": true
+    }
+  },
+  "cross_source_conclusions": {
+    "global_tier_number_auto_mapping_allowed": false,
+    "gold_workbook_and_gold_vvb_tier_mappings_identical": false,
+    "verra_and_gold_rules_interchangeable": false,
+    "verra_vm0051_v11_is_gold_tool_methodology": false,
+    "japan_ag005_approval_from_these_sources": false,
+    "full_scenario_outputs_proven_reproduced": false,
+    "formal_credit_tco2e": null,
+    "raw_binaries_redistributed": false
+  },
+  "required_for_independent_oracle": [
+    "EXPLICIT_STANDARD_AND_VERSION",
+    "EXPLICIT_APPROACH_SEMANTICS",
+    "WORKBOOK_CASE_CELL_INPUT_BINDINGS",
+    "WORKBOOK_FORMULA_RECALCULATION_INDEPENDENTLY_VERIFIED",
+    "ALL_GASES_AND_BASELINE_PROJECT_SCOPE_ALIGNED",
+    "VALIDATION_EVIDENCE_CHAIN"
+  ]
+}
