@@ -1,0 +1,158 @@
+{
+  "schema": "naft-p14-gimje-original-zip-xlsx-source-replay-v1",
+  "source_id": "KR_GIMJE_DAILY_2022_2024",
+  "doi": "10.5281/zenodo.17111992",
+  "status": "ACTUAL_USER_SUPPLIED_ZENODO_BYTES_CHECKED_AND_SOURCE_NATIVE_JOINED_RESEARCH_ONLY",
+  "verified_at_date": "2026-11-03",
+  "source_kind": "STATIC_CHAMBER_RICE_FIELD_FLUX_RESEARCH",
+  "source_files": {
+    "ch4_zip": {
+      "bytes": 66312,
+      "sha256": "719b148d1a4f08e31bc146f412c920ae1472ca1a3a4d6dd81d882c1ef79fe813",
+      "published_md5": "b9ada3a76a2bce1dbd3c9c77f51424f7"
+    },
+    "input_fields_meta_xlsx": {
+      "bytes": 16705,
+      "sha256": "6c609759ab25bc84cb909830800be4bac086e42a51ac43a11c4367a9c52b1298",
+      "published_md5": "ba661a41238697b7ac1915c0d3890aa2"
+    },
+    "independent_published_md5_match": true,
+    "raw_binaries_in_repo": false
+  },
+  "observations": {
+    "field_csv_count": 60,
+    "excel_field_records": 60,
+    "native_day_rows": 8391,
+    "valid_reported_flux": 1422,
+    "missing_flux": 6969,
+    "negative_flux": 31,
+    "source_daily_course_type_counts": {
+      "flooding": 5895,
+      "drainage": 2019,
+      "awd": 477
+    },
+    "publisher_qc_flags_available": false,
+    "stage_and_treatment_are_distinct": true
+  },
+  "year_stats": [
+    {
+      "year": 2022,
+      "fields": 18,
+      "day_rows": 2502,
+      "reported_flux": 576,
+      "missing_flux": 1926,
+      "negative_flux": 19,
+      "flooding": 1557,
+      "drainage": 801,
+      "awd": 144
+    },
+    {
+      "year": 2023,
+      "fields": 15,
+      "day_rows": 2055,
+      "reported_flux": 330,
+      "missing_flux": 1725,
+      "negative_flux": 0,
+      "flooding": 1455,
+      "drainage": 450,
+      "awd": 150
+    },
+    {
+      "year": 2024,
+      "fields": 27,
+      "day_rows": 3834,
+      "reported_flux": 516,
+      "missing_flux": 3318,
+      "negative_flux": 12,
+      "flooding": 2883,
+      "drainage": 768,
+      "awd": 183
+    }
+  ],
+  "treatment_stats": [
+    {
+      "treatment": "cf",
+      "fields": 21,
+      "day_rows": 2958,
+      "reported_flux": 438,
+      "missing_flux": 2520,
+      "negative_flux": 1
+    },
+    {
+      "treatment": "md_14days",
+      "fields": 9,
+      "day_rows": 1254,
+      "reported_flux": 222,
+      "missing_flux": 1032,
+      "negative_flux": 8
+    },
+    {
+      "treatment": "md_14days+awd",
+      "fields": 9,
+      "day_rows": 1254,
+      "reported_flux": 222,
+      "missing_flux": 1032,
+      "negative_flux": 5
+    },
+    {
+      "treatment": "md_21days",
+      "fields": 9,
+      "day_rows": 1254,
+      "reported_flux": 222,
+      "missing_flux": 1032,
+      "negative_flux": 3
+    },
+    {
+      "treatment": "md_21days+awd",
+      "fields": 6,
+      "day_rows": 837,
+      "reported_flux": 126,
+      "missing_flux": 711,
+      "negative_flux": 1
+    },
+    {
+      "treatment": "md_28days",
+      "fields": 3,
+      "day_rows": 417,
+      "reported_flux": 96,
+      "missing_flux": 321,
+      "negative_flux": 7
+    },
+    {
+      "treatment": "md_28days+awd",
+      "fields": 3,
+      "day_rows": 417,
+      "reported_flux": 96,
+      "missing_flux": 321,
+      "negative_flux": 6
+    }
+  ],
+  "canonical_p7": {
+    "csv_sha256": "132e1cc623df49e3bae8dc57289037dcc6b218954773e450df50e65f65c4b140",
+    "row_count": 8391,
+    "csv_bytes": 826396,
+    "sha256_rule": "UTF8_CSV_P8_DOCK_RECORD_ID_NORMALIZATION",
+    "date_rule": "planting_date_plus_DAT",
+    "water_management_mapping": "UNKNOWN_NO_AUTOMATIC_TREATMENT_STAGE_CONFLATION",
+    "missing_flux_policy": "NA_NOT_ZERO",
+    "qc_flag": "UNKNOWN",
+    "conversion_available_at": "scripts/p8-gimje-native-dock.py",
+    "original_replay_command": "python3 scripts/p14-gimje-real-original-audit.py /path/to/ch4.zip /path/to/input_fields_meta.xlsx"
+  },
+  "provenance_and_limits": {
+    "author_code": "https://github.com/lhs0218/gimje_ch4/blob/45525f01642c3069d03177e8801070da1dcb3450/01.train_RF_gimje.R",
+    "zenodo_record": "https://zenodo.org/records/17111992",
+    "license_for_republishing_raw_values_independently_cleared": false,
+    "source_original_bytes_matched_published_md5": true,
+    "independent_lab_qc": false,
+    "calibrated_model": false,
+    "scientific_integration_status": "LOCAL_PRIVATE_P7_CANONICAL_AND_PUBLIC_SOURCE_DIGEST_AGGREGATES_ONLY",
+    "measurement_method": "SOURCE_REPORTED_CHAMBER_FLUX",
+    "flux_unit": "g_CH4_m2_day_REPORTED",
+    "unvalidated_seasonal_ch4_in_xlsx_not_claimed_as_derived_from_observed_flux": true,
+    "validated_methane_abatement": null,
+    "certified_tco2e": null,
+    "jcredit_eligibility_verified": false,
+    "negative_and_missing_values_not_imputed_or_deleted": true
+  }
+}
