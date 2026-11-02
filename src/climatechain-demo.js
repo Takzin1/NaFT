@@ -457,6 +457,7 @@ function climateChainHeader() {
     '<img class="climate-logomark" src="favicon.svg" width="44" height="44" alt="" decoding="async"><span class="climate-brand-name">NaFT<small>CLIMATECHAIN LAB</small></span></a>'+
     '<div class="climate-topbar-right"><span class="climate-event">IEEE ClimateChain Hackathon 2026</span>'+
     '<a class="reviewer-home" href="#/methodologies">Research UI ↗</a>'+
+    '<a class="reviewer-home" href="#/source-readiness">出典・QC検証 ↗</a>'+
      '<a class="climate-corner-logo" href="#/climatechain" aria-label="NaFT home"><img src="favicon.svg" width="60" height="60" alt="NaFT geometric star logo" decoding="async"></a></div></div>'+
     '<h1>Version-Aware Climate MRV</h1><p>Carbon markets need evidence that survives methodology change.</p></header>';
 }
