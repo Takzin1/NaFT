@@ -185,3 +185,10 @@ GitHub Actions [source acquisition run](https://github.com/Takzin1/NaFT/actions/
 - `node scripts/report-research-readiness.mjs --format markdown`
 - [設計・既知の限界・テスト方法](docs/source-readiness-ja-2026-11-02.md)
 - この内容は**開発ブランチ上のPR候補**です。マージとWeb公開は完了していません。
+
+## P1｜制度別方法論とGold Standard教材の独立再計算（研究用・開発ブランチ）
+
+- 日本語ブラウザ画面：`naft-app.html#/method-family`（Gold Standard教材Tier 1/2/3、Verra VM0051 QA1/2/3、J-クレジットAG-005の別体系を比較）。
+- `node scripts/p1-method-family-comparison.mjs --format markdown`：正式認証ではない、文書版付きの比較。
+- `node scripts/p1-gs-independent-replay.mjs generate fixtures/p1-gs-training-tier2-request.json`：Gold Standard教材の特定セル式をBigIntと独立Python Decimalで**同じ実行ごとに**照合。証憑の真正性、排出削減量、正式クレジットを認証しません。
+- [P1の設計・再現手順・科学的制約](docs/p1-method-comparison-ja-2026-11-02.md)。現在の開発PRがマージされるまで公開Pagesには反映されません。
