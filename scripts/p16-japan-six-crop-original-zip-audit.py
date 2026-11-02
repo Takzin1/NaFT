@@ -183,7 +183,32 @@ def main():
  report,rows=scan(files)
  if args.public_register:
   expected=json.loads(Path(args.public_register).read_text(encoding="utf8"))
-  require(report==expected,"PUBLIC_REGISTER_MISMATCH")
+  require(expected["schema"]=="naft-p16-japan-crop-archive-1883-2022-source-receipt-v1",
+          "REGISTER_SCHEMA")
+  packed_sha=sha("\\n".join(k+":"+report["national_packed_base36"][k] for k in CROPS).encode("utf8"))
+  # These are original-source report invariants, not official source-file licensing approval.
+  comparisons={
+   "archive_sha256":report["archive_sha256"],
+   "main_csv_sha256":report["source_member_sha256"]["CropProduction_JP_1883-2022.csv"],
+   "source_workbook_sha256":report["source_member_sha256"]["CropProduction_JP_DataSources.xlsx"],
+   "prefecture_code_csv_sha256":report["source_member_sha256"]["Prefecture_Code.csv"],
+   "japanese_calendar_csv_sha256":report["source_member_sha256"]["Japanese_Calendar.csv"],
+   "original_record_count":report["original_csv_rows"],
+   "nationally_aggregated_crop_years":6*140,
+   "packed_national_vectors_sha256":packed_sha,
+   "source_record_categories":report["source_record_categories"],
+   "national_area_production_vs_prefecture_sum_discrepancies":0,
+   "regional_area_production_vs_prefecture_sum_discrepancies":0,
+   "sweetpotato_2022_prefecture_zero_records":report["2022_sweet_potato_zero_prefecture_count"],
+   "maximum_original_yield_rounding_error_tonnes_per_ha":report["max_original_yield_rounding_error_t_per_ha"]
+  }
+  for key,val in comparisons.items():
+   require(expected[key]==val,"PUBLIC_REGISTER_MISMATCH:"+key)
+  require(expected["national_all_zero_years_for_potato_soybean_sweetpotato"]==list(MISSING_YEARS),
+          "ZERO_YEAR_POLICY_CHANGED")
+  require(expected["official_abatement_tco2e"] is None and
+          expected["registered_raw_source_redistributed"] is False,
+          "SCIENTIFIC_CERTIFICATION_OR_REDISTRIBUTION_BLOCK")
  if args.private_csv:private_export(args.private_csv,rows)
  print(json.dumps({"status":"P16_ORIGINAL_146160_ROWS_AND_840_NATIONAL_SERIES_REPLAY_MATCH",
   "archive_sha256":report["archive_sha256"],"national_crop_years":840,
