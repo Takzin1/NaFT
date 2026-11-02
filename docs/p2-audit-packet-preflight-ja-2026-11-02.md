@@ -41,3 +41,11 @@ bash tests/run.sh
 - 暗号学的ハッシュはファイル内容の一致には役立つが、出版社・独立監査人の公的署名の代替ではない。
 
 このpreflight出力は研究開発のレビュー支援であり、制度上の監査証明書ではない。
+
+## 2026-11-02 公開一次資料の調査メモ（コードの公式適用承認ではない）
+
+- **Verra VM0051 v1.1** は[方法論公式ページ](https://verra.org/methodologies/vm0051-improved-management-in-rice-production-systems-v1-1/)で2026-07-14からActiveと記載されている。v1.0の新規適用等には2027-07-31までの提出期限、2027-08-01の失効予定がある。CCP適合の方法論でもプロジェクト・発行クレジットに対する追加条件やVVB/Verraの審査が必要であり、本研究成果に認証適格性を付与しない。
+- **Gold Standard** は[AWD稲作へのSOC損失リスク更新](https://globalgoals.goldstandard.org/methodology-standards-paris-agreement-alignment-and-other-updates/)を公開している。2025年の改定により、乾田化によるメタン削減だけでなく土壌有機炭素（SOC）の損失を保守的に取り扱う必要がある。元の3つの教材セル式だけではこの評価に対応できない。
+- **日本のJ-クレジット**：農林水産省の[水田メタン対策案内](https://www.maff.go.jp/j/seisan/kankyo/ondanka/)は2026-07-23更新の説明資料を案内している。一方、Webで見つかるAG-005旧版PDF（Ver.2.0）やe-Govの改定案は、**2026年11月時点の採択版の確定根拠としては不十分**。さらに[制度文書の2026-10-21付意見募集](https://public-comment.e-gov.go.jp/servlet/Public?CLASSNAME=PCMMSTDETAIL&Mode=0&id=595320043)が2026-11-04 18:00に締め切られる。改定案と確定版の混同を防ぐこと。
+
+**次の取得優先順位**：①各制度が公表した正式な適用版と有効日を一覧表化、②Gold Standard SOCとVerraの追加適格性要件のレジストリ化、③AG-005実施・生産管理記録の最低証憑項目、④JP-Hrt原観測とQC履歴の独立照合。版が確定する前の自動算定・認証ゲート開放はしない。
