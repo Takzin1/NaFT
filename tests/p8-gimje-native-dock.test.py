@@ -98,7 +98,7 @@ class TestP8(unittest.TestCase):
             (make_native({'ch4/XX.csv':'DAT,ch4_flux\n0,1\n'}),meta,'MISSING_PLANTING_DATE'),
             (make_native({'ch4/F01.csv':'DAT,wrong\n0,1\n'}),meta,'NATIVE_CSV_HEADER'),
             (make_native({'ch4/F01.csv':'DAT,ch4_flux\n-1,1\n'}),meta,'DAT_NOT_INT'),
-            (make_native({'ch4/F01.csv':'DAT,ch4_flux\n367,1\n'}),meta,'DAT_NOT_INT'),
+            (make_native({'ch4/F01.csv':'DAT,ch4_flux\n367,1\n'}),meta,'DAT_OUT_OF_RANGE'),
             (make_native({'../F01.csv':'DAT,ch4_flux\n1,1\n'}),meta,'ARCHIVE_TRAVERSAL'),
             (raw,make_xlsx([['wrong','planting_date'],['F01','2024-05-21']]),
                 'XLSX_FIELD_ID_AND_PLANTING_DATE_SHEET_REQUIRED'),
