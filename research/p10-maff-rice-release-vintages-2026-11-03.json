@@ -1,0 +1,108 @@
+{
+  "schema": "naft-p10-japan-rice-time-version-source-ledger-v1",
+  "snapshot_date": "2026-11-03",
+  "scope": "OFFICIAL_PUBLICATION_PROVENANCE_WITH_EXPLICIT_NONCOMPARABLE_MEASURES",
+  "sources": [
+    {
+      "id": "MAFF_RICE_2024_ALL_HARVEST_P9",
+      "season": 2024,
+      "status": "FINAL_HISTORICAL_STATISTICS_REPRINT",
+      "publication_date": null,
+      "reference_date": "2024-12-31",
+      "scope": "ALL_PADDY_RICE",
+      "screen_basis": "OFFICIAL_VOLUME_METHODOLOGY_2024",
+      "grain_basis": "BROWN_RICE",
+      "area_basis": "ALL_PADDY_RICE_PLANTED_AREA",
+      "area_ha": 1359000,
+      "harvest_t": 7345000,
+      "yield_kg_per_10a": 540,
+      "source_url": "https://www.pref.hokkaido.lg.jp/ns/nsk/kome/index3.html",
+      "pdf_bytes_independently_attested": false
+    },
+    {
+      "id": "MAFF_RICE_2025_MAIN_FOOD_FINAL",
+      "season": 2025,
+      "status": "FINAL",
+      "publication_date": "2026-03-06",
+      "reference_date": "2025-12-31",
+      "scope": "MAIN_FOOD_RICE",
+      "screen_basis": "PRODUCER_SIEVE",
+      "grain_basis": "BROWN_RICE",
+      "area_basis": "MAIN_FOOD_ONLY",
+      "area_ha": 1367000,
+      "harvest_t": 7181000,
+      "yield_kg_per_10a": null,
+      "source_url": "https://www.maff.go.jp/j/syouan/keikaku/soukatu/r6_kome_ryutu.html",
+      "pdf_bytes_independently_attested": false,
+      "verify_note": "Area and producer-sieve main-food harvest from official MAFF 2025 figures; census published March 6."
+    },
+    {
+      "id": "MAFF_RICE_2026_MAIN_FOOD_SEP25_FORECAST",
+      "season": 2026,
+      "status": "FORECAST_NOT_FINAL",
+      "publication_date": "2026-10-13",
+      "reference_date": "2026-09-25",
+      "scope": "MAIN_FOOD_RICE",
+      "screen_basis": "PRODUCER_SIEVE",
+      "grain_basis": "BROWN_RICE",
+      "area_basis": "MAIN_FOOD_ONLY",
+      "area_ha": 1360000,
+      "harvest_t": 7105000,
+      "yield_kg_per_10a": 524,
+      "source_url": "https://www.maff.go.jp/chushi/topics/r8estimatedyield.html",
+      "pdf_bytes_independently_attested": false,
+      "verify_note": "As-of September 25 forecast, released October 13. Not 2026 crop final."
+    }
+  ],
+  "regional_forecast_2026": [
+    {
+      "id": "MAFF_KANTO_2026_SEP25_FORECAST",
+      "region": "KANTO_REGIONAL_OFFICE",
+      "name_ja": "関東農政局管内",
+      "season": 2026,
+      "status": "FORECAST_NOT_FINAL",
+      "reference_date": "2026-09-25",
+      "publication_date": "2026-10-13",
+      "scope": "MAIN_FOOD_RICE",
+      "screen_basis": "PRODUCER_SIEVE",
+      "area_ha": 274700,
+      "harvest_t": 1443000,
+      "yield_kg_per_10a": 525,
+      "source_url": "https://www.maff.go.jp/kanto/press/toukei/kikaku/261013.html"
+    },
+    {
+      "id": "MAFF_KYUSHU_2026_SEP25_FORECAST",
+      "region": "KYUSHU_REGIONAL_OFFICE",
+      "name_ja": "九州農政局管内",
+      "season": 2026,
+      "status": "FORECAST_NOT_FINAL",
+      "reference_date": "2026-09-25",
+      "publication_date": "2026-10-13",
+      "scope": "MAIN_FOOD_RICE",
+      "screen_basis": "PRODUCER_SIEVE",
+      "area_ha": 153900,
+      "harvest_t": 747900,
+      "yield_kg_per_10a": 486,
+      "source_url": "https://www.maff.go.jp/kyusyu/press/toukei/261013.html"
+    }
+  ],
+  "secondary_official_indexes": [
+    {
+      "id": "MAFF_RICE_PUBLICATION_SERIES",
+      "url": "https://www.maff.go.jp/j/tokei/kouhyou/sakumotu/sakkyou_kome/",
+      "kind": "OFFICIAL_RELEASES_INDEX",
+      "note": "Shows 2025 final and October 13, 2026 provisional publication."
+    },
+    {
+      "id": "ESTAT_2025_PREF_RICE_TABLE",
+      "url": "https://www.e-stat.go.jp/stat-search/files?cycle=7&layout=datalist&lid=000001468110&month=0&page=1&stat_infid=000040420282&tclass1=000001032288&tclass2=000001032753&tclass3=000001233662&toukei=00500215&tstat=000001013427&year=20250",
+      "kind": "DATASET_METADATA_WITH_PREFECTURE_ROWS_UNPARSED",
+      "note": "2025 confirmed prefectural workbook exists; contents have not been imported or certified."
+    }
+  ],
+  "raw_pdf_sha256_verified": 0,
+  "raw_e_stat_excel_rows_loaded": 0,
+  "regional_forecasts_are_not_prefecture_observations": true,
+  "ag005_or_verra_factor_loaded": false,
+  "officially_certified_tco2e": null
+}
