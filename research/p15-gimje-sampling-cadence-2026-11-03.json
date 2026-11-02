@@ -1,0 +1,245 @@
+{
+  "schema": "naft-p15-original-gimje-sampling-cadence-qc-v1",
+  "source_id": "KR_GIMJE_DAILY_2022_2024",
+  "source_doi": "10.5281/zenodo.17111992",
+  "status": "ORIGINAL_SOURCE_INTEGRITY_CHECKED_SAMPLING_QC_NOT_CERTIFICATION",
+  "zip_sha256": "719b148d1a4f08e31bc146f412c920ae1472ca1a3a4d6dd81d882c1ef79fe813",
+  "xlsx_sha256": "6c609759ab25bc84cb909830800be4bac086e42a51ac43a11c4367a9c52b1298",
+  "field_count": 60,
+  "daily_grid_rows": 8391,
+  "observed_flux_rows": 1422,
+  "unmeasured_daily_grid_rows": 6969,
+  "negative_flux_values": 31,
+  "weather_missing_or_invalid_rows": 0,
+  "gaps_at_least_14_days": 27,
+  "sample_counts_per_field": {
+    "18": 12,
+    "20": 15,
+    "22": 15,
+    "32": 18
+  },
+  "sampling_gap_days_histogram": {
+    "1": 18,
+    "2": 81,
+    "3": 228,
+    "4": 207,
+    "5": 210,
+    "6": 192,
+    "7": 207,
+    "8": 42,
+    "9": 123,
+    "12": 27,
+    "16": 27
+  },
+  "maximum_sampling_gap_days": 16,
+  "observed_water_stage_counts": {
+    "awd": 90,
+    "drainage": 342,
+    "flooding": 990
+  },
+  "daily_water_stage_counts": {
+    "awd": 477,
+    "drainage": 2019,
+    "flooding": 5895
+  },
+  "by_year": [
+    {
+      "year": 2022,
+      "fields": 18,
+      "daily_grid_rows": 2502,
+      "observed_flux_rows": 576,
+      "unmeasured_daily_grid_rows": 1926,
+      "negative_flux_values": 19,
+      "weather_missing_or_invalid_rows": 0,
+      "gaps_at_least_14_days": 0,
+      "sample_counts_per_field": {
+        "32": 18
+      },
+      "observed_water_stage_counts": {
+        "awd": 36,
+        "drainage": 189,
+        "flooding": 351
+      }
+    },
+    {
+      "year": 2023,
+      "fields": 15,
+      "daily_grid_rows": 2055,
+      "observed_flux_rows": 330,
+      "unmeasured_daily_grid_rows": 1725,
+      "negative_flux_values": 0,
+      "weather_missing_or_invalid_rows": 0,
+      "gaps_at_least_14_days": 0,
+      "sample_counts_per_field": {
+        "22": 15
+      },
+      "observed_water_stage_counts": {
+        "awd": 30,
+        "drainage": 57,
+        "flooding": 243
+      }
+    },
+    {
+      "year": 2024,
+      "fields": 27,
+      "daily_grid_rows": 3834,
+      "observed_flux_rows": 516,
+      "unmeasured_daily_grid_rows": 3318,
+      "negative_flux_values": 12,
+      "weather_missing_or_invalid_rows": 0,
+      "gaps_at_least_14_days": 27,
+      "sample_counts_per_field": {
+        "18": 12,
+        "20": 15
+      },
+      "observed_water_stage_counts": {
+        "awd": 24,
+        "drainage": 96,
+        "flooding": 396
+      }
+    }
+  ],
+  "by_treatment": [
+    {
+      "treatment": "cf",
+      "fields": 21,
+      "daily_grid_rows": 2958,
+      "observed_flux_rows": 438,
+      "unmeasured_daily_grid_rows": 2520,
+      "negative_flux_values": 1,
+      "weather_missing_or_invalid_rows": 0,
+      "gaps_at_least_14_days": 15,
+      "sample_counts_per_field": {
+        "18": 12,
+        "20": 3,
+        "22": 3,
+        "32": 3
+      },
+      "observed_water_stage_counts": {
+        "drainage": 48,
+        "flooding": 390
+      }
+    },
+    {
+      "treatment": "md_14days",
+      "fields": 9,
+      "daily_grid_rows": 1254,
+      "observed_flux_rows": 222,
+      "unmeasured_daily_grid_rows": 1032,
+      "negative_flux_values": 8,
+      "weather_missing_or_invalid_rows": 0,
+      "gaps_at_least_14_days": 3,
+      "sample_counts_per_field": {
+        "20": 3,
+        "22": 3,
+        "32": 3
+      },
+      "observed_water_stage_counts": {
+        "drainage": 54,
+        "flooding": 168
+      }
+    },
+    {
+      "treatment": "md_14days+awd",
+      "fields": 9,
+      "daily_grid_rows": 1254,
+      "observed_flux_rows": 222,
+      "unmeasured_daily_grid_rows": 1032,
+      "negative_flux_values": 5,
+      "weather_missing_or_invalid_rows": 0,
+      "gaps_at_least_14_days": 3,
+      "sample_counts_per_field": {
+        "20": 3,
+        "22": 3,
+        "32": 3
+      },
+      "observed_water_stage_counts": {
+        "awd": 33,
+        "drainage": 57,
+        "flooding": 132
+      }
+    },
+    {
+      "treatment": "md_21days",
+      "fields": 9,
+      "daily_grid_rows": 1254,
+      "observed_flux_rows": 222,
+      "unmeasured_daily_grid_rows": 1032,
+      "negative_flux_values": 3,
+      "weather_missing_or_invalid_rows": 0,
+      "gaps_at_least_14_days": 3,
+      "sample_counts_per_field": {
+        "20": 3,
+        "22": 3,
+        "32": 3
+      },
+      "observed_water_stage_counts": {
+        "awd": 12,
+        "drainage": 63,
+        "flooding": 147
+      }
+    },
+    {
+      "treatment": "md_21days+awd",
+      "fields": 6,
+      "daily_grid_rows": 837,
+      "observed_flux_rows": 126,
+      "unmeasured_daily_grid_rows": 711,
+      "negative_flux_values": 1,
+      "weather_missing_or_invalid_rows": 0,
+      "gaps_at_least_14_days": 3,
+      "sample_counts_per_field": {
+        "20": 3,
+        "22": 3
+      },
+      "observed_water_stage_counts": {
+        "awd": 27,
+        "drainage": 36,
+        "flooding": 63
+      }
+    },
+    {
+      "treatment": "md_28days",
+      "fields": 3,
+      "daily_grid_rows": 417,
+      "observed_flux_rows": 96,
+      "unmeasured_daily_grid_rows": 321,
+      "negative_flux_values": 7,
+      "weather_missing_or_invalid_rows": 0,
+      "gaps_at_least_14_days": 0,
+      "sample_counts_per_field": {
+        "32": 3
+      },
+      "observed_water_stage_counts": {
+        "drainage": 42,
+        "flooding": 54
+      }
+    },
+    {
+      "treatment": "md_28days+awd",
+      "fields": 3,
+      "daily_grid_rows": 417,
+      "observed_flux_rows": 96,
+      "unmeasured_daily_grid_rows": 321,
+      "negative_flux_values": 6,
+      "weather_missing_or_invalid_rows": 0,
+      "gaps_at_least_14_days": 0,
+      "sample_counts_per_field": {
+        "32": 3
+      },
+      "observed_water_stage_counts": {
+        "awd": 18,
+        "drainage": 42,
+        "flooding": 36
+      }
+    }
+  ],
+  "unmeasured_grid_is_not_diagnosed_instrument_failure": true,
+  "publisher_independent_measurement_qc_verified": false,
+  "sampling_interpolation_performed": false,
+  "missing_flux_imputed": 0,
+  "negative_flux_removed": 0,
+  "experimental_group_comparison_is_causal": false,
+  "official_emissions_reductions_tco2e": null,
+  "issued_carbon_credits": null
+}
