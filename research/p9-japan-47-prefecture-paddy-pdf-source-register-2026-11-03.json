@@ -785,6 +785,6 @@
   "certified_ag005_emission_factors": 0,
   "verified_ch4_flux_rows_added": 0,
   "officially_certified_tco2e": null,
-  "regional_sources_reviewed": 15,
-  "prefecture_specific_pdf_coverage_incomplete": true
+  "prefecture_specific_pdf_coverage_incomplete": true,
+  "regional_source_links_indexed": 15
 }
