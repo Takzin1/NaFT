@@ -1,0 +1,18 @@
+{
+  "schema": "naft-p5-clause-impact-request-v1",
+  "program": "VERRA_VM0051",
+  "changed_clause_ids": [
+    "VERRA.VM0051.9.3.1",
+    "VERRA.VM0051.9.3.3"
+  ],
+  "evidence_status": {
+    "MONITORING_PLAN": "PROVIDED_UNVERIFIED",
+    "EXPERT_SOC_SAFEGUARDS": "MISSING",
+    "LOCAL_SOIL_WEATHER": "MISSING"
+  },
+  "monitoring_window": {
+    "start_date": "2026-07-14",
+    "end_date": "2026-12-31",
+    "ccp_label_requested": false
+  }
+}
