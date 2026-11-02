@@ -132,7 +132,10 @@ def parse_date(value):
     if re.fullmatch(r"[0-9]{4}[-/.][0-9]{1,2}[-/.][0-9]{1,2}(?:[ T].*)?", s):
         s = re.split(r"[ T]", s)[0]
         parts = re.split(r"[-/.]", s)
-        return dt.date(*map(int, parts))
+        try:
+            return dt.date(*map(int, parts))
+        except ValueError as exc:
+            raise ValueError("NAFT_P8_NATIVE_DOCK_BLOCKED:UNRECOGNIZED_PLANTING_DATE") from exc
     if re.fullmatch(r"[0-9]+(?:\.0+)?", s):
         day = int(float(s))
         require(20000 <= day <= 70000, "EXCEL_DATE_RANGE")
