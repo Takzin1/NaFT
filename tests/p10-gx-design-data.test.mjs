@@ -65,7 +65,7 @@ assert.match(tokyo,/107 <small>ha/);n++;
 assert.match(tokyo,/個別PDFはまだ台帳未登録/);n++;
 sandbox.GX_SELECTED_PREF_CODE='07';
 const fuk=sandbox.pgGxDataExplorer();
-assert.match(fuk,/稲作情報vol\\.4（南会津）/);n++;
+assert.match(fuk,/稲作情報vol[.]4（南会津）/);n++;
 assert.match(fuk,/62,700/);n++;
 const ui=file('src/mrv-ui.js'),html=file('naft-app.html'),css=file('src/gx-design-system.css'),design=file('DESIGN.md');
 assert.match(ui,/if\(typeof GX_DATA_ROUTE!=='undefined'&&p===GX_DATA_ROUTE\)return p/);n++;
