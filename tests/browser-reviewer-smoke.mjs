@@ -227,6 +227,18 @@ if(sourceReadiness.hash!=='#/source-readiness'||sourceReadiness.blockers!==7||
 console.log('Research Evidence Readiness Japanese route / seven blockers / mobile layout: PASS');
 console.log(JSON.stringify(sourceReadiness));
 
+// P1 real browser route: compare six document-specific lanes without implying certification.
+await evaluate("location.hash='#/method-family'; true");
+await until("document.querySelectorAll('[data-rice-lane]').length===6 && document.body.innerText.includes('水田MRV｜方法論と計算方式を比較')",'P1 Japanese methods route');
+const methodView=await evaluate("({route:location.hash,programs:document.querySelectorAll('[data-rice-program]').length,lanes:document.querySelectorAll('[data-rice-lane]').length,hasGsTierConflict:document.body.innerText.includes('Tier 1/3の分類が衝突'),hasNoFormalApproval:document.body.innerText.includes('正式認証や実測の妥当性は証明できません'),hasJcreditUnverified:document.body.innerText.includes('現行の正式採択版・適用係数はこの研究デモでは未確認'),hasApprovalButtons:!!document.querySelector('[data-action=\\\"release\\\"],[data-action=\\\"attest\\\"]'),scrollWidth:document.documentElement.scrollWidth,viewport:window.innerWidth,error:!!document.querySelector('section.error')||!!document.querySelector('.status.error')})");
+if(methodView.route!=='#/method-family'||methodView.programs!==3||methodView.lanes!==6||
+   !methodView.hasGsTierConflict||!methodView.hasNoFormalApproval||
+   !methodView.hasJcreditUnverified||methodView.hasApprovalButtons||
+   methodView.scrollWidth>methodView.viewport||methodView.error)
+ throw new Error('BROWSER_P1_METHOD_FAMILY_INVALID:'+JSON.stringify(methodView));
+console.log('Japanese GS/Verra/J-Credit method-family mobile browser route: PASS');
+console.log(JSON.stringify(methodView));
+
 if(runtimeProblems.length) throw new Error('BROWSER_RUNTIME_PROBLEMS:'+JSON.stringify(runtimeProblems));
 
 console.log('Reviewer Demo browser click/mobile: PASS');
