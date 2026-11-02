@@ -1,0 +1,119 @@
+{
+  "schema": "naft-p11-physical-file-ingestion-v1",
+  "record_date": "2026-11-03",
+  "ingest": {
+    "source": "https://github.com/mthayne527/fluxCH4/blob/9977f63563acebaa4e021801beadfebb06d0ed48/inst/extdata/sample_data_CH4.csv",
+    "upstream_repository": "mthayne527/fluxCH4",
+    "upstream_commit": "9977f63563acebaa4e021801beadfebb06d0ed48",
+    "upstream_blob_sha1": "891ab51885c79cccbbe5d3d4625854ba4eab5923",
+    "raw_copy_repository_path": "research/p11-upstream-chamber-raw/sample_data_CH4.csv",
+    "source_license_url": "https://github.com/mthayne527/fluxCH4/blob/9977f63563acebaa4e021801beadfebb06d0ed48/LICENSE",
+    "source_license": "MIT (repository license, data-specific licensing not separately stated)",
+    "source_credit": "Michael W. Thayne; upstream sample CH4 concentration records accompanying fluxCH4",
+    "source_sample_device": "LI-7810 according to original example script",
+    "original_source_verified_at_github_git_blob": true,
+    "independent_field_sampling_verified": false,
+    "file_type": "RAW_CHAMBER_CONCENTRATION_TIMESERIES_NOT_DAILY_CH4_FLUX",
+    "observed_source_columns": [
+      "id",
+      "time",
+      "concentration",
+      "volume",
+      "area",
+      "temperature_celsius",
+      "air_pressure",
+      "gas_pressure",
+      "gas_temp",
+      "ph",
+      "orp",
+      "wt"
+    ],
+    "records": 3005,
+    "deployments": {
+      "e1": 601,
+      "e10": 601,
+      "e11": 601,
+      "e12": 601,
+      "e13": 601
+    },
+    "gas": "CH4",
+    "unit": "ppm",
+    "time_unit": "seconds",
+    "concentration_is_direct_fluxtype": false,
+    "rice_field_context_licensed_or_verified": false,
+    "chamber_flux_nmol_m2_s_calculated": false,
+    "j_credit_eligible": false,
+    "officially_verified_tco2e": null
+  },
+  "other_files": [
+    {
+      "id": "ESTAT_2025_PADDY_PREFECTURE_FINAL_XLSX",
+      "kind": "OFFICIAL_STATISTICAL_XLSX",
+      "record_url": "https://www.e-stat.go.jp/stat-search/files?stat_infid=000040420282",
+      "download_url": "https://www.e-stat.go.jp/stat-search/file-download?statInfId=000040420282&fileKind=0",
+      "published_date": "2026-03-06",
+      "native_data_downloaded_here": false,
+      "independent_original_checksum_sha256": null,
+      "normalised_prefecture_rows": 0,
+      "license": "JAPAN_GOV_OPEN_DATA_TERMS_RECHECK",
+      "parse_requires": "prefecture name+scope+year+unit; spreadsheet structure not inspected"
+    },
+    {
+      "id": "ZENODO_GIMJE_2022_2024_ZIP",
+      "kind": "FIELD_CH4_RICE_DAILY_ZIP",
+      "record_url": "https://zenodo.org/records/17111992",
+      "files": [
+        "ch4.zip",
+        "input_fields_meta.xlsx"
+      ],
+      "native_data_downloaded_here": false,
+      "independent_original_checksum_sha256": null,
+      "normalised_field_rows": 0,
+      "license": "RECORD_LICENSE_NOT_EXPLICITLY_VERIFIED",
+      "parse_requires": "P8 native ZIP/XLSX→P7 adapter, strictly no certified credit"
+    },
+    {
+      "id": "FIGSHARE_JAPAN_CROP_PRODUCTION_1883_2022",
+      "kind": "PEER_REVIEWED_47_PREFECTURE_MULTI_CROP_TIME_SERIES",
+      "record_url": "https://doi.org/10.6084/m9.figshare.29135699",
+      "publication_url": "https://www.nature.com/articles/s41597-025-06394-7",
+      "published_date": "2025-12-08",
+      "crops": 6,
+      "starting_year": 1883,
+      "ending_year": 2022,
+      "prefectures": 47,
+      "license": "CC-BY-4.0_PER_PUBLISHED_DATA_DESCRIPTOR",
+      "native_data_downloaded_here": false,
+      "independent_original_checksum_sha256": null,
+      "normalised_prefecture_rows": 0,
+      "parse_requires": "release-file hash, real CSV name, original schema, multi-year-vintage boundary"
+    },
+    {
+      "id": "MENDELEY_JAPAN_3_RICE_SITES_FLUX",
+      "kind": "JAPAN_RICE_SITE_MET_AND_FLUX_UNCLASSIFIED_CH4",
+      "record_url": "https://data.mendeley.com/datasets/tv23z95r5g/2",
+      "license": "CC-BY-4.0_PER_SOURCE_PAGE",
+      "years_site_total": 4,
+      "sites": [
+        "Saito",
+        "Saga",
+        "Aso"
+      ],
+      "file_names": [
+        "MetFlux_1day.csv",
+        "MetFlux_60min.csv",
+        "Vegetation.csv",
+        "Soil.csv",
+        "DataDetails.txt"
+      ],
+      "native_data_downloaded_here": false,
+      "independent_original_checksum_sha256": null,
+      "normalised_ch4_flux_rows": 0,
+      "parse_requires": "check variable dictionary whether CH4 actually present; met+energy flux is not automatically methane"
+    }
+  ],
+  "raw_chamber_records_added": 3005,
+  "raw_rice_daily_flux_records_added": 0,
+  "certified_emissions_tco2e": null,
+  "unvalidated_sources_not_automatically_merged": true
+}
