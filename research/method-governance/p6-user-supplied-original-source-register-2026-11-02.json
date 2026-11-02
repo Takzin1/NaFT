@@ -1,0 +1,410 @@
+{
+  "schema": "naft-p6-local-original-source-evidence-v1",
+  "snapshot_date": "2026-11-02",
+  "verification_scope": "THREE_USER_SUPPLIED_DOCUMENT_RAW_BYTE_HASHES_MATCH_EXISTING_RESEARCH_REGISTRY",
+  "publisher_authenticated_original_files": false,
+  "redistribution_authorized": false,
+  "raw_originals_committed": false,
+  "live_current_adoption_verified": false,
+  "source_references": [
+    {
+      "source_id": "VERRA_VM0051_2026",
+      "publisher": "Verra",
+      "title": "VM0051 Improved Management in Rice Production Systems v1.1",
+      "file_name": "方法論2026(1).pdf",
+      "document_format": "pdf",
+      "version": "1.1",
+      "publication_date": "2026-07-14",
+      "pages": 90,
+      "raw_bytes": 1335524,
+      "sha256": "9b9738840824f5919e3a76f8807c68743ae3d64b5d931cda27598f3ab32c64e2",
+      "source_url": "https://verra.org/methodologies/vm0051-improved-management-in-rice-production-systems-v1-1/",
+      "file_is_publisher_authenticated": false,
+      "raw_copy_location": "USER_PROVIDED_LIBRARY_NOT_COMMITTED",
+      "local_uploaded_copy_sha_verified": "2026-11-02",
+      "redistribution_license_verified": false,
+      "current_program_adoption_verified": false,
+      "independent_publisher_download_verified": false
+    },
+    {
+      "source_id": "GS_TRAINING_SCENARIOS",
+      "publisher": "Gold Standard",
+      "title": "Emission Reduction Calculation Tool - Training Exercise Scenarios",
+      "file_name": "シナリオ3類型(1).pdf",
+      "document_format": "pdf",
+      "version": "TRAINING_EXERCISES",
+      "publication_date": null,
+      "pages": 2,
+      "raw_bytes": 100924,
+      "sha256": "77519262ddf83e00a3dd04f89be7cef46a79f534c50496f1c770325e5f1ef461",
+      "source_url": null,
+      "file_is_publisher_authenticated": false,
+      "raw_copy_location": "USER_PROVIDED_LIBRARY_NOT_COMMITTED",
+      "local_uploaded_copy_sha_verified": "2026-11-02",
+      "redistribution_license_verified": false,
+      "current_program_adoption_verified": false,
+      "independent_publisher_download_verified": false
+    },
+    {
+      "source_id": "GS_AWD_VVB_CHECKLIST_2024",
+      "publisher": "Gold Standard",
+      "title": "Validation Checklist - Methane Emission Reduction by Adjusted Water Management Practice in Rice Cultivation",
+      "file_name": "チェックリスト(1).docx",
+      "document_format": "docx",
+      "version": "1.0",
+      "publication_date": "2024-04-05",
+      "pages": 38,
+      "raw_bytes": 276403,
+      "sha256": "532ec2c31daf95d911367b2516a5e0c67d17ba47031457c89d9d55844217478a",
+      "source_url": null,
+      "file_is_publisher_authenticated": false,
+      "raw_copy_location": "USER_PROVIDED_LIBRARY_NOT_COMMITTED",
+      "local_uploaded_copy_sha_verified": "2026-11-02",
+      "redistribution_license_verified": false,
+      "current_program_adoption_verified": false,
+      "independent_publisher_download_verified": false
+    }
+  ],
+  "claims": [
+    {
+      "id": "VERRA.4.APPLICABILITY",
+      "source_id": "VERRA_VM0051_2026",
+      "locator": "VM0051 §4",
+      "page_start": 9,
+      "page_end": 10,
+      "statement_ja": "対象営農方式、灌漑・排水能力、作付回数、原生生態系転換の制限、現行制度の適用可否は案件単位で確認。",
+      "evidence_ids": [
+        "PROJECT_ACTIVITY",
+        "IRRIGATION_INFRASTRUCTURE",
+        "CROPPING_HISTORY",
+        "ECOSYSTEM_HISTORY"
+      ],
+      "p5_links": [],
+      "kind": "METHOD_PRIMARY_SOURCE_PARAPHRASE",
+      "original_text_copied_into_repo": false,
+      "official_adoption_inferred": false,
+      "real_project_data_verified": false,
+      "certifiable_output": null
+    },
+    {
+      "id": "VERRA.4.SOC_EXCLUSION",
+      "source_id": "VERRA_VM0051_2026",
+      "locator": "VM0051 §4 condition 7 and footnote 2",
+      "page_start": 10,
+      "page_end": 10,
+      "statement_ja": "炭素投入量の低下でSOCを実質的に減らす活動を適用条件から除外。SOC増加のクレジットは別方法論の問題。",
+      "evidence_ids": [
+        "BASELINE_CARBON_INPUTS",
+        "PROJECT_CARBON_INPUTS",
+        "EXPERT_SOC_SAFEGUARDS"
+      ],
+      "p5_links": [
+        "VERRA.VM0051.9.3.3"
+      ],
+      "kind": "METHOD_PRIMARY_SOURCE_PARAPHRASE",
+      "original_text_copied_into_repo": false,
+      "official_adoption_inferred": false,
+      "real_project_data_verified": false,
+      "certifiable_output": null
+    },
+    {
+      "id": "VERRA.8.1.QA_MAPPING",
+      "source_id": "VERRA_VM0051_2026",
+      "locator": "VM0051 §8.1 Table 3",
+      "page_start": 18,
+      "page_end": 21,
+      "statement_ja": "QA1=モデル、QA2=直接測定、QA3=排出係数。GHG源ごとに使える手法が異なり基準／事業の同じ源・期間では同手法が必要。",
+      "evidence_ids": [
+        "GHG_SOURCE_BOUNDARY",
+        "QUANTIFICATION_APPROACH",
+        "MODEL_DOMAIN_OR_MEASUREMENT_DESIGN",
+        "BASELINE_PROJECT_PARITY"
+      ],
+      "p5_links": [],
+      "kind": "METHOD_PRIMARY_SOURCE_PARAPHRASE",
+      "original_text_copied_into_repo": false,
+      "official_adoption_inferred": false,
+      "real_project_data_verified": false,
+      "certifiable_output": null
+    },
+    {
+      "id": "VERRA.8.1.QA2_TRIGGER",
+      "source_id": "VERRA_VM0051_2026",
+      "locator": "VM0051 §8.1 QA2",
+      "page_start": 20,
+      "page_end": 20,
+      "statement_ja": "メタン酸化微生物、バイオ炭、低排出品種、専門家推奨の地下10cm未満AWDはQA2対象の候補。法適用は別途人間評価。",
+      "evidence_ids": [
+        "ACTIVITY_CATALOG",
+        "EXPERT_DRAIN_DEPTH",
+        "DIRECT_CHAMBER_PLAN"
+      ],
+      "p5_links": [],
+      "kind": "METHOD_PRIMARY_SOURCE_PARAPHRASE",
+      "original_text_copied_into_repo": false,
+      "official_adoption_inferred": false,
+      "real_project_data_verified": false,
+      "certifiable_output": null
+    },
+    {
+      "id": "VERRA.8.5.NET_REDUCTION",
+      "source_id": "VERRA_VM0051_2026",
+      "locator": "VM0051 §8.5 eq.29-34",
+      "page_start": 38,
+      "page_end": 39,
+      "statement_ja": "年間のGHG源別削減、漏出、事業追加排出、不確実性を一体として扱い、CH4減少の単独値を認証量としない。",
+      "evidence_ids": [
+        "GHG_SOURCE_BOUNDARY",
+        "BASELINE_PROJECT_PARITY",
+        "LEAKAGE_EVIDENCE",
+        "UNCERTAINTY_EVIDENCE"
+      ],
+      "p5_links": [],
+      "kind": "METHOD_PRIMARY_SOURCE_PARAPHRASE",
+      "original_text_copied_into_repo": false,
+      "official_adoption_inferred": false,
+      "real_project_data_verified": false,
+      "certifiable_output": null
+    },
+    {
+      "id": "VERRA.8.6.UNCERTAINTY",
+      "source_id": "VERRA_VM0051_2026",
+      "locator": "VM0051 §8.5 and §8.6",
+      "page_start": 38,
+      "page_end": 40,
+      "statement_ja": "源ごと・方式ごとの不確実性を考慮する。QA3の年間規模等に依存する15%控除は無条件で適用しない。",
+      "evidence_ids": [
+        "QUANTIFICATION_APPROACH",
+        "SOURCE_SPECIFIC_UNCERTAINTY",
+        "PROJECT_CAPACITY"
+      ],
+      "p5_links": [],
+      "kind": "METHOD_PRIMARY_SOURCE_PARAPHRASE",
+      "original_text_copied_into_repo": false,
+      "official_adoption_inferred": false,
+      "real_project_data_verified": false,
+      "certifiable_output": null
+    },
+    {
+      "id": "VERRA.9.3.1.MONITORING",
+      "source_id": "VERRA_VM0051_2026",
+      "locator": "VM0051 §9.3.1",
+      "page_start": 69,
+      "page_end": 71,
+      "statement_ja": "監視計画、品質管理、外れ値・独立チェック、電子アーカイブおよび専門家の営農推奨を証憑で確認。",
+      "evidence_ids": [
+        "MONITORING_PLAN",
+        "QC_PROTOCOL",
+        "ELECTRONIC_ARCHIVE_PLAN",
+        "EXPERT_SOC_SAFEGUARDS"
+      ],
+      "p5_links": [
+        "VERRA.VM0051.9.3.1"
+      ],
+      "kind": "METHOD_PRIMARY_SOURCE_PARAPHRASE",
+      "original_text_copied_into_repo": false,
+      "official_adoption_inferred": false,
+      "real_project_data_verified": false,
+      "certifiable_output": null
+    },
+    {
+      "id": "VERRA.9.3.3.EXPERT_SAFEGUARDS",
+      "source_id": "VERRA_VM0051_2026",
+      "locator": "VM0051 §9.3.3",
+      "page_start": 71,
+      "page_end": 72,
+      "statement_ja": "層別・品種別専門家推奨、収量影響と炭素投入量、SOC減少防止を確認。水深10cm等は現場条件に応じた指針で自動合格値ではない。",
+      "evidence_ids": [
+        "EXPERT_SOC_SAFEGUARDS",
+        "PROJECT_CARBON_INPUTS",
+        "YIELD_PER_CROP",
+        "LOCAL_SOIL_WEATHER"
+      ],
+      "p5_links": [
+        "VERRA.VM0051.9.3.3"
+      ],
+      "kind": "METHOD_PRIMARY_SOURCE_PARAPHRASE",
+      "original_text_copied_into_repo": false,
+      "official_adoption_inferred": false,
+      "real_project_data_verified": false,
+      "certifiable_output": null
+    },
+    {
+      "id": "VERRA.APP2.DIRECT_MEASUREMENT",
+      "source_id": "VERRA_VM0051_2026",
+      "locator": "VM0051 Appendix 2 Table 6",
+      "page_start": 79,
+      "page_end": 81,
+      "statement_ja": "QA2では層別の基準／事業測定サイト、チャンバー反復・測定間隔・ラボの記録を確認。最低3+3地点／層や3ガス標本／チャンバーの値は手順審査対象。",
+      "evidence_ids": [
+        "CHAMBER_SAMPLING_PLAN",
+        "STRATUM_BASELINE_AND_PROJECT_SITES",
+        "LAB_CALIBRATION",
+        "SAMPLE_CHAIN_OF_CUSTODY"
+      ],
+      "p5_links": [],
+      "kind": "METHOD_PRIMARY_SOURCE_PARAPHRASE",
+      "original_text_copied_into_repo": false,
+      "official_adoption_inferred": false,
+      "real_project_data_verified": false,
+      "certifiable_output": null
+    },
+    {
+      "id": "VERRA.APP4.DMRV_QUALITY",
+      "source_id": "VERRA_VM0051_2026",
+      "locator": "VM0051 Appendix 4 Table 9",
+      "page_start": 85,
+      "page_end": 87,
+      "statement_ja": "衛星画像の時間・空間分解能、雲遮蔽補正、VVBの再検証可能性、ML特徴説明、独立ground-truthを区別する。",
+      "evidence_ids": [
+        "REMOTE_SENSING_PROVENANCE",
+        "GROUND_TRUTH_HOLDOUT",
+        "ML_FEATURE_AUDIT",
+        "VVB_SPOT_CHECK_ACCESS"
+      ],
+      "p5_links": [],
+      "kind": "METHOD_PRIMARY_SOURCE_PARAPHRASE",
+      "original_text_copied_into_repo": false,
+      "official_adoption_inferred": false,
+      "real_project_data_verified": false,
+      "certifiable_output": null
+    },
+    {
+      "id": "GS.TRAINING.SCENARIO_1",
+      "source_id": "GS_TRAINING_SCENARIOS",
+      "locator": "training exercise p.1 / Scenario 1",
+      "page_start": 1,
+      "page_end": 1,
+      "statement_ja": "簡易Tier1教材、2期作、初年度1000ha・翌年4000ha、5年シナリオは設問であり認証計算結果ではない。",
+      "evidence_ids": [
+        "GS_TRAINING_WORKBOOK",
+        "TRAINING_SCENARIO_ONLY"
+      ],
+      "p5_links": [],
+      "kind": "EDUCATIONAL_ILLUSTRATION_NOT_MEASURED",
+      "original_text_copied_into_repo": false,
+      "official_adoption_inferred": false,
+      "real_project_data_verified": false,
+      "certifiable_output": null
+    },
+    {
+      "id": "GS.TRAINING.SCENARIO_2",
+      "source_id": "GS_TRAINING_SCENARIOS",
+      "locator": "training exercise pp.1-2 / Scenario 2",
+      "page_start": 1,
+      "page_end": 2,
+      "statement_ja": "Tier2の教材。12000ha、112日、基準排出係数1.05kg CH4/ha/dayは当該教材の仮定値であり対象圃場の実測値ではない。",
+      "evidence_ids": [
+        "GS_TRAINING_WORKBOOK",
+        "TRAINING_SCENARIO_ONLY"
+      ],
+      "p5_links": [],
+      "kind": "EDUCATIONAL_ILLUSTRATION_NOT_MEASURED",
+      "original_text_copied_into_repo": false,
+      "official_adoption_inferred": false,
+      "real_project_data_verified": false,
+      "certifiable_output": null
+    },
+    {
+      "id": "GS.TRAINING.SCENARIO_3",
+      "source_id": "GS_TRAINING_SCENARIOS",
+      "locator": "training exercise p.2 / Scenario 3",
+      "page_start": 2,
+      "page_end": 2,
+      "statement_ja": "Tier3の教材。420対95 kg CH4/ha/yearは設問の前提であり実農地の実証ではない。",
+      "evidence_ids": [
+        "GS_TRAINING_WORKBOOK",
+        "TRAINING_SCENARIO_ONLY"
+      ],
+      "p5_links": [],
+      "kind": "EDUCATIONAL_ILLUSTRATION_NOT_MEASURED",
+      "original_text_copied_into_repo": false,
+      "official_adoption_inferred": false,
+      "real_project_data_verified": false,
+      "certifiable_output": null
+    },
+    {
+      "id": "GS.VVB.CHECKLIST_INTRO",
+      "source_id": "GS_AWD_VVB_CHECKLIST_2024",
+      "locator": "Gold Standard AWD v1.0 checklist introduction",
+      "page_start": 1,
+      "page_end": 2,
+      "statement_ja": "2024年版のVVB検証チェックリスト。設問に正式な証憑参照を付すこととCAR/CL/FARの記録を要求する資料で、現在の制度版とは限らない。",
+      "evidence_ids": [
+        "VALIDATION_EVIDENCE_INDEX",
+        "CAR_CL_FAR_LOG"
+      ],
+      "p5_links": [],
+      "kind": "HISTORICAL_VALIDATION_CHECKLIST",
+      "original_text_copied_into_repo": false,
+      "official_adoption_inferred": false,
+      "real_project_data_verified": false,
+      "certifiable_output": null
+    },
+    {
+      "id": "GS.VVB.SCOPE",
+      "source_id": "GS_AWD_VVB_CHECKLIST_2024",
+      "locator": "Gold Standard AWD v1.0 checklist Scope and Applicability Q1-3",
+      "page_start": 3,
+      "page_end": 4,
+      "statement_ja": "AWD等の対象農業方式、灌漑施設、収量減少、農家研修、規制等の適用条件に関するVVBの質問例。",
+      "evidence_ids": [
+        "PROJECT_ACTIVITY",
+        "IRRIGATION_INFRASTRUCTURE",
+        "YIELD_PER_CROP",
+        "FARMER_TRAINING"
+      ],
+      "p5_links": [],
+      "kind": "HISTORICAL_VALIDATION_CHECKLIST",
+      "original_text_copied_into_repo": false,
+      "official_adoption_inferred": false,
+      "real_project_data_verified": false,
+      "certifiable_output": null
+    }
+  ],
+  "evidence_catalog": [
+    "ACTIVITY_CATALOG",
+    "BASELINE_CARBON_INPUTS",
+    "BASELINE_PROJECT_PARITY",
+    "CAR_CL_FAR_LOG",
+    "CHAMBER_SAMPLING_PLAN",
+    "CROPPING_HISTORY",
+    "DIRECT_CHAMBER_PLAN",
+    "ECOSYSTEM_HISTORY",
+    "ELECTRONIC_ARCHIVE_PLAN",
+    "EXPERT_DRAIN_DEPTH",
+    "EXPERT_SOC_SAFEGUARDS",
+    "FARMER_TRAINING",
+    "GHG_SOURCE_BOUNDARY",
+    "GROUND_TRUTH_HOLDOUT",
+    "GS_TRAINING_WORKBOOK",
+    "IRRIGATION_INFRASTRUCTURE",
+    "LAB_CALIBRATION",
+    "LEAKAGE_EVIDENCE",
+    "LOCAL_SOIL_WEATHER",
+    "ML_FEATURE_AUDIT",
+    "MODEL_DOMAIN_OR_MEASUREMENT_DESIGN",
+    "MONITORING_PLAN",
+    "PROJECT_ACTIVITY",
+    "PROJECT_CAPACITY",
+    "PROJECT_CARBON_INPUTS",
+    "QC_PROTOCOL",
+    "QUANTIFICATION_APPROACH",
+    "REMOTE_SENSING_PROVENANCE",
+    "SAMPLE_CHAIN_OF_CUSTODY",
+    "SOURCE_SPECIFIC_UNCERTAINTY",
+    "STRATUM_BASELINE_AND_PROJECT_SITES",
+    "TRAINING_SCENARIO_ONLY",
+    "UNCERTAINTY_EVIDENCE",
+    "VALIDATION_EVIDENCE_INDEX",
+    "VVB_SPOT_CHECK_ACCESS",
+    "YIELD_PER_CROP"
+  ],
+  "p5_bound_clause_ids": [
+    "VERRA.VM0051.9.3.1",
+    "VERRA.VM0051.9.3.3"
+  ],
+  "method_rules_are_not_computed": true,
+  "formal_amount_tco2e": null,
+  "issuance": null
+}
