@@ -16,6 +16,7 @@ node tests/p1-methods-ja.test.mjs
 node tests/p2-audit-packet-preflight.test.mjs
 node tests/p2-method-soc-gate.test.mjs
 node tests/p3-method-document-intake.test.mjs
+node tests/p4-method-source-impact.test.mjs
 node tests/dmrv-literature-register.test.mjs
 node tests/climatechain-japanese.test.mjs
 node tests/ieee-audit.test.mjs
