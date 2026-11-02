@@ -246,3 +246,9 @@ GitHub Actions [source acquisition run](https://github.com/Takzin1/NaFT/actions/
 [原典・式と注意点](docs/p9-47pref-pdf-ag005-legacy-ja-2026-11-03.md) / `node scripts/p9-prefecture-rice-source-guard.mjs audit`。北海道公式PDFの農林水産省「作物統計調査」比較表から**2024年産の全国47都道府県**の水稲作付面積・収量・玄米収穫量を版付きで固定。**15道県の県固有農業技術PDF出典**も索引化（残り32県は県別資料未精査）。県ごとのデータを統計恒等式で照合し、公表値との疑義を修正せず保留にする。`prefecture 07` で福島県の数値と出典を個別確認可能。
 
 `preview fixtures/p9-synthetic-ag005-v1-preview.json` は**旧AG-005 v1.0の参考数式**と、入力者が指定した**合成係数・GWP**での独立検算。現在の方法論採択・排出係数やJ-クレジット正式認証を意味しない。**正式CO₂e認証値：null**。P8観測と県別栽培指導・統計を直接同じフラックスとして混同することを禁止。
+
+## P10｜Climate Evidence StudioデザインとGX Data Atlas（47都道府県）
+
+[DESIGN.md](DESIGN.md) にGoogle Labsの公開`DESIGN.md`形式を参考としたNaFT独自トークンを定義。[P10仕様書](docs/p10-gx-climatetech-ui-data-atlas-ja-2026-11-03.md)にデザインの出典・数値・単位・制度適用境界を掲載。新UI `#/gx-data` は2024年の47都道府県水稲統計・地域PDFリンクを県セレクターで閲覧可能。2025年**主食用米確報**と2026年**9月25日時点の主食用米予測**は別の状態を付け、2024年の全水稲とは直接の時系列比較をブロックする。
+
+`src/gx-design-system.css` の森林色×研究用カードを既存画面へ適用し、既存のClimateChain競技専用ルートをCSSスコープから除外。実測CH₄や正式tCO₂eの認証は追加していない。 `node tests/p10-gx-design-data.test.mjs` でP9との47件一致・公開原資料・時点ガード・ルート配線を検証。
