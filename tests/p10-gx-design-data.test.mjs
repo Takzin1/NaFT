@@ -34,6 +34,7 @@ const z=structuredClone(g);z.officially_certified_tco2e=1;
 reject(()=>checkP10Vintages(z),'RESEARCH_SCOPE');
 const old=JSON.parse(file('research/p9-japan-47-prefecture-paddy-pdf-source-register-2026-11-03.json'));
 const sandbox={};vm.createContext(sandbox);
+vm.runInContext(file('src/gx-2025-prefecture.js'),sandbox,{timeout:2000});
 vm.runInContext(file('src/gx-data-explorer.js'),sandbox,{timeout:2000});
 const stats=JSON.parse(JSON.stringify(sandbox.GX_RICE_STATS));
 const local=JSON.parse(JSON.stringify(sandbox.GX_LOCAL_DOCS));
