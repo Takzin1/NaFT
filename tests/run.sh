@@ -21,6 +21,7 @@ node tests/p5-clause-evidence-trace.test.mjs
 node tests/p6-local-original-evidence.test.mjs
 node tests/p7-offline-observation-qc.test.mjs
 python3 tests/p8-gimje-native-dock.test.py
+node tests/p9-prefecture-rice-source-guard.test.mjs
 node tests/dmrv-literature-register.test.mjs
 node tests/climatechain-japanese.test.mjs
 node tests/ieee-audit.test.mjs

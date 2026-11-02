@@ -1,0 +1,31 @@
+{
+  "schema": "naft-p9-ag005-v1-historical-preview-v1",
+  "method_version": "AG005_V1_0_HISTORICAL_REFERENCE_ONLY",
+  "prefecture_code": "07",
+  "baseline_years": [
+    {
+      "year": 2022,
+      "crop_drain_days": [
+        8
+      ]
+    },
+    {
+      "year": 2023,
+      "crop_drain_days": [
+        9
+      ]
+    }
+  ],
+  "project_midseason_drain_days": 16,
+  "strata": [
+    {
+      "stratum_id": "SYNTHETIC_FIELD_1",
+      "area_ha": 2,
+      "baseline_ef_kg_ch4_c_ha_year": 100,
+      "project_ef_kg_ch4_c_ha_year": 70
+    }
+  ],
+  "gwp_ch4": 28,
+  "gwp_year_source": "SYNTHETIC_GWP_28_NO_OFFICIAL_INVENTORY_CLAIM",
+  "factor_source_and_version": "SYNTHETIC_EF_100_TO_70_NO_OFFICIAL_INVENTORY_CLAIM"
+}

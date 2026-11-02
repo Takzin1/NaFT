@@ -240,3 +240,9 @@ GitHub Actions [source acquisition run](https://github.com/Takzin1/NaFT/actions/
 ## P8｜Gimje原データZIP＋圃場Excelのオフライン直接ドッキング
 
 [Zenodo配布元のMD5、著者RコードのDAT→日付変換、元観測ファイルの取込条件](docs/p8-gimje-native-source-docking-ja-2026-11-02.md)を確認し、`scripts/p8-gimje-native-dock.py` を追加。明示的な `acquire` で外部データを私有領域へ取得し、`dock ZIP XLSX CANONICAL_CSV RECEIPT_JSON` で原バイトMD5を照合した上でP7 QCに接続、`verify` で全レシートを再現できる。**原ZIP/XLSXはRepoに入れない。通信制限のため実原観測の取得と統合はまだ実施できていない。** テストは合成ファイルのみ。正式な認証CO₂eの計算は行わない。
+
+## P9｜全47都道府県の水稲統計・地域農業PDF・旧AG-005式の独立検証
+
+[原典・式と注意点](docs/p9-47pref-pdf-ag005-legacy-ja-2026-11-03.md) / `node scripts/p9-prefecture-rice-source-guard.mjs audit`。北海道公式PDFの農林水産省「作物統計調査」比較表から**2024年産の全国47都道府県**の水稲作付面積・収量・玄米収穫量を版付きで固定。**15道県の県固有農業技術PDF出典**も索引化（残り32県は県別資料未精査）。県ごとのデータを統計恒等式で照合し、公表値との疑義を修正せず保留にする。`prefecture 07` で福島県の数値と出典を個別確認可能。
+
+`preview fixtures/p9-synthetic-ag005-v1-preview.json` は**旧AG-005 v1.0の参考数式**と、入力者が指定した**合成係数・GWP**での独立検算。現在の方法論採択・排出係数やJ-クレジット正式認証を意味しない。**正式CO₂e認証値：null**。P8観測と県別栽培指導・統計を直接同じフラックスとして混同することを禁止。
