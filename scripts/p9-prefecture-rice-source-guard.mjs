@@ -51,7 +51,7 @@ export function validateP9PrefectureRegister(g=loadP9PrefectureRegister()){
   &&g.prefectures.reduce((a,p)=>a+p.reported_harvest_brown_rice_t,0)===7344993,
   'NATIONAL_TRANSCRIPTION_CHECKSUM');
  assert(Array.isArray(g.regional_pdf_sources)&&g.regional_pdf_sources.length===15
-  &&g.regional_sources_reviewed===15
+  &&g.regional_source_links_indexed===15
   &&unique(g.regional_pdf_sources.map(x=>x.prefecture_code)),'REGIONAL_INDEX');
  const names=new Set(g.prefectures.map(p=>p.jis_code));
  for(const r of g.regional_pdf_sources){
