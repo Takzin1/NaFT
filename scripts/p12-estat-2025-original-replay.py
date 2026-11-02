@@ -46,7 +46,7 @@ def compound_workbook(b):
  fat=[]
  for i in fat_ids[:u32(b,44)]:
   fat.extend(struct.unpack('<128I',sector(i)))
- def chain(start,size):
+ def chain(start,size=None):
   out=bytearray()
   seen=set()
   while start<FAT_END:
@@ -55,9 +55,9 @@ def compound_workbook(b):
    out.extend(sector(start))
    demand(start<len(fat),'OLE_FAT_ENTRY_MISSING')
    start=fat[start]
-  demand(start==END and len(out)>=size,'OLE_CHAIN_LENGTH')
-  return bytes(out[:size])
- dirs=chain(u32(b,48),8192)
+  demand(start==END and (size is None or len(out)>=size),'OLE_CHAIN_LENGTH')
+  return bytes(out if size is None else out[:size])
+ dirs=chain(u32(b,48))
  entries={}
  for i in range(0,len(dirs),128):
   e=dirs[i:i+128]
