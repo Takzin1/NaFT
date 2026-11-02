@@ -168,3 +168,11 @@ GitHub Actions [source acquisition run](https://github.com/Takzin1/NaFT/actions/
 **研究文献更新（2026-10-25）**：[DMRV文献5本の出典・制約・適用範囲](docs/dmrv-literature-2026-10-25.md)を追加。研究根拠専用で、認証や算定エンジンには未接続。
 
 **カーボンクレジット出典監査（2026-10-25）:** [公開URL32件・確認結果・利用上の制約](docs/carboncredit-source-audit-2026-10-25.md) / [全32行の機械可読な台帳](research/carboncredit-link-audit-2026-10-25/source-audit.json)。原データや認証量を直接算定へ投入していません。
+
+## IEEE主要機能の日本語統合（移植候補）
+
+**[ClimateChain日本語デモを開く](https://takzin1.github.io/NaFT/naft-app.html#/climatechain)** — 合成100件の差分再検証、申請別トレース、改ざんチャレンジ、監査レシート、3要素整合性検証、既存Sepolia記録を日本語表示で操作します。**PRがmainにマージされるまで、この公開URLには反映されません。**
+
+独立再現用CLI：`scripts/ieee-replay-audit.mjs`, `scripts/ieee-triad-proof.mjs`, `scripts/ieee-benchmark.mjs`, `scripts/ieee-source-snapshot.mjs`。原IEEEの判定コード・hash・JSON・チェーン記録は変更せず、日本語訳はUI表示に限定。合成テストやtestnet証跡は実測削減・正式認証・経済的効果を立証しません。
+
+[移植内容・未実装の境界・再現手順](docs/ieee-japanese-port-2026-10-25.md)

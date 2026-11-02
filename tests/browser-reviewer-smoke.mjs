@@ -194,6 +194,27 @@ if(exportedCompiler.download!=='naft-compiler-package.json') throw new Error('CO
 if(exportedCompiler.status!=='ATTESTED_RESEARCH_PACKAGE'||exportedCompiler.formal_certification!==false||exportedCompiler.acknowledged!==true||exportedCompiler.scope!=='not_formal_certification'||!exportedCompiler.hashMatches) {
   throw new Error('COMPILER_ATTESTED_EXPORT_INVALID:'+JSON.stringify(exportedCompiler));
 }
+// Japanese IEEE port: actual browser route and click-handler proof.
+await evaluate("location.hash='#/climatechain'; true");
+await until("document.querySelector('[data-action=\\\"climatechain-run\\\"]')!==null && document.body.innerText.includes('版管理型 気候MRV')",'Japanese ClimateChain route');
+const climateInitial=await evaluate("({hash:location.hash,heading:document.querySelector('header h1')?.textContent,overflow:document.documentElement.scrollWidth>window.innerWidth})");
+if(climateInitial.hash!=='#/climatechain'||climateInitial.overflow)
+  throw new Error('JAPANESE_CLIMATE_ROUTE_INVALID:'+JSON.stringify(climateInitial));
+await evaluate("document.querySelector('[data-action=\\\"climatechain-run\\\"]').click(); true");
+await until("ClimateChainDemo.impact!==null && ClimateChainDemo.impact.counts.total===100",'ClimateChain computed impact');
+const climateCounts=await evaluate("({total:ClimateChainDemo.impact.counts.total,affected:ClimateChainDemo.impact.counts.require_reverification,unaffected:ClimateChainDemo.impact.counts.UNAFFECTED,auto:ClimateChainDemo.impact.counts.AUTO_REEVALUATED,blocked:ClimateChainDemo.impact.counts.EVIDENCE_REQUIRED})");
+if(JSON.stringify(climateCounts)!==JSON.stringify({total:100,affected:30,unaffected:70,auto:15,blocked:15}))
+  throw new Error('JAPANESE_CLIMATE_COUNTS_MISMATCH:'+JSON.stringify(climateCounts));
+await evaluate("document.querySelector('[data-action=\\\"climatechain-tamper\\\"]').click(); true");
+await until("ClimateChainDemo.tamper!==null && ClimateChainDemo.tamper.fail_closed===true",'ClimateChain tamper fail-closed');
+await evaluate("document.querySelector('[data-action=\\\"climatechain-anchor-plan\\\"]').click(); true");
+await until("ClimateChainDemo.anchorPlan!==null && ClimateChainDemo.anchorPlan.chain_status==='NOT_SUBMITTED'",'ClimateChain local plan no broadcast');
+const climateFinal=await evaluate("({hash:location.hash,hasTx:document.body.innerText.includes('Sepolia'),overflow:document.documentElement.scrollWidth>window.innerWidth,error:!!document.querySelector('section.error')||!!document.querySelector('.status.error')})");
+if(climateFinal.overflow||climateFinal.error||!climateFinal.hasTx)
+  throw new Error('JAPANESE_CLIMATE_RENDER_ERROR:'+JSON.stringify(climateFinal));
+console.log('ClimateChain Japanese route, interactive impact, tamper and nonbroadcast anchor: PASS');
+console.log(JSON.stringify(climateCounts));
+
 if(runtimeProblems.length) throw new Error('BROWSER_RUNTIME_PROBLEMS:'+JSON.stringify(runtimeProblems));
 
 console.log('Reviewer Demo browser click/mobile: PASS');
