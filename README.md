@@ -218,3 +218,9 @@ GitHub Actions [source acquisition run](https://github.com/Takzin1/NaFT/actions/
 
 - [P4：状態分類、CLI、7/8領域のレビュー候補、次の独立再検証条件](docs/p4-method-source-impact-ja-2026-11-02.md)
 - 動作確認：`node tests/p4-method-source-impact.test.mjs`。CIは原典ではなく、**合成PDFマーカー**を使う。
+
+## P5｜制度別の条項から、必要な証憑・レビュー・再検証先を追跡
+
+[Gold Standardの2025年12月22日付SOC規則（一般対応期限2026年7月1日）と旧7月版の差異](docs/p5-clause-evidence-trace-ja-2026-11-02.md)を一次資料に基づき整理。Verra VM0051 v1.1のSOC管理、J-クレジットAG-005の**旧参考資料のみ**という限界も区分した。公開条項14件から必要証憑21種を引き当てる研究用トレースが可能。
+
+`node scripts/p5-clause-evidence-trace.mjs markdown fixtures/p5-gs-soc-clause-trace-request.json` で証憑の不足や時点レビュー候補を出力。旧規則での判定、制度横断混同、独立QCやクレジット認証への自動昇格は禁止する。**PDFの条文を自動抽出・比較したり、実測算定・認証を実行する仕組みではない。**

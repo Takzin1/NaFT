@@ -1,0 +1,410 @@
+{
+  "schema": "naft-p5-official-clause-evidence-trace-v1",
+  "snapshot_date": "2026-11-02",
+  "research_only": true,
+  "compiler_pack_replaced": false,
+  "original_external_pdf_bytes_vendored": false,
+  "independent_publisher_authentication": false,
+  "all_computations_officially_approved": false,
+  "source_index": [
+    {
+      "id": "GS_SOC_2025_12_22",
+      "program": "GS_AWD_SOC",
+      "document_type": "OFFICIAL_PUBLISHED_RULE_UPDATE",
+      "publication_date": "2025-12-22",
+      "listed_applicable_rule_update": true,
+      "url": "https://globalgoals.goldstandard.org/standards/RU_2025_Accounting-of-SOC-Loss-Risk-in-Activities-Applying-Rice-Methodology-1.pdf",
+      "official_listing_url": "https://globalgoals.goldstandard.org/rule-updates/",
+      "raw_pdf_sha256": null,
+      "raw_pdf_bytes_downloaded_to_repo": false,
+      "source_review_state": "WEB_PAGE_AND_PDF_TEXT_REVIEWED_NOT_BINARY_HASH_PINNED",
+      "general_monitoring_window_from": "2026-07-01",
+      "automatic_certification": false
+    },
+    {
+      "id": "GS_SOC_2025_07_07",
+      "program": "GS_AWD_SOC",
+      "document_type": "OLDER_VISIBLE_RULE_UPDATE_VERSION",
+      "publication_date": "2025-07-07",
+      "listed_applicable_rule_update": false,
+      "url": "https://globalgoals.goldstandard.org/standards/RU_2025_Accounting-of-SOC-Loss-Risk-in-Activities-Applying-Rice-Methodology.pdf",
+      "official_listing_url": null,
+      "raw_pdf_sha256": null,
+      "raw_pdf_bytes_downloaded_to_repo": false,
+      "source_review_state": "WEB_PAGE_AND_PDF_TEXT_REVIEWED_SUPERSEDED_IN_OFFICIAL_LISTING",
+      "general_monitoring_window_from": "2026-01-01",
+      "automatic_certification": false
+    },
+    {
+      "id": "VERRA_VM0051_1_1",
+      "program": "VERRA_VM0051",
+      "document_type": "OFFICIAL_METHOD_WEB_SUMMARY",
+      "publication_date": "2026-07-14",
+      "listed_applicable_rule_update": true,
+      "url": "https://verra.org/methodologies/vm0051-improved-management-in-rice-production-systems-v1-1/",
+      "official_listing_url": null,
+      "raw_pdf_sha256": null,
+      "raw_pdf_bytes_downloaded_to_repo": false,
+      "source_review_state": "OFFICIAL_METHOD_PAGE_REVIEWED_NO_PDF_BINARY_HASH",
+      "general_monitoring_window_from": null,
+      "automatic_certification": false
+    },
+    {
+      "id": "AG005_3_1_REFERENCE",
+      "program": "J_CREDIT_AG005",
+      "document_type": "HISTORICAL_PUBLIC_COMMENT_REFERENCE",
+      "publication_date": null,
+      "listed_applicable_rule_update": false,
+      "url": "https://public-comment.e-gov.go.jp/pcm/download?seqNo=0000281460",
+      "official_listing_url": "https://japancredit.go.jp/about/methodology/",
+      "raw_pdf_sha256": "f861e4af40f3fa1fb3a0b54327cd7720f6e5028ae99455bf39274f97140a2050",
+      "raw_pdf_bytes_downloaded_to_repo": false,
+      "source_review_state": "PAST_RESEARCH_REFERENCE_HASH_NOT_CURRENT_APPLICABILITY",
+      "general_monitoring_window_from": null,
+      "automatic_certification": false,
+      "publication_date_precision": "HISTORICAL_MONTH_ONLY_2024_11_NOT_OFFICIAL_CURRENT"
+    }
+  ],
+  "clauses": [
+    {
+      "id": "GS.SOC.1.1.2",
+      "source_id": "GS_SOC_2025_12_22",
+      "locator": "§1.1.2",
+      "summary_ja": "2026-07-01を含む監視期間と早期任意対応について時点別確認。",
+      "evidence": [
+        "MONITORING_PERIOD_DATES",
+        "PROJECT_CERTIFICATION_STATUS"
+      ],
+      "review": [
+        "EFFECTIVE_DATE_AND_TRANSITION"
+      ],
+      "modules": [
+        "GS_SOC_APPLICABILITY_REVIEW"
+      ],
+      "source_pdf_raw_bytes_rechecked_in_p5": false,
+      "fully_translated_rule": false,
+      "officially_approved_computation": false
+    },
+    {
+      "id": "GS.SOC.1.2.1",
+      "source_id": "GS_SOC_2025_12_22",
+      "locator": "§1.2.1",
+      "summary_ja": "対象方法論・PoA/VPA等の適用対象区分を独立照合。",
+      "evidence": [
+        "PROJECT_METHOD_SELECTION",
+        "PROJECT_CERTIFICATION_STATUS"
+      ],
+      "review": [
+        "PROGRAM_SCOPE"
+      ],
+      "modules": [
+        "GS_SOC_APPLICABILITY_REVIEW"
+      ],
+      "source_pdf_raw_bytes_rechecked_in_p5": false,
+      "fully_translated_rule": false,
+      "officially_approved_computation": false
+    },
+    {
+      "id": "GS.SOC.2.3.3",
+      "source_id": "GS_SOC_2025_12_22",
+      "locator": "§2.3.3",
+      "summary_ja": "VVBによる土地・気象に適したSOC管理策の評価と再評価。",
+      "evidence": [
+        "LOCAL_SOIL_WEATHER",
+        "SCIENTIFIC_PRACTICE_SUPPORT",
+        "VVB_ASSESSMENT"
+      ],
+      "review": [
+        "VVB_REVIEW"
+      ],
+      "modules": [
+        "GS_SOC_SAFEGUARD_REVIEW"
+      ],
+      "source_pdf_raw_bytes_rechecked_in_p5": false,
+      "fully_translated_rule": false,
+      "officially_approved_computation": false
+    },
+    {
+      "id": "GS.SOC.2.3.4",
+      "source_id": "GS_SOC_2025_12_22",
+      "locator": "§2.3.4",
+      "summary_ja": "各監視期間の管理策と作物収量の報告。",
+      "evidence": [
+        "FIELD_MANAGEMENT_LOGS",
+        "YIELD_PER_CROP"
+      ],
+      "review": [
+        "FIELD_MONITORING",
+        "REPORT_COMPLETENESS"
+      ],
+      "modules": [
+        "GS_SOC_MONITORING_REVIEW"
+      ],
+      "source_pdf_raw_bytes_rechecked_in_p5": false,
+      "fully_translated_rule": false,
+      "officially_approved_computation": false
+    },
+    {
+      "id": "GS.SOC.2.4.1",
+      "source_id": "GS_SOC_2025_12_22",
+      "locator": "§2.4.1",
+      "summary_ja": "管理策未報告・不十分時の対象圃場の控除可能性をVVBに付議。",
+      "evidence": [
+        "FIELD_MANAGEMENT_LOGS",
+        "FIELD_STRATIFICATION",
+        "VVB_ASSESSMENT"
+      ],
+      "review": [
+        "DEDUCTION_APPLICABILITY_HUMAN_REVIEW"
+      ],
+      "modules": [
+        "GS_SOC_DEDUCTION_REVIEW"
+      ],
+      "source_pdf_raw_bytes_rechecked_in_p5": false,
+      "fully_translated_rule": false,
+      "officially_approved_computation": false
+    },
+    {
+      "id": "GS.SOC.2.4.2",
+      "source_id": "GS_SOC_2025_12_22",
+      "locator": "§2.4.2-2.4.3",
+      "summary_ja": "重大なSOC損失がないことの証明と基準SOC比の評価。5%閾値を自動認証計算には使わない。",
+      "evidence": [
+        "SOC_BASELINE_SAMPLES",
+        "SOC_FOLLOWUP_SAMPLES",
+        "VVB_ASSESSMENT"
+      ],
+      "review": [
+        "SOC_LOSS_SIGNIFICANCE_HUMAN_REVIEW"
+      ],
+      "modules": [
+        "GS_SOC_DEDUCTION_REVIEW"
+      ],
+      "source_pdf_raw_bytes_rechecked_in_p5": false,
+      "fully_translated_rule": false,
+      "officially_approved_computation": false
+    },
+    {
+      "id": "GS.SOC.2.4.4",
+      "source_id": "GS_SOC_2025_12_22",
+      "locator": "§2.4.4",
+      "summary_ja": "SOCストック比較に直接測定とプロトコル、参照圃場の代表性が必要。モデル単独の推定不可。",
+      "evidence": [
+        "SOC_BASELINE_SAMPLES",
+        "SOC_FOLLOWUP_SAMPLES",
+        "SAMPLING_PROTOCOL",
+        "REFERENCE_FIELD_REPRESENTATIVENESS"
+      ],
+      "review": [
+        "DIRECT_MEASUREMENT_AND_QC"
+      ],
+      "modules": [
+        "GS_SOC_SAMPLING_REVIEW"
+      ],
+      "source_pdf_raw_bytes_rechecked_in_p5": false,
+      "fully_translated_rule": false,
+      "officially_approved_computation": false
+    },
+    {
+      "id": "GS.SOC.2.4.5",
+      "source_id": "GS_SOC_2025_12_22",
+      "locator": "§2.4.5-2.4.7",
+      "summary_ja": "VVBによる管理策、保守性、不確実性、比例的控除の独立声明。",
+      "evidence": [
+        "VVB_ASSESSMENT",
+        "UNCERTAINTY_REVIEW",
+        "FIELD_STRATIFICATION"
+      ],
+      "review": [
+        "VVB_ATTESTATION"
+      ],
+      "modules": [
+        "GS_SOC_VVB_REVIEW"
+      ],
+      "source_pdf_raw_bytes_rechecked_in_p5": false,
+      "fully_translated_rule": false,
+      "officially_approved_computation": false
+    },
+    {
+      "id": "GS.SOC.AWD.25",
+      "source_id": "GS_SOC_2025_12_22",
+      "locator": "Appendix A / AWD.25",
+      "summary_ja": "SOC保全管理策の圃場別記録。各作期および少なくとも年1回の確認。",
+      "evidence": [
+        "FIELD_MANAGEMENT_LOGS",
+        "FARMER_TRAINING",
+        "SCIENTIFIC_PRACTICE_SUPPORT"
+      ],
+      "review": [
+        "FIELD_MONITORING"
+      ],
+      "modules": [
+        "GS_SOC_MONITORING_REVIEW"
+      ],
+      "source_pdf_raw_bytes_rechecked_in_p5": false,
+      "fully_translated_rule": false,
+      "officially_approved_computation": false
+    },
+    {
+      "id": "GS.SOC.AWD.26",
+      "source_id": "GS_SOC_2025_12_22",
+      "locator": "Appendix A / AWD.26",
+      "summary_ja": "圃場・作期別の収量情報、記録・第三者資料との照合。",
+      "evidence": [
+        "YIELD_PER_CROP",
+        "YIELD_EVIDENCE"
+      ],
+      "review": [
+        "YIELD_QUALITY_REVIEW"
+      ],
+      "modules": [
+        "GS_SOC_MONITORING_REVIEW"
+      ],
+      "source_pdf_raw_bytes_rechecked_in_p5": false,
+      "fully_translated_rule": false,
+      "officially_approved_computation": false
+    },
+    {
+      "id": "VERRA.VM0051.9.3.1",
+      "source_id": "VERRA_VM0051_1_1",
+      "locator": "§9.3.1 (official v1.1 summary)",
+      "summary_ja": "専門家のSOC損失防止策についてモニタリング計画への反映を確認。",
+      "evidence": [
+        "MONITORING_PLAN",
+        "EXPERT_SOC_SAFEGUARDS"
+      ],
+      "review": [
+        "MONITORING_PLAN_REVIEW"
+      ],
+      "modules": [
+        "VERRA_SAFEGUARD_REVIEW"
+      ],
+      "source_pdf_raw_bytes_rechecked_in_p5": false,
+      "fully_translated_rule": false,
+      "officially_approved_computation": false
+    },
+    {
+      "id": "VERRA.VM0051.9.3.3",
+      "source_id": "VERRA_VM0051_1_1",
+      "locator": "§9.3.3 (official v1.1 summary)",
+      "summary_ja": "対象事業の土壌・水管理条件に関する専門家の推奨の範囲を確認。",
+      "evidence": [
+        "EXPERT_SOC_SAFEGUARDS",
+        "LOCAL_SOIL_WEATHER"
+      ],
+      "review": [
+        "EXPERT_REVIEW"
+      ],
+      "modules": [
+        "VERRA_SAFEGUARD_REVIEW"
+      ],
+      "source_pdf_raw_bytes_rechecked_in_p5": false,
+      "fully_translated_rule": false,
+      "officially_approved_computation": false
+    },
+    {
+      "id": "VERRA.VM0051.TRANSITION",
+      "source_id": "VERRA_VM0051_1_1",
+      "locator": "Official method page / Implications for VCS Projects",
+      "summary_ja": "VM0051 v1.0→1.1の移行と2027-08-01以降の登録/更新条件を審査。",
+      "evidence": [
+        "MONITORING_PERIOD_DATES",
+        "PROJECT_METHOD_SELECTION",
+        "PROJECT_CERTIFICATION_STATUS"
+      ],
+      "review": [
+        "EFFECTIVE_DATE_AND_TRANSITION"
+      ],
+      "modules": [
+        "VERRA_METHOD_TRANSITION_REVIEW"
+      ],
+      "source_pdf_raw_bytes_rechecked_in_p5": false,
+      "fully_translated_rule": false,
+      "officially_approved_computation": false
+    },
+    {
+      "id": "AG005.REFERENCE.EXTENSION",
+      "source_id": "AG005_3_1_REFERENCE",
+      "locator": "Reference document pp.1-2",
+      "summary_ja": "3.1参考資料の2年ベースラインと7日以上延長。現行版の算定仕様とは扱わない。",
+      "evidence": [
+        "BASELINE_DRAINING_RECORDS",
+        "PROJECT_DRAINING_RECORDS",
+        "FIELD_IDENTITY"
+      ],
+      "review": [
+        "CURRENT_AG005_OFFICIAL_VERSION_REQUIRED"
+      ],
+      "modules": [
+        "AG005_HISTORICAL_REVIEW"
+      ],
+      "source_pdf_raw_bytes_rechecked_in_p5": false,
+      "fully_translated_rule": false,
+      "officially_approved_computation": false
+    }
+  ],
+  "controlled_evidence_ids": [
+    "BASELINE_DRAINING_RECORDS",
+    "EXPERT_SOC_SAFEGUARDS",
+    "FARMER_TRAINING",
+    "FIELD_IDENTITY",
+    "FIELD_MANAGEMENT_LOGS",
+    "FIELD_STRATIFICATION",
+    "LOCAL_SOIL_WEATHER",
+    "MONITORING_PERIOD_DATES",
+    "MONITORING_PLAN",
+    "PROJECT_CERTIFICATION_STATUS",
+    "PROJECT_DRAINING_RECORDS",
+    "PROJECT_METHOD_SELECTION",
+    "REFERENCE_FIELD_REPRESENTATIVENESS",
+    "SAMPLING_PROTOCOL",
+    "SCIENTIFIC_PRACTICE_SUPPORT",
+    "SOC_BASELINE_SAMPLES",
+    "SOC_FOLLOWUP_SAMPLES",
+    "UNCERTAINTY_REVIEW",
+    "VVB_ASSESSMENT",
+    "YIELD_EVIDENCE",
+    "YIELD_PER_CROP"
+  ],
+  "controlled_review_ids": [
+    "CURRENT_AG005_OFFICIAL_VERSION_REQUIRED",
+    "DEDUCTION_APPLICABILITY_HUMAN_REVIEW",
+    "DIRECT_MEASUREMENT_AND_QC",
+    "EFFECTIVE_DATE_AND_TRANSITION",
+    "EXPERT_REVIEW",
+    "FIELD_MONITORING",
+    "MONITORING_PLAN_REVIEW",
+    "PROGRAM_SCOPE",
+    "REPORT_COMPLETENESS",
+    "SOC_LOSS_SIGNIFICANCE_HUMAN_REVIEW",
+    "VVB_ATTESTATION",
+    "VVB_REVIEW",
+    "YIELD_QUALITY_REVIEW"
+  ],
+  "controlled_module_ids": [
+    "AG005_HISTORICAL_REVIEW",
+    "GS_SOC_APPLICABILITY_REVIEW",
+    "GS_SOC_DEDUCTION_REVIEW",
+    "GS_SOC_MONITORING_REVIEW",
+    "GS_SOC_SAFEGUARD_REVIEW",
+    "GS_SOC_SAMPLING_REVIEW",
+    "GS_SOC_VVB_REVIEW",
+    "VERRA_METHOD_TRANSITION_REVIEW",
+    "VERRA_SAFEGUARD_REVIEW"
+  ],
+  "observed_source_conflict": {
+    "older_reference": "GS_SOC_2025_07_07",
+    "official_current_listing": "GS_SOC_2025_12_22",
+    "older_general_date": "2026-01-01",
+    "current_general_date": "2026-07-01",
+    "resolved_by": "OFFICIAL_APPLICABLE_RULE_UPDATES_LISTING",
+    "does_not_imply_publisher_binary_authentication": true
+  },
+  "formal_output_policy": {
+    "official_adoption_automatic": false,
+    "source_text_semantic_parsing_automatic": false,
+    "scientific_recalculation_automatic": false,
+    "verified_credits_tco2e": null,
+    "credit_issuance": null
+  }
+}

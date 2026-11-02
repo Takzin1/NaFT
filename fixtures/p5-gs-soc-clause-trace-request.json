@@ -1,0 +1,27 @@
+{
+  "schema": "naft-p5-clause-impact-request-v1",
+  "program": "GS_AWD_SOC",
+  "changed_clause_ids": [
+    "GS.SOC.1.1.2",
+    "GS.SOC.2.3.4",
+    "GS.SOC.2.4.4",
+    "GS.SOC.AWD.25"
+  ],
+  "evidence_status": {
+    "MONITORING_PERIOD_DATES": "MISSING",
+    "PROJECT_CERTIFICATION_STATUS": "MISSING",
+    "FIELD_MANAGEMENT_LOGS": "PROVIDED_UNVERIFIED",
+    "YIELD_PER_CROP": "PROVIDED_UNVERIFIED",
+    "SOC_BASELINE_SAMPLES": "MISSING",
+    "SOC_FOLLOWUP_SAMPLES": "MISSING",
+    "SAMPLING_PROTOCOL": "MISSING",
+    "REFERENCE_FIELD_REPRESENTATIVENESS": "MISSING",
+    "FARMER_TRAINING": "MISSING",
+    "SCIENTIFIC_PRACTICE_SUPPORT": "MISSING"
+  },
+  "monitoring_window": {
+    "start_date": "2026-06-01",
+    "end_date": "2026-08-30",
+    "ccp_label_requested": false
+  }
+}
