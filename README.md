@@ -252,3 +252,9 @@ GitHub Actions [source acquisition run](https://github.com/Takzin1/NaFT/actions/
 [DESIGN.md](DESIGN.md) にGoogle Labsの公開`DESIGN.md`形式を参考としたNaFT独自トークンを定義。[P10仕様書](docs/p10-gx-climatetech-ui-data-atlas-ja-2026-11-03.md)にデザインの出典・数値・単位・制度適用境界を掲載。新UI `#/gx-data` は2024年の47都道府県水稲統計・地域PDFリンクを県セレクターで閲覧可能。2025年**主食用米確報**と2026年**9月25日時点の主食用米予測**は別の状態を付け、2024年の全水稲とは直接の時系列比較をブロックする。
 
 `src/gx-design-system.css` の森林色×研究用カードを既存画面へ適用し、既存のClimateChain競技専用ルートをCSSスコープから除外。実測CH₄や正式tCO₂eの認証は追加していない。 `node tests/p10-gx-design-data.test.mjs` でP9との47件一致・公開原資料・時点ガード・ルート配線を検証。
+
+## P11｜実原本CSV3,005行を投入・水田採取CSV718行を外部照合
+
+[一次資料と実バイト検証の詳細](docs/p11-real-raw-chamber-and-rice-source-audit-ja-2026-11-03.md)。研究公開リポジトリの**CH₄機器サンプルCSV（3,005行・292,577 bytes）**をGitHubで原blobを照合し、原本全体と上流MITの著作権表示を保存した。 `node scripts/p11-original-chamber-source-audit.mjs audit` で濃度(ppm)、時刻、列構造、欠測、実バイトSHA-256、原ファイルGit blobを再演算。**水田由来・CH₄日次フラックス・正式CO₂eではない**。
+
+別の研究者が公開する**水田の2023年ガスクロマトグラフィーCSV（実在する718原観測時点、20採取日、AWD/MSD/CON）**も直接確認し、原Git blob、列と内訳を`research/p11-rice-chromatography-source-2026-11-03.json`に登録。データ専用の再配布ライセンスが確認できず**原CSVはNaFTに転載していない**。 `scripts/p11-rice-chromatography-guard.mjs verify-original FILE` はローカル原本を検査する。 `#/gx-data` に実原本と未転載原本の違いを示す研究データ受入パネルを追加。**e-Stat 2025確報原Excel・Gimje ZIPの直接取得はDNS制限により未達**。
