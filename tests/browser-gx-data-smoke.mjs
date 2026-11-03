@@ -39,14 +39,13 @@ const until=async(expression,label)=>{
   }
  let debug={};
  try{debug=await ev("({href:location.href,hash:location.hash,page:document.body.dataset.page,body:document.body.innerText.slice(0,700),gxSelect:!!document.querySelector('#gx-pref-select'),prefOptions:document.querySelector('#gx-pref-select')?.options.length,jaxaSelect:!!document.querySelector('#gx-jaxa-tile-select'),jaxaOptions:document.querySelector('#gx-jaxa-tile-select')?.options.length,gxStatsLength:typeof GX_RICE_STATS!=='undefined'?GX_RICE_STATS.length:null,jsStatus:typeof render,ready:document.readyState})");}catch(ex){debug={error:String(ex)};}
- if(label==='47 prefectures route' && debug.page==='gx-data' && debug.prefOptions===47) return;
  throw Error('GX_BROWSER_TIMEOUT:'+label+':'+JSON.stringify(debug)+':runtimeErrors='+JSON.stringify(errors));
 };
 try{
  await send('Runtime.enable');
  await send('Emulation.setDeviceMetricsOverride',{width:390,height:844,deviceScaleFactor:1,mobile:true});
  await ev("location.hash='#/gx-data';true");
- await until("document.querySelector('#gx-pref-select')?.options.length===107",'47 prefectures route');
+ await until("document.querySelector('#gx-pref-select')?.options.length===47",'47 prefectures route');
  await until("document.querySelector('#gx-ch4-year-select')?.options.length===15",'15 CH4 atlas years');
  const initialMap=await ev("({s:document.querySelector('#gx-ch4-year-select').value,tiles:document.querySelectorAll('.gx-ch4-map rect').length,title:document.querySelector('#gx-ch4-title')?.textContent})");
  if(initialMap.s!=='2015'||initialMap.tiles<200||!initialMap.title.includes('メタン'))throw Error('GX_P19_CH4_INITIAL_MAP:'+JSON.stringify(initialMap));
@@ -55,7 +54,7 @@ try{
  const afterMap=await ev("({s:document.querySelector('#gx-ch4-year-select').value,tiles:document.querySelectorAll('.gx-ch4-map rect').length,body:document.querySelector('#gx-ch4-title')?.closest('section')?.innerText})");
  if(afterMap.s!=='2001'||afterMap.tiles!==200||!afterMap.body.includes('29,192'))throw Error('GX_P19_CH4_2001_MAP:'+JSON.stringify(afterMap));
 
- await until("document.querySelector('#gx-jaxa-tile-select')?.options.length===4",'JAXA batches 1-3 10 tiles');
+ await until("document.querySelector('#gx-jaxa-tile-select')?.options.length===10",'JAXA batches 1-3 10 tiles');
  const j0=await ev("({s:document.querySelector('#gx-jaxa-tile-select')?.value,text:document.querySelector('#gx-jaxa-title')?.closest('section')?.innerText})");
  if(j0.s!=='LC_N30E131'||!j0.text.includes('32,028'))throw Error('P21_JAXA_DEFAULT:'+JSON.stringify(j0));
  await ev("(()=>{const s=document.querySelector('#gx-jaxa-tile-select');s.value='LC_N24E131';s.dispatchEvent(new Event('change',{bubbles:true}));return true})()");
