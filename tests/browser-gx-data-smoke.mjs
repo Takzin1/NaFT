@@ -32,7 +32,11 @@ const ev=async expression=>{
  return r.result.value;
 };
 const until=async(expression,label)=>{
- for(let i=0;i<90;i++){if(await ev(expression))return;await wait(180);}
+ for(let i=0;i<90;i++){
+   const state=await ev("({ready:Boolean("+expression+")})");
+   if(state&&state.ready===true)return;
+   await wait(180);
+  }
  let debug={};
  try{debug=await ev("({href:location.href,hash:location.hash,page:document.body.dataset.page,body:document.body.innerText.slice(0,700),gxSelect:!!document.querySelector('#gx-pref-select'),prefOptions:document.querySelector('#gx-pref-select')?.options.length,jaxaSelect:!!document.querySelector('#gx-jaxa-tile-select'),jaxaOptions:document.querySelector('#gx-jaxa-tile-select')?.options.length,gxStatsLength:typeof GX_RICE_STATS!=='undefined'?GX_RICE_STATS.length:null,jsStatus:typeof render,ready:document.readyState})");}catch(ex){debug={error:String(ex)};}
  if(label==='47 prefectures route' && debug.page==='gx-data' && debug.prefOptions===47) return;
