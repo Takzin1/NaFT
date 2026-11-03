@@ -36,7 +36,7 @@
 | 日本の6作物・1883〜2022年の履歴 | [原本ZIP監査](p16-japan-six-crop-history-real-zip-ja-2026-11-03.md)、[公開CSVと出典](../data/japan-crops-1883-2022/remastered-v1/README.md) |
 | 水稲CH₄実測と欠測・品質管理 | [Gimje原本](p14-gimje-original-real-zip-intake-ja-2026-11-03.md)、[日付・観測間隔の品質検査](p15-gimje-sampling-cadence-qc-ja-2026-11-03.md)、[日本の観測原典](japan-original-field-replay-protocol-2026-10-18.md) |
 | アジアの水稲CH₄年次GeoTIFF | [P19年次ラスタ研究](p19-asia-rice-ch4-annual-rasters-ja-2026-11-03.md)、[P20元ZIP→公開タイルの再現](p20-rice-ch4-source-replay-ja-2026-11-03.md) |
-| JAXA 2024土地被覆マップ（段階取込） | [P21最初の3タイル](p21-jaxa-lulc-batch01-ja-2026-11-03.md)、[P22追加の1タイル](p22-jaxa-lulc-batch02-ja-2026-11-03.md) |
+| JAXA 2024土地被覆マップ（段階取込） | [P21最初の3タイル](p21-jaxa-lulc-batch01-ja-2026-11-03.md)、[P22追加の1タイル](p22-jaxa-lulc-batch02-ja-2026-11-03.md)、[P23追加の6タイル](p23-jaxa-lulc-batch03-ja-2026-11-03.md)、[P24追加の6タイル](p24-jaxa-lulc-batch04-ja-2026-11-03.md) |
 | 中干し・J-クレジットの説明資料 | [P18農水省PDF2冊の出典・頁別登録](p18-maff-ag005-guidance-source-intake-ja-2026-11-03.md)、[制度境界](p2-ag005-soc-source-gates-ja-2026-11-02.md) |
 | IEEE日本語版の出典・研究移植 | [移植範囲](ieee-japanese-port-2026-10-25.md)、[次段階の監査](ieee-ja-next-stage-roadmap-2026-11-02.md) |
 | 原観測の独立演算 | [観測アダプター](japan-observation-adapter-coverage-2026-10-19.md)、[観測統合](japan-aggregate-reconciliation-2026-10-19.md) |
