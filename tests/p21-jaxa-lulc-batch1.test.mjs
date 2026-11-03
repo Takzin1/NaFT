@@ -15,7 +15,7 @@ assert.equal(box.gxJaxaValidate(),true);
 assert.equal(box.GX_JAXA_CATEGORIES[2],'水田');
 for(let i=0;i<3;i++){assert.equal(box.GX_JAXA_TILES[i].id,reg.tiles[i].id);assert.deepEqual(Array.from(box.GX_JAXA_TILES[i].counts),reg.tiles[i].count_by_class);}
 let s=box.gxJaxaLandcoverPanel();assert.match(s,/32,028/);assert.match(s,/NoData/);
-assert.equal((s.match(/<tr>/g)||[]).length,15);box.GX_JAXA_SELECTED_TILE='LC_N24E131';
+assert.equal((s.match(/<tr>/g)||[]).length,16);box.GX_JAXA_SELECTED_TILE='LC_N24E131';
 assert.match(box.gxJaxaLandcoverPanel(),/143,981,729/);
 box.GX_JAXA_TILES[0].counts[0]++;assert.throws(()=>box.gxJaxaValidate(),/CATEGORY_COUNT_MISMATCH/);
 const app=readFileSync('naft-app.html','utf8'),ui=readFileSync('src/mrv-ui.js','utf8'),gx=readFileSync('src/gx-data-explorer.js','utf8');
