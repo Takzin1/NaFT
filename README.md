@@ -4,15 +4,15 @@
 
 [![自動テスト](https://github.com/Takzin1/NaFT/actions/workflows/ci.yml/badge.svg)](https://github.com/Takzin1/NaFT/actions/workflows/ci.yml) [![MIT License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
-**▶ 審査員向けデモ（ブラウザですぐ試す）**：[100件の変更影響デモ](https://takzin1.github.io/NaFT/naft-app.html#/reviewer-demo) ／ [日本語デモ](https://takzin1.github.io/NaFT/gikuten.html#/reviewer-demo) ／ [研究・データ画面](https://takzin1.github.io/NaFT/naft-app.html#/gx-data)  
+**▶ 審査員向けデモ（ブラウザですぐ試す）**：[100件の変更影響デモ](https://takzin1.github.io/NaFT/naft-app.html#/reviewer-demo) ／ [日本語デモ](https://takzin1.github.io/NaFT/gikuten.html#/reviewer-demo) ／ [研究・データ画面](https://takzin1.github.io/NaFT/naft-app.html#/gx-data)
 操作手順：[60秒デモガイド](docs/demo-script.md)
 
 > 🎬 **デモGIFのプレースホルダー**：`docs/assets/demo.gif`（現時点では未配置）。録画GIFを作成したときに、ここへ実際の操作画面を表示します。
 
 ## 解決する課題
 
-排出削減の記録を測定・報告・検証する仕事（MRV）では、方法論（確認ルール）や証憑（根拠となる記録）が更新されます。  
-そのとき、**どの申請・評価候補（Claim）を再検証すべきか**が分からないと、見落としや不要な全件確認につながります。  
+排出削減の記録を測定・報告・検証する仕事（MRV）では、方法論（確認ルール）や証憑（根拠となる記録）が更新されます。
+そのとき、**どの申請・評価候補（Claim）を再検証すべきか**が分からないと、見落としや不要な全件確認につながります。
 NaFTは、変更と根拠のつながりを記録し、再確認する対象と理由を追えるようにします。
 
 ## NaFTがやること
