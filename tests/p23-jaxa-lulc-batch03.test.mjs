@@ -1,0 +1,32 @@
+import assert from 'node:assert/strict';
+import {readFileSync} from 'node:fs';
+import vm from 'node:vm';
+const batch1=JSON.parse(readFileSync('research/p21-jaxa-lulc-2024-v25-04-batch01.json','utf8'));
+const batch2=JSON.parse(readFileSync('research/p22-jaxa-lulc-2024-v25-04-batch02.json','utf8'));
+const batch3=JSON.parse(readFileSync('research/p23-jaxa-lulc-2024-v25-04-batch03.json','utf8'));
+assert.equal(batch3.schema,'naft-p23-jaxa-lulc-2024-v25-04-batch03');
+assert.equal(batch3.version,batch2.version);assert.equal(batch3.year,batch2.year);
+assert.equal(batch3.national_coverage_complete,false);assert.equal(batch3.certified_credits_tco2e,null);
+assert.equal(batch3.source_raster_redistribution_permission_verified,false);
+assert.equal(batch3.rasters.length,6);
+assert.equal(batch3.rasters.reduce((s,x)=>s+x.paddy_pixels,0),23625316);
+const map=new Map();
+for(const t of [...batch1.tiles,...batch2.rasters,...batch3.rasters]){assert(!map.has(t.id));map.set(t.id,t);
+ assert.equal(t.count_by_class.reduce((s,n)=>s+n,0),144000000);
+ assert.equal(t.paddy_pixels,t.count_by_class[2]);assert.equal(t.water_pixels,t.count_by_class[0]);
+ assert.equal(t.ha,null);
+}
+assert.equal(map.size,10);
+const x={};vm.createContext(x);
+vm.runInContext(readFileSync('src/gx-jaxa-landcover-2024.js','utf8'),x);
+assert.equal(x.gxJaxaValidate(),true);
+const tiles=JSON.parse(JSON.stringify(x.GX_JAXA_TILES));assert.equal(tiles.length,10);
+for(const t of tiles){const a=map.get(t.id);assert(a);assert.deepEqual(t.bounds,a.bounds);assert.deepEqual(t.counts,a.count_by_class);assert.equal(t.paddy,a.paddy_pixels);}
+x.GX_JAXA_SELECTED_TILE='LC_N35E140';
+let html=x.gxJaxaLandcoverPanel();assert.match(html,/12,721,336/);assert.match(html,/10枚/);
+x.GX_JAXA_SELECTED_TILE='LC_N38E139';html=x.gxJaxaLandcoverPanel();assert.match(html,/6,828,139/);
+assert.equal((html.match(/<option value=/g)||[]).length,10);
+x.GX_JAXA_TILES[4].counts[0]++;assert.throws(()=>x.gxJaxaValidate(),/CATEGORY_COUNT_MISMATCH/);
+const test=readFileSync('tests/browser-gx-data-smoke.mjs','utf8');
+assert.match(test,/P23_JAXA_35N140E/);assert.match(test,/P23_JAXA_38N139E/);
+console.log('P23_JAXA_BATCH03_ALL_SIX_RASTERS_10_CUMULATIVE_ATLAS_PASS');
