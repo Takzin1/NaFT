@@ -284,3 +284,7 @@ User-supplied **Zenodo-original-identical** `ch4.zip` (60 CSVs) and `input_field
 ## P20｜水稲CH₄年間原本の完全再演算チェック
 
 2001〜2015年の年間GeoTIFF再アップロードはP19と元ZIP SHA-256が同一。公開した48×26の15年タイル集計を原本から独立再生成してSHA-256完全一致を確認。原本は公開せず、`scripts/p20-rice-ch4-original-replay.py`（ローカルでrasterio+numpy必要）と`tests/p20-rice-ch4-original-replay.test.py`（CIではPython標準機能のみ）を追加。研究上の再現性は公的認証や圃場実測の正しさを証明しない。[技術仕様](docs/p20-rice-ch4-source-replay-ja-2026-11-03.md)。
+
+## P21｜JAXA土地被覆データ2024年 v25.04 第１バッチ
+
+利用者提供のGeoTIFF３枚とREADME・日英凡例を原本ハッシュ・EPSG:4326・15分類で受入。GX Atlasで３タイルの統計を切替できる。画像原本をGitHubで再配布せず、水田画素数を面積や正式な炭素クレジットに変換しない。[P21出典台帳・再現手順](docs/p21-jaxa-lulc-batch01-ja-2026-11-03.md)。

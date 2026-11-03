@@ -1,0 +1,236 @@
+{
+  "schema": "naft-p21-jaxa-lulc-2024-v25-04-batch01",
+  "as_of": "2026-11-03",
+  "dataset": "JAXA High-Resolution Land-Use and Land-Cover Map of Japan for 2024",
+  "version": "25.04",
+  "year": 2024,
+  "publisher": "JAXA EORC",
+  "release": "2025-04",
+  "source_url": "https://www.eorc.jaxa.jp/ALOS/jp/dataset/lulc/lulc_v2504_j.htm",
+  "batch": "1_of_multiple",
+  "complete_national_coverage": false,
+  "grid": [
+    12000,
+    12000
+  ],
+  "resolution_degree": 0.00008333333333333333,
+  "crs": "EPSG:4326",
+  "data_type": "uint8",
+  "class_one_is_water": true,
+  "class_three_is_paddy": true,
+  "nodata_is_per_tile": true,
+  "source_independent_publisher_sha_verified": false,
+  "source_redistribution_permission_verified": false,
+  "source_geotiff_committed": false,
+  "derived_preview_distributable_verified": false,
+  "field_area_ha": null,
+  "formal_credit_tco2e": null,
+  "official_ag005_eligible_area_ha": null,
+  "categories": [
+    {
+      "id": 1,
+      "ja": "水域",
+      "en": "Water bodies"
+    },
+    {
+      "id": 2,
+      "ja": "人工構造物",
+      "en": "Built-up"
+    },
+    {
+      "id": 3,
+      "ja": "水田",
+      "en": "Paddy field"
+    },
+    {
+      "id": 4,
+      "ja": "畑地",
+      "en": "Cropland"
+    },
+    {
+      "id": 5,
+      "ja": "草地",
+      "en": "Grassland"
+    },
+    {
+      "id": 6,
+      "ja": "落葉広葉樹林",
+      "en": "DBF"
+    },
+    {
+      "id": 7,
+      "ja": "落葉針葉樹林",
+      "en": "DNF"
+    },
+    {
+      "id": 8,
+      "ja": "常緑広葉樹林",
+      "en": "EBF"
+    },
+    {
+      "id": 9,
+      "ja": "常緑針葉樹林",
+      "en": "ENF"
+    },
+    {
+      "id": 10,
+      "ja": "裸地",
+      "en": "Bare"
+    },
+    {
+      "id": 11,
+      "ja": "竹林",
+      "en": "Bamboo forest"
+    },
+    {
+      "id": 12,
+      "ja": "ソーラーパネル",
+      "en": "Solar panel"
+    },
+    {
+      "id": 13,
+      "ja": "湿地",
+      "en": "Wetland"
+    },
+    {
+      "id": 14,
+      "ja": "農業用温室",
+      "en": "Greenhouse"
+    },
+    {
+      "id": 15,
+      "ja": "岩礁・干潟",
+      "en": "Rock reef and Tidal flat"
+    }
+  ],
+  "support_files": [
+    {
+      "name": "README_2024JPN_v25.04_20250430.txt",
+      "sha256": "1f43c617d9addec634ae0c35fe8461959b1d4aa9f5e7c89c4e3adec3c8534a3b",
+      "bytes": 662,
+      "committed": false
+    },
+    {
+      "name": "2024JPN_v25.04_overview_legend_jp.png",
+      "sha256": "a4536459797bbafd7f21b501b22b1d6e9f44663bb31e47882cfb7fd3ed75dc03",
+      "bytes": 275164,
+      "committed": false
+    },
+    {
+      "name": "2024JPN_v25.04_overview_legend_en.png",
+      "sha256": "93eef9ff0a7e28e76e663c0d4872f6137f855fac702abefdf12c6d9ef4fb06f4",
+      "bytes": 268352,
+      "committed": false
+    }
+  ],
+  "tiles": [
+    {
+      "id": "LC_N24E131",
+      "filename": "LC_N24E131.tif",
+      "sha256": "4348138ea766f7a02d8d7011c93d7b1aa6644751815d662ea65dd965e8978bfb",
+      "bytes": 617860,
+      "nodata": null,
+      "bounds": [
+        131,
+        24,
+        132,
+        25
+      ],
+      "crs": "EPSG:4326",
+      "pixels": 144000000,
+      "count_by_class": [
+        143981729,
+        0,
+        0,
+        0,
+        10083,
+        0,
+        0,
+        62,
+        0,
+        5375,
+        0,
+        0,
+        0,
+        0,
+        2751
+      ],
+      "paddy_pixels": 0,
+      "water_pixels": 143981729,
+      "ha": null,
+      "raw_file_committed": false
+    },
+    {
+      "id": "LC_N30E131",
+      "filename": "LC_N30E131.tif",
+      "sha256": "c5e8e164c140c725afbb50cd8daa386e8450a399b460ea5ffd622b0faa79c245",
+      "bytes": 1027356,
+      "nodata": null,
+      "bounds": [
+        131,
+        30,
+        132,
+        31
+      ],
+      "crs": "EPSG:4326",
+      "pixels": 144000000,
+      "count_by_class": [
+        141661823,
+        32432,
+        32028,
+        316846,
+        163211,
+        404,
+        3,
+        1258129,
+        237174,
+        50040,
+        171086,
+        311,
+        7443,
+        1107,
+        67963
+      ],
+      "paddy_pixels": 32028,
+      "water_pixels": 141661823,
+      "ha": null,
+      "raw_file_committed": false
+    },
+    {
+      "id": "LC_N31E139",
+      "filename": "LC_N31E139.tif",
+      "sha256": "2d62fe901337b42f5ecbef811c8925ad269606d06c023aa7cc76b7a7379655d5",
+      "bytes": 614778,
+      "nodata": 0,
+      "bounds": [
+        139,
+        31,
+        140,
+        32
+      ],
+      "crs": "EPSG:4326",
+      "pixels": 144000000,
+      "count_by_class": [
+        143999206,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        72,
+        0,
+        0,
+        0,
+        0,
+        721
+      ],
+      "paddy_pixels": 0,
+      "water_pixels": 143999206,
+      "ha": null,
+      "raw_file_committed": false
+    }
+  ]
+}

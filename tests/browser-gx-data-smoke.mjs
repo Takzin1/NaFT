@@ -48,6 +48,13 @@ try{
  const afterMap=await ev("({s:document.querySelector('#gx-ch4-year-select').value,tiles:document.querySelectorAll('.gx-ch4-map rect').length,body:document.querySelector('#gx-ch4-title')?.closest('section')?.innerText})");
  if(afterMap.s!=='2001'||afterMap.tiles!==200||!afterMap.body.includes('29,192'))throw Error('GX_P19_CH4_2001_MAP:'+JSON.stringify(afterMap));
 
+ await until("document.querySelector('#gx-jaxa-tile-select')?.options.length===3",'JAXA batch1 3 tiles');
+ const j0=await ev("({s:document.querySelector('#gx-jaxa-tile-select')?.value,text:document.querySelector('#gx-jaxa-title')?.closest('section')?.innerText})");
+ if(j0.s!=='LC_N30E131'||!j0.text.includes('32,028'))throw Error('P21_JAXA_DEFAULT:'+JSON.stringify(j0));
+ await ev("(()=>{const s=document.querySelector('#gx-jaxa-tile-select');s.value='LC_N24E131';s.dispatchEvent(new Event('change',{bubbles:true}));return true})()");
+ await until("document.querySelector('#gx-jaxa-tile-select')?.value==='LC_N24E131'",'JAXA change');
+ const j1=await ev("({s:document.querySelector('#gx-jaxa-tile-select')?.value,text:document.querySelector('#gx-jaxa-title')?.closest('section')?.innerText})");
+ if(j1.s!=='LC_N24E131'||!j1.text.includes('143,981,729'))throw Error('P21_JAXA_SWITCH:'+JSON.stringify(j1));
  const mobile=await ev("({page:document.body.dataset.page,width:innerWidth,scroll:document.documentElement.scrollWidth,title:document.querySelector('.gx-hero h2')?.textContent, cards:document.querySelectorAll('.gx-period-card').length,style:getComputedStyle(document.querySelector('.gx-hero')).backgroundImage,source:document.querySelector('.gx-source-panel').textContent,options:document.querySelector('#gx-pref-select').options.length})");
  if(mobile.page!=='gx-data'||mobile.cards!==3||mobile.options!==47)throw Error('GX_MOBILE_DATA_RENDER:'+JSON.stringify(mobile));
  if(mobile.scroll>mobile.width+1)throw Error('GX_MOBILE_HORIZONTAL_OVERFLOW:'+JSON.stringify(mobile));
