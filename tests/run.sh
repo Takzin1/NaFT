@@ -37,6 +37,8 @@ node tests/p19-rice-ch4-asia.test.mjs
 python3 tests/p20-rice-ch4-original-replay.test.py
 node tests/p21-jaxa-lulc-batch1.test.mjs
 python3 tests/p21-jaxa-lulc-local-intake.test.py
+node tests/p22-jaxa-lulc-batch02.test.mjs
+python3 tests/p22-jaxa-lulc-batch02.test.py
 node tests/dmrv-literature-register.test.mjs
 node tests/climatechain-japanese.test.mjs
 node tests/ieee-audit.test.mjs

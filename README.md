@@ -288,3 +288,7 @@ User-supplied **Zenodo-original-identical** `ch4.zip` (60 CSVs) and `input_field
 ## P21｜JAXA土地被覆データ2024年 v25.04 第１バッチ
 
 利用者提供のGeoTIFF３枚とREADME・日英凡例を原本ハッシュ・EPSG:4326・15分類で受入。GX Atlasで３タイルの統計を切替できる。画像原本をGitHubで再配布せず、水田画素数を面積や正式な炭素クレジットに変換しない。[P21出典台帳・再現手順](docs/p21-jaxa-lulc-batch01-ja-2026-11-03.md)。
+
+## P22｜JAXA 2024土地被覆図・第２バッチ
+
+GeoTIFF `LC_N30E129.tif`（東経129–130度、北緯30–31度）を原本全画素・SHA-256で照合し、15分類統計を別台帳として追加。水域143,766,652px、水田0px。P21の3タイルと合わせてGX Data Atlasで4タイル切替対応。原本は権利未確定のため未再配布。詳細は[受入・再検証の技術記録](docs/p22-jaxa-lulc-batch02-ja-2026-11-03.md)。
