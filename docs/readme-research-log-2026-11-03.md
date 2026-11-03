@@ -298,4 +298,3 @@ User-supplied **Zenodo-original-identical** `ch4.zip` (60 CSVs) and `input_field
 ## P22｜JAXA 2024土地被覆図・第２バッチ
 
 GeoTIFF `LC_N30E129.tif`（東経129–130度、北緯30–31度）を原本全画素・SHA-256で照合し、15分類統計を別台帳として追加。水域143,766,652px、水田0px。P21の3タイルと合わせてGX Data Atlasで4タイル切替対応。原本は権利未確定のため未再配布。詳細は[受入・再検証の技術記録](../docs/p22-jaxa-lulc-batch02-ja-2026-11-03.md)。
-
