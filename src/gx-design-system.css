@@ -166,3 +166,9 @@ body[data-page="gx-data"] #app>main{padding-top:25px}
  body:not([data-page="climatechain"]) *,body:not([data-page="climatechain"]) *::before,
  body:not([data-page="climatechain"]) *::after{transition:none!important;animation:none!important;scroll-behavior:auto!important}
 }
+
+/* P19 read-only annual CH4 raster atlas */
+.gx-ch4-svg{display:block;width:100%;height:auto;max-width:100%;overflow:visible}
+.gx-ch4-map{background:#f0f5ec;border:1px solid #d4e3d9;border-radius:14px}
+.gx-ch4-figure{margin:20px 0 0;min-width:0}
+.gx-ch4-figure figcaption{color:#51695c;font-size:13px;line-height:1.65;margin-bottom:10px}

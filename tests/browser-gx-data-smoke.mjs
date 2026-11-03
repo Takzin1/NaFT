@@ -40,6 +40,14 @@ try{
  await send('Emulation.setDeviceMetricsOverride',{width:390,height:844,deviceScaleFactor:1,mobile:true});
  await ev("location.hash='#/gx-data';true");
  await until("document.querySelector('#gx-pref-select')?.options.length===47",'47 prefectures route');
+ await until("document.querySelector('#gx-ch4-year-select')?.options.length===15",'15 CH4 atlas years');
+ const initialMap=await ev("({s:document.querySelector('#gx-ch4-year-select').value,tiles:document.querySelectorAll('.gx-ch4-map rect').length,title:document.querySelector('#gx-ch4-title')?.textContent})");
+ if(initialMap.s!=='2015'||initialMap.tiles<200||!initialMap.title.includes('メタン'))throw Error('GX_P19_CH4_INITIAL_MAP:'+JSON.stringify(initialMap));
+ await ev("(()=>{const s=document.querySelector('#gx-ch4-year-select');s.value='2001';s.dispatchEvent(new Event('change',{bubbles:true}));return true})()");
+ await until("document.querySelector('#gx-ch4-year-select')?.value==='2001' && document.querySelector('.gx-ch4-figure')?.innerHTML.includes('2001')",'P19 year switch');
+ const afterMap=await ev("({s:document.querySelector('#gx-ch4-year-select').value,tiles:document.querySelectorAll('.gx-ch4-map rect').length,body:document.querySelector('#gx-ch4-title')?.closest('section')?.innerText})");
+ if(afterMap.s!=='2001'||afterMap.tiles!==200||!afterMap.body.includes('29,192'))throw Error('GX_P19_CH4_2001_MAP:'+JSON.stringify(afterMap));
+
  const mobile=await ev("({page:document.body.dataset.page,width:innerWidth,scroll:document.documentElement.scrollWidth,title:document.querySelector('.gx-hero h2')?.textContent, cards:document.querySelectorAll('.gx-period-card').length,style:getComputedStyle(document.querySelector('.gx-hero')).backgroundImage,source:document.querySelector('.gx-source-panel').textContent,options:document.querySelector('#gx-pref-select').options.length})");
  if(mobile.page!=='gx-data'||mobile.cards!==3||mobile.options!==47)throw Error('GX_MOBILE_DATA_RENDER:'+JSON.stringify(mobile));
  if(mobile.scroll>mobile.width+1)throw Error('GX_MOBILE_HORIZONTAL_OVERFLOW:'+JSON.stringify(mobile));
