@@ -1,0 +1,301 @@
+# 旧README研究ログ（2026-11-03時点のmainスナップショット）
+
+> 保存目的：README全面改稿前の技術・出典・実装履歴を残すためのアーカイブです。現在の機能・テスト・制度版の最新状態を保証しません。最初に[新README](../README.md)と[資料索引](README.md)を確認してください。
+
+---
+
+# NaFT — Version-aware MRV Evidence Compiler + Re-verification Engine
+
+**版管理されたMRV証憑コンパイラ＋差分再検証エンジン。**
+
+NaFTは、方法論・証憑・係数・人間判断を版付きで保持し、変更時にどのClaimを再検証すべきかを依存関係と変更差分から根拠付きで特定する研究プロトタイプです。
+
+- **研究上の問題**：方法論の版・証憑・係数・圃場情報が変わると、どのClaimの再検証が必要か追跡しにくい。
+- **現在のプロトタイプ**：ビルド不要のJavaScript研究プロトタイプ。入力Evidenceを正規化し、版を固定した評価・依存graph・Monitoring Packageを生成する。
+- **中心研究問い**：「頻繁に改定されるMRV方法論と異種Evidenceを第三者が再計算・再検証可能な構造へ変換し、変更時に影響を受けるClaimだけを特定できるか？」
+- **実装済み**：Versioned Pack registry、決定論的diff、JSON provenance graph、5種（methodology / evidence / parameter / field / activity）の変更の影響分析・再評価、exception単位の`ACCEPT / REJECT / NEED_MORE_EVIDENCE / ABSTAIN`、最終宣誓、hash付きJSON export、36件のSynthetic conformance corpusと自動KPI、100 Claimの合成版変更実験、独立Full Re-computation Oracleと614件の決定論的adversarial change matrix。従来のAG-005参照評価と182件の回帰テストも維持。
+- **未実装・未確認**：AG-005の現行制度版をExecutable Packとして固定・完全翻訳すること、AG-004 Ver.2.4のExecutable Pack化、現場での正確性・費用削減・検証機関受入れ。公式要件不明は`UNKNOWN / CONFIG_REQUIRED / UNSUPPORTED`で停止。正式削減量`result`は常に`null`。
+- **審査用デモ**：[GitHub Pages Reviewer Demo](https://takzin1.github.io/NaFT/#/reviewer-demo) から直接開ける。100 Claimの変更影響解析をブラウザ上で再計算する。通常研究UIでは**Demo A / B / C**も維持。A＝自動draft、B＝6 Claimの軽量版変更fixture、C＝曖昧なidentityから人間判断。[操作手順](docs/demo-script.md)。
+
+内部PASS、Pack release approval、最終宣誓は正式認証ではありません。外部登録簿へ接続しません。
+
+## 技育展向け日本語デモ
+
+[**技育展向け日本語版を開く**](gikuten.html#/reviewer-demo)（リポジトリ内でのリンク）｜[操作手順](docs/gikuten-demo.md)。オリジナルの研究UIを変更せず、日本語ページから100件の合成変更影響実験、判断の失効、6段階のMRVワークフローを操作できます。公開後のブラウザURLは `https://takzin1.github.io/NaFT/gikuten.html#/reviewer-demo` を想定します。**このブランチだけでは公開されません。** 計算用データは合成データで、30/70は性能指標ではありません。
+
+## 実行・テスト
+
+Node.js 20+、Python 3、bashを使用します。GitHub ActionsではNode 24で全テストを実行します。ビルド、外部CDN、実行時依存パッケージはありません。
+
+```bash
+bash tests/run.sh
+```
+
+**1165 passed / 0 failed**（既存182＋Compiler354＋Mitou impact experiment 10＋Impact Proof 619）。既存1066 assertionsを削除・skip・意味変更せず保持し、Evidence change反例matrixをcontentだけでなくadapter / binding / period / category / expected hash / provenance / source metadataへ拡張しました。独立Full Re-computation Oracle比較は614 deterministic adversarial casesで、このtested state spaceではTP 429 / TN 78 / FP 107 / FN 0です。FPは安全側の追加再検証であり、FN=0は任意の実制度に対する普遍的証明ではありません。加えて、GitHub Actions上のheadless Chromeで `#/reviewer-demo` を開き、変更影響実験buttonを実際にclickし、100 / 30 / 70 / 15 / 15のmetric描画まで検証しています。同じ実ブラウザ上でOperator選択 → Activity登録 → SYNTHETIC Evidence追加 → Evaluation実行 → 通常6 route全遷移まで実行し、各routeの横overflow・render error・runtime/console errorも検査します。さらにEvidence UIではrunner上の実ファイルをChromeの`<input type=file>`へ設定し、byte hash Manifest生成→同一原本recheck=`MATCH`まで実ブラウザで検証します。新CompilerについてもOperator draft → Maintainer Pack release → Reviewer attestation → attested JSON exportまで実DOM操作で通し、exportが`ATTESTED_RESEARCH_PACKAGE`かつ`formal_certification=false`であることを検証します。[Test report](docs/test-report.md)、[Impact soundness](docs/impact-soundness.md)、[Proof report](reports/impact-proof.json)、[自動生成KPI](reports/evaluation-kpis.json)、[100 Claim影響解析実験](reports/mitou-impact-experiment.json)を参照。
+
+## 未踏アドバンスト審査用Reviewer Demo
+
+`#/reviewer-demo` は申請書で使う100 Claim合成改定実験を、同じ `analyzeImpact` と同じClaim生成規則でブラウザから実行する審査向け表示です。100 / 30 / 70 / 15 / 15 は固定ラベルではなく実行結果から描画します。代表Claimではdependency理由、successor有無、`supersedes`を確認できます。Human Decisionのbindingについては、input fingerprint / Pack hashが変わればstaleになることを合成データで表示します。
+
+これは研究用Synthetic demoです。**30 / 70は性能指標ではありません。** fixtureをstandard 70 / intensive 15 / intensive_complete 15で構成しているため、この合成実験では30件が再検証対象、70件が非影響になります。fixture構成を変えれば30 / 70も変わります。時間・費用・field accuracy・verifier acceptanceや、実制度での再検証率を意味しません。通常の6 workflow routesは削除していません。
+
+## 100 Claim 合成差分再検証実験
+
+`NAFT-SYNTHETIC@1 → @2` の明示的な合成方法論改定を100 Claimへ適用する決定論的実験をCIに固定しています。fixtureはstandard 70件、intensive 15件、intensive_complete 15件で構成します。v2のintensive専用変更に依存する30件だけを再検証対象とし、standard 70件はsuccessorを生成せず非影響として残します。30件の内訳は15件が自動再評価、15件が新規Evidence不足で停止です。
+
+**この30 / 70はfixture構成に由来する合成結果であり、性能指標ではありません。fixture構成を変えれば比率も変わります。** 処理時間、MRV費用、精度、受入れ、実制度での再検証率を推定する値ではありません。元Claimの不変性、再実行決定性、reverified successorの`supersedes`連結もテストします。
+
+## Impact Analysis Proof Harness
+
+`tests/impact-proof.test.js` は `analyzeImpact()` / `activeProjection()` を正解データとして使わず、変更前後を直接full re-computationしたうえで独立に正規化したverification-semantic viewを比較します。方法論変更34種×12 Claim variantに、parameter / field / activity / Evidence変更を加えた**614件**を決定論的に検査しています。
+
+現行結果は **oracle changed 429 / unchanged 185、analyzer re-verify 536 / unaffected 78、TP 429 / TN 78 / FP 107 / FN 0** です。つまり、現在サポートするinterpreterとchange APIのtested state spaceではfalse negativeは見つかっていません。一方で107件は保守的なover-verificationであり、最小性を証明した結果ではありません。この数値はfield efficacy、実制度での再検証率、時間・費用削減を意味しません。
+
+## 方法論Packと境界
+
+| Pack | 実装上の扱い |
+|---|---|
+| AG-005 `3.1-reference` | **歴史的参照版**として保持。Ver.3.1は2025-02-24までの版であり、現行制度対応を意味しない。保存済みSHA-256を固定しているが、適用係数・完全なCompiler翻訳は未確認 |
+| AG-005 現行制度版 | **NOT REGISTERED**。e-Gov一次資料ではVer.3.3を確認済み、2025年9月の第三者資料はVer.3.4を参照しているが、現行最新版の原文byte列・SHA-256・完全な制度差分を本repositoryでは独立固定していないためPack化しない |
+| AG-004 `UNKNOWN` | 研究上はAG-004 Ver.2.4原文を確認済み。ただしExecutable Packへの翻訳は未実装で、Compiler上は`UNSUPPORTED`のfail-closed placeholderを維持。制度対応済みとは扱わない |
+| NAFT-SYNTHETIC `1` / `2` | 差分・再検証実験の明示的合成ルール。公式方法論改定でも実農家データでもない |
+
+新しい公式AG-005 Packは、一次資料の原文byte列・出典・version・適用条件を検証できるまで追加しません。[出典確認記録](docs/methodology-sources.md)。
+
+## 審査用Reviewer Demo + 6つの研究ワークフロー
+
+| Hash route | Responsibility |
+|---|---|
+| `#/reviewer-demo` | **審査用entry point**。100 Claimの変更影響解析をブラウザ上で再計算し、代表Claimの理由を表示 |
+| `#/methodologies` | Registry、出典・版・Pack承認、デモ入口 |
+| `#/evidence` | Raw/structured JSON Evidence入力、Manifest、従来のファイルhash検証 |
+| `#/readiness` | 決定論的評価、自動draft、保存済みClaimへの版変更適用 |
+| `#/exceptions` | 証憑競合、identity、係数変更、方法論例外 |
+| `#/review` | 明示的例外判断、最終Package attestation |
+| `#/packages` | 再現可能なJSON、graph、Program集計 |
+
+以下の6 routeが研究ワークフロー本体です。Reviewer Demoはその1ステップではなく、審査向けentry pointです。
+
+通常案件：Evidence → evaluation → draftまで途中承認なし。人間は各`HUMAN_REVIEW_REQUIRED`例外を個別に判断し、Pack公開承認、最終宣誓を担当します。hard error（`UNSUPPORTED / EVIDENCE_REQUIRED / tamper / methodology mismatch / deterministic failure`）はHuman override不可です。Operator / Reviewer / Maintainerはローカルデモ役割で、本番認証ではありません。
+
+
+## 研究系譜・凍結参照
+
+- [Pre-Mitous full implementation snapshot `6fac0dd`](https://github.com/Takzin1/NaFT/commit/6fac0dddfcfec091bad51a69365cf0e043b9608e) — 当時のREADMEでスモークテスト276項目を記録。
+- [IEEE frozen candidate `6f7717d`](https://github.com/Takzin1/NaFT/commit/6f7717da6e737c946b9b09e073a2dfc1ebd4e7fa) — IEEE向けCandidate lifecycleを凍結した履歴点。当時137項目。
+- 現在の未踏向けmainは、上記IEEE版からWallet / Marketplace / Token lifecycle等を切り離し、MRV Core / change-controlへ集中している。
+
+## Reproduction and data
+
+Compilerはclock・乱数をPackage生成に使いません。同じ入力・Pack・任意の明示的判断・supersedesから同じhashを生成します。写真のbyte列、営農・IoT・GISのJSONをhash/構文/metadataのレベルで正規化します。画像理解やセンサー校正、GIS幾何検証は未実装です。
+
+`naft_mrv_core_v1`の既存storeを使用します。通常ブラウザはメモリのみで再読込時に消去、`window.storage`があれば同じadapterで保存します。新しいrunは旧runを履歴として残し、旧Packageの現行exportを停止します。従来AG-005操作のID・日時は実行ごとに変わります。
+
+[Architecture](docs/architecture.md) · [Data model](docs/data-model.md) · [Human boundaries](docs/human-in-the-loop.md) · [Limitations](docs/known-limitations.md) · [研究段階](docs/mitou-advanced-concept.md) · [Before / After](reports/baseline.json) · [MIT License](LICENSE)
+
+## Monsoon Asia MRV arithmetic research (2026-10-18)
+
+[Asia-Japan baseline comparison and change-impact gaps](docs/asia-mrv-baseline-parity-2026-10-18.md) · [Research source manifest](research/asia-mrv-2026-10-18/source-manifest.json) · [IPCC/Taiwan/Philippines bounded fixtures](research/asia-mrv-2026-10-18/fixtures.json).
+The Japanese research screen also offers read-only IPCC arithmetic replay and CH₄ mass-basis parity. **Research only: no official factor transfer, field claims, actual savings, or certification.**
+
+## Independent IPCC and PH_AM004 calculation oracle (research only)
+
+The [2026-10-18 cross-language verification report](docs/asia-ipcc-jcm-independent-oracle-2026-10-18.md) introduces a 5-row IPCC Table 5.14B/C intermediate-rounding replay (410.472 Gg CH4/yr vs 409.7277036 unrounded) plus 4 Philippines PH_AM004 research uncertainty cases. JavaScript BigInt and independently implemented Python Decimal verify results, mutations, and optional reference/mandatory project pumping boundaries. Run `node scripts/asia-independent-replay.mjs`, `node tests/ipcc-stage-reference.test.mjs`, `python3 tests/asia-independent-oracle.test.py`. No certified emissions, actual farm observation or Japan AG-005 v3.5 compatibility is claimed.
+
+## 原著実測集計値の独立演算（日本語版）
+
+[Yagi (1996)・Nishimura (2004) の測定条件照合、観測処理区差・期間集計差・未帰属モデル残差の仕様](docs/japan-original-field-replay-protocol-2026-10-18.md)。原著論文の**公表された測定集計値**をBigInt固定小数点と独立Python Decimalで再計算する。
+
+- `node scripts/japan-field-observation-replay.mjs`
+- `node tests/japan-field-study-replay.test.js`
+- `python3 tests/japan-field-independent-oracle.test.py`
+
+日本語 `gikuten.html` に研究用「⑤原著論文の実測集計値」カードを追加。原著の生測定ファイル、日次の気象・水位、土壌、フラックス原系列を取得できていないため、**同一環境の物理シミュレーション、因果的な差分配分、J-Credit認証量は未実装**。
+
+## 日本の実測観測原本を受け入れるオフライン時系列ゲート（2026-10-19）
+
+[原著観測生データ取込・独立再積算プロトコル](docs/japan-raw-flux-ingestion-2026-10-19.md)で、SHA-256原本一致・UTC区間の重複/欠測・観測単位・区間平均フラックスの積算と、別実装Python Decimalを検証する。**現在のCSVは人工生成した48時間データ**で、Yagi/Nishimuraの元の測定時系列ではない。出版社原本・測定法・気象/土壌の照合・第三者検証がない限り、正式算定・因果帰属・認証には使わず停止する。
+
+## Observation Adapter Registry + QC Coverage v2 (2026-10-19)
+
+[観測方式別の単位換算と欠測・QCの厳格な扱い](docs/japan-observation-adapter-coverage-2026-10-19.md)を追加。3形式（区間平均 mg-CH₄/m²/day、日次 g-CH₄/m²/day、渦相関 nmol-CH₄/m²/s）を厳密に区別し、全件連続の従来v1を維持する。観測不足時は観測済み部分のみ積算し、通期値は null。JavaScript BigInt と Python Decimal の独立検算をCIへ追加。テスト入力は**全て合成**であり、出版社の観測原本や認証計算ではない。
+
+## ローカル観測CSVを安全に再演算（2026-10-19）
+
+日本語版の研究用CLIで、既存の5つの合成テストに加え、任意のローカル観測CSVとmanifestを **外部通信なし** で入力できるようになりました：
+
+```sh
+node scripts/replay-japan-observation-adapters.mjs --csv path/to/intervals.csv --manifest path/to/manifest.json
+```
+
+仕様・対応単位・SHA-256原バイト一致・QC区間・欠測時の通期積算拒否については[日本語の外部観測CSV取込ガイド](docs/japan-offline-observation-import-2026-10-19.md)を参照。**真正な原著観測原本や制度的な排出削減の認証が完了したことを意味しません。**
+
+## 日本語版：観測期間累積量と参照集計値の安全な突合（2026-10-19）
+
+前段のローカルCSV再演算に続き、全観測期間・出典URI・圃場/処理区・観測法・ガス/質量基準の**宣言値が一致**する場合だけ、観測積算値と提供者の参照集計値を比較する研究用CLIを追加しました。
+
+```sh
+node scripts/reconcile-japan-observation.mjs synthetic-interval
+```
+
+[突合プロトコル・負例・原著検証の未実施事項](docs/japan-aggregate-reconciliation-2026-10-19.md)を参照。**同梱データも参照集計値も人工データ**であり、原著原本・実測物理再現・J-クレジットの正式算定ではありません。部分的な観測区間の値を全期値に外挿せず、未確認の一致を第三者認証へ昇格させません。
+
+## JapanFlux V2.00 BADMプロトコル監査（JP-Hrt）
+
+原著ZIP内のBADM **6冊**を照合。BADMは **UTC_OFFSET=+9** と記録するが、CH4手法は原著PDF（HREA/chamber）とBADM（Eddy Covariance）で**不一致**。BADMのCH4開始日2013-08-31より前に、CSVのFCH4数値候補が**1,689行**存在。矛盾は自動解消せず、原著に基づく人間レビューまで観測値の積算を拒否する。[元データの矛盾・機器・日時・QCの監査記録](docs/japanflux-jp-hrt-badm-source-conflicts-2026-10-19.md)。
+
+## JapanFlux2024 V2.00 JP-Hrt（日本水田CH₄・実ZIP）
+
+ユーザーが提供したVersion 2.00の原著ZIPを解凍・構造検査。30分ごとのフラックス候補17,520行中、FCH4に数値があるのは1,915行（10.930%）、欠測15,605行。日次FCH4は365行すべて欠測。元資料のCH₄測定方法はHREA＋チャンバーで、**測定QC、元単位、タイムゾーンは未検証**。新しい検査CLIとQC意味論ゲートを追加し、数値候補から年間排出量を推定することを禁止。
+
+原著バイトはリポジトリに再配布せず、SHA256・列・欠測などの証拠のみ：[研究用の安全な取込手順](docs/japanflux-jp-hrt-v200-original-source-gate-2026-10-19.md)。
+
+## 原著ネイティブCSVのデータ形式チェック（日本語版・第3弾）
+
+**原著実ファイルの構造修正（2026-10-19）:** 一時取得した中国の水田CSVは日次 **16列・993行**、時間別 **18列・99,408行**。原著の温度列が非UTF-8バイトを含むことを確認したため、旧8列の省略ヘッダーと厳格UTF-8変換による誤拒否を修正。元の観測数値はGitHubへ保存せず、[バイト形状の検証記録](research/asia-source-dock-2026-10-19/native-byte-shape-2026-10-19.json)を追加した。現在も**原著の測定QC・時刻解釈・ライセンスと積算値は未確認**。
+
+
+
+中国水田の研究公開データ（Zenodo 10.5281/zenodo.8067998）の一時取得記録に基づき、日次CH₄-Cと時間別CH₄の**元ファイル列構造・原バイトのハッシュ・日付/DOY整合性**を検査するオフラインCLIを追加した。ソース別の単位を混ぜず、時刻解釈・QC・ライセンス未確認の段階では、積算・補間・J-クレジット相当量の計算をしない。
+
+[原著ファイル事前検査の手順と制約](docs/china-rice-native-preflight-2026-10-19.md)。合成の列構造データでテストし、原著の観測原本はリポジトリに収録していない。
+
+## Asia observation sources & IEEE source dock (2026-10-19)
+
+[Asia research source acquisition and future IEEE dock](docs/asia-source-observation-acquisition-ieee-dock-2026-10-19.md): 8 DOI-indexed scientific sources (7 publisher-advertised MD5 file checksums), strict observation vs model distinction, 5-file Zenodo original-byte *ephemeral* acquisition attempts with SHA-256 + MD5 checks, and a portable **metadata-only** IEEE dock exporter. Use `node scripts/asia-source-dock-export.mjs` and `python3 scripts/harvest-asia-source-index.py --fetch` in a network-enabled environment. Publisher originals have **not** been copied into this repository or approved for redistribution; licenses and scientific calibration/AG-005 eligibility remain pending.
+
+### Actual upstream-byte checks & five CH₄ adapters (2026-10-19)
+GitHub Actions [source acquisition run](https://github.com/Takzin1/NaFT/actions/runs/39142424578) retrieved **six** originals ephemerally and matched Zenodo-listed MD5, with recorded SHA-256 and first-row **column headers only** in [source provenance report](research/asia-source-dock-2026-10-19/verified-ephemeral-acquisition.json). No originals republished; license, site/date/QC and institutional adoption not validated. China's raw hourly header uses `CH4-umol/m2/s` while its daily aggregate uses `CH4-gC/m2/day`; normalized adapters now cover both with distinct units/CH₄-C handling and synthetic independent arithmetic. Actual publisher observations **are not yet scientifically replayed**. Next IEEE Dock remains metadata-only.
+
+## Japan–IEEE independent methane computation crosscheck (2026-10-19)
+
+[Portable BigInt/Decimal independent CH4 oracle](docs/japan-ieee-independent-methane-oracle-2026-10-19.md) adds eight synthetic verification scenarios across five flux units, missingness and zero controls. IEEE and Japan share identical source engine/fixture SHA values. Japanese CI also runs `tests/japan-ieee-oracle-parity.test.mjs` to compare five existing Japanese research adapters against the independent two-language pair. **This proves only arithmetic consistency, not replication of verified original field measurements or certified J-Credits.**
+
+**研究文献更新（2026-10-25）**：[DMRV文献5本の出典・制約・適用範囲](docs/dmrv-literature-2026-10-25.md)を追加。研究根拠専用で、認証や算定エンジンには未接続。
+
+**カーボンクレジット出典監査（2026-10-25）:** [公開URL32件・確認結果・利用上の制約](docs/carboncredit-source-audit-2026-10-25.md) / [全32行の機械可読な台帳](research/carboncredit-link-audit-2026-10-25/source-audit.json)。原データや認証量を直接算定へ投入していません。
+
+## IEEE主要機能の日本語統合（移植候補）
+
+**[ClimateChain日本語デモを開く](https://takzin1.github.io/NaFT/naft-app.html#/climatechain)** — 合成100件の差分再検証、申請別トレース、改ざんチャレンジ、監査レシート、3要素整合性検証、既存Sepolia記録を日本語表示で操作します。**PRがmainにマージされるまで、この公開URLには反映されません。**
+
+独立再現用CLI：`scripts/ieee-replay-audit.mjs`, `scripts/ieee-triad-proof.mjs`, `scripts/ieee-benchmark.mjs`, `scripts/ieee-source-snapshot.mjs`。原IEEEの判定コード・hash・JSON・チェーン記録は変更せず、日本語訳はUI表示に限定。合成テストやtestnet証跡は実測削減・正式認証・経済的効果を立証しません。
+
+[移植内容・未実装の境界・再現手順](docs/ieee-japanese-port-2026-10-25.md)
+
+## 研究用・原観測証憑の検証状況（P0追加開発）
+
+**[観測データ・出典の日本語ビュー](naft-app.html#/source-readiness)**：固定された研究用メタデータを元に、JapanFlux JP-HrtのQC不明・欠測・測定開始日矛盾、およびGold Standard等の制度・文書間の不一致を表示します。公式な環境計測や認証結果を示す画面ではありません。
+
+- 研究出典ゲート・再現可能な不足証憑レポートをCLIとCIに統合（原センサー値・PDF・研究者の私信は再配布しません）。
+- `node scripts/report-research-readiness.mjs --format markdown`
+- [設計・既知の限界・テスト方法](docs/source-readiness-ja-2026-11-02.md)
+- この内容は**開発ブランチ上のPR候補**です。マージとWeb公開は完了していません。
+
+## P1｜制度別方法論とGold Standard教材の独立再計算（研究用・開発ブランチ）
+
+- 日本語ブラウザ画面：`naft-app.html#/method-family`（Gold Standard教材Tier 1/2/3、Verra VM0051 QA1/2/3、J-クレジットAG-005の別体系を比較）。
+- `node scripts/p1-method-family-comparison.mjs --format markdown`：正式認証ではない、文書版付きの比較。
+- `node scripts/p1-gs-independent-replay.mjs generate fixtures/p1-gs-training-tier2-request.json`：Gold Standard教材の特定セル式をBigIntと独立Python Decimalで**同じ実行ごとに**照合。証憑の真正性、排出削減量、正式クレジットを認証しません。
+- [P1の設計・再現手順・科学的制約](docs/p1-method-comparison-ja-2026-11-02.md)。現在の開発PRがマージされるまで公開Pagesには反映されません。
+
+## CI節約とP2研究監査パケット（開発ブランチ）
+
+- `NaFT MRV Compiler CI`：`main` へのPushとPRの更新でのみ実行。重複していた `feat/**` Push CIを無効化し、PR単位の `concurrency.cancel-in-progress` で古い実行をキャンセルする。既存のGitHub Pagesデプロイチェックは維持。
+- GitHub Actionsの過去のFailedは古いコミットの履歴。古いSHAの再実行で最新の修正が適用されるわけではないため、最新headのCIを確認する。
+- `node scripts/p2-audit-packet-preflight.mjs --format markdown`：P0/P1の出典レジストリ・未解決証拠・制度別適用の限界を統合した、研究用ハッシュ付き監査準備レポート。正式認証ではない。
+- [P2監査パケットの再現手順・受入基準](docs/p2-audit-packet-preflight-ja-2026-11-02.md)
+
+## P2｜AG-005の版候補とGold Standard SOCリスクの出典ゲート
+
+- `node scripts/p2-method-soc-gate.mjs markdown fixtures/p2-method-soc-research-request.json`：AG-005版候補（3.1〜3.5）を区別し、土壌有機炭素(SOC)の証憑4項目を研究用に点検。原資料が未検証のため、現行採択版・制度適格性・正式クレジットは**一切自動承認しない**。
+- `node scripts/p2-method-soc-gate.mjs generate fixtures/p2-method-soc-research-request.json > /tmp/p2-soc-receipt.json`、`verify`で出典/判定の再計算。独立した出版社署名・現地QC確認を示すものではない。
+- [版候補の出典境界、SOC証憑一覧、再現方法](docs/p2-ag005-soc-source-gates-ja-2026-11-02.md)
+
+## P3｜方法論PDFのローカル原典ハッシュ検査
+
+- `scripts/p3-method-document-intake.mjs` は、**利用者がローカルで用意したPDFのバイト列**を研究用レジストリのAG-005版候補またはGold Standard SOC案内情報に結び付ける。PDFマーカーの簡易確認、SHA-256、レシートの再実行照合を行うが、出版社からの正式取得・採択・内容解析・認証量の算定は一切主張しない。
+- `node scripts/p3-method-document-intake.mjs generate fixtures/p3-ag005-unverified-intake-request.json /path/to/locally-supplied.pdf` が基本形。原典ファイル自体はリポジトリへコミットせず、テストは合成PDFマーカーのみ。
+- [P3の実行手順、各検査の保証範囲と証憑収集の次の作業](docs/p3-method-document-intake-ja-2026-11-02.md)。
+
+## P4｜方法論PDFの変更検出・再検証候補の自動整理
+
+`scripts/p4-method-source-impact.mjs` はP3の旧/新ファイル受取検査を各々**再実行**し、宣言版・生PDFハッシュ・出典メタデータを比較する。制度横断の曖昧な変更は拒否し、同じ宣言版でPDFのバイトが変われば調査保留、制度の版が変わった場合も**条文・Rule Pack・原観測・再計算への影響候補**を提示するだけにする。正式原典・適用条件・認証量の検証はこの仕組みの範囲外。
+
+- [P4：状態分類、CLI、7/8領域のレビュー候補、次の独立再検証条件](docs/p4-method-source-impact-ja-2026-11-02.md)
+- 動作確認：`node tests/p4-method-source-impact.test.mjs`。CIは原典ではなく、**合成PDFマーカー**を使う。
+
+## P5｜制度別の条項から、必要な証憑・レビュー・再検証先を追跡
+
+[Gold Standardの2025年12月22日付SOC規則（一般対応期限2026年7月1日）と旧7月版の差異](docs/p5-clause-evidence-trace-ja-2026-11-02.md)を一次資料に基づき整理。Verra VM0051 v1.1のSOC管理、J-クレジットAG-005の**旧参考資料のみ**という限界も区分した。公開条項14件から必要証憑21種を引き当てる研究用トレースが可能。
+
+`node scripts/p5-clause-evidence-trace.mjs markdown fixtures/p5-gs-soc-clause-trace-request.json` で証憑の不足や時点レビュー候補を出力。旧規則での判定、制度横断混同、独立QCやクレジット認証への自動昇格は禁止する。**PDFの条文を自動抽出・比較したり、実測算定・認証を実行する仕組みではない。**
+
+## P6｜ユーザー提供の原著コピー3件の実SHA-256と出典ページを固定
+
+[原著の照合結果とVerra VM0051・Gold Standard教材の15ページ別調査事項](docs/p6-original-source-evidence-ja-2026-11-02.md)を追加。90ページのVM0051 v1.1 PDF、GS稲作研修シナリオPDF、GS旧AWD VVBチェックリストDOCXの**実コピーSHA-256が従来の出典台帳と一致**することを確認し、研究用に出典・条項・証憑・P5対応候補を連結した。原著の**元ファイル自体は再配布ライセンス未確認のため公開Repoには追加しない**。正式制度適合性、観測値、認証クレジットは引き続き未確認。
+
+`node scripts/p6-local-original-evidence.mjs markdown fixtures/p6-verra-original-evidence-review-request.json` が概要レポートの入口。合法的に取得した原文が手元にある場合のみ `verify-original SOURCE_ID /path/to/file` でローカル原本コピーを照合できる。
+
+## P7｜追加の水田観測・気象・衛星ソース7件とオフラインCH₄品質検査
+
+[出典リストと実装状況（日本語）](docs/p7-data-source-expansion-and-offline-qc-ja-2026-11-02.md)。新規6ソース（中国AWD実験、メタン気泡放出ML、FAOSTAT、NASA POWER、Copernicus Sentinel-1、IPCC）と既存Gimje1件の詳細な状態を管理。**新規原観測の生ファイル取得は0、検証済み観測行も0**。元データがない状態で数値を作らない。
+
+研究者が原データの意味を確認して手元で作る正規化CSVに対し、`node scripts/p7-offline-observation-qc.mjs analyze KR_GIMJE_DAILY_2022_2024 /path/to/normalized.csv` でSHA-256固定、欠測・単位・二重記録・測定法・QC申告の不整合を検査できる。気象データ、国別統計、衛星SARを直接CH₄実測へ置換することは禁止。制度上の正式適用・測定品質認証・CO₂e算定は実装対象外。
+
+## P8｜Gimje原データZIP＋圃場Excelのオフライン直接ドッキング
+
+[Zenodo配布元のMD5、著者RコードのDAT→日付変換、元観測ファイルの取込条件](docs/p8-gimje-native-source-docking-ja-2026-11-02.md)を確認し、`scripts/p8-gimje-native-dock.py` を追加。明示的な `acquire` で外部データを私有領域へ取得し、`dock ZIP XLSX CANONICAL_CSV RECEIPT_JSON` で原バイトMD5を照合した上でP7 QCに接続、`verify` で全レシートを再現できる。**原ZIP/XLSXはRepoに入れない。通信制限のため実原観測の取得と統合はまだ実施できていない。** テストは合成ファイルのみ。正式な認証CO₂eの計算は行わない。
+
+## P9｜全47都道府県の水稲統計・地域農業PDF・旧AG-005式の独立検証
+
+[原典・式と注意点](docs/p9-47pref-pdf-ag005-legacy-ja-2026-11-03.md) / `node scripts/p9-prefecture-rice-source-guard.mjs audit`。北海道公式PDFの農林水産省「作物統計調査」比較表から**2024年産の全国47都道府県**の水稲作付面積・収量・玄米収穫量を版付きで固定。**15道県の県固有農業技術PDF出典**も索引化（残り32県は県別資料未精査）。県ごとのデータを統計恒等式で照合し、公表値との疑義を修正せず保留にする。`prefecture 07` で福島県の数値と出典を個別確認可能。
+
+`preview fixtures/p9-synthetic-ag005-v1-preview.json` は**旧AG-005 v1.0の参考数式**と、入力者が指定した**合成係数・GWP**での独立検算。現在の方法論採択・排出係数やJ-クレジット正式認証を意味しない。**正式CO₂e認証値：null**。P8観測と県別栽培指導・統計を直接同じフラックスとして混同することを禁止。
+
+## P10｜Climate Evidence StudioデザインとGX Data Atlas（47都道府県）
+
+[DESIGN.md](DESIGN.md) にGoogle Labsの公開`DESIGN.md`形式を参考としたNaFT独自トークンを定義。[P10仕様書](docs/p10-gx-climatetech-ui-data-atlas-ja-2026-11-03.md)にデザインの出典・数値・単位・制度適用境界を掲載。新UI `#/gx-data` は2024年の47都道府県水稲統計・地域PDFリンクを県セレクターで閲覧可能。2025年**主食用米確報**と2026年**9月25日時点の主食用米予測**は別の状態を付け、2024年の全水稲とは直接の時系列比較をブロックする。
+
+`src/gx-design-system.css` の森林色×研究用カードを既存画面へ適用し、既存のClimateChain競技専用ルートをCSSスコープから除外。実測CH₄や正式tCO₂eの認証は追加していない。 `node tests/p10-gx-design-data.test.mjs` でP9との47件一致・公開原資料・時点ガード・ルート配線を検証。
+
+## P11｜実原本CSV3,005行を投入・水田採取CSV718行を外部照合
+
+[一次資料と実バイト検証の詳細](docs/p11-real-raw-chamber-and-rice-source-audit-ja-2026-11-03.md)。研究公開リポジトリの**CH₄機器サンプルCSV（3,005行・292,577 bytes）**をGitHubで原blobを照合し、原本全体と上流MITの著作権表示を保存した。 `node scripts/p11-original-chamber-source-audit.mjs audit` で濃度(ppm)、時刻、列構造、欠測、実バイトSHA-256、原ファイルGit blobを再演算。**水田由来・CH₄日次フラックス・正式CO₂eではない**。
+
+別の研究者が公開する**水田の2023年ガスクロマトグラフィーCSV（実在する718原観測時点、20採取日、AWD/MSD/CON）**も直接確認し、原Git blob、列と内訳を`research/p11-rice-chromatography-source-2026-11-03.json`に登録。データ専用の再配布ライセンスが確認できず**原CSVはNaFTに転載していない**。 `scripts/p11-rice-chromatography-guard.mjs verify-original FILE` はローカル原本を検査する。 `#/gx-data` に実原本と未転載原本の違いを示す研究データ受入パネルを追加。**e-Stat 2025確報原Excel・Gimje ZIPの直接取得はDNS制限により未達**。
+
+## P12｜ユーザー取得の2025年産e-Stat Excel原本を47都道府県・9指標で取込完了
+
+[P12原本のハッシュ・Excel列・検証仕様](docs/p12-estat-2025-real-xls-47prefecture-ja-2026-11-03.md)。**実際にアップロードされた `f002-07-001.xls`（71,680 bytes）**をBIFF8/OLE形式として読み、**2025年産の47都道府県×9指標**（水稲全体作付面積、主食用面積、ふるい上単収・収穫量、ふるい下収穫量、1.70mm単収・収穫量、子実用面積・収穫量）を `research/p12-estat-2025-prefecture-original-xls-v1.json` に追加。元バイナリSHA-256 `65892e3a1c095aad21f717ad4acc9787aad7d8d7e004b1c70f3284462ddca835`を固定し、元Excel原本の再現検証用 `scripts/p12-estat-2025-original-replay.py` を追加。**原.xlsバイナリ自体はリポジトリに転載しない**。
+
+`#/gx-data` では、県選択で**2025年産の主食用米確報**を2024年水稲全体とは別に表示。`node scripts/p12-estat-2025-prefecture-audit.mjs audit` と `node tests/p12-estat-2025-original-source.test.mjs` で47行×9列、全国値の端数、ふるい目幅差、年度定義の誤用を検査。2024年全水稲との単純比較と、公式J-クレジットtCO₂eへの昇格を禁止する。
+
+## Gimje original CH₄ files: real ZIP + Excel verified (2026-11-03)
+
+User-supplied **Zenodo-original-identical** `ch4.zip` (60 CSVs) and `input_fields_meta.xlsx` (60 matching fields) were actually unpacked and independently hashed. From **8,391 daily rows**, **1,422 contain reported CH₄ flux**, **6,969 are missing** and **31 have negative values**; none are silently imputed, dropped or treated as validated carbon credits. The `#/gx-data` research atlas displays an original-source audit. GitHub includes hashes, derived aggregate QC and deterministic offline real-source replay, **not the source observation files** because their redistribution license has not been independently cleared. [P14 intake, source checksums and reproducibility](docs/p14-gimje-original-real-zip-intake-ja-2026-11-03.md). This supersedes only the historical *unacquired-data* status for this specific pair of files; independent laboratory quality/official MRV acceptance remain open.
+
+## P15｜Gimjeの実測日間隔・科学的ソースQC（原本60圃場、CH₄記録1,422行）
+
+[P15詳細](docs/p15-gimje-sampling-cadence-qc-ja-2026-11-03.md)。原データの**毎日8,391行は、CH₄測定8,391回を意味しない**。公開ZIPの60圃場では、2022年は各32回、2023年は各22回、2024年は各18〜20回だけCH₄フラックス値が記録されている。6,969の日別グリッドにはCH₄値がなく、測定器故障とは自動判定しない。観測間隔の最大は16日（2024年27区間）。負値31件は削除しない。原本があるローカル環境で`python3 scripts/p15-gimje-sampling-cadence-qc.py /private/ch4.zip /private/input_fields_meta.xlsx`と実行すると、P14→P8→P7の原本照合を経て年・処理別の固定レポートへ完全一致するか確認する。`--private-fields /private/report.json`は機微な圃場別QCを任意のローカルファイルにのみ出す。新しい`#/gx-data`パネルは測定間隔と日別の水管理フェーズの違いを表示。**独立の実験室QC・季節積分・因果効果・公式排出削減認証ではない**。
+
+## P16｜1883〜2022年の日本6作物・146,160原レコード（140年間）
+
+[原資料ZIPのSHA・疑義・検証仕様と手順](docs/p16-japan-six-crop-history-real-zip-ja-2026-11-03.md)。ユーザー提供ZIPを安全に展開し、米・小麦・大麦・大豆・ジャガイモ・サツマイモについて47県＋10地域集計＋全国の生産量/面積/単収を全件監査。`scripts/p16-japan-six-crop-original-zip-audit.py`が元17.16MB CSVのバイト一致、146,160行、県別総和、単収の端数、**生産量>0なのに0haとなる59件**、歴史上の未確認ゼロ21作物年を厳格に評価する。`#/gx-data`に新設した全国6作物×140年の歴史トレンドでは、この0は欠測疑義として線を切り、公式CH₄やJ-クレジットに自動接続しない。公開GitHubには再配布許諾を独立確認できていない元のZIP/CSV/XLSXを置かず、出典ハッシュ・検証コード・全国集計の軽量表示のみを搭載。全原データは手元のZIPを使いローカルで再演算可能。
+
+## P17｜日本1883〜2022年・6作物のフルリマスター済み公開CSV
+
+前回P16では元ZIPの非公開を維持したが、P17ではユーザー依頼に基づき、元CSVの**全146,160指標レコード**を、値と出典を保持した**48,720件の作物×年×地理区分の行**へリマスターし、[6本のCSVとSHA-256台帳](data/japan-crops-1883-2022/remastered-v1/README.md)としてGitHubで閲覧可能にした（元ZIP・元Excelのバイトコピーではない）。[原本からの完全再生成スクリプト](scripts/p17-japan-crop-full-remaster.py)と[48,720行・Git blob一致を検証するCI](tests/p17-japan-crop-full-remaster.test.mjs)を併設。正の生産量にもかかわらず面積0の59件、全国ゼロの疑義を品質フラグとして保存し、補間や認証tCO₂eへの誤転用は行わない。**元データの再配布ライセンスは未確認であり、独自の権利許諾を付与するものではない**。利用者は先に出典と権利関係の確認が必要。
+
+## P20｜水稲CH₄年間原本の完全再演算チェック
+
+2001〜2015年の年間GeoTIFF再アップロードはP19と元ZIP SHA-256が同一。公開した48×26の15年タイル集計を原本から独立再生成してSHA-256完全一致を確認。原本は公開せず、`scripts/p20-rice-ch4-original-replay.py`（ローカルでrasterio+numpy必要）と`tests/p20-rice-ch4-original-replay.test.py`（CIではPython標準機能のみ）を追加。研究上の再現性は公的認証や圃場実測の正しさを証明しない。[技術仕様](docs/p20-rice-ch4-source-replay-ja-2026-11-03.md)。
+
+## P21｜JAXA土地被覆データ2024年 v25.04 第１バッチ
+
+利用者提供のGeoTIFF３枚とREADME・日英凡例を原本ハッシュ・EPSG:4326・15分類で受入。GX Atlasで３タイルの統計を切替できる。画像原本をGitHubで再配布せず、水田画素数を面積や正式な炭素クレジットに変換しない。[P21出典台帳・再現手順](docs/p21-jaxa-lulc-batch01-ja-2026-11-03.md)。
+
+## P22｜JAXA 2024土地被覆図・第２バッチ
+
+GeoTIFF `LC_N30E129.tif`（東経129–130度、北緯30–31度）を原本全画素・SHA-256で照合し、15分類統計を別台帳として追加。水域143,766,652px、水田0px。P21の3タイルと合わせてGX Data Atlasで4タイル切替対応。原本は権利未確定のため未再配布。詳細は[受入・再検証の技術記録](docs/p22-jaxa-lulc-batch02-ja-2026-11-03.md)。
+
