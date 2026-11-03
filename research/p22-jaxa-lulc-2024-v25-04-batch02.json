@@ -1,0 +1,61 @@
+{
+  "schema": "naft-p22-jaxa-lulc-2024-v25-04-batch02",
+  "date": "2026-11-03",
+  "parent_registry": "research/p21-jaxa-lulc-2024-v25-04-batch01.json",
+  "dataset": "JAXA High-Resolution Land-Use and Land-Cover Map of Japan for 2024",
+  "version": "25.04",
+  "year": 2024,
+  "source_url": "https://www.eorc.jaxa.jp/ALOS/jp/dataset/lulc/lulc_v2504_j.htm",
+  "batch": "02",
+  "batch_new_tiles": 1,
+  "total_known_tiles_after_batch": 4,
+  "complete_national_coverage": false,
+  "classes_count": 15,
+  "water_class": 1,
+  "paddy_class": 3,
+  "nodata_is_not_class_1": true,
+  "independent_publisher_byte_authentication": false,
+  "original_geotiff_redistribution_permission_verified": false,
+  "original_geotiff_committed": false,
+  "field_area_ha": null,
+  "official_credit_tco2e": null,
+  "independent_ground_truth_validated": false,
+  "rasters": [
+    {
+      "id": "LC_N30E129",
+      "filename": "LC_N30E129.tif",
+      "sha256": "a77b4d6a4f2e7bd4702c4b035fe51c2579abb8916ebad8b830d629c3bcc9a766",
+      "bytes": 651876,
+      "nodata": null,
+      "bounds": [
+        129,
+        30,
+        130,
+        31
+      ],
+      "crs": "EPSG:4326",
+      "pixels": 144000000,
+      "count_by_class": [
+        143766652,
+        861,
+        0,
+        1925,
+        25342,
+        1414,
+        8,
+        116478,
+        539,
+        19246,
+        62474,
+        0,
+        21,
+        11,
+        5029
+      ],
+      "paddy_pixels": 0,
+      "water_pixels": 143766652,
+      "ha": null,
+      "raw_file_committed": false
+    }
+  ]
+}
