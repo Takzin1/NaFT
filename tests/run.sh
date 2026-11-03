@@ -34,6 +34,7 @@ node tests/p16-japan-crop-history-original-source.test.mjs
 node tests/p17-japan-crop-full-remaster.test.mjs
 node tests/p18-ag005-source-intake.test.mjs
 node tests/p19-rice-ch4-asia.test.mjs
+python3 tests/p20-rice-ch4-original-replay.test.py
 node tests/dmrv-literature-register.test.mjs
 node tests/climatechain-japanese.test.mjs
 node tests/ieee-audit.test.mjs

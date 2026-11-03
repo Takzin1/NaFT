@@ -280,3 +280,7 @@ User-supplied **Zenodo-original-identical** `ch4.zip` (60 CSVs) and `input_field
 ## P17｜日本1883〜2022年・6作物のフルリマスター済み公開CSV
 
 前回P16では元ZIPの非公開を維持したが、P17ではユーザー依頼に基づき、元CSVの**全146,160指標レコード**を、値と出典を保持した**48,720件の作物×年×地理区分の行**へリマスターし、[6本のCSVとSHA-256台帳](data/japan-crops-1883-2022/remastered-v1/README.md)としてGitHubで閲覧可能にした（元ZIP・元Excelのバイトコピーではない）。[原本からの完全再生成スクリプト](scripts/p17-japan-crop-full-remaster.py)と[48,720行・Git blob一致を検証するCI](tests/p17-japan-crop-full-remaster.test.mjs)を併設。正の生産量にもかかわらず面積0の59件、全国ゼロの疑義を品質フラグとして保存し、補間や認証tCO₂eへの誤転用は行わない。**元データの再配布ライセンスは未確認であり、独自の権利許諾を付与するものではない**。利用者は先に出典と権利関係の確認が必要。
+
+## P20｜水稲CH₄年間原本の完全再演算チェック
+
+2001〜2015年の年間GeoTIFF再アップロードはP19と元ZIP SHA-256が同一。公開した48×26の15年タイル集計を原本から独立再生成してSHA-256完全一致を確認。原本は公開せず、`scripts/p20-rice-ch4-original-replay.py`（ローカルでrasterio+numpy必要）と`tests/p20-rice-ch4-original-replay.test.py`（CIではPython標準機能のみ）を追加。研究上の再現性は公的認証や圃場実測の正しさを証明しない。[技術仕様](docs/p20-rice-ch4-source-replay-ja-2026-11-03.md)。
