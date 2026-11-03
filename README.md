@@ -7,7 +7,7 @@
 **▶ 審査員向けデモ（ブラウザですぐ試す）**：[100件の変更影響デモ](https://takzin1.github.io/NaFT/naft-app.html#/reviewer-demo) ／ [日本語デモ](https://takzin1.github.io/NaFT/gikuten.html#/reviewer-demo) ／ [研究・データ画面](https://takzin1.github.io/NaFT/naft-app.html#/gx-data)  
 操作手順：[60秒デモガイド](docs/demo-script.md)
 
-> 🎬 **デモGIFのプレースホルダー**：`docs/assets/demo.gif`（現時点では未配置）。GIFを追加したら、この行を `![NaFT操作デモ](docs/assets/demo.gif)` に差し替えます。
+> 🎬 **デモGIFのプレースホルダー**：`docs/assets/demo.gif`（現時点では未配置）。録画GIFを作成したときに、ここへ実際の操作画面を表示します。
 
 ## 解決する課題
 
