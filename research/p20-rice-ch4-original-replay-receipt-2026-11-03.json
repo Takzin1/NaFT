@@ -1,0 +1,26 @@
+{
+  "schema": "naft-p20-rice-ch4-annual-local-replay-v1",
+  "checked_on": "2026-11-03",
+  "uploaded_alias": "RiceCH4_mgCH4m2day_annual(2).zip",
+  "source_same_as_p19": true,
+  "source_zip_sha256": "082cab760b66e217529f58898890eb408ffd2e757177359ffb04f1c9653d9f98",
+  "source_zip_md5": "59743e36d366b4d25691d7069d0adea4",
+  "year_range": [
+    2001,
+    2015
+  ],
+  "tif_files": 15,
+  "xml_files": 15,
+  "pixels_per_year": 4256928,
+  "source_derived_tile_pack_sha256": "8b8f985720b0ef90139670bae00b3ad41dbf8e560cd6e91c35062fa33544539b",
+  "local_original_replay_status": "EXACT_SOURCE_TO_PUBLIC_PREVIEW_REPLAY_MATCH",
+  "local_dependencies": [
+    "numpy",
+    "rasterio"
+  ],
+  "github_ci_full_original_replay": false,
+  "github_ci_pure_helper_tests": true,
+  "raw_source_redistributed": false,
+  "source_publisher_independently_authenticated": false,
+  "formal_ag005_credits_tco2e": null
+}
