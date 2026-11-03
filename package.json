@@ -1,0 +1,13 @@
+{
+  "name": "naft",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Version-aware research prototype for evidence and selective MRV re-verification",
+  "scripts": {
+    "test": "bash tests/run.sh"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "license": "MIT"
+}
