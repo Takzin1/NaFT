@@ -172,3 +172,8 @@ body[data-page="gx-data"] #app>main{padding-top:25px}
 .gx-ch4-map{background:#f0f5ec;border:1px solid #d4e3d9;border-radius:14px}
 .gx-ch4-figure{margin:20px 0 0;min-width:0}
 .gx-ch4-figure figcaption{color:#51695c;font-size:13px;line-height:1.65;margin-bottom:10px}
+
+/* P21 JAXA v25.04 land cover categories */
+.gx-jaxa-details{margin-top:16px;border:1px solid #d7e5dc;border-radius:12px;padding:14px;background:#f9fcf9}
+.gx-jaxa-details summary{cursor:pointer;font-weight:700}
+.gx-jaxa-details .scroll{margin-top:12px;max-height:400px;overflow:auto}
