@@ -1,0 +1,188 @@
+{
+  "schema": "naft-p18-maff-ag005-two-guidance-sources-v1",
+  "snapshot_date": "2026-11-03",
+  "source_type": "USER_SUPPLIED_MAFF_GUIDANCE_COPY_NOT_ADOPTED_METHODOLOGY",
+  "registration_rule_overview": "UNVERIFIED_CURRENT_RULE_REFERENCE_ONLY",
+  "guidance_not_primary_legal_authority": true,
+  "raw_source_files_committed": false,
+  "publisher_byte_authentication_verified": false,
+  "current_methodology_adoption_verified": false,
+  "licensed_for_redistribution": false,
+  "emission_factor_approved": false,
+  "certified_tco2e": null,
+  "documents": [
+    {
+      "id": "MAFF_AG005_OVERVIEW_2026_07",
+      "filename": "index-175(1).pdf",
+      "title": "水稲栽培における中干し期間の延長のJ-クレジット制度について",
+      "issuer": "農林水産省 農産局農業環境対策課",
+      "publication_month": "2026-07",
+      "sha256": "770e772866403a0f8e08a6ced5339272db74a3b324c9143e6e6eaee15cfc8776",
+      "bytes": 2464882,
+      "pages": 41,
+      "format": "pdf",
+      "source_url": "https://www.maff.go.jp/j/seisan/kankyo/ondanka/attach/pdf/index-175.pdf",
+      "source_url_independently_verified": false,
+      "source_body_is_not_methodology": true,
+      "citation_authentication_status": "USER_SUPPLIED_COPY_SHA256_PINNED_PUBLISHER_NOT_RECHECKED",
+      "raw_copy_in_repository": false
+    },
+    {
+      "id": "MAFF_AG005_ACTIVITY_GUIDE_2025_12",
+      "filename": "nakaboshi_guide(2).pdf",
+      "title": "J-クレジット制度 個別活動実績報告リスト作成ガイド",
+      "issuer": "農林水産省 農産局農業環境対策課",
+      "publication_month": "2025-12",
+      "sha256": "a026b2da0cf8348d03e7c166644bf82df41bfe1695334dd4fa77a9640375f3c5",
+      "bytes": 1016213,
+      "pages": 33,
+      "format": "pdf",
+      "source_url": null,
+      "source_body_is_not_methodology": true,
+      "citation_authentication_status": "USER_SUPPLIED_COPY_SHA256_PINNED_PUBLISHER_NOT_RECHECKED",
+      "raw_copy_in_repository": false
+    }
+  ],
+  "claims": [
+    {
+      "id": "OVERVIEW_BASELINE",
+      "source_id": "MAFF_AG005_OVERVIEW_2026_07",
+      "pdf_page": 19,
+      "summary_ja": "直近2か年以上の水稲栽培年の中干し日数を基準とする。水稲未栽培年は飛ばし、実測記録が必要。",
+      "official_certification_inferred": false
+    },
+    {
+      "id": "OVERVIEW_SEVEN_DAY",
+      "source_id": "MAFF_AG005_OVERVIEW_2026_07",
+      "pdf_page": 13,
+      "summary_ja": "中干し期間は基準平均より連続7日間以上延長する。２期間の合算は不可。",
+      "official_certification_inferred": false
+    },
+    {
+      "id": "OVERVIEW_BEFORE_HEADING",
+      "source_id": "MAFF_AG005_OVERVIEW_2026_07",
+      "pdf_page": 19,
+      "summary_ja": "取水口閉・排水口開の開始日、終了日、出穂日を生産管理記録等で確認する。",
+      "official_certification_inferred": false
+    },
+    {
+      "id": "OVERVIEW_CONTINUITY",
+      "source_id": "MAFF_AG005_OVERVIEW_2026_07",
+      "pdf_page": 21,
+      "summary_ja": "走り水など取水口を開いて差し水した時点で中干しは終了とみなし別期間を合算しない。",
+      "official_certification_inferred": false
+    },
+    {
+      "id": "OVERVIEW_MONITORING",
+      "source_id": "MAFF_AG005_OVERVIEW_2026_07",
+      "pdf_page": 14,
+      "summary_ja": "中干し開始・終了・実施日数の管理記録、開始と終了の客観的証跡が必要。",
+      "official_certification_inferred": false
+    },
+    {
+      "id": "OVERVIEW_AREA",
+      "source_id": "MAFF_AG005_OVERVIEW_2026_07",
+      "pdf_page": 23,
+      "summary_ja": "水稲作付面積・所在地域を営農計画書等で確認。畦畔含む面積は補正根拠が必要。",
+      "official_certification_inferred": false
+    },
+    {
+      "id": "OVERVIEW_ORGANIC",
+      "source_id": "MAFF_AG005_OVERVIEW_2026_07",
+      "pdf_page": 28,
+      "summary_ja": "直前稲作での稲わら持ち出し量、直後の堆肥施用量など有機物量を記録する。",
+      "official_certification_inferred": false
+    },
+    {
+      "id": "OVERVIEW_DRAINAGE",
+      "source_id": "MAFF_AG005_OVERVIEW_2026_07",
+      "pdf_page": 26,
+      "summary_ja": "日減水深未実測でも最低排出係数の参照は可能だが、上位排出係数には測定と証跡が必要。",
+      "official_certification_inferred": false
+    },
+    {
+      "id": "OVERVIEW_RECORDED_EVIDENCE",
+      "source_id": "MAFF_AG005_OVERVIEW_2026_07",
+      "pdf_page": 29,
+      "summary_ja": "生産管理記録は全筆対象。同一管理水田は統合可能で証跡は管理単位ごとに必要。",
+      "official_certification_inferred": false
+    },
+    {
+      "id": "OVERVIEW_RETROACTIVE",
+      "source_id": "MAFF_AG005_OVERVIEW_2026_07",
+      "pdf_page": 32,
+      "summary_ja": "2025年1月1日以降の削減活動報告には旧Ver1.0〜3.1登録PJにも地番転記規定が及ぶ。",
+      "official_certification_inferred": false
+    },
+    {
+      "id": "OVERVIEW_ENVIRONMENTAL",
+      "source_id": "MAFF_AG005_OVERVIEW_2026_07",
+      "pdf_page": 36,
+      "summary_ja": "延長による減収、強乾燥、カドミウム高濃度地域での食品安全に留意して人が判断する。",
+      "official_certification_inferred": false
+    },
+    {
+      "id": "OVERVIEW_ECOLOGY",
+      "source_id": "MAFF_AG005_OVERVIEW_2026_07",
+      "pdf_page": 35,
+      "summary_ja": "水生生物への影響、実施時期や避難場所を地域単位で評価する必要がある。",
+      "official_certification_inferred": false
+    },
+    {
+      "id": "OVERVIEW_NO_DOUBLE_CLAIM",
+      "source_id": "MAFF_AG005_OVERVIEW_2026_07",
+      "pdf_page": 39,
+      "summary_ja": "クレジット売却後、販売米に削減実績の環境価値を二重主張しない。",
+      "official_certification_inferred": false
+    },
+    {
+      "id": "GUIDE_2024_PARCEL",
+      "source_id": "MAFF_AG005_ACTIVITY_GUIDE_2025_12",
+      "pdf_page": 4,
+      "summary_ja": "2024年産以前は水田１筆を原則とし、１行１地番、分割・枝番の管理番号と地図で対応付ける。",
+      "official_certification_inferred": false
+    },
+    {
+      "id": "GUIDE_2025_PARCEL",
+      "source_id": "MAFF_AG005_ACTIVITY_GUIDE_2025_12",
+      "pdf_page": 19,
+      "summary_ja": "2025年産以降eMAFF農地ナビの所在地番を筆ごとに原則そのまま転記する。",
+      "official_certification_inferred": false
+    },
+    {
+      "id": "GUIDE_2025_AREA_PARCEL",
+      "source_id": "MAFF_AG005_ACTIVITY_GUIDE_2025_12",
+      "pdf_page": 19,
+      "summary_ja": "2025年産以降は面積根拠資料の地番情報もeMAFF地番とは別欄に転記する。",
+      "official_certification_inferred": false
+    },
+    {
+      "id": "GUIDE_FALLBACK",
+      "source_id": "MAFF_AG005_ACTIVITY_GUIDE_2025_12",
+      "pdf_page": 29,
+      "summary_ja": "eMAFF地番が全くない筆はスクリーンショット等で証明し、営農計画書等の優先順で代替。",
+      "official_certification_inferred": false
+    },
+    {
+      "id": "GUIDE_AREA_NO_DUPLICATION",
+      "source_id": "MAFF_AG005_ACTIVITY_GUIDE_2025_12",
+      "pdf_page": 25,
+      "summary_ja": "複数筆の面積が分割できない場合は最若地番に集約し残りをゼロとして二重計上しない。",
+      "official_certification_inferred": false
+    },
+    {
+      "id": "GUIDE_8_YEAR",
+      "source_id": "MAFF_AG005_ACTIVITY_GUIDE_2025_12",
+      "pdf_page": 31,
+      "summary_ja": "認証対象期間は原則一筆あたり8年。生産者変更による新規基準年が必要なケースを識別。",
+      "official_certification_inferred": false
+    },
+    {
+      "id": "GUIDE_VERSION_SCOPE",
+      "source_id": "MAFF_AG005_ACTIVITY_GUIDE_2025_12",
+      "pdf_page": 18,
+      "summary_ja": "ガイドは方法論Ver3.3を引用。ただしガイド自体は正式方法論の採択確認に代用できない。",
+      "official_certification_inferred": false
+    }
+  ]
+}
