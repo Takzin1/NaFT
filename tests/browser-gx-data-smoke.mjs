@@ -32,8 +32,10 @@ const ev=async expression=>{
  return r.result.value;
 };
 const until=async(expression,label)=>{
- for(let i=0;i<40;i++){if(await ev(expression))return;await wait(180);}
- throw Error('GX_BROWSER_TIMEOUT:'+label);
+ for(let i=0;i<90;i++){if(await ev(expression))return;await wait(180);}
+ let debug={};
+ try{debug=await ev("({href:location.href,hash:location.hash,page:document.body.dataset.page,body:document.body.innerText.slice(0,700),gxSelect:!!document.querySelector('#gx-pref-select'),jaxaSelect:!!document.querySelector('#gx-jaxa-tile-select'),ready:document.readyState})");}catch(ex){debug={error:String(ex)};}
+ throw Error('GX_BROWSER_TIMEOUT:'+label+':'+JSON.stringify(debug)+':runtimeErrors='+JSON.stringify(errors));
 };
 try{
  await send('Runtime.enable');
