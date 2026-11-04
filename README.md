@@ -7,7 +7,9 @@
 **▶ 審査員向けデモ（ブラウザですぐ試す）**：[100件の変更影響デモ](https://takzin1.github.io/NaFT/naft-app.html#/reviewer-demo) ／ [日本語デモ](https://takzin1.github.io/NaFT/gikuten.html#/reviewer-demo) ／ [研究・データ画面](https://takzin1.github.io/NaFT/naft-app.html#/gx-data)
 操作手順：[60秒デモガイド](docs/demo-script.md)
 
-> 🎬 **デモGIFのプレースホルダー**：`docs/assets/demo.gif`（現時点では未配置）。録画GIFを作成したときに、ここへ実際の操作画面を表示します。
+![Reviewer Demo の操作画面：100件の変更影響実験](docs/assets/demo.gif)
+
+🎬 **デモGIF**：Reviewer Demo の60秒フロー（100 Claim変更影響実験 → 再検証30件／影響なし70件 → 代表Claim MITOU-086 の再検証理由 → 人間判断のstale化）。
 
 ## 解決する課題
 
