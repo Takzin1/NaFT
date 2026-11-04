@@ -54,7 +54,7 @@ try{
  const afterMap=await ev("({s:document.querySelector('#gx-ch4-year-select').value,tiles:document.querySelectorAll('.gx-ch4-map rect').length,body:document.querySelector('#gx-ch4-title')?.closest('section')?.innerText})");
  if(afterMap.s!=='2001'||afterMap.tiles!==200||!afterMap.body.includes('29,192'))throw Error('GX_P19_CH4_2001_MAP:'+JSON.stringify(afterMap));
 
- await until("document.querySelector('#gx-jaxa-tile-select')?.options.length===16",'JAXA batches 1-4 16 tiles');
+ await until("document.querySelector('#gx-jaxa-tile-select')?.options.length===22",'JAXA batches 1-5 22 tiles');
  const j0=await ev("({s:document.querySelector('#gx-jaxa-tile-select')?.value,text:document.querySelector('#gx-jaxa-title')?.closest('section')?.innerText})");
  if(j0.s!=='LC_N30E131'||!j0.text.includes('32,028'))throw Error('P21_JAXA_DEFAULT:'+JSON.stringify(j0));
  await ev("(()=>{const s=document.querySelector('#gx-jaxa-tile-select');s.value='LC_N24E131';s.dispatchEvent(new Event('change',{bubbles:true}));return true})()");
@@ -69,7 +69,7 @@ try{
  await ev("(()=>{const s=document.querySelector('#gx-jaxa-tile-select');s.value='LC_N35E140';s.dispatchEvent(new Event('change',{bubbles:true}));return true})()");
  await until("document.querySelector('#gx-jaxa-tile-select')?.value==='LC_N35E140'",'JAXA batch3 35N140E');
  const j3=await ev("({s:document.querySelector('#gx-jaxa-tile-select')?.value,text:document.querySelector('#gx-jaxa-title')?.closest('section')?.innerText,options:document.querySelector('#gx-jaxa-tile-select')?.options.length})");
- if(j3.s!=='LC_N35E140'||!j3.text.includes('12,721,336')||j3.options!==16)throw Error('P23_JAXA_35N140E:'+JSON.stringify(j3));
+ if(j3.s!=='LC_N35E140'||!j3.text.includes('12,721,336')||j3.options!==22)throw Error('P23_JAXA_35N140E:'+JSON.stringify(j3));
  await ev("(()=>{const s=document.querySelector('#gx-jaxa-tile-select');s.value='LC_N38E139';s.dispatchEvent(new Event('change',{bubbles:true}));return true})()");
  await until("document.querySelector('#gx-jaxa-tile-select')?.value==='LC_N38E139'",'JAXA batch3 38N139E');
  const j4=await ev("({s:document.querySelector('#gx-jaxa-tile-select')?.value,text:document.querySelector('#gx-jaxa-title')?.closest('section')?.innerText})");
@@ -77,11 +77,19 @@ try{
  await ev("(()=>{const s=document.querySelector('#gx-jaxa-tile-select');s.value='LC_N36E136';s.dispatchEvent(new Event('change',{bubbles:true}));return true})()");
  await until("document.querySelector('#gx-jaxa-tile-select')?.value==='LC_N36E136'",'JAXA P24 new tile 36N136E');
  const j5=await ev("({id:document.querySelector('#gx-jaxa-tile-select')?.value,text:document.querySelector('#gx-jaxa-title')?.closest('section')?.innerText,options:document.querySelector('#gx-jaxa-tile-select')?.options.length})");
- if(j5.id!=='LC_N36E136'||!j5.text.includes('8,173,654')||j5.options!==16)throw Error('P24_JAXA_36N136E:'+JSON.stringify(j5));
+ if(j5.id!=='LC_N36E136'||!j5.text.includes('8,173,654')||j5.options!==22)throw Error('P24_JAXA_36N136E:'+JSON.stringify(j5));
  await ev("(()=>{const s=document.querySelector('#gx-jaxa-tile-select');s.value='LC_N42E142';s.dispatchEvent(new Event('change',{bubbles:true}));return true})()");
  await until("document.querySelector('#gx-jaxa-tile-select')?.value==='LC_N42E142'",'JAXA P24 new tile 42N142E');
  const j6=await ev("({id:document.querySelector('#gx-jaxa-tile-select')?.value,text:document.querySelector('#gx-jaxa-title')?.closest('section')?.innerText})");
  if(j6.id!=='LC_N42E142'||!j6.text.includes('398,614'))throw Error('P24_JAXA_42N142E:'+JSON.stringify(j6));
+ await ev("(()=>{const s=document.querySelector('#gx-jaxa-tile-select');s.value='LC_N39E141';s.dispatchEvent(new Event('change',{bubbles:true}));return true})()");
+ await until("document.querySelector('#gx-jaxa-tile-select')?.value==='LC_N39E141'",'JAXA P25 new tile 39N141E');
+ const p25A=await ev("({id:document.querySelector('#gx-jaxa-tile-select')?.value,text:document.querySelector('#gx-jaxa-title')?.closest('section')?.innerText,count:document.querySelector('#gx-jaxa-tile-select')?.options.length})");
+ if(p25A.id!=='LC_N39E141'||!p25A.text.includes('7,551,974')||p25A.count!==22)throw Error('P25_JAXA_39N141E:'+JSON.stringify(p25A));
+ await ev("(()=>{const s=document.querySelector('#gx-jaxa-tile-select');s.value='LC_N40E141';s.dispatchEvent(new Event('change',{bubbles:true}));return true})()");
+ await until("document.querySelector('#gx-jaxa-tile-select')?.value==='LC_N40E141'",'JAXA P25 new tile 40N141E');
+ const p25B=await ev("({id:document.querySelector('#gx-jaxa-tile-select')?.value,text:document.querySelector('#gx-jaxa-title')?.closest('section')?.innerText})");
+ if(p25B.id!=='LC_N40E141'||!p25B.text.includes('3,101,175'))throw Error('P25_JAXA_40N141E:'+JSON.stringify(p25B));
  const mobile=await ev("({page:document.body.dataset.page,width:innerWidth,scroll:document.documentElement.scrollWidth,title:document.querySelector('.gx-hero h2')?.textContent, cards:document.querySelectorAll('.gx-period-card').length,style:getComputedStyle(document.querySelector('.gx-hero')).backgroundImage,source:document.querySelector('.gx-source-panel').textContent,options:document.querySelector('#gx-pref-select').options.length})");
  if(mobile.page!=='gx-data'||mobile.cards!==3||mobile.options!==47)throw Error('GX_MOBILE_DATA_RENDER:'+JSON.stringify(mobile));
  if(mobile.scroll>mobile.width+1)throw Error('GX_MOBILE_HORIZONTAL_OVERFLOW:'+JSON.stringify(mobile));

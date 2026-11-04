@@ -20,12 +20,12 @@ assert.equal(map.size,10); // historical P21–P23 source registry coverage; P24
 const x={};vm.createContext(x);
 vm.runInContext(readFileSync('src/gx-jaxa-landcover-2024.js','utf8'),x);
 assert.equal(x.gxJaxaValidate(),true);
-const tiles=JSON.parse(JSON.stringify(x.GX_JAXA_TILES));assert.equal(tiles.length,16);
+const tiles=JSON.parse(JSON.stringify(x.GX_JAXA_TILES));assert.equal(tiles.length,22);
 for(const t of tiles.slice(0,10)){const a=map.get(t.id);assert(a);assert.deepEqual(t.bounds,a.bounds);assert.deepEqual(t.counts,a.count_by_class);assert.equal(t.paddy,a.paddy_pixels);}
 x.GX_JAXA_SELECTED_TILE='LC_N35E140';
-let html=x.gxJaxaLandcoverPanel();assert.match(html,/12,721,336/);assert.match(html,/16枚/);
+let html=x.gxJaxaLandcoverPanel();assert.match(html,/12,721,336/);assert.match(html,/22枚/);
 x.GX_JAXA_SELECTED_TILE='LC_N38E139';html=x.gxJaxaLandcoverPanel();assert.match(html,/6,828,139/);
-assert.equal((html.match(/<option value=/g)||[]).length,16);
+assert.equal((html.match(/<option value=/g)||[]).length,22);
 x.GX_JAXA_TILES[4].counts[0]++;assert.throws(()=>x.gxJaxaValidate(),/CATEGORY_COUNT_MISMATCH/);
 const test=readFileSync('tests/browser-gx-data-smoke.mjs','utf8');
 assert.match(test,/P23_JAXA_35N140E/);assert.match(test,/P23_JAXA_38N139E/);
