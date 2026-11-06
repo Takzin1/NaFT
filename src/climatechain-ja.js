@@ -176,11 +176,98 @@ Object.assign(CLIMATECHAIN_JAPANESE_LABELS,{
   "package hash": "パッケージハッシュ",
   "block timestamp": "ブロック時刻"
 });
+// Full-coverage pass (2026-11-06): scenario, explorer, trace, triad and anchor text.
+// Identifiers, hashes, claim IDs and underscore status-code values stay as-is by design.
+Object.assign(CLIMATECHAIN_JAPANESE_LABELS,{
+  "Deployment source": "配置元",
+  "Practical climate workflow · illustrative only": "実務の気候ワークフロー（例示のみ）",
+  "FICTIONAL AGGREGATOR / SYNTHETIC CLAIMS": "架空の統括者／合成申請",
+  "One operator. 100 claims. A changed methodology.": "1人の統括者。100件の申請。変わった方法論。",
+  "Imagine a project aggregator coordinating evidence for": "プロジェクト統括者が、",
+  "100 synthetic rice-paddy MRV claims": "100件の合成水田MRV申請",
+  ". A new synthetic methodology version adds requirements to the intensive pathway. The operator must decide which records need attention, and which are unaffected.": "の証拠をとりまとめている場面を想像してください。新しい合成方法論の版では、集約型の経路に追加要件が付きます。統括者は、どの記録に対応が必要で、どれが影響を受けないかを判断しなければなりません。",
+  "01 / TRIGGER": "01 / きっかけ",
+  "Requirements change": "要件の変更",
+  "NAFT-SYNTHETIC@1 → @2. This is a modeled change, not an official AG-005 amendment.": "NAFT-SYNTHETIC@1 → @2。これは想定上の変更であり、AG-005の正式な改定ではありません。",
+  "02 / TRIAGE": "02 / 選別",
+  "Trace affected claims": "影響する申請を追跡",
+  "NaFT examines dependency bindings rather than treating every claim as changed.": "NaFTはすべての申請が変わったとみなすのではなく、依存関係の結び付きを確認します。",
+  "03 / ACTION": "03 / 対応",
+  "Review or request evidence": "証拠の確認または請求",
+  "Re-evaluate eligible claims, stop when required evidence is missing, and retain predecessor packages.": "対象の申請を再評価し、必要な証拠が不足する場合は停止し、前版のパッケージを保持します。",
+  "All-claims review queue · hypothetical comparison": "全申請の確認キュー・仮の比較",
+  "Illustrative baseline, not observed industry practice": "例示の基準であり、実際の業界慣行ではありません",
+  "NaFT re-verification set · computed": "NaFTの再検証対象・計算結果",
+  "Unaffected claims · computed": "影響なしの申請・計算結果",
+  "Unchanged semantic dependencies; not a field cost-savings result": "意味的な依存関係に変化なし。現場のコスト削減結果ではありません",
+  "Not a climate-impact measurement:": "気候影響の測定ではありません：",
+  "This illustrates a possible verification workflow with synthetic claims. No participating farms, measured emissions reduction, labor savings, registry approval, or commercial adoption is asserted.": "これは合成申請による検証ワークフローの一例です。参加農家、測定された排出削減、省力化、登録簿の承認、商用採用のいずれも主張しません。",
+  "no original raw methane readings, applicable official coefficients, confirmed current AG-005 pack, individual farm eligibility or credits can be derived from this research compilation. The 100-claim demonstration below remains synthetic.": "元のメタン実測値、適用可能な正式係数、確認済みの現行AG-005パック、個別農家の適格性やクレジットを、この研究コンパイルから導くことはできません。以下の100件のデモは引き続き合成です。",
+  "Why this is different / Architecture": "他と違う点／アーキテクチャ",
+  "Verify evidence semantics off-chain. Witness package lineage on-chain.": "証拠の意味はオフチェーンで検証し、パッケージの継承はオンチェーンで確認します。",
+  "NaFT focuses on the gap between changing methodology rules and a durable audit history. The chain records package hashes and parentage; it cannot assess the underlying observation or methodology eligibility.": "NaFTは、変わりゆく方法論ルールと永続的な監査履歴の間のギャップに焦点を当てます。チェーンはパッケージハッシュと親子関係を記録しますが、基礎となる観測や方法論の適格性を評価することはできません。",
+  "package hashes": "パッケージハッシュ",
+  "Architecture is a technical design, not a claim of a live registry integration or an officially certified methodology. Open the diagram to inspect it at full size.": "この構成は技術設計であり、登録簿との連携や正式認証された方法論があるという主張ではありません。図を原寸で開いて確認できます。",
+  " automatically re-evaluated · ": " 件を自動再評価 · ",
+  " evidence required": " 件に追加証憑が必要",
+  "02 / Source-bound Impact Explorer · synthetic": "02 / 出典準拠の変更影響エクスプローラー・合成",
+  "Select any claim. Inspect why it changed — or did not.": "申請を選んで、変わった理由（または変わらなかった理由）を確認できます。",
+  "Every tile comes from the real analyzer. Select a claim to inspect active requirements, affected graph nodes and its resulting package lineage.": "すべてのタイルは実際の解析器の出力です。申請を選ぶと、有効な要件、影響するグラフノード、結果のパッケージ継承を確認できます。",
+  "All": "すべて",
+  "All records fictional. Tiles are keyboard- and touch-selectable.": "すべてのレコードは架空です。タイルはキーボードとタッチで選択できます。",
+  "01 · Methodology change": "01 · 方法論の変更",
+  "intensive synthetic pathway": "集約型の合成経路",
+  "intensive_complete synthetic pathway": "集約型（完全）の合成経路",
+  "standard synthetic pathway": "標準の合成経路",
+  "02 · Active-rule comparison": "02 · 有効ルールの比較",
+  "SHA-256 projections in details": "詳細にSHA-256射影を収録",
+  "03 · Decision": "03 · 判断",
+  " old-graph dependent node IDs": " 件の旧グラフ依存ノードID",
+  "04 · Package outcome": "04 · パッケージの結果",
+  "Active dependency changes": "有効な依存関係の変更",
+  "rules": "ルール",
+  "parameters": "パラメータ",
+  "evidence_requirements": "証憑要件",
+  "calculation_spec": "計算仕様",
+  "exceptions": "例外",
+  "unsupported_conditions": "未対応条件",
+  "Package and evidence": "パッケージと証憑",
+  "Previous": "前版",
+  "Successor": "後継版",
+  "Missing": "不足",
+  "No active rule, parameter or evidence-requirement difference.": "有効なルール、パラメータ、証憑要件の差異はありません。",
+  "No successor; baseline package compilation still takes place.": "後継版はありません。ベースラインのパッケージ生成は行われます。",
+  "Exact hashes, reason tags and old-graph node IDs": "正確なハッシュ、理由タグ、旧グラフのノードID",
+  "The methodology-version candidate tag alone is not proof of a semantic change. Dependency node IDs are exposed only when the analyzer selects re-verification. Not a certification or live chain transaction.": "方法論の版の候補タグだけでは、意味的な変更の証明にはなりません。依存ノードIDは、解析器が再検証を選んだ場合にのみ表示されます。認証や実際のチェーン取引ではありません。",
+  "re-verify": "再検証",
+  "unaffected": "影響なし",
+  "30 / 70 is fixture-derived, not a performance claim.": "30 / 70 はフィクスチャ由来であり、性能の主張ではありません。",
+  "The synthetic workload contains 70 standard and 30 intensive claims. Changing the workload changes this ratio.": "合成ワークロードは標準70件と集約型30件の申請を含みます。ワークロードを変えればこの比率も変わります。",
+  "old package": "旧パッケージ",
+  "successor": "後継版",
+  "This is an offline, source-bound integrity demonstration for synthetic claims, not measured climate performance or certification. Confirm live on-chain state separately using the read-only verifier.": "これは合成申請に対するオフラインの出典準拠の完全性デモであり、測定された気候性能や認証ではありません。実際のオンチェーン状態は、読み取り専用検証器で別途確認してください。",
+  "Inspect proof digest and all three machine-readable checks": "証明ダイジェストと3つの機械可読チェックを見る",
+  "P1 package": "P1パッケージ",
+  "P2 package": "P2パッケージ",
+  ". The independent read-only verifier reconstructed this lineage from the deployment source commit and checked bytecode, transaction calldata, events and final head. The browser itself does not broadcast a transaction. Blockchain witnesses lineage; it cannot certify climate truth.": "。独立した読み取り専用検証器は、配置時ソースから継承関係を復元し、バイトコード・取引引数・イベント・最新記録を照合しました。ブラウザから取引を送信しません。ブロックチェーンが証跡とするのは継承関係であり、環境測定の真実を認証することはできません。",
+  "claim hash": "申請ハッシュ",
+  "submitter": "送信者",
+  "EVIDENCE REQUIRED": "追加証憑が必要",
+  "AUTO REEVALUATED": "自動再評価",
+  "HUMAN REVIEW REQUIRED": "人による確認が必要",
+  "YES": "はい"
+});
 var climateJapaneseKeys=Object.keys(CLIMATECHAIN_JAPANESE_LABELS).sort(function(a,b){return b.length-a.length;});
+// esc() renders e.g. "->" as "-&gt;" in the HTML string, so a key containing "->"
+// can only match via its HTML-escaped form. Precompute that form for every key.
+function climateEscapedKey(k){return k.split('&').join('&amp;').split('<').join('&lt;').split('>').join('&gt;');}
+var climateJapaneseEscapedKeys=climateJapaneseKeys.map(climateEscapedKey);
 function climateJapaneseText(text) {
   for(var i=0;i<climateJapaneseKeys.length;i++){
     var k=climateJapaneseKeys[i];
     if(text.indexOf(k)>=0)text=text.split(k).join(CLIMATECHAIN_JAPANESE_LABELS[k]);
+    var ek=climateJapaneseEscapedKeys[i];
+    if(ek!==k&&text.indexOf(ek)>=0)text=text.split(ek).join(CLIMATECHAIN_JAPANESE_LABELS[k]);
   }
   return text;
 }
@@ -189,8 +276,10 @@ function climateJapaneseHtml(html) {
   return html.split(/(<pre\b[^>]*>[\s\S]*?<\/pre>|<code\b[^>]*>[\s\S]*?<\/code>)/gi)
     .map(function(part){
       if(/^<(pre|code)\b/i.test(part))return part;
-      return part.replace(/>([^<>]+)</g,function(_,visible){
-        return '>'+climateJapaneseText(visible)+'<';
+      // Text nodes may sit at the very start or end of a part (e.g. right after
+      // a </code> split point), not only between ">" and "<"; cover all three.
+      return part.replace(/(^|>)([^<>]+)(<|$)/g,function(_,pre,visible,post){
+        return pre+climateJapaneseText(visible)+post;
       });
     }).join('');
 }
