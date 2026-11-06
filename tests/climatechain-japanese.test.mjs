@@ -41,4 +41,26 @@ assert.match(translated,/data-action="climatechain-run"/);
 assert.match(translated,/aria-label="Inspect package hash"/);
 assert.ok(translated.includes('<code>package hash</code>'));
 assert.match(climateJapaneseHtml('<p>Blockchain witnesses version lineage; it does not decide climate truth.</p>'),/ブロックチェーンは版の継承関係を記録します/);
+// Full-coverage pass: scenario, explorer, trace and trust-boundary text is Japanese.
+const full=pgClimateChainDemo();
+assert.match(full,/1人の統括者。100件の申請。変わった方法論。/);
+assert.match(full,/気候影響の測定ではありません：/);
+assert.match(full,/出典準拠の変更影響エクスプローラー・合成/);
+assert.match(full,/申請を選んで、変わった理由/);
+assert.match(full,/自動再評価/);
+assert.ok(!full.includes('One operator.'));
+assert.ok(!full.includes('Select any claim.'));
+assert.ok(!full.includes('パッケージハッシュes'));
+assert.ok(!full.includes('影響なし claims'));
+assert.ok(!full.includes('claim hash ·'));
+assert.ok(!full.includes('submitter'));
+// Blind spot 1: keys containing "->" must match the esc()-rendered "-&gt;" form.
+assert.match(climateJapaneseHtml('<p>The real-world context motivates the problem. The hackathon impact experiment itself uses NAFT-SYNTHETIC@1 -&gt; @2 so the demo does not pretend to implement an official methodology revision.</p>'),/合成ルールNAFT-SYNTHETIC@1→@2を使用します/);
+// Blind spot 2: visible text right after </code> (start of a split part) is translated.
+const afterCode=climateJapaneseHtml('<p>P2 package <code>abc123</code>. The independent read-only verifier reconstructed this lineage from the deployment source commit and checked bytecode, transaction calldata, events and final head. The browser itself does not broadcast a transaction. Blockchain witnesses lineage; it cannot certify climate truth.</p>');
+assert.match(afterCode,/。独立した読み取り専用検証器は/);
+assert.ok(!afterCode.includes('The browser itself'));
+assert.ok(afterCode.includes('<code>abc123</code>'));
+// Machine-readable payloads stay byte-identical even for status-code words.
+assert.equal(climateJapaneseHtml('<pre>{"status":"AUTO_REEVALUATED"}</pre>'),'<pre>{"status":"AUTO_REEVALUATED"}</pre>');
 console.log('CLIMATECHAIN_JA_PORT_PASS: source-bound logic, Japanese text, 100 synthetic claims, tamper and Sepolia witness');
