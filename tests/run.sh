@@ -29,6 +29,7 @@ node tests/p7-offline-observation-qc.test.mjs
 python3 tests/p8-gimje-native-dock.test.py
 node tests/p9-prefecture-rice-source-guard.test.mjs
 node tests/p10-gx-design-data.test.mjs
+node tests/p28-prefecture-intake.test.mjs
 node tests/p11-real-chamber-source-audit.test.mjs
 node tests/p11-rice-chromatography-guard.test.mjs
 node tests/p12-estat-2025-original-source.test.mjs
