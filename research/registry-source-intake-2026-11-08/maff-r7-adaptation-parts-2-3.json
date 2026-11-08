@@ -1,0 +1,445 @@
+{
+  "schema": "naft-p26-maff-r7-adaptation-split-pdfs/1",
+  "user_supplied_on": "2026-11-08",
+  "original_series": "令和7年地球温暖化影響調査レポート",
+  "survey_subject_year": 2025,
+  "issuer": "農林水産省",
+  "language": "ja",
+  "original_status": "BYTES_UPLOADED_AND_SHA256_REGISTERED_NOT_OFFICIAL_SIGNATURE_VERIFIED",
+  "part_1_3_received": false,
+  "part_2_3_received": true,
+  "part_3_3_received": true,
+  "prior_summary_pdf_registered_as": "MAFF_2025_HEAT_IMPACT_SUMMARY_R7",
+  "source_register_for_summary": "research/registry-source-intake-2026-11-08/official-mrv-pdfs-2026.json",
+  "complete_3_part_detailed_report": false,
+  "legal_reuse_and_raw_redistribution_reviewed": false,
+  "raw_originals_committed": false,
+  "full_page_text_or_complete_3rd_party_tables_committed": false,
+  "sources": [
+    {
+      "id": "MAFF_R7_ADAPTATION_PART_2_3",
+      "file": "R7_2:3_地球温暖化対策レポ.pdf",
+      "sha256": "0a6a7906dafb677b01adb3bff2a4624045929f3dc0da3d7ac0a4f5b5b1cf1400",
+      "bytes": 1188603,
+      "pdf_pages": 56,
+      "report_first_page": 54,
+      "report_last_numbered_page": 109,
+      "edition": "2025 survey / report content includes later compilation",
+      "sections": [
+        {
+          "section_id": "3-1",
+          "label": "りんご",
+          "report_start": 54,
+          "report_end": 56,
+          "pdf_start": 1,
+          "pdf_end": 3
+        },
+        {
+          "section_id": "3-2",
+          "label": "ぶどう",
+          "report_start": 57,
+          "report_end": 60,
+          "pdf_start": 4,
+          "pdf_end": 7
+        },
+        {
+          "section_id": "3-3",
+          "label": "うんしゅうみかん",
+          "report_start": 61,
+          "report_end": 64,
+          "pdf_start": 8,
+          "pdf_end": 11
+        },
+        {
+          "section_id": "3-4",
+          "label": "その他柑橘類",
+          "report_start": 65,
+          "report_end": 65,
+          "pdf_start": 12,
+          "pdf_end": 12
+        },
+        {
+          "section_id": "3-5",
+          "label": "なし類",
+          "report_start": 66,
+          "report_end": 70,
+          "pdf_start": 13,
+          "pdf_end": 17
+        },
+        {
+          "section_id": "3-6",
+          "label": "核果類",
+          "report_start": 71,
+          "report_end": 73,
+          "pdf_start": 18,
+          "pdf_end": 20
+        },
+        {
+          "section_id": "3-7",
+          "label": "かき",
+          "report_start": 74,
+          "report_end": 75,
+          "pdf_start": 21,
+          "pdf_end": 22
+        },
+        {
+          "section_id": "3-8",
+          "label": "その他果樹",
+          "report_start": 76,
+          "report_end": 76,
+          "pdf_start": 23,
+          "pdf_end": 23
+        },
+        {
+          "section_id": "4-1",
+          "label": "トマト",
+          "report_start": 77,
+          "report_end": 83,
+          "pdf_start": 24,
+          "pdf_end": 30
+        },
+        {
+          "section_id": "4-2",
+          "label": "なす",
+          "report_start": 84,
+          "report_end": 84,
+          "pdf_start": 31,
+          "pdf_end": 31
+        },
+        {
+          "section_id": "4-3",
+          "label": "きゅうり",
+          "report_start": 85,
+          "report_end": 85,
+          "pdf_start": 32,
+          "pdf_end": 32
+        },
+        {
+          "section_id": "4-4",
+          "label": "その他果菜類",
+          "report_start": 86,
+          "report_end": 88,
+          "pdf_start": 33,
+          "pdf_end": 35
+        },
+        {
+          "section_id": "5-1",
+          "label": "ねぎ類",
+          "report_start": 89,
+          "report_end": 91,
+          "pdf_start": 36,
+          "pdf_end": 38
+        },
+        {
+          "section_id": "5-2",
+          "label": "キャベツ",
+          "report_start": 92,
+          "report_end": 93,
+          "pdf_start": 39,
+          "pdf_end": 40
+        },
+        {
+          "section_id": "5-3",
+          "label": "ブロッコリー",
+          "report_start": 94,
+          "report_end": 95,
+          "pdf_start": 41,
+          "pdf_end": 42
+        },
+        {
+          "section_id": "5-4",
+          "label": "レタス",
+          "report_start": 96,
+          "report_end": 96,
+          "pdf_start": 43,
+          "pdf_end": 43
+        },
+        {
+          "section_id": "5-5",
+          "label": "ほうれんそう",
+          "report_start": 97,
+          "report_end": 97,
+          "pdf_start": 44,
+          "pdf_end": 44
+        },
+        {
+          "section_id": "5-6",
+          "label": "アスパラガス",
+          "report_start": 98,
+          "report_end": 98,
+          "pdf_start": 45,
+          "pdf_end": 45
+        },
+        {
+          "section_id": "5-7",
+          "label": "その他葉茎菜類",
+          "report_start": 99,
+          "report_end": 100,
+          "pdf_start": 46,
+          "pdf_end": 47
+        },
+        {
+          "section_id": "6-1",
+          "label": "にんじん",
+          "report_start": 101,
+          "report_end": 101,
+          "pdf_start": 48,
+          "pdf_end": 48
+        },
+        {
+          "section_id": "6-2",
+          "label": "その他根菜類",
+          "report_start": 102,
+          "report_end": 102,
+          "pdf_start": 49,
+          "pdf_end": 49
+        },
+        {
+          "section_id": "7-1",
+          "label": "いちご",
+          "report_start": 103,
+          "report_end": 107,
+          "pdf_start": 50,
+          "pdf_end": 54
+        },
+        {
+          "section_id": "7-2",
+          "label": "その他果実的野菜",
+          "report_start": 108,
+          "report_end": 108,
+          "pdf_start": 55,
+          "pdf_end": 55
+        },
+        {
+          "section_id": "8",
+          "label": "香辛野菜",
+          "report_start": 109,
+          "report_end": 109,
+          "pdf_start": 56,
+          "pdf_end": 56
+        }
+      ]
+    },
+    {
+      "id": "MAFF_R7_ADAPTATION_PART_3_3",
+      "file": "R7_3:3_地球温暖化対策レポ.pdf",
+      "sha256": "1bda29f5c8670acb51a5fa5c17732c8bd6f50c4312dad23aa60214e3c00e201e",
+      "bytes": 4469293,
+      "pdf_pages": 66,
+      "report_first_page": 110,
+      "report_last_numbered_page": 174,
+      "edition": "2025 survey / report contains 2026 policy and cited material",
+      "sections": [
+        {
+          "section_id": "9-1",
+          "label": "きく類",
+          "report_start": 110,
+          "report_end": 113,
+          "pdf_start": 1,
+          "pdf_end": 4
+        },
+        {
+          "section_id": "9-2",
+          "label": "トルコギキョウ",
+          "report_start": 114,
+          "report_end": 114,
+          "pdf_start": 5,
+          "pdf_end": 5
+        },
+        {
+          "section_id": "9-3",
+          "label": "ばら",
+          "report_start": 115,
+          "report_end": 115,
+          "pdf_start": 6,
+          "pdf_end": 6
+        },
+        {
+          "section_id": "9-4",
+          "label": "りんどう",
+          "report_start": 116,
+          "report_end": 116,
+          "pdf_start": 7,
+          "pdf_end": 7
+        },
+        {
+          "section_id": "9-5",
+          "label": "カーネーション",
+          "report_start": 117,
+          "report_end": 117,
+          "pdf_start": 8,
+          "pdf_end": 8
+        },
+        {
+          "section_id": "9-6",
+          "label": "その他切り花類",
+          "report_start": 118,
+          "report_end": 120,
+          "pdf_start": 9,
+          "pdf_end": 11
+        },
+        {
+          "section_id": "9-7",
+          "label": "球根類",
+          "report_start": 121,
+          "report_end": 121,
+          "pdf_start": 12,
+          "pdf_end": 12
+        },
+        {
+          "section_id": "9-8",
+          "label": "シクラメン",
+          "report_start": 122,
+          "report_end": 122,
+          "pdf_start": 13,
+          "pdf_end": 13
+        },
+        {
+          "section_id": "9-9",
+          "label": "その他鉢もの類",
+          "report_start": 123,
+          "report_end": 123,
+          "pdf_start": 14,
+          "pdf_end": 14
+        },
+        {
+          "section_id": "9-10",
+          "label": "花木類",
+          "report_start": 124,
+          "report_end": 124,
+          "pdf_start": 15,
+          "pdf_end": 15
+        },
+        {
+          "section_id": "9-11",
+          "label": "花壇用苗もの類",
+          "report_start": 125,
+          "report_end": 125,
+          "pdf_start": 16,
+          "pdf_end": 16
+        },
+        {
+          "section_id": "10-1",
+          "label": "飼料作物",
+          "report_start": 126,
+          "report_end": 127,
+          "pdf_start": 17,
+          "pdf_end": 18
+        },
+        {
+          "section_id": "10-2",
+          "label": "乳用牛",
+          "report_start": 128,
+          "report_end": 131,
+          "pdf_start": 19,
+          "pdf_end": 22
+        },
+        {
+          "section_id": "10-3",
+          "label": "肉用牛",
+          "report_start": 132,
+          "report_end": 134,
+          "pdf_start": 23,
+          "pdf_end": 25
+        },
+        {
+          "section_id": "10-4",
+          "label": "豚",
+          "report_start": 135,
+          "report_end": 136,
+          "pdf_start": 26,
+          "pdf_end": 27
+        },
+        {
+          "section_id": "10-5",
+          "label": "採卵鶏",
+          "report_start": 137,
+          "report_end": 138,
+          "pdf_start": 28,
+          "pdf_end": 29
+        },
+        {
+          "section_id": "10-6",
+          "label": "肉用鶏",
+          "report_start": 139,
+          "report_end": 139,
+          "pdf_start": 30,
+          "pdf_end": 30
+        },
+        {
+          "section_id": "additional-crops",
+          "label": "②新たな品目への取組",
+          "report_start": 140,
+          "report_end": 142,
+          "pdf_start": 31,
+          "pdf_end": 33
+        },
+        {
+          "section_id": "new-varieties",
+          "label": "③新たな品種への取組",
+          "report_start": 143,
+          "report_end": 148,
+          "pdf_start": 34,
+          "pdf_end": 39
+        },
+        {
+          "section_id": "budget",
+          "label": "④適応策の関連予算",
+          "report_start": 149,
+          "report_end": 160,
+          "pdf_start": 40,
+          "pdf_end": 51
+        },
+        {
+          "section_id": "work-safety",
+          "label": "農作業安全・熱中症対策",
+          "report_start": 161,
+          "report_end": 165,
+          "pdf_start": 52,
+          "pdf_end": 56
+        },
+        {
+          "section_id": "related-research",
+          "label": "関連する研究・技術資料",
+          "report_start": 166,
+          "report_end": 169,
+          "pdf_start": 57,
+          "pdf_end": 60
+        },
+        {
+          "section_id": "forecast",
+          "label": "将来の気候と農業の予測",
+          "report_start": 170,
+          "report_end": 171,
+          "pdf_start": 61,
+          "pdf_end": 62
+        },
+        {
+          "section_id": "links",
+          "label": "関係機関情報・リンク",
+          "report_start": 172,
+          "report_end": 174,
+          "pdf_start": 63,
+          "pdf_end": 65
+        }
+      ]
+    }
+  ],
+  "source_intent": "MAFF_PREFECTURE_REPORTED_CLIMATE_ADAPTATION_EVIDENCE_NOT_EMISSIONS_MRV",
+  "unit_of_records": "prefecture×commodity×measure×evaluation_reason×adoption_obstacle (original qualitative table); section ranges only, not full row digitization",
+  "rating_policy": "A/B/C/D/－ are reproduced as reported where curated; DO_NOT_INFER_ORDINAL_QUANTITATIVE_EFFECT_SIZE_OR_CAUSAL_EVIDENCE_FROM_SYMBOL_ALONE",
+  "time_basis": "2025 surveyed effects, separate from later 2026 intervention documents and cited 2026 dates",
+  "overlap_policy": "The 2-page outline is another source layer; do not count its aggregated values as independent observations or duplicate the detailed rows.",
+  "do_not_infer": [
+    "carbon emission factors",
+    "J-Credit issuance",
+    "credit project eligibility",
+    "causal success of adaptation measures",
+    "national representativeness of each prefectural case",
+    "published DOI-level peer review",
+    "rights for minting"
+  ],
+  "formal_certification": false,
+  "certified_tco2e": null,
+  "production_mint_authorized": false
+}
