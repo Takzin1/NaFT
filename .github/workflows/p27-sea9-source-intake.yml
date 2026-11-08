@@ -2,6 +2,9 @@ name: P27 SEA-9 Research Source Intake (no token mint)
 on:
   pull_request:
     paths:
+      - "scripts/p27-gmw-isotope-intake.py"
+      - "tests/p27-gmw-isotope-intake.test.py"
+      - "docs/p27-gmw-isotope-intake-ja.md"
       - "scripts/p27-sea9-archive-intake.py"
       - "tests/p27-sea9-archive-intake.test.py"
       - "data/sea9-rice-ch4-2026-11-08/**"
@@ -10,6 +13,9 @@ on:
   push:
     branches: [main]
     paths:
+      - "scripts/p27-gmw-isotope-intake.py"
+      - "tests/p27-gmw-isotope-intake.test.py"
+      - "docs/p27-gmw-isotope-intake-ja.md"
       - "scripts/p27-sea9-archive-intake.py"
       - "tests/p27-sea9-archive-intake.test.py"
       - "data/sea9-rice-ch4-2026-11-08/**"
@@ -28,9 +34,11 @@ jobs:
         with:
           python-version: '3.12'
       - name: Check syntax
-        run: python -m py_compile scripts/p27-sea9-archive-intake.py tests/p27-sea9-archive-intake.test.py
+        run: python -m py_compile scripts/p27-sea9-archive-intake.py tests/p27-sea9-archive-intake.test.py scripts/p27-gmw-isotope-intake.py tests/p27-gmw-isotope-intake.test.py
       - name: Test offline archive intake and historical statistics
         run: python tests/p27-sea9-archive-intake.test.py
+      - name: Test GMW partial tile and isotope research source guards
+        run: python tests/p27-gmw-isotope-intake.test.py
       - name: Confirm archive-originals and issuance rights are NOT implied
         run: |
           python - <<'PY'
