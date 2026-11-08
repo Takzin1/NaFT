@@ -39,6 +39,7 @@
 | 日本の6作物・1883〜2022年の履歴 | [原本ZIP監査](p16-japan-six-crop-history-real-zip-ja-2026-11-03.md)、[公開CSVと出典](../data/japan-crops-1883-2022/remastered-v1/README.md) |
 | 水稲CH₄実測と欠測・品質管理 | [Gimje原本](p14-gimje-original-real-zip-intake-ja-2026-11-03.md)、[日付・観測間隔の品質検査](p15-gimje-sampling-cadence-qc-ja-2026-11-03.md)、[日本の観測原典](japan-original-field-replay-protocol-2026-10-18.md) |
 | アジアの水稲CH₄年次GeoTIFF | [P19年次ラスタ研究](p19-asia-rice-ch4-annual-rasters-ja-2026-11-03.md)、[P20元ZIP→公開タイルの再現](p20-rice-ch4-source-replay-ja-2026-11-03.md) |
+| 公的MRV PDF 4本（P26：国交省・環境省/NIES・農水省） | [原本版・頁別データ・BDAS CSV／中干し証憑事前検査](p26-government-official-mrv-pdfs-ja.md)、[SHA-256出典台帳](../research/registry-source-intake-2026-11-08/official-mrv-pdfs-2026.json)、[2024/2025公的実績の背景データ](../data/registry-source-intake-2026-11-08/official-2026-government-context.json) |
 | J-クレジット・国内クレジット・J-VER登録一覧（P26追加） | [登録見込み1,537行・AG-005方法論版・平日以降の登録簿照合](p26-jcredit-registration-lists-ja.md)、[2原本SHA・5シートの台帳](../research/registry-source-intake-2026-11-08/jcredit-project-registration-sources.json)、[方法論・地域集計](../data/registry-source-intake-2026-11-08/jcredit-registration-summary.json) |
 | Jブルー認証手引 Ver.2.6／購入者実証論文（P26追加） | [算定要件・市場エビデンス](p26-jblue-guidance-market-evidence-ja.md)、[原本SHA・制度チェックリスト](../research/registry-source-intake-2026-11-08/jblue-guidance-market-evidence.json) |
 | 世界のクレジット登録簿・Jブルー履歴（P26） | [Berkeley＋Jブルー出典取込手順](p26-global-carbon-registry-intake-ja-2026-11-08.md)、[4原本のSHA台帳](../research/registry-source-intake-2026-11-08/sources.json)、[手数料参照値](../data/registry-source-intake-2026-11-08/jblue-fees.json) |
