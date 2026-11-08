@@ -1,0 +1,93 @@
+{
+  "schema": "naft-p26-2026-government-context-observations/1",
+  "selection": "SMALL_HUMAN_VERIFIED_FACTS_NOT_FULL_72_PAGE_COEFFICIENT_EXTRACTION",
+  "references": {
+    "national_inventory_pdf_id": "NIES_JAPAN_GHG_INVENTORY_2026_CH5_AGRICULTURE",
+    "adaptation_pdf_id": "MAFF_2025_HEAT_IMPACT_SUMMARY_R7",
+    "midseason_pdf_id": "MAFF_JCREDIT_MIDSEASON_PAMPHLET_2026_05",
+    "provenance_register": "research/registry-source-intake-2026-11-08/official-mrv-pdfs-2026.json"
+  },
+  "national_inventory": {
+    "report_year": 2026,
+    "inventory_emission_year": 2024,
+    "category": "3.C Rice Cultivation",
+    "total_agriculture_2024_kt_co2eq": "30278",
+    "total_agriculture_reference_page": 1,
+    "rice_ch4_2024_kt_co2eq": "11841",
+    "rice_ch4_reference_page": 35,
+    "inventory_reduction_model_illustration_percent": "30",
+    "model_reference_page": 37,
+    "methodology_reference_pages": [
+      35,
+      36,
+      37,
+      38
+    ],
+    "approach": "Country-specific DNDC-Rice Tier3 EF; modified Tier2 emission aggregation.",
+    "factor_dimensions": [
+      "7_region",
+      "drainage",
+      "flood_management",
+      "organic_amendment",
+      "extension"
+    ],
+    "scope_guard": "NATIONAL_INVENTORY_NOT_JCREDIT_AG005_NOT_APPROVED_FIELD_COEFFICIENTS"
+  },
+  "heat_adaptation": {
+    "source_survey_year": 2025,
+    "report_edition": "令和7年",
+    "reference_pdf_page": 2,
+    "heat_tolerant_rice_cultivar_2025_ha": "249000",
+    "national_heat_tolerant_paddy_share_2025_percent": "18.2",
+    "national_share_2024_percent": "16.4",
+    "prefectures_with_introduced_varieties_2025": 44,
+    "selected_prefecture_samples": [
+      {
+        "prefecture": "宮城県",
+        "share_2025_percent": "9.1",
+        "share_2024_percent": "9.2",
+        "grade1_rice_2025_percent": "94.8"
+      },
+      {
+        "prefecture": "福島県",
+        "share_2025_percent": "1.8",
+        "share_2024_percent": "0.0",
+        "grade1_rice_2025_percent": "94.4"
+      },
+      {
+        "prefecture": "山形県",
+        "share_2025_percent": "29.5",
+        "share_2024_percent": "30.0",
+        "grade1_rice_2025_percent": "97.2"
+      },
+      {
+        "prefecture": "新潟県",
+        "share_2025_percent": "29.4",
+        "share_2024_percent": "29.1",
+        "grade1_rice_2025_percent": "80.0"
+      },
+      {
+        "prefecture": "佐賀県",
+        "share_2025_percent": "66.9",
+        "share_2024_percent": "56.3",
+        "grade1_rice_2025_percent": "67.8"
+      }
+    ],
+    "denominator": "SHARE_OF_TABLE_RICE_PLANTED_AREA_USING_HEAT_TOLERANT_CULTIVARS",
+    "grade1_note": "Grade1 rice share reported from MAFF rice inspection results, provisional at 2026-03-31.",
+    "no_direct_ghg_reduction_factor": true,
+    "no_causal_effect_claim": true
+  },
+  "pamphlet": {
+    "edition": "令和8年5月版",
+    "source_pdf_page": 2,
+    "demonstration_sales_price_jpy_per_tco2": "5000",
+    "price_role": "HYPOTHETICAL_FOR_BROCHURE_EXAMPLE_NOT_CURRENT_MARKET",
+    "program_operator_fees_included": false,
+    "consultation_or_credit_authentication_complete": false
+  },
+  "formal_certification": false,
+  "certified_tco2e": null,
+  "live_jcredit_registry_access": false,
+  "production_mint_authorized": false
+}
