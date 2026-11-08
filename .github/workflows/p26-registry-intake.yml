@@ -4,7 +4,6 @@ on:
     paths:
       - "scripts/p26-global-registry-intake.py"
       - "scripts/p26-jblue-method1-research.mjs"
-      - "scripts/p26-jblue-method1-research.mjs"
       - "tests/p26-global-registry-intake.test.py"
       - "tests/p26-jblue-guidance-market.test.mjs"
       - "fixtures/p26-jblue-method1-synthetic.json"
@@ -16,7 +15,10 @@ on:
     branches: [main]
     paths:
       - "scripts/p26-global-registry-intake.py"
+      - "scripts/p26-jblue-method1-research.mjs"
       - "tests/p26-global-registry-intake.test.py"
+      - "tests/p26-jblue-guidance-market.test.mjs"
+      - "fixtures/p26-jblue-method1-synthetic.json"
       - "data/registry-source-intake-2026-11-08/**"
       - "research/registry-source-intake-2026-11-08/**"
       - ".github/workflows/p26-registry-intake.yml"
