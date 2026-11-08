@@ -107,7 +107,7 @@ class TestGmwIsotope(unittest.TestCase):
         m=mod.read_manifest()[1]
         text=make_synthetic_csv()
         lines=text.splitlines()
-        lines[71],lines[72]=lines[72],lines[71]
+        lines[70],lines[71]=lines[71],lines[70]
         with self.assertRaisesRegex(ValueError,"ISOTOPE_NONBLANK_AFTER_TRAILING_EMPTY"):
             mod.parse_isotope_csv("\n".join(lines)+"\n",m)
     def test_path_traversal_archive_member_guard(self):
