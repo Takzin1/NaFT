@@ -103,6 +103,7 @@ node tests/asia-source-dock.test.mjs
 python3 scripts/harvest-asia-source-index.py
 python3 tests/asia-source-byte-shape.test.py
 python3 tests/p27-sea9-archive-intake.test.py
+python3 tests/p27-gmw-isotope-intake.test.py
 node tests/asia-native-field-header.test.mjs
 node tests/china-rice-native-preflight.test.mjs
 python3 tests/japanflux-jp-hrt-v200-source.test.py
