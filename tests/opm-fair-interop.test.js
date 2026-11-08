@@ -66,6 +66,12 @@ assert.ok(checked.checks.every(x=>x.status==='DECLARED_UNVERIFIED'));
 assert.equal(checked.fair_certified,false,'self-declaration cannot prove compliance');
 assert.equal(checked.external_endpoints_checked,false);
 assert.equal(checked.redistribution_authorized,'REQUIRES_MANUAL_CONFIRMATION');
+const successor=compileEvidence(input,pack,{supersedes:pkg.package_hash});
+const successorReceipt=naftResearchInteropReceipt(successor,input,pack,
+  {compiler_options:{supersedes:pkg.package_hash}});
+assert.equal(successorReceipt.source_package_hash,successor.package_hash);
+assert.throws(()=>naftResearchInteropReceipt(successor,input,pack),
+  /NAFT_RESEARCH_STALE_COMPILER_PACKAGE/);
 const receipt=naftResearchInteropReceipt(pkg,input,pack);
 assert.equal(receipt.certification,'NOT_PERFORMED');
 assert.equal(receipt.on_chain_status,'NOT_SUBMITTED');
