@@ -48,6 +48,5 @@ function gxHokkaidoSoilPanel(prefCode){
  '<div class="gx-detail-grid">'+cards+'</div>'+
  '<details><summary>14振興局別の地目レコード数を見る</summary><div class="scroll"><table>'+header+'<tbody>'+rows+'</tbody></table></div></details>'+
  '<p class="gx-advisory"><b>出典と利用上の制約：</b>地目別の数字はポリゴンの件数であり、農地面積ha、土壌炭素量、CH₄実測、排出係数ではありません。県土壌図を2024年の収穫統計やJAXA土地被覆と無検証で結合しません。元Shapefileの公開者・再配布ライセンスを独立確認できていないため、元データの公開複製は行っていません。'+
- ' <a href="https://github.com/Takzin1/NaFT/blob/main/research/p29-hokkaido-soil-shapefile-source-v1.json" target="_blank" rel="noopener noreferrer">原本ハッシュ・出典台帳</a>'+
- ' · <a href="https://github.com/Takzin1/NaFT/blob/main/docs/p29-hokkaido-soil-gis-intake-ja.md" target="_blank" rel="noopener noreferrer">取り込み検証記録</a></p></section>';
+ ' 出典台帳：research/p29-hokkaido-soil-shapefile-source-v1.json。取り込み検証記録：docs/p29-hokkaido-soil-gis-intake-ja.md。</p></section>';
 }
