@@ -1,0 +1,59 @@
+{
+  "schema": "naft-p26-berkeley-project-summary/1",
+  "source_id": "BERKELEY_VROD_2026_08",
+  "source_sheet": "PROJECTS",
+  "source_sha256": "cda76b917a574713d040ea27a5098cd77f14f33bc87aa9dfafaf87a3f329cd88",
+  "note": "All 11,856 PROJECTS rows were locally streamed and aggregated from XLSX cached values; amounts rounded to 0.001 tCO2e for summary display, not to be used as registry custody or issuance rights.",
+  "project_rows": 11856,
+  "duplicate_registry_project_ids": 0,
+  "as_of": "2026-08-31",
+  "quantity_unit": "nominal_tCO2e",
+  "rows": [
+    {
+      "registry": "ACR",
+      "projects": 998,
+      "credits_issued": "352889336.000",
+      "credits_retired": "191098218.000",
+      "credits_remaining": "161791118.000"
+    },
+    {
+      "registry": "ART",
+      "projects": 30,
+      "credits_issued": "61728914.000",
+      "credits_retired": "13417876.000",
+      "credits_remaining": "48311038.000"
+    },
+    {
+      "registry": "CAR",
+      "projects": 1283,
+      "credits_issued": "245859901.000",
+      "credits_retired": "172502498.000",
+      "credits_remaining": "73357403.000"
+    },
+    {
+      "registry": "GOLD",
+      "projects": 4189,
+      "credits_issued": "507320245.000",
+      "credits_retired": "252876723.000",
+      "credits_remaining": "254443522.000"
+    },
+    {
+      "registry": "ISO",
+      "projects": 71,
+      "credits_issued": "167233.766",
+      "credits_retired": "42860.759",
+      "credits_remaining": "124373.007"
+    },
+    {
+      "registry": "VCS",
+      "projects": 5285,
+      "credits_issued": "1536177843.000",
+      "credits_retired": "953882544.000",
+      "credits_remaining": "582295299.000"
+    }
+  ],
+  "generated_locally_from_uploaded_xlsx": true,
+  "full_normalized_data_committed": false,
+  "license": "CC BY 4.0, attribution in sources.json",
+  "credit_issuance_asserted": false
+}
