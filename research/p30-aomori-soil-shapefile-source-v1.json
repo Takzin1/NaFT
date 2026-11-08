@@ -1,0 +1,422 @@
+{
+  "schema": "naft-p30-aomori-soil-shapefile-v1",
+  "source": {
+    "provided_filename": "青森県(1).zip",
+    "source_zip_sha256": "8fc34f2d1dfa18569c4411f36c6fc6dac5400fa63763734b4efc18af7484d321",
+    "zip_bytes": 9300558,
+    "zip_entries": 7,
+    "uncompressed_bytes": 14669992,
+    "member_folder": "k02青森県",
+    "members": [
+      {
+        "name": "k2青森県.dbf",
+        "bytes": 1439832,
+        "sha256": "8f6db7b1eed9a2b3504a7ee7e7a088263588bcc68a127f2caeabc5a400bb3686"
+      },
+      {
+        "name": "k2青森県.prj",
+        "bytes": 145,
+        "sha256": "d1de156bb748892db7642d045767629921ea76cc06597e25cea2411b12e7b0b2"
+      },
+      {
+        "name": "k2青森県.sbn",
+        "bytes": 13332,
+        "sha256": "e7d485b2e913dea42811f0c42f202279a83b0ada27c8e77175fd2bc4a34fabec"
+      },
+      {
+        "name": "k2青森県.sbx",
+        "bytes": 900,
+        "sha256": "05709cd5927130e7d4ffd2a9e5bf593d3b16c845f84757870e4bc78c2708f7f8"
+      },
+      {
+        "name": "k2青森県.shp",
+        "bytes": 13099532,
+        "sha256": "825aa70e5df0281cfa7eb41acb82ac33197e51316682244fab2da7884ac48ea9"
+      },
+      {
+        "name": "k2青森県.shp.xml",
+        "bytes": 105663,
+        "sha256": "e44bcab3dc83cf9ca720fada3e31aacdf764598def766d3dd96740ff4f669a87"
+      },
+      {
+        "name": "k2青森県.shx",
+        "bytes": 10588,
+        "sha256": "81738415f8bd3060af16eadaeb4683d03f142dc03a8138bd69eddf3c2f82aa65"
+      }
+    ],
+    "metadata_creation_date": "2017-01-17",
+    "publisher_authentication": "NOT_VERIFIED",
+    "redistribution_rights": "NOT_VERIFIED",
+    "original_zip_committed": false,
+    "raw_geometry_committed": false
+  },
+  "geometry": {
+    "type": "POLYGON",
+    "shape_count": 1311,
+    "crs": "GCS_JGD_2000",
+    "bounds_lon_lat": [
+      139.86400637479457,
+      40.22964860695858,
+      141.78650607401556,
+      41.54065286776461
+    ],
+    "municipalities": 40,
+    "sicho_unique_values": [
+      ""
+    ],
+    "municipality_codes_are_five_digit": true
+  },
+  "fields": [
+    "地目区分",
+    "包括_統群",
+    "統群コード",
+    "亜群コード",
+    "群コード",
+    "JCODE",
+    "KEN_1",
+    "SICHO",
+    "GUN",
+    "SIKUCHOSON"
+  ],
+  "feature_counts_by_landuse": {
+    "田": 457,
+    "普通畑": 394,
+    "牧草地": 180,
+    "樹園地": 280
+  },
+  "soil_group_code_categories": 19,
+  "soil_fine_class_categories": 69,
+  "municipalities_counts_by_landuse": [
+    [
+      "02201",
+      "青森市",
+      23,
+      19,
+      12,
+      19
+    ],
+    [
+      "02202",
+      "弘前市",
+      22,
+      15,
+      2,
+      24
+    ],
+    [
+      "02203",
+      "八戸市",
+      20,
+      16,
+      8,
+      11
+    ],
+    [
+      "02204",
+      "黒石市",
+      15,
+      4,
+      1,
+      14
+    ],
+    [
+      "02205",
+      "五所川原市",
+      24,
+      21,
+      3,
+      18
+    ],
+    [
+      "02206",
+      "十和田市",
+      18,
+      17,
+      10,
+      12
+    ],
+    [
+      "02207",
+      "三沢市",
+      7,
+      6,
+      2,
+      1
+    ],
+    [
+      "02208",
+      "むつ市",
+      10,
+      14,
+      11,
+      6
+    ],
+    [
+      "02209",
+      "つがる市",
+      17,
+      16,
+      4,
+      12
+    ],
+    [
+      "02210",
+      "平川市",
+      18,
+      17,
+      1,
+      20
+    ],
+    [
+      "02301",
+      "平内町",
+      6,
+      6,
+      3,
+      1
+    ],
+    [
+      "02303",
+      "今別町",
+      7,
+      6,
+      3,
+      2
+    ],
+    [
+      "02304",
+      "蓬田村",
+      6,
+      6,
+      1,
+      0
+    ],
+    [
+      "02307",
+      "外ヶ浜町",
+      9,
+      9,
+      4,
+      2
+    ],
+    [
+      "02321",
+      "鰺ヶ沢町",
+      15,
+      10,
+      3,
+      9
+    ],
+    [
+      "02323",
+      "深浦町",
+      8,
+      7,
+      6,
+      3
+    ],
+    [
+      "02343",
+      "西目屋村",
+      5,
+      3,
+      1,
+      5
+    ],
+    [
+      "02361",
+      "藤崎町",
+      10,
+      7,
+      0,
+      11
+    ],
+    [
+      "02362",
+      "大鰐町",
+      10,
+      7,
+      0,
+      13
+    ],
+    [
+      "02367",
+      "田舎館村",
+      10,
+      5,
+      0,
+      8
+    ],
+    [
+      "02381",
+      "板柳町",
+      11,
+      9,
+      0,
+      13
+    ],
+    [
+      "02384",
+      "鶴田町",
+      11,
+      9,
+      0,
+      10
+    ],
+    [
+      "02387",
+      "中泊町",
+      11,
+      10,
+      3,
+      2
+    ],
+    [
+      "02401",
+      "野辺地町",
+      8,
+      6,
+      6,
+      1
+    ],
+    [
+      "02402",
+      "七戸町",
+      15,
+      15,
+      9,
+      6
+    ],
+    [
+      "02405",
+      "六戸町",
+      10,
+      9,
+      4,
+      2
+    ],
+    [
+      "02406",
+      "横浜町",
+      9,
+      8,
+      7,
+      1
+    ],
+    [
+      "02408",
+      "東北町",
+      14,
+      14,
+      9,
+      2
+    ],
+    [
+      "02411",
+      "六ケ所村",
+      6,
+      7,
+      4,
+      0
+    ],
+    [
+      "02412",
+      "おいらせ町",
+      11,
+      10,
+      5,
+      2
+    ],
+    [
+      "02423",
+      "大間町",
+      4,
+      3,
+      6,
+      0
+    ],
+    [
+      "02424",
+      "東通村",
+      6,
+      9,
+      9,
+      2
+    ],
+    [
+      "02425",
+      "風間浦村",
+      2,
+      2,
+      0,
+      0
+    ],
+    [
+      "02426",
+      "佐井村",
+      4,
+      4,
+      4,
+      0
+    ],
+    [
+      "02441",
+      "三戸町",
+      17,
+      15,
+      10,
+      12
+    ],
+    [
+      "02442",
+      "五戸町",
+      15,
+      16,
+      7,
+      11
+    ],
+    [
+      "02443",
+      "田子町",
+      9,
+      9,
+      5,
+      6
+    ],
+    [
+      "02445",
+      "南部町",
+      16,
+      14,
+      4,
+      13
+    ],
+    [
+      "02446",
+      "階上町",
+      11,
+      8,
+      8,
+      4
+    ],
+    [
+      "02450",
+      "新郷村",
+      7,
+      6,
+      5,
+      2
+    ]
+  ],
+  "scientific_boundaries": {
+    "count_unit": "polygon feature rows, not area hectares",
+    "soil_carbon_measured": false,
+    "field_ch4_measured": false,
+    "no_sicho_subprefecture_in_source": true,
+    "contemporary_ground_truth_not_verified": true,
+    "calculation_of_certified_credits_prohibited": true,
+    "official_credit_tco2e": null,
+    "raw_geometry_licensed_for_publication": false,
+    "correlation_with_2024_rice_stats_not_validated": true
+  }
+}
