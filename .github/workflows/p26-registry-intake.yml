@@ -3,8 +3,10 @@ on:
   pull_request:
     paths:
       - "scripts/p26-global-registry-intake.py"
+      - "scripts/p26-jcredit-registration-intake.py"
       - "scripts/p26-jblue-method1-research.mjs"
       - "tests/p26-global-registry-intake.test.py"
+      - "tests/p26-jcredit-registration-intake.test.py"
       - "tests/p26-jblue-guidance-market.test.mjs"
       - "fixtures/p26-jblue-method1-synthetic.json"
       - "data/registry-source-intake-2026-11-08/**"
@@ -15,8 +17,10 @@ on:
     branches: [main]
     paths:
       - "scripts/p26-global-registry-intake.py"
+      - "scripts/p26-jcredit-registration-intake.py"
       - "scripts/p26-jblue-method1-research.mjs"
       - "tests/p26-global-registry-intake.test.py"
+      - "tests/p26-jcredit-registration-intake.test.py"
       - "tests/p26-jblue-guidance-market.test.mjs"
       - "fixtures/p26-jblue-method1-synthetic.json"
       - "data/registry-source-intake-2026-11-08/**"
@@ -38,9 +42,11 @@ jobs:
         with:
           python-version: '3.12'
       - name: Python static syntax
-        run: python -m py_compile scripts/p26-global-registry-intake.py tests/p26-global-registry-intake.test.py
+        run: python -m py_compile scripts/p26-global-registry-intake.py tests/p26-global-registry-intake.test.py scripts/p26-jcredit-registration-intake.py tests/p26-jcredit-registration-intake.test.py
       - name: Test synthetic-source import and public-source reference gates
         run: python tests/p26-global-registry-intake.test.py
+      - name: J-Credit and J-VER project registration list safety and AG-005 tests
+        run: python tests/p26-jcredit-registration-intake.test.py
       - name: Guide v2.6 mathematical replay and 2026 observational-study controls
         run: |
           node --test tests/p26-jblue-guidance-market.test.mjs
