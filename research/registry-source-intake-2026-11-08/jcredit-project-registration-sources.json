@@ -1,0 +1,112 @@
+{
+  "schema": "naft-p26-jcredit-project-registration-source-register/1",
+  "registered_on": "2026-11-08",
+  "category": "PUBLIC_PROJECT_REGISTRATION_LISTS_NOT_CREDIT_REGISTRY",
+  "collection_status": "OFFLINE_USER_PROVIDED_FILES_ONLY",
+  "source_types": [
+    "DOMESTIC_CREDIT_MIGRATION",
+    "J_VER_MIGRATION",
+    "J_CREDIT_REGISTERED_PROJECTS"
+  ],
+  "source_quality": "HISTORICAL_PROJECT_APPLICATION_AND_ESTIMATED_CREDIT_QUANTITY_LISTS",
+  "actual_credit_registry_access": "DEFERRED_TO_WEEKDAY_PER_USER",
+  "registry_serials_available": false,
+  "actual_issued_credit_quantity_available": false,
+  "tokenization_rights_verified": false,
+  "formal_approval_by_naft": false,
+  "raw_workbooks_committed": false,
+  "full_normalized_project_records_committed": false,
+  "redistribution_rights": "REVIEW_OFFICIAL_PUBLISHER_LICENSE_BEFORE_MIRRORING_WORKBOOK_OR_ROW_DATABASE",
+  "sources": [
+    {
+      "id": "JCDM_JVER_REGISTRATION_LIST",
+      "uploaded_filename": "registration_list_jcdm_jver.xlsx",
+      "sha256": "cee1b3e867d642b188a813bcb756445026bfa4f82bb85216d3ea3b8d7bf81828",
+      "bytes": 86420,
+      "sheets": 3,
+      "snapshot_label": null,
+      "through_date": null,
+      "date_unknown": true,
+      "description": "国内クレジット制度/国内クレジットプログラム型およびJ-VERの移行・登録関連一覧",
+      "source_file_public_license": "NOT_VERIFIED",
+      "redistribute_original": false
+    },
+    {
+      "id": "J_CREDIT_REGISTRATION_LIST",
+      "uploaded_filename": "registration_list_jcre.xlsx",
+      "sha256": "7eacbfe6742506d8345ea06b1a2afb14ba084a5b69742fccff5c5e127cc58ce7",
+      "bytes": 187898,
+      "sheets": 2,
+      "snapshot_label": "第68回認証委員会終了時点",
+      "through_date": null,
+      "date_unknown": true,
+      "description": "J-クレジット制度 通常型およびプログラム型の登録プロジェクト一覧",
+      "source_file_public_license": "NOT_VERIFIED",
+      "redistribute_original": false
+    }
+  ],
+  "sheet_specs": [
+    {
+      "source_id": "JCDM_JVER_REGISTRATION_LIST",
+      "sheet": "【国内クレジット】一覧(通常型)",
+      "scope": "DOMESTIC_STANDARD",
+      "data_rows": 477,
+      "unique_project_ids": 415,
+      "methodology_versions_or_codes": 22,
+      "estimated_line_sum_tco2": "1484135.1"
+    },
+    {
+      "source_id": "JCDM_JVER_REGISTRATION_LIST",
+      "sheet": "【国内クレジット】一覧(プログラム型)",
+      "scope": "DOMESTIC_PROGRAM",
+      "data_rows": 10,
+      "unique_project_ids": 8,
+      "methodology_versions_or_codes": 7,
+      "estimated_line_sum_tco2": "161001.7"
+    },
+    {
+      "source_id": "JCDM_JVER_REGISTRATION_LIST",
+      "sheet": "【J-VER】一覧(通常型)",
+      "scope": "JVER_STANDARD",
+      "data_rows": 78,
+      "unique_project_ids": 74,
+      "methodology_versions_or_codes": 17,
+      "estimated_line_sum_tco2": "268991.8"
+    },
+    {
+      "source_id": "J_CREDIT_REGISTRATION_LIST",
+      "sheet": "【J-クレジット】一覧(通常型)",
+      "scope": "JCREDIT_STANDARD",
+      "data_rows": 608,
+      "unique_project_ids": 576,
+      "methodology_versions_or_codes": 108,
+      "estimated_line_sum_tco2": "18711222"
+    },
+    {
+      "source_id": "J_CREDIT_REGISTRATION_LIST",
+      "sheet": "【J-クレジット】一覧(プログラム型)",
+      "scope": "JCREDIT_PROGRAM",
+      "data_rows": 364,
+      "unique_project_ids": 357,
+      "methodology_versions_or_codes": 109,
+      "estimated_line_sum_tco2": "87036151"
+    }
+  ],
+  "total_registration_method_rows": 1537,
+  "total_within_sheet_distinct_project_ids": 1430,
+  "duplicate_project_ids_with_multiple_method_rows": 107,
+  "line_sum_of_registration_estimates_tco2": "107661501.6",
+  "sum_semantics": "SUM_OF_APPLICATION_ESTIMATES_PER_PROJECT_METHOD_ROW_NOT_ACTUAL_ISSUANCE; SHALL NOT BE MARKET SUPPLY OR PURCHASED VOLUME",
+  "identifiers": "Same project ID may occur on multiple methodology rows. Do not deduplicate by project ID alone. Numeric J-Credit IDs must be namespaced by source and sheet.",
+  "date_semantics": "Excel serial numbers are read as dates in local generated outputs; source workbook labels (申請日、認証対象期間終了日) do not imply credit issuance.",
+  "sources_do_not_prove": [
+    "actual credit issuance",
+    "individual serial ID",
+    "current holdings",
+    "retirement/cancellation",
+    "tradability",
+    "legal tokenization permission",
+    "external official validation"
+  ],
+  "no_mint": true
+}
