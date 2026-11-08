@@ -21,6 +21,7 @@
 | 版管理と変更影響解析の構成 | [アーキテクチャ](architecture.md)、[データモデル](data-model.md) |
 | Why/Where来歴理論の研究用実装（添付論文2本） | [Why/Where Provenance Foundations](provenance-why-where-foundations.md)、[論文根拠台帳](../research/literature-2026-11-08/provenance-foundations.json) |
 | OPM v1.1・FAIR原則の互換研究 | [OPM/FAIR相互運用](opm-fair-interoperability-ja.md)、[出典・原本SHA](../research/literature-2026-11-08/opm-fair-sources.json) |
+| 増分計算・選択的再計算の研究（論文3本） | [增分Compiler研究](incremental-compiler-research-ja.md)、[研究根拠と原本SHA](../research/literature-2026-11-08/incremental-foundations.json) |
 | 例外判断・最終確認の条件 | [Human-in-the-loop](human-in-the-loop.md) |
 | AG-005/AG-004の制度資料と未確認部分 | [方法論出典](methodology-sources.md)、[現行版の判定境界](ja-ag005-gxets-cost-sync.md) |
 | ルール群の比較、条項→証憑→Claimの追跡 | [制度別比較](p1-method-comparison-ja-2026-11-02.md)、[条項・証憑の追跡](p5-clause-evidence-trace-ja-2026-11-02.md) |

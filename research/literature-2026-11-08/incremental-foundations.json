@@ -1,0 +1,85 @@
+{
+  "schema": "naft-incremental-research-sources-1",
+  "prepared_on": "2026-11-08",
+  "source_count": 3,
+  "ingest_mode": "METADATA_AND_INDEPENDENT_IMPLEMENTATION_ONLY",
+  "ghg_methodology_approved": false,
+  "copyright_policy": "No PDF redistribution, figures, or substantial verbatim excerpts. Record hashes of locally uploaded PDF files only.",
+  "external_publisher_original_verified": false,
+  "sources": [
+    {
+      "id": "GUPTA_MUMICK_SUBRAHMANIAN_1993",
+      "title": "Maintaining Views Incrementally",
+      "authors": [
+        "Ashish Gupta",
+        "Inderpal Singh Mumick",
+        "V. S. Subrahmanian"
+      ],
+      "year": 1993,
+      "source": "ACM SIGMOD 1993 extended abstract, pp. 157–166",
+      "doi": "UNVERIFIED_FROM_UPLOADED_PDF",
+      "local_filename": "Maintain.pdf",
+      "local_pdf_sha256": "a1c710baba1abecb1bad963f60431fedb16dfc7abf7dd2e19c8cfa19d5fceb15",
+      "local_pdf_pages": 10,
+      "redistribute_pdf": false,
+      "concepts": [
+        "nonrecursive_derivation_counts",
+        "incremental_materialized_view_maintenance",
+        "delete_and_rederive_for_recursive_views"
+      ],
+      "naft_implementation": "Nonrecursive research-only support count/delta with alternative derivations; not general SQL/Datalog and not full DRed.",
+      "review_status": "PAPER_READ_DESIGN_ONLY"
+    },
+    {
+      "id": "ACAR_BLELLOCH_BLUME_HARPER_TANGWONGSAN_2006",
+      "title": "A Library for Self-Adjusting Computation",
+      "authors": [
+        "Umut A. Acar",
+        "Guy Blelloch",
+        "Matthias Blume",
+        "Robert Harper",
+        "Kanat Tangwongsan"
+      ],
+      "year": 2006,
+      "source": "Electronic Notes in Theoretical Computer Science 148 (2006) 127–154",
+      "doi": "10.1016/j.entcs.2005.11.043",
+      "local_filename": "Library for Self-Adjusting Computation.pdf",
+      "local_pdf_sha256": "9e823d6abe28402cd911057b6a7b57d311513240cf16ab74e95a2fee3428c90f",
+      "local_pdf_pages": 28,
+      "redistribute_pdf": false,
+      "concepts": [
+        "dynamic_dependence_graph",
+        "memoization",
+        "change_propagation",
+        "safety_invariants"
+      ],
+      "naft_implementation": "Hash-keyed immutable per-Claim research cache and invalidation on input/Pack change; NOT the paper's modifiable-reference SML runtime.",
+      "review_status": "PAPER_READ_DESIGN_ONLY"
+    },
+    {
+      "id": "ACAR_BLELLOCH_BLUME_TANGWONGSAN_2006",
+      "title": "An Experimental Analysis of Self-Adjusting Computation",
+      "authors": [
+        "Umut A. Acar",
+        "Guy E. Blelloch",
+        "Matthias Blume",
+        "Kanat Tangwongsan"
+      ],
+      "year": 2006,
+      "source": "ACM PLDI 2006 pp. 96–107",
+      "doi": "10.1145/1133981.1133993",
+      "local_filename": "Experimental Analysis of Self-Adjusting Computation.pdf",
+      "local_pdf_sha256": "986e6c3be2fc83f731c61adc275af0c09da38c1ddbfb729097e7572ec5dd4f3a",
+      "local_pdf_pages": 12,
+      "redistribute_pdf": false,
+      "concepts": [
+        "experimental_oracle_comparison",
+        "incremental_change_performance",
+        "initialization_overhead",
+        "memory_cost"
+      ],
+      "naft_implementation": "Independent per-Claim full recompilation oracle and deterministic regression on 40 synthetic claims; no published speedup from NaFT claimed.",
+      "review_status": "PAPER_READ_DESIGN_ONLY"
+    }
+  ]
+}
