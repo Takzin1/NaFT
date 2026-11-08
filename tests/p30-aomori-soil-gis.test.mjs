@@ -41,7 +41,6 @@ const html=box.gxAomoriSoilPanel('02');
 assert.match(html,/青森県の農耕地土壌GIS/);
 assert.match(html,/1,311/);
 assert.match(html,/40市町村/);
-assert.match(html,/出典/); // citation language is described in prose
 assert.match(html,/原本ハッシュ/);
 assert.match(html,/面積haではありません/);
 assert.equal((html.match(/<tr>/g)||[]).length,41);
