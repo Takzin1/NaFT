@@ -1,0 +1,195 @@
+{
+  "schema": "naft-p29-hokkaido-agricultural-soil-polygon-source-v1",
+  "source": {
+    "provided_filename": "北海道(1).zip",
+    "source_zip_sha256": "1b645c6234a6eb1a712246d9d5a8163b02592ab08a14afc01850ab0ded5414e3",
+    "zip_bytes": 43028818,
+    "zip_entries": 7,
+    "uncompressed_bytes": 66561004,
+    "member_folder": "k01北海道",
+    "members": [
+      {
+        "name": "k1北海道.dbf",
+        "bytes": 6014100,
+        "sha256": "0de3bbfdbd6ca106cb1141ae2f93b46ae0cb2a41f5c04cf2522001e94cbed57b"
+      },
+      {
+        "name": "k1北海道.prj",
+        "bytes": 145,
+        "sha256": "d1de156bb748892db7642d045767629921ea76cc06597e25cea2411b12e7b0b2"
+      },
+      {
+        "name": "k1北海道.sbn",
+        "bytes": 54676,
+        "sha256": "4ca91b2aa35839f72e473f61e66210cc822fb01e3e62a93bb974659e99fb1274"
+      },
+      {
+        "name": "k1北海道.sbx",
+        "bytes": 2708,
+        "sha256": "b8d2e129331a07bbf7ede702ed75f5480d3579e30ea137c5930538f22d9b3399"
+      },
+      {
+        "name": "k1北海道.shp",
+        "bytes": 60339796,
+        "sha256": "7bc468c497b426d0ef327ecaa4bd987283f1d757d1c6fda908716523e03cc58f"
+      },
+      {
+        "name": "k1北海道.shp.xml",
+        "bytes": 105663,
+        "sha256": "ad4905fb7c0c5c2092caeb25532b317f732e2c1e5200fcdc4c87b48806277e05"
+      },
+      {
+        "name": "k1北海道.shx",
+        "bytes": 43916,
+        "sha256": "b26ac333a6dbd69c367d227ce986636c60cecd0cfc6bcc21e81aa25a469f96a7"
+      }
+    ],
+    "metadata_creation_date": "2017-01-17",
+    "publisher_authentication": "NOT_VERIFIED",
+    "redistribution_rights": "NOT_VERIFIED",
+    "source_zip_committed": false,
+    "original_shapefile_committed": false
+  },
+  "geometry": {
+    "type": "POLYGON",
+    "shape_count": 5477,
+    "crs": "GCS_JGD_2000",
+    "bounds_lon_lat": [
+      139.42536305675748,
+      41.40803503361386,
+      145.80253598026454,
+      45.519946087378
+    ],
+    "municipalities": 186,
+    "subprefectures": 14
+  },
+  "fields": [
+    "地目区分",
+    "包括_統群",
+    "統群コード",
+    "亜群コード",
+    "群コード",
+    "JCODE",
+    "KEN_1",
+    "SICHO",
+    "GUN",
+    "SIKUCHOSON"
+  ],
+  "feature_counts_by_landuse": {
+    "田": 1390,
+    "普通畑": 2092,
+    "牧草地": 1813,
+    "樹園地": 182
+  },
+  "soil_group_code_categories": 22,
+  "soil_fine_class_categories": 150,
+  "subprefecture_feature_counts": [
+    [
+      "オホーツク総合振興局",
+      66,
+      314,
+      285,
+      11
+    ],
+    [
+      "上川総合振興局",
+      301,
+      279,
+      171,
+      28
+    ],
+    [
+      "十勝総合振興局",
+      27,
+      353,
+      320,
+      9
+    ],
+    [
+      "宗谷総合振興局",
+      0,
+      20,
+      107,
+      0
+    ],
+    [
+      "後志総合振興局",
+      124,
+      167,
+      105,
+      27
+    ],
+    [
+      "日高振興局",
+      76,
+      67,
+      105,
+      4
+    ],
+    [
+      "根室振興局",
+      0,
+      19,
+      46,
+      0
+    ],
+    [
+      "檜山振興局",
+      91,
+      91,
+      54,
+      8
+    ],
+    [
+      "渡島総合振興局",
+      91,
+      110,
+      75,
+      10
+    ],
+    [
+      "留萌振興局",
+      69,
+      71,
+      66,
+      6
+    ],
+    [
+      "石狩振興局",
+      111,
+      154,
+      114,
+      17
+    ],
+    [
+      "空知総合振興局",
+      331,
+      257,
+      120,
+      47
+    ],
+    [
+      "胆振総合振興局",
+      103,
+      142,
+      128,
+      15
+    ],
+    [
+      "釧路総合振興局",
+      0,
+      48,
+      117,
+      0
+    ]
+  ],
+  "scientific_boundaries": {
+    "count_unit": "polygon feature rows, not area hectares",
+    "soil_carbon_measured": false,
+    "field_ch4_measured": false,
+    "conversion_to_credit_prohibited": true,
+    "official_credit_tco2e": null,
+    "raw_geometry_licensed_for_publication": false,
+    "correlation_with_2024_rice_stats_not_validated": true
+  }
+}
