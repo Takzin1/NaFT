@@ -26,6 +26,7 @@ function gxDataCompare(a,b){
 function pgGxDataExplorer(){
  var current=GX_RICE_STATS.find(function(p){return p.code===GX_SELECTED_PREF_CODE;})||GX_RICE_STATS[6];
  var regional=GX_LOCAL_DOCS.filter(function(p){return p.code===current.code;});
+ var candidates=(typeof GX_P28_PREFECTURE_CANDIDATES!=='undefined'&&Array.isArray(GX_P28_PREFECTURE_CANDIDATES)?GX_P28_PREFECTURE_CANDIDATES:[]).filter(function(p){return p.prefecture_code===current.code;});
  var estimate=current.area*current.yield10a/100;
  var difference=Math.round((estimate-current.harvest)*10)/10;
  var options=GX_RICE_STATS.map(function(p){return '<option value="'+gxEsc(p.code)+'"'+(p.code===current.code?' selected':'')+'>'+gxEsc(p.name)+'</option>';}).join('');
@@ -33,6 +34,7 @@ function pgGxDataExplorer(){
  var v25=GX_YEAR_SNAPSHOTS[1],v26=GX_YEAR_SNAPSHOTS[2],comparison=gxDataCompare(v25,v26);
  var localHtml=regional.length?regional.map(function(d){return '<li><a href="'+gxEsc(d.url)+'" target="_blank" rel="noopener noreferrer">'+gxEsc(d.title)+'</a><span class="gx-label">'+gxEsc(d.level)+'</span></li>';}).join(''):
   '<li>この都府県の個別PDFはまだ台帳未登録。全国の2024年統計のみ参照できます。</li>';
+ var pendingHtml=candidates.length?'<div class="gx-pending-sources"><h3>追加取り込み候補（原典未検証）</h3><ul>'+candidates.map(function(c){return '<li><a href="'+gxEsc(c.url)+'" target="_blank" rel="noopener noreferrer">'+gxEsc(c.title)+'</a><span class="gx-label">候補・原典未検証／'+gxEsc(c.year)+'</span></li>';}).join('')+'</ul></div>':'';
  return '<section class="gx-hero" aria-labelledby="gx-data-title"><div><span class="gx-kicker">GX DATA ATLAS · PUBLIC SOURCES</span><h2 id="gx-data-title">土地の記録から、<br>根拠ある気候判断へ。</h2><p>全国47都道府県の公的水稲統計と、2025年確報・2026年予想の出典を可視化。年次・調査範囲・ふるい目幅を厳密に区別します。</p><span class="gx-honesty">研究データ閲覧専用 · CH₄実測・認証量ではありません</span></div><div class="gx-hero-art" aria-hidden="true"><span>47</span><span>PREFECTURES</span><div class="gx-hero-ring"></div></div></section>'+
  '<section class="gx-dashboard" aria-label="国内稲作統計の版別公開状況"><div class="gx-section-heading"><span class="gx-kicker">01 / EVIDENCE TIERS</span><h2>確報と予想を、同じ数字として扱わない。</h2></div><div class="gx-period-grid">'+years+'</div><p class="gx-advisory">2025→2026の主食用米：'+gxNum(Math.abs(comparison.delta_t))+'t '+(comparison.delta_t<0?'減少':'増加')+'という発表上の差。ただし2026年は予想値で、最終的な増減は確定していません。2024年の全水稲量とは定義が異なるため単純比較を禁止しています。</p></section>'+
  '<section class="gx-dashboard" aria-labelledby="gx-pref-title"><div class="gx-section-heading"><span class="gx-kicker">02 / PREFECTURE SOURCE INTELLIGENCE</span><h2 id="gx-pref-title">47都道府県の原資料を探索</h2><p>2024年産、農水省作物統計の比較表に基づく参考値。都道府県固有PDFは一部のみ別途索引化。</p></div>'+
@@ -41,7 +43,7 @@ function pgGxDataExplorer(){
  '<article class="gx-data-card"><span class="gx-kicker">10a当たり収量</span><strong>'+gxNum(current.yield10a)+' <small>kg/10a</small></strong><p>玄米収量の参考値</p></article>'+
  '<article class="gx-data-card"><span class="gx-kicker">公表玄米収穫量</span><strong>'+gxNum(current.harvest)+' <small>t</small></strong><p>面積×単収による再計算値は '+gxNum(Math.round(estimate))+'t</p></article></div>'+
  '<p class="gx-anomaly">統計の単位照合：再計算値 − 公表値 = '+gxNum(difference)+'t。端数・品目・収穫体系の相違は自動補正せず、原表を確認してください。</p>'+
- '<div class="gx-source-panel"><div><h3>原典と資料の状態</h3><p>全国共通の2024年統計は<a target="_blank" rel="noopener noreferrer" href="https://www.pref.hokkaido.lg.jp/ns/nsk/kome/index3.html">北海道が公開する農水省比較表PDF</a>を参照。独立した原PDFバイト認証は未実施。</p></div><div><h3>地域の農業技術・PDF索引</h3><ul>'+localHtml+'</ul></div></div></section>'+
+ '<div class="gx-source-panel"><div><h3>原典と資料の状態</h3><p>全国共通の2024年統計は<a target="_blank" rel="noopener noreferrer" href="https://www.pref.hokkaido.lg.jp/ns/nsk/kome/index3.html">北海道が公開する農水省比較表PDF</a>を参照。独立した原PDFバイト認証は未実施。</p></div><div><h3>地域の農業技術・PDF索引</h3><ul>'+localHtml+'</ul>'+pendingHtml+'</div></div></section>'+
  '<section class="gx-dashboard gx-guard"><span class="gx-kicker">03 / REVIEW GATES</span><h2>計算を実行する前に、範囲を確認。</h2><div class="gx-guard-grid"><p><b>2024</b><span>全国47都道府県・水稲統計</span></p><p><b>2025</b><span>主食用米・確報、2024と比較不可</span></p><p><b>2026</b><span>9月25日時点の予測。確定値ではない</span></p></div><p><b>NaFTはここから公式炭素クレジットを自動計算・認証しません。</b> 正式な方法論・係数、圃場の一次証拠、測定QC、第三者検証が別途必要です。</p></section>'+(typeof gxRiceHistoryPanel==='function'?gxRiceHistoryPanel(current.code):'')+gx2025StatPanel(current.code)+gxChamberIntakePanel()+(typeof gxGimjeRealSourcePanel==='function'?gxGimjeRealSourcePanel():'')+(typeof gxGimjeSamplingQCPanel==='function'?gxGimjeSamplingQCPanel():'')+(typeof gxCropHistoryPanel==='function'?gxCropHistoryPanel():'')+(typeof gxCh4SpatialPanel==='function'?gxCh4SpatialPanel():'')+(typeof gxJaxaLandcoverPanel==='function'?gxJaxaLandcoverPanel():'');
 }
 function gxChamberIntakePanel(){
