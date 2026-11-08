@@ -51,6 +51,7 @@ node tests/p24-jaxa-lulc-batch04.test.mjs
 python3 tests/p24-jaxa-lulc-batch04.test.py
 node tests/p25-jaxa-lulc-batch05.test.mjs
 python3 tests/p25-jaxa-lulc-batch05.test.py
+python3 tests/p26-global-registry-intake.test.py
 node tests/dmrv-literature-register.test.mjs
 node tests/climatechain-japanese.test.mjs
 node tests/ieee-audit.test.mjs
