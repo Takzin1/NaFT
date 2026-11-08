@@ -1,0 +1,16 @@
+{
+  "schema": "naft-p26-jblue-method1-research-input/1",
+  "source_guidance_sha256": "f9fb2c2ae8d06325550e488d301b78195f8886ff4aabf1bbfdb11bd1ecfa0d05",
+  "method": "JBLUE_METHOD_1_AREA_RATE_ONLY",
+  "period_start": "2025-01-01",
+  "period_end": "2026-01-01",
+  "area_ha": "10",
+  "area_certainty": "0.8",
+  "absorption_rate_tco2_per_ha": "2.7",
+  "rate_certainty": "0.7",
+  "baseline_tco2": "1.2",
+  "vessel_emissions_tco2": "0.1",
+  "new_material_emissions_tco2": "0.05",
+  "evidence_manifest_sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+  "review_status": "RESEARCH_NOT_REVIEWED_BY_JBE"
+}
