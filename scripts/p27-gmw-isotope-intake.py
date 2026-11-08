@@ -53,10 +53,11 @@ def iso_date(raw):
     y,mo,d,end=m.groups()
     try:
         date(int(y),int(mo),int(d))
-        if end is not None and int(end)<int(d):deny("SAMPLING_DATE_RANGE")
         if end is not None:date(int(y),int(mo),int(end))
     except ValueError:
         deny("SAMPLING_DATE_INVALID")
+    if end is not None and int(end)<int(d):
+        deny("SAMPLING_DATE_RANGE")
     return int(y)
 
 def read_manifest():
