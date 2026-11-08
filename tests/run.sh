@@ -53,6 +53,9 @@ node tests/p25-jaxa-lulc-batch05.test.mjs
 python3 tests/p25-jaxa-lulc-batch05.test.py
 python3 tests/p26-global-registry-intake.test.py
 python3 tests/p26-jcredit-registration-intake.test.py
+node --test tests/p26-official-mrv-prescreen.test.mjs
+node scripts/p26-official-mrv-prescreen.mjs bdas fixtures/p26-bdas-green-laser-synthetic.json > /tmp/naft-p26-bdas-prescreen.json
+node scripts/p26-official-mrv-prescreen.mjs midseason fixtures/p26-maff-midseason-synthetic.json > /tmp/naft-p26-maff-midseason-prescreen.json
 node --test tests/p26-jblue-guidance-market.test.mjs
 node scripts/p26-jblue-method1-research.mjs fixtures/p26-jblue-method1-synthetic.json > /tmp/naft-p26-jblue-method1.json
 node tests/dmrv-literature-register.test.mjs
