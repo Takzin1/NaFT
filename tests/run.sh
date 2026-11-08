@@ -32,6 +32,8 @@ node tests/p10-gx-design-data.test.mjs
 node tests/p28-prefecture-intake.test.mjs
 python3 scripts/p29-hokkaido-soil-audit.py audit
 node tests/p29-hokkaido-soil-source.test.mjs
+python3 scripts/p30-aomori-soil-audit.py audit
+node tests/p30-aomori-soil-gis.test.mjs
 node tests/p11-real-chamber-source-audit.test.mjs
 node tests/p11-rice-chromatography-guard.test.mjs
 node tests/p12-estat-2025-original-source.test.mjs
