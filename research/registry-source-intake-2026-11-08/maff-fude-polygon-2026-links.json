@@ -1,0 +1,163 @@
+{
+  "schema": "naft-p26-ag005-fude-polygon-source-links/1",
+  "registered_on": "2026-11-08",
+  "intent": "LINK_OFFICIAL_GEOMETRY_AND_LEGAL_REPORTING_PROVENANCE_WITHOUT_INVENTING_CHIBAN_MATCH",
+  "issuer": "農林水産省",
+  "polygon_dataset_year": 2026,
+  "official_link_registry": [
+    {
+      "id": "MAFF_FUDE_INFO",
+      "role": "SOURCE_INFORMATION",
+      "title": "農地区画情報（筆ポリゴン）のデータ提供・利用",
+      "url": "https://www.maff.go.jp/j/tokei/porigon/index.html",
+      "dataset": "PUBLIC_FUDE_POLYGON",
+      "verified": "OFFICIAL_MAFF_PAGE",
+      "important": [
+        "specification",
+        "download and public viewer",
+        "terms of use",
+        "2026 data update"
+      ]
+    },
+    {
+      "id": "MAFF_FUDE_VIEWER_DOWNLOAD_2026",
+      "role": "VISUAL_BROWSE_AND_DOWNLOAD_PORTAL",
+      "title": "筆ポリゴン公開サイト",
+      "url": "https://open.fude.maff.go.jp/",
+      "dataset": "2026_PUBLIC_FUDE_POLYGON",
+      "verified": "MAFF_REFERENCED_OFFICIAL_SITE",
+      "account_required_for_public_view": false,
+      "actual_feature_or_zip_download_performed": false
+    },
+    {
+      "id": "MAFF_FUDE_FGB_2026",
+      "role": "FLATGEOBUF_RESEARCH_DOWNLOAD_INDEX",
+      "title": "地域の農業を見て・知って・活かすDB 筆ポリゴン",
+      "url": "https://www.maff.go.jp/j/tokei/census/shuraku_data/2025/mb/index.html",
+      "format": "FlatGeobuf",
+      "crs_description": "world geodetic geographic coordinates",
+      "dataset_year": 2026,
+      "verified": "OFFICIAL_MAFF_PAGE",
+      "download_requirement": "Acquire all split files within the prefecture before claiming area completeness"
+    },
+    {
+      "id": "MAFF_EMAFF_NOUCHI_NAV",
+      "role": "REPORTING_REFERENCE_FOR_CHIBAN_LOCATION",
+      "title": "eMAFF農地ナビ（所在・地番）",
+      "url": "https://map.maff.go.jp/",
+      "dataset": "EMaFF_FARM_NAV_PINS_AND_FARMLAND_POLYGONS",
+      "verified": "OFFICIAL_MAFF_DOMAIN_AND_USER_PROVIDED_AG005_GUIDE",
+      "not_same_dataset_as_public_fude_polygons": true
+    },
+    {
+      "id": "MAFF_AG005_MONITORING_GUIDANCE",
+      "role": "ACTIVITY_REPORTING_GUIDE",
+      "title": "中干し延長 個別活動実績報告リスト作成ガイド",
+      "url": "https://www.maff.go.jp/j/seisan/kankyo/ondanka/",
+      "source_pdf_id": "MAFF_AG005_CHIBAN_GUIDE_2025_12",
+      "verified": "OFFICIAL_MAFF_PAGE"
+    }
+  ],
+  "terms_summary": {
+    "source": "https://www.maff.go.jp/j/tokei/porigon/index.html",
+    "usage_terms_review_date": "2026-11-08",
+    "license_recheck_on_download": true,
+    "commercial_use_possible": true,
+    "attribution_required": true,
+    "adaptations_must_be_disclosed": true,
+    "expected_credit": "出典：「筆ポリゴンデータ」（農林水産省）（利用年月日）",
+    "caveats": [
+      "Digitized reference boundaries are not cadastral survey/ownership rights.",
+      "Public viewer may simplify the on-screen geometry compared to downloadable files.",
+      "2021-and-earlier polygon format and fields differ from latest dataset.",
+      "Dataset year and source byte SHA must be recorded when actual geometry files are downloaded."
+    ]
+  },
+  "link_graph": [
+    {
+      "from": "MAFF_AG005_CHIBAN_GUIDE_2025_12",
+      "to": "MAFF_EMAFF_NOUCHI_NAV",
+      "rel": "NORMATIVE_CHIBAN_SOURCE_FOR_2025_PLUS"
+    },
+    {
+      "from": "MAFF_AG005_CHIBAN_GUIDE_2025_12",
+      "to": "MAFF_FUDE_VIEWER_DOWNLOAD_2026",
+      "rel": "CONTEXTUAL_GEOMETRY_WHEN_FARMLAND_POLYGON_NOT_SHOWN"
+    },
+    {
+      "from": "MAFF_FUDE_VIEWER_DOWNLOAD_2026",
+      "to": "MAFF_FUDE_INFO",
+      "rel": "DATASET_PROVENANCE_AND_TERMS"
+    },
+    {
+      "from": "MAFF_FUDE_FGB_2026",
+      "to": "MAFF_FUDE_INFO",
+      "rel": "DATASET_PROVENANCE_AND_TERMS"
+    },
+    {
+      "from": "MAFF_EMAFF_NOUCHI_NAV",
+      "to": "MAFF_FUDE_INFO",
+      "rel": "SIMILAR_GEOMETRY_CAN_APPEAR_BUT_NOT_IDENTICAL_IDENTIFIER_SCHEMA"
+    },
+    {
+      "from": "IPCC_2019REF_VOL4_CH5_CROPLAND",
+      "to": "MAFF_FUDE_FGB_2026",
+      "rel": "SPATIAL_ACTIVITY_CONTEXT_ONLY_NOT_CREDIT_COEFFICIENT"
+    }
+  ],
+  "ag005_2025_plus_rules": {
+    "applies_to_activity_start_on_or_after": "2025-01-01",
+    "applies_to_registered_versions": [
+      "AG-005 Ver. 1.0",
+      "AG-005 Ver. 2.0",
+      "AG-005 Ver. 3.0",
+      "AG-005 Ver. 3.1",
+      "AG-005 Ver. 3.3"
+    ],
+    "guidance_2025_12_reference_pdf_pages": [
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29
+    ],
+    "primary_chiban_field": "地番（eMAFF農地ナビ）",
+    "secondary_chiban_field": "面積根拠資料の地番情報",
+    "primary_chiban_source": "eMAFF農地ナビ 所在・地番",
+    "evidence_area_required": "水稲作付面積（ha） + 面積を把握した資料と当該資料の地番",
+    "eMAFF_layer_first": [
+      "農地ピン",
+      "農地ポリゴン"
+    ],
+    "eMAFF_fallback_if_no_farmland_polygon": [
+      "農地ピン",
+      "筆ポリゴン（最新年）"
+    ],
+    "if_emaff_nav_chiban_not_provided": "SCREENSHOT_EVIDENCING_ABSENCE_REQUIRED_THEN_FALLBACK_TO_AREA_DOCUMENT_CHIBAN",
+    "area_evidence_document_priority": [
+      "営農計画書／水稲共済細目書",
+      "固定資産税通知書",
+      "これらに準ずる書類"
+    ],
+    "do_not_infer": "An fude polygon feature ID is NOT the eMAFF 所在・地番 and is NOT automatically a 1-to-1 rice field, as one field can span multiple polygons or vice versa."
+  },
+  "data_state": {
+    "live_downloaded_fude_zip": false,
+    "downloaded_flatgeobuf": false,
+    "geometry_features_loaded": 0,
+    "field_area_computed": false,
+    "field_chiban_verified": false,
+    "cadastral_rights_verified": false,
+    "legal_credit_holder_verified": false,
+    "J_CREDIT_ISSUANCE_VERIFIED": false,
+    "production_mint_authorized": false
+  },
+  "next_action_when_files_available": "Save all 2026 prefecture split FGB files locally with URL, time, license snapshot, SHA256 and CRS; use spatial geometry only for candidate field matching, require human evidence and manual reconciliation before area acceptance."
+}
