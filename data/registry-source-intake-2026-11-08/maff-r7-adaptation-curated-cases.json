@@ -1,0 +1,167 @@
+{
+  "schema": "naft-p26-maff-r7-adaptation-curated-extract/1",
+  "source_manifest": "research/registry-source-intake-2026-11-08/maff-r7-adaptation-parts-2-3.json",
+  "extraction": "MANUALLY_CURATED_SMALL_SAMPLES_FROM_USER_PROVIDED_PDF_TEXT;NOT_FULL_TABLE_CAPTURE",
+  "data_type": "PREFECTURE_REPORTED_CLIMATE_ADAPTATION_CONTEXT_NOT_CERTIFIED_GHG_EFFECT",
+  "records": [
+    {
+      "source_id": "MAFF_R7_ADAPTATION_PART_2_3",
+      "report_page": 54,
+      "pdf_page": 1,
+      "prefecture": "青森県",
+      "commodity": "りんご",
+      "purpose": "凍霜害の防止",
+      "measure": "燃焼法・防霜ファン",
+      "reported_rating": "Ｂ",
+      "reported_effect_or_reason": "指導情報として活用",
+      "reported_adoption_obstacle": "燃焼作業の労力負担",
+      "use_tag": "LABOR_COST_AND_OPERATION"
+    },
+    {
+      "source_id": "MAFF_R7_ADAPTATION_PART_2_3",
+      "report_page": 55,
+      "pdf_page": 2,
+      "prefecture": "福島県",
+      "commodity": "りんご",
+      "purpose": "着色不良・着色遅延の発生抑制",
+      "measure": "ふじの着色優良系統の導入",
+      "reported_rating": "Ｂ",
+      "reported_effect_or_reason": "着色向上はあるが長期高温下では効果不十分",
+      "reported_adoption_obstacle": "産地の販売戦略に合う系統選択が困難",
+      "use_tag": "CULTIVAR_ADAPTATION_LIMIT"
+    },
+    {
+      "source_id": "MAFF_R7_ADAPTATION_PART_2_3",
+      "report_page": 79,
+      "pdf_page": 26,
+      "prefecture": "長野県",
+      "commodity": "トマト",
+      "purpose": "裂果の発生抑制",
+      "measure": "幼果期の生育調節剤散布",
+      "reported_rating": "Ｂ",
+      "reported_effect_or_reason": "放射状裂果減少と秀品率上昇が確認されたとの記載",
+      "reported_adoption_obstacle": "花房ごとの適期処理に手間",
+      "use_tag": "ADOPTION_LABOR_BURDEN"
+    },
+    {
+      "source_id": "MAFF_R7_ADAPTATION_PART_2_3",
+      "report_page": 103,
+      "pdf_page": 50,
+      "prefecture": "宮城県",
+      "commodity": "いちご",
+      "purpose": "花芽分化の促進",
+      "measure": "株元冷却技術",
+      "reported_rating": "Ｂ",
+      "reported_effect_or_reason": "試験研究段階で成果があるとの報告",
+      "reported_adoption_obstacle": "設備が高額で普及が進んでいない",
+      "use_tag": "CAPEX_BARRIER"
+    },
+    {
+      "source_id": "MAFF_R7_ADAPTATION_PART_2_3",
+      "report_page": 103,
+      "pdf_page": 50,
+      "prefecture": "福島県",
+      "commodity": "いちご",
+      "purpose": "花芽分化の促進",
+      "measure": "遮光資材の展張",
+      "reported_rating": "Ｂ",
+      "reported_effect_or_reason": "一定の効果があるが高温条件では不十分",
+      "reported_adoption_obstacle": "設置の費用と労力",
+      "use_tag": "ADAPTATION_EFFECT_LIMIT"
+    },
+    {
+      "source_id": "MAFF_R7_ADAPTATION_PART_2_3",
+      "report_page": 103,
+      "pdf_page": 50,
+      "prefecture": "栃木県",
+      "commodity": "いちご",
+      "purpose": "花芽分化の促進",
+      "measure": "とちあいか品種導入",
+      "reported_rating": "Ａ",
+      "reported_effect_or_reason": "資料に年内収穫量が『とちおとめ』比で1.3倍と記載",
+      "reported_adoption_obstacle": null,
+      "use_tag": "REPORTED_CULTIVAR_RESULT_NOT_CAUSAL"
+    },
+    {
+      "source_id": "MAFF_R7_ADAPTATION_PART_3_3",
+      "report_page": 110,
+      "pdf_page": 1,
+      "prefecture": "栃木県",
+      "commodity": "輪ぎく",
+      "purpose": "奇形花発生抑制",
+      "measure": "施設被覆材への昇温抑制剤塗布",
+      "reported_rating": "Ａ",
+      "reported_effect_or_reason": "施設内温度を2～3℃下げる効果があったとの記載",
+      "reported_adoption_obstacle": "塗布時期・降雨と除去作業の経費",
+      "use_tag": "MEASURE_TIMING_AND_COST"
+    },
+    {
+      "source_id": "MAFF_R7_ADAPTATION_PART_3_3",
+      "report_page": 128,
+      "pdf_page": 19,
+      "prefecture": "宮城県",
+      "commodity": "乳用牛",
+      "purpose": "乳量・乳成分の改善",
+      "measure": "畜舎での送風・散水",
+      "reported_rating": "Ｂ",
+      "reported_effect_or_reason": "効果はあるが施設や立地によって程度の差がある",
+      "reported_adoption_obstacle": null,
+      "use_tag": "SITE_HETEROGENEITY"
+    },
+    {
+      "source_id": "MAFF_R7_ADAPTATION_PART_3_3",
+      "report_page": 139,
+      "pdf_page": 30,
+      "prefecture": "福島県",
+      "commodity": "肉用鶏",
+      "purpose": "へい死の抑制",
+      "measure": "換気・送風・寒冷紗",
+      "reported_rating": "Ｃ",
+      "reported_effect_or_reason": "損耗軽減はあるが十分ではないとの報告",
+      "reported_adoption_obstacle": "購入費用と設置労力",
+      "use_tag": "CAPEX_AND_EFFECT_LIMIT"
+    }
+  ],
+  "other_observations": [
+    {
+      "source_id": "MAFF_R7_ADAPTATION_PART_3_3",
+      "report_page": 161,
+      "pdf_page": 52,
+      "record_type": "REPORTED_WORK_SAFETY_HISTORICAL",
+      "fact": "2024年の農作業死亡事故287人、前年より51人増加。うち熱中症死亡者は前年37人から59人へ22人増加。",
+      "year": 2024,
+      "safety_deaths_total": 287,
+      "heatstroke_deaths": 59,
+      "heatstroke_deaths_prev_year": 37,
+      "carbon_quantification_allowed": false
+    },
+    {
+      "source_id": "MAFF_R7_ADAPTATION_PART_3_3",
+      "report_page": 165,
+      "pdf_page": 56,
+      "record_type": "MECHANIZATION_ADAPTATION_POLICY_EXAMPLE",
+      "fact": "夏季水田作の水管理・草刈などに、自動水管理装置や畦畔除去等を組み合わせ省力化を図る事例が示される。",
+      "status": "POSSIBLE_MEASURES_NOT_PROOF_OF_PER_FIELD_PERFORMANCE",
+      "carbon_quantification_allowed": false
+    },
+    {
+      "source_id": "MAFF_R7_ADAPTATION_PART_3_3",
+      "report_page": 170,
+      "pdf_page": 61,
+      "record_type": "MODELLED_FUTURE_CLIMATE",
+      "fact": "将来気候予測を紹介。観測事実・モデル予測・事業認証済みのクレジットを分離する。",
+      "modelled_not_observed": true,
+      "carbon_quantification_allowed": false
+    }
+  ],
+  "ratings": "Reported raw symbols A/B/C/D/－ are source classifications only; full evaluation rubric may appear in missing Part 1/3. No numeric weighting applied.",
+  "interpretation_limitations": [
+    "No independent verification of prefectural effectiveness claims",
+    "Curated samples are not a complete count of all table cases",
+    "Part 1/3 absent and therefore no full-report reconstruction",
+    "No interpolation to methane savings, eligibility, credit issuance or Web3 authorization"
+  ],
+  "formal_certification": false,
+  "certified_tco2e": null,
+  "production_mint_authorized": false
+}
