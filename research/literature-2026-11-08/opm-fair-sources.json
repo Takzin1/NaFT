@@ -1,0 +1,75 @@
+{
+  "schema": "naft-research-reference-versions-v1",
+  "date_registered": "2026-11-08",
+  "work_count": 2,
+  "file_count": 3,
+  "ingest_policy": "Bibliographic metadata + byte hashes + independent compatibility implementation only. PDFs are NOT redistributed.",
+  "rights_review_complete": false,
+  "publisher_master_authenticated": false,
+  "works": [
+    {
+      "work_id": "MOREAU_ET_AL_OPM_2011",
+      "title": "The Open Provenance Model Core Specification (v1.1)",
+      "year": 2011,
+      "doi": "10.1016/j.future.2010.07.005",
+      "doi_url": "https://doi.org/10.1016/j.future.2010.07.005",
+      "domain_role": "OPM artifact/process/agent, five causal relations, roles; effects-to-causes directed edges",
+      "reference_status": "PROVENANCE_INTEROPERABILITY_DESIGN_NOT_OFFICIAL_CONFORMANCE"
+    },
+    {
+      "work_id": "WILKINSON_ET_AL_FAIR_2016",
+      "title": "The FAIR Guiding Principles for scientific data management and stewardship",
+      "year": 2016,
+      "doi": "10.1038/sdata.2016.18",
+      "doi_url": "https://doi.org/10.1038/sdata.2016.18",
+      "domain_role": "Findable Accessible Interoperable Reusable principles, licensing/provenance/access rights; metadata checks, no compliance assertion",
+      "reference_status": "DATA_STEWARDSHIP_GUIDELINES_NOT_MRV_METHODOLOGY"
+    }
+  ],
+  "local_pdf_versions": [
+    {
+      "work_id": "MOREAU_ET_AL_OPM_2011",
+      "filename": "opmcs_v1.1.pdf",
+      "sha256": "9c18154115ebbeac3e3e57663c6b387f3458d967efa8229e8939558cc38fa88a",
+      "pages": 15,
+      "preprint_date": "2010-07-27",
+      "kind": "author_preprint_v1.1",
+      "redistribute_pdf": false,
+      "authenticity": "LOCAL_UPLOADED_BYTES_ONLY"
+    },
+    {
+      "work_id": "MOREAU_ET_AL_OPM_2011",
+      "filename": "opm_ver1.1.pdf",
+      "sha256": "8df5c2a3966f87e3e1c86dee9a3c890fb773e1c8daf96edee21bceaec83fe1ca",
+      "pages": 30,
+      "preprint_date": "2009-12-21",
+      "kind": "earlier_long_author_preprint_v1.1",
+      "redistribute_pdf": false,
+      "authenticity": "LOCAL_UPLOADED_BYTES_ONLY"
+    },
+    {
+      "work_id": "WILKINSON_ET_AL_FAIR_2016",
+      "filename": "sdata201618.pdf",
+      "sha256": "cdddd9f4808f7e3e1f013139c3915ef4d7cdccb008fa947ef5f72b4c7b6ffde7",
+      "pages": 9,
+      "preprint_date": null,
+      "kind": "journal_pdf",
+      "redistribute_pdf": false,
+      "authenticity": "LOCAL_UPLOADED_BYTES_ONLY"
+    }
+  ],
+  "system_scope": {
+    "existing_opm_conformance": false,
+    "external_fair_certification": false,
+    "formal_ghg_certification": false,
+    "carbon_credits_issued": false,
+    "web3_writes": false
+  },
+  "paper_principles": [
+    "OPM edges effect->cause; NaFT core graph dependency->dependent",
+    "OPM roles mandatory on used/wasGeneratedBy/wasControlledBy",
+    "OPM v1.1 historical events not hypothetical future",
+    "FAIR R1.1 license, R1.2 detailed provenance; F1 alone not implied by local hash",
+    "FAIR does not imply public access to private/sensitive raw evidence"
+  ]
+}
