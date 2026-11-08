@@ -3,7 +3,11 @@ on:
   pull_request:
     paths:
       - "scripts/p26-global-registry-intake.py"
+      - "scripts/p26-jblue-method1-research.mjs"
+      - "scripts/p26-jblue-method1-research.mjs"
       - "tests/p26-global-registry-intake.test.py"
+      - "tests/p26-jblue-guidance-market.test.mjs"
+      - "fixtures/p26-jblue-method1-synthetic.json"
       - "data/registry-source-intake-2026-11-08/**"
       - "research/registry-source-intake-2026-11-08/**"
       - "docs/p26-global-carbon-registry-intake-ja-2026-11-08.md"
@@ -25,6 +29,9 @@ jobs:
     timeout-minutes: 5
     steps:
       - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
@@ -32,6 +39,11 @@ jobs:
         run: python -m py_compile scripts/p26-global-registry-intake.py tests/p26-global-registry-intake.test.py
       - name: Test synthetic-source import and public-source reference gates
         run: python tests/p26-global-registry-intake.test.py
+      - name: Guide v2.6 mathematical replay and 2026 observational-study controls
+        run: |
+          node --test tests/p26-jblue-guidance-market.test.mjs
+          node scripts/p26-jblue-method1-research.mjs fixtures/p26-jblue-method1-synthetic.json > /tmp/p26-jblue-research-only.json
+          node --input-type=module -e 'import fs from "node:fs"; const r=JSON.parse(fs.readFileSync("/tmp/p26-jblue-research-only.json","utf8")); if(r.illustrative_net_tco2!=="13.77"||r.formal_certification!==false||r.certified_tco2e!==null||r.production_mint_authorized!==false)process.exit(1); console.log("P26_JBLUE_RESEARCH_ONLY_PASS");'
       - name: Assert no carbon credits minted
         run: |
           python - <<'PY'
