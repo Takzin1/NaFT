@@ -1,0 +1,17 @@
+{
+  "sea_total_Gg_CH4_yr": 6745.447945582598,
+  "sea_growing_kha": 28979.92903384234,
+  "parameters": {
+    "title": "Bottom-up CH4 inventory 0.1 deg, IPCC 2019 Refinement Tier-2, prior = Open-SEA-Rice-10",
+    "EFc_kg_ha_day": 1.19,
+    "SFo": 1.3,
+    "SFsr_mineral": 1.0,
+    "SFsr_peat": 1.5,
+    "t_single_d": 130,
+    "t_double_d": 115,
+    "t_triple_d": 100,
+    "SFp_single": 0.68,
+    "SFp_double": 1.22,
+    "SFp_triple": 1.22
+  }
+}

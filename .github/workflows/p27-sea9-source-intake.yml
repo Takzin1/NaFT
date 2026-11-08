@@ -1,0 +1,58 @@
+name: P27 SEA-9 Research Source Intake (no token mint)
+on:
+  pull_request:
+    paths:
+      - "scripts/p27-gmw-isotope-intake.py"
+      - "tests/p27-gmw-isotope-intake.test.py"
+      - "docs/p27-gmw-isotope-intake-ja.md"
+      - "scripts/p27-sea9-archive-intake.py"
+      - "tests/p27-sea9-archive-intake.test.py"
+      - "data/sea9-rice-ch4-2026-11-08/**"
+      - "research/sea9-rice-ch4-2026-11-08/**"
+      - ".github/workflows/p27-sea9-source-intake.yml"
+  push:
+    branches: [main]
+    paths:
+      - "scripts/p27-gmw-isotope-intake.py"
+      - "tests/p27-gmw-isotope-intake.test.py"
+      - "docs/p27-gmw-isotope-intake-ja.md"
+      - "scripts/p27-sea9-archive-intake.py"
+      - "tests/p27-sea9-archive-intake.test.py"
+      - "data/sea9-rice-ch4-2026-11-08/**"
+      - "research/sea9-rice-ch4-2026-11-08/**"
+      - ".github/workflows/p27-sea9-source-intake.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  verify-source-and-no-mint:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Check syntax
+        run: python -m py_compile scripts/p27-sea9-archive-intake.py tests/p27-sea9-archive-intake.test.py scripts/p27-gmw-isotope-intake.py tests/p27-gmw-isotope-intake.test.py
+      - name: Test offline archive intake and historical statistics
+        run: python tests/p27-sea9-archive-intake.test.py
+      - name: Test GMW partial tile and isotope research source guards
+        run: python tests/p27-gmw-isotope-intake.test.py
+      - name: Confirm archive-originals and issuance rights are NOT implied
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path("research/sea9-rice-ch4-2026-11-08/source-register-v1.json")
+          r=json.loads(p.read_text(encoding="utf-8"))
+          g=r["github_integration"]
+          assert r["source"]["total_regular_files"]==53
+          assert r["source"]["data_license"]=="CC-BY-4.0"
+          assert r["source"]["code_license"]=="MIT"
+          assert g["original_53_file_archive_committed"] is False
+          assert g["binary_netcdf_and_npz_committed"] is False
+          assert g["web3_mint_authorized"] is False
+          assert g["certified_tco2e"] is None
+          print("P27_SEA9_SOURCE_CATALOG_QC_PASS_NOT_ORIGINAL_ZIP_VERIFICATION")
+          PY

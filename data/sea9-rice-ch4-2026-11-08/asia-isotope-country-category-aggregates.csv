@@ -1,0 +1,10 @@
+country,category,observations,reported_air_samples,mean_reported_d13c_ch4,min_reported_d13c_ch4,max_reported_d13c_ch4
+Japan,gas leak,1,8,-40.8,-40.8,-40.8
+Japan,sewage,6,46,-54.716667,-60.0,-49.8
+Japan,rice paddies,2,16,-62.95,-67.7,-58.2
+Japan,landfill,45,209,-53.828889,-73.0,-35.0
+Thailand,landfill,10,56,-54.99,-59.7,-51.0
+Thailand,sewage,2,16,-44.7,-51.1,-38.3
+Bangladesh,rice paddies,2,16,-61.3,-62.8,-59.8
+Bangladesh,gas leak,1,8,-41.1,-41.1,-41.1
+Bangladesh,crop,1,8,-35.1,-35.1,-35.1

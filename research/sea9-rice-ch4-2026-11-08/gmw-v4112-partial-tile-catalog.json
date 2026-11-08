@@ -1,0 +1,315 @@
+{
+  "schema": "naft-p27-gmw-v4112-partial-tiles/1",
+  "registered_on": "2026-11-08",
+  "origin": {
+    "user_uploaded_name": "GMW-10_v4112.zip",
+    "bytes": 9575342,
+    "sha256": "1eb48d7f459068c9fe6084a14cc99d8e734052a0c7204d11cd0e3847c4363fa3",
+    "count": 44,
+    "uncompressed_bytes": 56669093,
+    "publisher_reference": "JAXA EORC Global Mangrove Watch",
+    "official_catalog_url": "https://www.eorc.jaxa.jp/ALOS/jp/dataset/gmw_j.htm",
+    "reuse_license": "NOT_PRESENT_IN_UPLOADED_ZIP_REVIEW_BEFORE_MIRRORING"
+  },
+  "observed": {
+    "raster_band_count": 41,
+    "geotiff_shape": [
+      3711,
+      3711
+    ],
+    "crs": "EPSG:4326",
+    "dtype": "uint8",
+    "values": [
+      0,
+      1
+    ],
+    "nodata": 0,
+    "extent_envelope": [
+      108,
+      18,
+      139,
+      35
+    ],
+    "spatial_scope": "EAST_ASIA_PARTIAL_TILES_NOT_SEA9_OR_GLOBAL",
+    "band_year_mapping": "NOT_VERIFIED_FROM_EMBEDDED_METADATA",
+    "unverified_candidate_year_interval": "1985-2025",
+    "first_band_present_pixels": 145798,
+    "last_band_present_pixels": 339302,
+    "pixels_not_equal_area_or_carbon": true,
+    "geodesic_area_ha": null
+  },
+  "members": [
+    {
+      "file": "GMW_N19E108_v4112_mng_ext.tif",
+      "sha256": "0a6fdf0ebea9ff14c701c02c5129d88960ba73995bcfa3ee9c260c94ad8dd229",
+      "band1_present_pixels": 0,
+      "band41_present_pixels": 189
+    },
+    {
+      "file": "GMW_N19E109_v4112_mng_ext.tif",
+      "sha256": "f454943a3c4f9407b501bc875848a8cef6476e896c531e3a826f046fea0cab55",
+      "band1_present_pixels": 111,
+      "band41_present_pixels": 1788
+    },
+    {
+      "file": "GMW_N19E110_v4112_mng_ext.tif",
+      "sha256": "e7f34b9b292ad2ee51ec378a70bedb7753a625735a4def40a3992517bc626d2e",
+      "band1_present_pixels": 255,
+      "band41_present_pixels": 627
+    },
+    {
+      "file": "GMW_N20E108_v4112_mng_ext.tif",
+      "sha256": "5ca916262ebd06ff780900ea11d6ece717c014b7842e3a5ecec799b093ab7e38",
+      "band1_present_pixels": 33,
+      "band41_present_pixels": 1111
+    },
+    {
+      "file": "GMW_N20E109_v4112_mng_ext.tif",
+      "sha256": "1e1d3657400d38777c4cbe52c089ef532a3fd30fdb429e605fd8ebffa522b3ee",
+      "band1_present_pixels": 10054,
+      "band41_present_pixels": 11989
+    },
+    {
+      "file": "GMW_N20E110_v4112_mng_ext.tif",
+      "sha256": "014ab142845b1eae6ec1a24fc5f13e1f6f40ac08cd2dbdb33011b17d94e7ef94",
+      "band1_present_pixels": 31116,
+      "band41_present_pixels": 32050
+    },
+    {
+      "file": "GMW_N21E109_v4112_mng_ext.tif",
+      "sha256": "ec7e39f12300604c0763f85e1078c9a3bdf73458e02d4730c152d3123e952b70",
+      "band1_present_pixels": 3306,
+      "band41_present_pixels": 5383
+    },
+    {
+      "file": "GMW_N21E110_v4112_mng_ext.tif",
+      "sha256": "9391f0ad6c031064a1a530a4f458478a455a581a87e4b48ab13b2a7faab591da",
+      "band1_present_pixels": 12273,
+      "band41_present_pixels": 32898
+    },
+    {
+      "file": "GMW_N22E108_v4112_mng_ext.tif",
+      "sha256": "60f4c083ee374855f270f073b64dbc56a51841feb68312f492b9aa39f9ac854c",
+      "band1_present_pixels": 22298,
+      "band41_present_pixels": 71701
+    },
+    {
+      "file": "GMW_N22E109_v4112_mng_ext.tif",
+      "sha256": "4183ccb22c6e35f8b4ab8a7bc34f9b014c8ceeffc4ff9aac16753c54b6b471be",
+      "band1_present_pixels": 12301,
+      "band41_present_pixels": 58186
+    },
+    {
+      "file": "GMW_N22E110_v4112_mng_ext.tif",
+      "sha256": "8180551722f96dcff3c50d081191370dea1edd38dd5367470547dd4e51cefecb",
+      "band1_present_pixels": 19099,
+      "band41_present_pixels": 23517
+    },
+    {
+      "file": "GMW_N22E111_v4112_mng_ext.tif",
+      "sha256": "aaa0214ec7a2a60d9adf679e5e4037d1da4692fdf0859a98169bca62d327de51",
+      "band1_present_pixels": 6293,
+      "band41_present_pixels": 14645
+    },
+    {
+      "file": "GMW_N22E112_v4112_mng_ext.tif",
+      "sha256": "ff42c657d25d5655e69262fde12164c1bacb28ba3829afbb4fc761bfb981b0e1",
+      "band1_present_pixels": 3725,
+      "band41_present_pixels": 13989
+    },
+    {
+      "file": "GMW_N22E113_v4112_mng_ext.tif",
+      "sha256": "b1673948afda9cf8b98c06220d6dbbfeaba9e33bfa6c697389a8c6ec2bc20192",
+      "band1_present_pixels": 100,
+      "band41_present_pixels": 270
+    },
+    {
+      "file": "GMW_N23E112_v4112_mng_ext.tif",
+      "sha256": "a01fa1442f520810f4be01757d250fa574bb945dea2cfeec55ed76273268aa4c",
+      "band1_present_pixels": 401,
+      "band41_present_pixels": 1262
+    },
+    {
+      "file": "GMW_N23E113_v4112_mng_ext.tif",
+      "sha256": "25730ea7d751b46873f6fa5b03908478e2949ca7578b9a76f1c7e11d43173686",
+      "band1_present_pixels": 4148,
+      "band41_present_pixels": 17644
+    },
+    {
+      "file": "GMW_N23E114_v4112_mng_ext.tif",
+      "sha256": "1f8e80daaa49b84d7134dcdab627cc4a1d007273f8e8bc69a74784f65ede2612",
+      "band1_present_pixels": 5323,
+      "band41_present_pixels": 12240
+    },
+    {
+      "file": "GMW_N23E115_v4112_mng_ext.tif",
+      "sha256": "32572fa9fb7d403017478012b74effbb0aa9ca4f6e925405c1665ebcce3501a1",
+      "band1_present_pixels": 805,
+      "band41_present_pixels": 1030
+    },
+    {
+      "file": "GMW_N23E120_v4112_mng_ext.tif",
+      "sha256": "779058b6474460c8ea7b28748029692a7e321543f751eec3ddf111aee8ca1d7c",
+      "band1_present_pixels": 0,
+      "band41_present_pixels": 3
+    },
+    {
+      "file": "GMW_N24E116_v4112_mng_ext.tif",
+      "sha256": "435b3a7692d7f931a2eb76ddb9beadc3406196262a04c2bb84367151c5f63b73",
+      "band1_present_pixels": 199,
+      "band41_present_pixels": 3802
+    },
+    {
+      "file": "GMW_N24E117_v4112_mng_ext.tif",
+      "sha256": "e28ad12a010b0925beeb7b5d1b146f54f8cf31ca6a530c92db4938bf240d56a0",
+      "band1_present_pixels": 486,
+      "band41_present_pixels": 1472
+    },
+    {
+      "file": "GMW_N24E120_v4112_mng_ext.tif",
+      "sha256": "d0613cb92c443ac42715d6fb8390a6d736fffbcadda3ba1239cc04fd0dab47ad",
+      "band1_present_pixels": 357,
+      "band41_present_pixels": 4508
+    },
+    {
+      "file": "GMW_N25E117_v4112_mng_ext.tif",
+      "sha256": "10c50138bca25e86347adaddac9de6d5999efaee04c77d891a3be892393dbb75",
+      "band1_present_pixels": 542,
+      "band41_present_pixels": 5660
+    },
+    {
+      "file": "GMW_N25E118_v4112_mng_ext.tif",
+      "sha256": "6dbc274f0d708991a00bc5552530abe60fe3759e2ad8b8146ec6782bd9fd8a4a",
+      "band1_present_pixels": 525,
+      "band41_present_pixels": 5693
+    },
+    {
+      "file": "GMW_N25E120_v4112_mng_ext.tif",
+      "sha256": "5703e25bfc911a9f8423fc0ffb822287e17190c58b1713a102e379a0a5da8513",
+      "band1_present_pixels": 55,
+      "band41_present_pixels": 1652
+    },
+    {
+      "file": "GMW_N25E123_v4112_mng_ext.tif",
+      "sha256": "e45f3f803633aacd5dfced51bb1f4ac4151a48ed21e5300300eb9dcc3129ba35",
+      "band1_present_pixels": 9132,
+      "band41_present_pixels": 9187
+    },
+    {
+      "file": "GMW_N25E124_v4112_mng_ext.tif",
+      "sha256": "29ed9bd2358edd26e067c2305ba816e1f0ec446cd8abad87a2e59cbc57f6b79b",
+      "band1_present_pixels": 1247,
+      "band41_present_pixels": 1333
+    },
+    {
+      "file": "GMW_N25E125_v4112_mng_ext.tif",
+      "sha256": "e2e2183542cbf938b184aedc328906aa1c290348e46352d15b99e79d26f9503e",
+      "band1_present_pixels": 124,
+      "band41_present_pixels": 188
+    },
+    {
+      "file": "GMW_N26E118_v4112_mng_ext.tif",
+      "sha256": "939f4af2520be133cbfc7bdb9db986493eabace2dfe0b2859dc574ad2f8f6edf",
+      "band1_present_pixels": 1,
+      "band41_present_pixels": 318
+    },
+    {
+      "file": "GMW_N26E119_v4112_mng_ext.tif",
+      "sha256": "104a76187433f0defa4ec5909bbed99f83dda6eeb14531325ca21242b29d19d7",
+      "band1_present_pixels": 62,
+      "band41_present_pixels": 1095
+    },
+    {
+      "file": "GMW_N26E121_v4112_mng_ext.tif",
+      "sha256": "33d5bf1cd4e1a93fd10c22937f7a0c3fb748a36b966d0e6eef4828d96a672e7d",
+      "band1_present_pixels": 605,
+      "band41_present_pixels": 1383
+    },
+    {
+      "file": "GMW_N27E119_v4112_mng_ext.tif",
+      "sha256": "dd37e1c9d44b6cc79735050691b5e5d6cf5563ed65e1a6a79e02d087408a9f2d",
+      "band1_present_pixels": 0,
+      "band41_present_pixels": 53
+    },
+    {
+      "file": "GMW_N27E127_v4112_mng_ext.tif",
+      "sha256": "9853e89ff92fce7ecea65de009d5c2bf85a4b3dbda121d9065b3c42ab9b58e96",
+      "band1_present_pixels": 42,
+      "band41_present_pixels": 201
+    },
+    {
+      "file": "GMW_N27E128_v4112_mng_ext.tif",
+      "sha256": "1b892b312f8324bfc38f45662d9def99b6a9bc53d0cde843a5a98c2762281744",
+      "band1_present_pixels": 253,
+      "band41_present_pixels": 298
+    },
+    {
+      "file": "GMW_N28E120_v4112_mng_ext.tif",
+      "sha256": "bf0e9b38e4a76fb1fcc253ad09f9acd458a04ebcb4cdffe4638f22941d0e5aa5",
+      "band1_present_pixels": 18,
+      "band41_present_pixels": 1124
+    },
+    {
+      "file": "GMW_N28E128_v4112_mng_ext.tif",
+      "sha256": "925da17fec05d2e599d27f060d08d0681b9e966c2974bac3315e47df6b2ec656",
+      "band1_present_pixels": 0,
+      "band41_present_pixels": 52
+    },
+    {
+      "file": "GMW_N29E121_v4112_mng_ext.tif",
+      "sha256": "626c884a28d0dbbcd29ba21b746dbd383b922e925802515f279de34755619e09",
+      "band1_present_pixels": 0,
+      "band41_present_pixels": 117
+    },
+    {
+      "file": "GMW_N29E129_v4112_mng_ext.tif",
+      "sha256": "4e5dd723f90191654ab2b2a5a88e69ef2a323f04e24b49da2e30f2bf254999c6",
+      "band1_present_pixels": 363,
+      "band41_present_pixels": 353
+    },
+    {
+      "file": "GMW_N31E130_v4112_mng_ext.tif",
+      "sha256": "1859579fcf16132233c2033299ca20c158f3a8da3c08aee9f9da0e2bac0bd127",
+      "band1_present_pixels": 129,
+      "band41_present_pixels": 274
+    },
+    {
+      "file": "GMW_N31E131_v4112_mng_ext.tif",
+      "sha256": "b234147ba15889801978f10a63a558b753344443797d91e5d16788213f232b2f",
+      "band1_present_pixels": 0,
+      "band41_present_pixels": 0
+    },
+    {
+      "file": "GMW_N32E130_v4112_mng_ext.tif",
+      "sha256": "97acf9ba6da2126c4b1725abc789a40e3cc348713f439dd7f19048210f551105",
+      "band1_present_pixels": 13,
+      "band41_present_pixels": 13
+    },
+    {
+      "file": "GMW_N33E129_v4112_mng_ext.tif",
+      "sha256": "3c57f0e87cd61e71c77b429bcbc8bd00f371810c6b99a4faac7ae4e5ea7028b2",
+      "band1_present_pixels": 0,
+      "band41_present_pixels": 0
+    },
+    {
+      "file": "GMW_N33E130_v4112_mng_ext.tif",
+      "sha256": "ac035051dec7784cb82ce637e7e0074b12ce8469cba92cd50e6e0c27e0599e99",
+      "band1_present_pixels": 2,
+      "band41_present_pixels": 2
+    },
+    {
+      "file": "GMW_N35E138_v4112_mng_ext.tif",
+      "sha256": "74b515dac9cad58aa824bf1454c8e26bcb4258267ec0f4efd42a84fe1ecf5a97",
+      "band1_present_pixels": 2,
+      "band41_present_pixels": 2
+    }
+  ],
+  "guards": {
+    "raster_originals_committed": false,
+    "full_zip_committed": false,
+    "cadastral_rights_verified": false,
+    "carbon_stock_tco2e": null,
+    "carbon_credit_issuance": false,
+    "mint_authorized": false
+  }
+}
