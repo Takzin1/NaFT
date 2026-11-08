@@ -1,0 +1,98 @@
+{
+  "schema": "naft-provenance-literature-reference-v1",
+  "prepared_on": "2026-11-08",
+  "ingest_mode": "METADATA_AND_DESIGN_RATIONALE_ONLY",
+  "source_origin": "User-supplied author/institution PDF copies inspected locally; publisher-original byte identity not independently authenticated",
+  "pdf_publication_policy": "Do not commit uploaded PDFs, extracted figures, or substantial fulltext; store citation metadata, local SHA-256 and independent implementation only.",
+  "reference_is_executable_methodology": false,
+  "measured_carbon_data_present": false,
+  "emission_factors_supplied": false,
+  "formal_certification_claim": false,
+  "sources": [
+    {
+      "id": "BUNEMAN_KHANNA_TAN_2001",
+      "title": "Why and Where: A Characterization of Data Provenance",
+      "authors": [
+        "Peter Buneman",
+        "Sanjeev Khanna",
+        "Wang-Chiew Tan"
+      ],
+      "year": 2001,
+      "kind": "PEER_REVIEWED_CONFERENCE_AUTHOR_VERSION",
+      "identifier": "10.1007/3-540-44503-X_20",
+      "landing_url": "https://doi.org/10.1007/3-540-44503-X_20",
+      "author_version_url": "https://www.research.ed.ac.uk/files/16509989/Why_and_Where_A_Characterization_of_Data_Provenance.pdf",
+      "uploaded_filename": "Why_and_Where_A_Characterization_of_Data_Provenance.pdf",
+      "uploaded_local_sha256": "85a7206f061affa08f05f2f4d6b824ec9c90daa5c6807b39c0981a53fbc4fbcc",
+      "inspected_pdf_pages": [
+        2,
+        3,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "concepts": [
+        "why_provenance",
+        "where_provenance",
+        "witness_basis",
+        "minimal_witness_basis"
+      ],
+      "naft_use": "Distinct conservative dependency trace from direct value-copy source; research-only minimal witness sets for evidence-completeness requirements.",
+      "limitations": "The paper's query-rewriting invariance theorem is restricted to particular well-formed query classes. NaFT's compiler graph is not their formal DQL/SPJU query semantics.",
+      "rights": "EDINBURGH_RESEARCH_EXPLORER_COPYRIGHT_RETAINED_NO_REPUBLICATION_LICENSE_ESTABLISHED",
+      "redistribute_pdf": false,
+      "engine_integration": "RESEARCH_DESIGN_ONLY",
+      "external_publisher_original_authenticated": false
+    },
+    {
+      "id": "CHENEY_CHITICARIU_TAN_2009",
+      "title": "Provenance in Databases: Why, How, and Where",
+      "authors": [
+        "James Cheney",
+        "Laura Chiticariu",
+        "Wang-Chiew Tan"
+      ],
+      "year": 2009,
+      "kind": "PEER_REVIEWED_SURVEY_AUTHOR_VERSION",
+      "identifier": "10.1561/1900000006",
+      "landing_url": "https://doi.org/10.1561/1900000006",
+      "author_version_url": "https://homepages.inf.ed.ac.uk/jcheney/publications/provdbsurvey.pdf",
+      "uploaded_filename": "provdbsurvey.pdf",
+      "uploaded_local_sha256": "c521211ee634f8c6baf11a20ac9ece84aa24a53f46391b83a4a150ed7dd71778",
+      "inspected_pdf_pages": [
+        1,
+        3,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        41,
+        42,
+        43,
+        65,
+        66,
+        67
+      ],
+      "concepts": [
+        "why_provenance",
+        "how_provenance",
+        "where_provenance",
+        "provenance_semirings",
+        "query_rewriting_sensitivity"
+      ],
+      "naft_use": "Explicit why/where/how scopes; avoid labelling a dependency DAG as a full query witness basis or semiring how-provenance.",
+      "limitations": "Survey of database query provenance, not a proof that NaFT's MRV calculation dependencies or original environmental observations are valid.",
+      "rights": "COPYRIGHT_HELD_BY_AUTHORS_PUBLISHER_REDISTRIBUTION_LICENSE_NOT_VERIFIED",
+      "redistribute_pdf": false,
+      "engine_integration": "RESEARCH_DESIGN_ONLY",
+      "external_publisher_original_authenticated": false
+    }
+  ]
+}
