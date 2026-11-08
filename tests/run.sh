@@ -3,6 +3,7 @@ set -euo pipefail
 cd "$(dirname "$0")/.."
 bash -n scripts/ci-browser-smoke.sh
 node tests/readme-docs-contract.test.mjs
+node tests/provenance-why-where.test.js
 node tests/japanflux-jp-hrt-thesis-lineage.test.mjs
 node tests/japanflux-tellus-ec-reference.test.mjs
 node tests/rice-standards-source-gate.test.mjs
