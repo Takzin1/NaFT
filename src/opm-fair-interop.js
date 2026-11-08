@@ -14,8 +14,12 @@ function naftSortObjectArray(a) { return a.slice().sort(function(x,y) {
   var a=canonicalize(x),b=canonicalize(y);return a<b?-1:a>b?1:0;
 }); }
 function naftNonEmptyArray(x) {return Array.isArray(x)&&x.length>0&&x.every(naftString);}
-function naftOpmCrosswalk(pkg,input,pack) {
-  naftResearchAssert(packageCurrent(pkg,input,pack),'STALE_COMPILER_PACKAGE');
+function naftResearchPackageCurrent(pkg,input,pack,compilerOptions) {
+  return !!pkg&&!!pkg.document&&hashObject(pkg.document)===pkg.package_hash&&
+    pkg.package_hash===compileEvidence(input,pack,compilerOptions||{}).package_hash;
+}
+function naftOpmCrosswalk(pkg,input,pack,compilerOptions) {
+  naftResearchAssert(naftResearchPackageCurrent(pkg,input,pack,compilerOptions),'STALE_COMPILER_PACKAGE');
   var doc=pkg.document, graph=doc.provenance_graph;
   naftResearchAssert(graph&&graph.schema==='naft-provenance-1'&&
     graph.edge_direction==='dependency_to_dependent'&&
@@ -99,8 +103,8 @@ function naftValidateOpmCrosswalk(x) {
   return true;
 }
 function naftFairPackageMetadata(pkg,input,pack,options) {
-  naftResearchAssert(packageCurrent(pkg,input,pack),'STALE_COMPILER_PACKAGE');
   options=options||{};
+  naftResearchAssert(naftResearchPackageCurrent(pkg,input,pack,options.compiler_options),'STALE_COMPILER_PACKAGE');
   naftResearchAssert(options&&typeof options==='object'&&!Array.isArray(options),'FAIR_OPTIONS_INVALID');
   var d=pkg.document, id='urn:naft:package:sha256:'+pkg.package_hash;
   // A content-addressed URN is NOT by itself a registered, findable, persistent identifier.
@@ -173,7 +177,7 @@ function naftFairSelfCheck(m) {
   };
 }
 function naftResearchInteropReceipt(pkg,input,pack,options) {
-  var opm=naftOpmCrosswalk(pkg,input,pack);
+  var opm=naftOpmCrosswalk(pkg,input,pack,options&&options.compiler_options);
   var metadata=naftFairPackageMetadata(pkg,input,pack,options);
   var fair=naftFairSelfCheck(metadata);
   return {schema:'naft-research-interop-receipt-1',
