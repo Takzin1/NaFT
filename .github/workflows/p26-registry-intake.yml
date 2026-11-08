@@ -3,11 +3,14 @@ on:
   pull_request:
     paths:
       - "scripts/p26-official-mrv-prescreen.mjs"
-      - "scripts/p26-verify-official-pdfs.py"
+      - "scripts/p26-verify-official-pdfs.py scripts/p26-maff-r7-adaptation-intake.py tests/p26-maff-r7-adaptation-intake.test.py"
       - "tests/p26-official-mrv-prescreen.test.mjs"
       - "fixtures/p26-bdas-green-laser-synthetic.json"
       - "fixtures/p26-maff-midseason-synthetic.json"
       - "docs/p26-government-official-mrv-pdfs-ja.md"
+      - "scripts/p26-maff-r7-adaptation-intake.py"
+      - "tests/p26-maff-r7-adaptation-intake.test.py"
+      - "docs/p26-maff-r7-adaptation-details-ja.md"
       - "scripts/p26-global-registry-intake.py"
       - "scripts/p26-jcredit-registration-intake.py"
       - "scripts/p26-jblue-method1-research.mjs"
@@ -28,6 +31,9 @@ on:
       - "fixtures/p26-bdas-green-laser-synthetic.json"
       - "fixtures/p26-maff-midseason-synthetic.json"
       - "docs/p26-government-official-mrv-pdfs-ja.md"
+      - "scripts/p26-maff-r7-adaptation-intake.py"
+      - "tests/p26-maff-r7-adaptation-intake.test.py"
+      - "docs/p26-maff-r7-adaptation-details-ja.md"
       - "scripts/p26-global-registry-intake.py"
       - "scripts/p26-jcredit-registration-intake.py"
       - "scripts/p26-jblue-method1-research.mjs"
@@ -59,6 +65,18 @@ jobs:
         run: python tests/p26-global-registry-intake.test.py
       - name: J-Credit and J-VER project registration list safety and AG-005 tests
         run: python tests/p26-jcredit-registration-intake.test.py
+      - name: MAFF R7 split report page-map, source SHA and no-credit checks
+        run: |
+          python3 tests/p26-maff-r7-adaptation-intake.test.py
+          python3 scripts/p26-maff-r7-adaptation-intake.py > /tmp/maff-r7-catalog.json
+          python3 - <<'PY'
+          import json
+          r=json.load(open("/tmp/maff-r7-catalog.json"))
+          assert r["mode"] == "CATALOG_ONLY_NO_ORIGINAL_BYTES"
+          assert r["part_1_3_missing"] and not r["all_three_parts_integrated"]
+          assert not r["carbon_savings_calculated"] and not r["production_mint_authorized"]
+          print("MAFF_R7_CLIMATE_ADAPTATION_RESEARCH_ONLY_PASS")
+          PY
       - name: Government PDF source-gated BDAS and MAFF midseason regression
         run: |
           node --test tests/p26-official-mrv-prescreen.test.mjs
