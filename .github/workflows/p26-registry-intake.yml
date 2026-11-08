@@ -2,6 +2,12 @@ name: P26 Carbon Registry Offline Intake (NO MINT)
 on:
   pull_request:
     paths:
+      - "scripts/p26-official-mrv-prescreen.mjs"
+      - "scripts/p26-verify-official-pdfs.py"
+      - "tests/p26-official-mrv-prescreen.test.mjs"
+      - "fixtures/p26-bdas-green-laser-synthetic.json"
+      - "fixtures/p26-maff-midseason-synthetic.json"
+      - "docs/p26-government-official-mrv-pdfs-ja.md"
       - "scripts/p26-global-registry-intake.py"
       - "scripts/p26-jcredit-registration-intake.py"
       - "scripts/p26-jblue-method1-research.mjs"
@@ -16,6 +22,12 @@ on:
   push:
     branches: [main]
     paths:
+      - "scripts/p26-official-mrv-prescreen.mjs"
+      - "scripts/p26-verify-official-pdfs.py"
+      - "tests/p26-official-mrv-prescreen.test.mjs"
+      - "fixtures/p26-bdas-green-laser-synthetic.json"
+      - "fixtures/p26-maff-midseason-synthetic.json"
+      - "docs/p26-government-official-mrv-pdfs-ja.md"
       - "scripts/p26-global-registry-intake.py"
       - "scripts/p26-jcredit-registration-intake.py"
       - "scripts/p26-jblue-method1-research.mjs"
@@ -42,11 +54,17 @@ jobs:
         with:
           python-version: '3.12'
       - name: Python static syntax
-        run: python -m py_compile scripts/p26-global-registry-intake.py tests/p26-global-registry-intake.test.py scripts/p26-jcredit-registration-intake.py tests/p26-jcredit-registration-intake.test.py
+        run: python -m py_compile scripts/p26-global-registry-intake.py tests/p26-global-registry-intake.test.py scripts/p26-jcredit-registration-intake.py tests/p26-jcredit-registration-intake.test.py scripts/p26-verify-official-pdfs.py
       - name: Test synthetic-source import and public-source reference gates
         run: python tests/p26-global-registry-intake.test.py
       - name: J-Credit and J-VER project registration list safety and AG-005 tests
         run: python tests/p26-jcredit-registration-intake.test.py
+      - name: Government PDF source-gated BDAS and MAFF midseason regression
+        run: |
+          node --test tests/p26-official-mrv-prescreen.test.mjs
+          node scripts/p26-official-mrv-prescreen.mjs bdas fixtures/p26-bdas-green-laser-synthetic.json > /tmp/p26-bdas.json
+          node scripts/p26-official-mrv-prescreen.mjs midseason fixtures/p26-maff-midseason-synthetic.json > /tmp/p26-midseason.json
+          node --input-type=module -e 'import fs from "node:fs"; for(const path of ["/tmp/p26-bdas.json","/tmp/p26-midseason.json"]){const v=JSON.parse(fs.readFileSync(path,"utf8"));if(v.certified_tco2e!==null||v.production_mint_authorized!==false||v.transaction_submitted!==false)process.exit(1);} console.log("GOVERNMENT_MRV_PRESCREEN_NO_MINT_PASS");'
       - name: Guide v2.6 mathematical replay and 2026 observational-study controls
         run: |
           node --test tests/p26-jblue-guidance-market.test.mjs
