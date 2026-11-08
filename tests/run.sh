@@ -55,6 +55,8 @@ python3 tests/p26-global-registry-intake.test.py
 python3 tests/p26-jcredit-registration-intake.test.py
 python3 tests/p26-maff-r7-adaptation-intake.test.py
 python3 scripts/p26-maff-r7-adaptation-intake.py > /tmp/naft-p26-maff-r7-adaptation.json
+node --test tests/p26-ag005-fude-polygon-reference.test.mjs
+node scripts/p26-ag005-fude-polygon-reference.mjs fixtures/p26-ag005-fude-reference-synthetic.json > /tmp/naft-p26-fude-receipt.json
 node --test tests/p26-official-mrv-prescreen.test.mjs
 node scripts/p26-official-mrv-prescreen.mjs bdas fixtures/p26-bdas-green-laser-synthetic.json > /tmp/naft-p26-bdas-prescreen.json
 node scripts/p26-official-mrv-prescreen.mjs midseason fixtures/p26-maff-midseason-synthetic.json > /tmp/naft-p26-maff-midseason-prescreen.json
