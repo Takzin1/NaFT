@@ -97,7 +97,12 @@ function checkMonitoring(source, claim, record) {
   const m = record.monitoring;
   insist(object(m) && m.schema === 'NAFT-OBSERVATION-LEDGER/0.3.0' &&
     m.claimId === claim.id, 'MONITORING_SCHEMA');
-  const inputs = boundMonitoring(source, claim.id);
+  // The source fingerprint sorts linked evidence IDs, but the published
+  // monitoring output preserves their original order. Replay those outputs
+  // from the source rows rather than from the normalized fingerprint inputs.
+  const rows = name => (source[name] || []).filter(x => x.claimId === claim.id)
+    .sort((x, y) => x.id.localeCompare(y.id));
+  const inputs = {carbonPools: rows('carbonPools'), gasFluxes: rows('gasFluxes')};
   const pools = inputs.carbonPools.map(p => {
     insist(['stocks', 'sediment'].includes(p.measurementKind) && finite(p.areaHa) &&
       finite(p.uncertaintyPct), 'MONITORING_POOL_INVALID');
