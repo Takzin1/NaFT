@@ -1,0 +1,302 @@
+{
+  "schema": "naft-p26-jblue-guidance-and-market-evidence/1",
+  "prepared_on": "2026-11-08",
+  "source_pairing": "INDEPENDENT_NORMATIVE_GUIDANCE_AND_OBSERVATIONAL_STUDY",
+  "sources": [
+    {
+      "id": "JBLUE_APPLICATION_GUIDANCE_V2_6_2026_03",
+      "title": "Ｊブルークレジット®認証申請の手引き －ブルーカーボンを活用した気候変動対策－",
+      "issuing_body": "ジャパンブルーエコノミー技術研究組合（JBE）",
+      "version": "2.6",
+      "issued": "2026-03",
+      "pdf_pages": 70,
+      "uploaded_filename": "J Blue Credit.pdf",
+      "uploaded_bytes": 8321466,
+      "uploaded_sha256": "f9fb2c2ae8d06325550e488d301b78195f8886ff4aabf1bbfdb11bd1ecfa0d05",
+      "canonical_entry": "https://www.blueeconomy.jp/credit/",
+      "source_role": "INSTITUTIONAL_APPLICATION_GUIDANCE_NOT_AUTOMATED_REGULATORY_APPROVAL",
+      "full_pdf_committed": false,
+      "republication_rights": "NOT_REVIEWED_FOR_PUBLIC_REDISTRIBUTION",
+      "publisher_original_authenticity": "NOT_INDEPENDENTLY_VERIFIED"
+    },
+    {
+      "id": "KUWAE_SUZUKI_FURUYA_2026_JBLUE_MARKET",
+      "title": "Empirical analysis of project–purchaser dynamics in Japan’s blue carbon dioxide removal credit scheme",
+      "authors": [
+        "Tomohiro Kuwae",
+        "Yuka Suzuki",
+        "Masanori Furuya"
+      ],
+      "publication": "npj Ocean Sustainability (2026) 5:42",
+      "doi": "10.1038/s44183-026-00213-1",
+      "url": "https://doi.org/10.1038/s44183-026-00213-1",
+      "pdf_pages": 8,
+      "uploaded_filename": "Empirical analysis of project–purchaser dynamics in Japan’s blue carbon dioxide removal credit scheme.pdf",
+      "uploaded_bytes": 620000,
+      "uploaded_sha256": "8fe9ce2d68d560be63e1f9864e8ee72a2b3c62dfb61e561da434475bcf65257b",
+      "source_role": "HISTORICAL_OBSERVATIONAL_PAPER_NOT_REGISTRY_SOURCE_OR_PRICE_FEED",
+      "full_pdf_committed": false,
+      "article_license": "CC BY 4.0 (as printed on PDF page 8); third-party images may have exceptions",
+      "supplementary_transaction_microdata_uploaded": false,
+      "publisher_original_authenticity": "DOI_IN_PDF_NOT_EXTERNALLY_CROSSCHECKED"
+    }
+  ],
+  "guidance_conditions": {
+    "note": "Page references are printed handbook page numbers (PDF index +4). Normative requirements remain subject to reviewer judgement, and future revision.",
+    "credit_program": "J_BLUE_CREDIT_DISTINCT_FROM_J_CREDIT",
+    "accounting_period": "ONE_YEAR_PER_APPLICATION_PERIOD",
+    "lookback_years_max": "5",
+    "minimum_application_tco2": "0.1",
+    "eligible_storage_years_min": "100",
+    "approval": "INDEPENDENT_JBLUE_REVIEW_COMMITTEE_THEN_JBE_CERTIFICATION",
+    "source_pdf_pages": [
+      8,
+      9,
+      10,
+      11,
+      13,
+      17,
+      19,
+      21,
+      23,
+      42,
+      43,
+      50,
+      52,
+      53,
+      54,
+      55,
+      62
+    ],
+    "calculation_research_blueprint": {
+      "scope": "METHOD_1_AREA_TIMES_PER_AREA_ABSORPTION_RATE_ONLY",
+      "formula": "(area_ha*area_certainty)*(rate_tco2_per_ha*rate_certainty)-baseline_tco2-vessel_emissions_tco2-new_material_emissions_tco2",
+      "source_printed_pages": [
+        7,
+        17,
+        38,
+        46,
+        48,
+        50,
+        51
+      ],
+      "input_factors": "Research user-provided illustrative values, never auto-decided by NaFT; JBE independent reviewer sets official certainty",
+      "formula_2_biomass_and_aquaculture": "NOT_IMPLEMENTED",
+      "zero_or_negative_claim": "NOT_CERTIFIABLE_BY_NAFT",
+      "official_rounding_or_credit_issuance": "NOT_IMPLEMENTED"
+    },
+    "checklist": [
+      {
+        "id": "ELIGIBLE_ACTIVITY_AND_ADDITIONALITY",
+        "printed_pages": [
+          8,
+          9,
+          10
+        ],
+        "review": "HUMAN",
+        "source_requirements": [
+          "project purpose",
+          "participants",
+          "evidence of additionality"
+        ]
+      },
+      {
+        "id": "BASELINE_BEFORE_AFTER_CONTROL_IMPACT",
+        "printed_pages": [
+          9,
+          15,
+          49
+        ],
+        "review": "HUMAN",
+        "source_requirements": [
+          "before/after observations",
+          "control comparison",
+          "baseline assumptions"
+        ]
+      },
+      {
+        "id": "DOUBLE_COUNTING_REVIEW",
+        "printed_pages": [
+          9,
+          5,
+          6
+        ],
+        "review": "HUMAN",
+        "source_requirements": [
+          "stakeholder/sea area overlap check",
+          "public comment review"
+        ]
+      },
+      {
+        "id": "SURVEY_AREA_COVERAGE_AND_REPRESENTATIVENESS",
+        "printed_pages": [
+          7,
+          19,
+          21,
+          46,
+          47
+        ],
+        "review": "HUMAN",
+        "source_requirements": [
+          "survey date",
+          "GIS extent and resolution",
+          "vegetation cover",
+          "photos",
+          "ecosystem type"
+        ]
+      },
+      {
+        "id": "ABSORPTION_FACTOR_PROVENANCE",
+        "printed_pages": [
+          19,
+          37,
+          38,
+          40,
+          48,
+          49
+        ],
+        "review": "HUMAN",
+        "source_requirements": [
+          "site observations or literature",
+          "methodology and factor units",
+          "spatial representativeness"
+        ]
+      },
+      {
+        "id": "VESSEL_AND_MATERIAL_EMISSIONS",
+        "printed_pages": [
+          15,
+          50,
+          51
+        ],
+        "review": "HUMAN",
+        "source_requirements": [
+          "fuel/burn records and vessel hours",
+          "new rope/net/buoy material mass and factors"
+        ]
+      },
+      {
+        "id": "CERTAINTY_HUMAN_DETERMINATION",
+        "printed_pages": [
+          46,
+          47,
+          48,
+          49,
+          51
+        ],
+        "review": "INDEPENDENT_JBE_COMMITTEE",
+        "source_requirements": [
+          "area certainty evidence",
+          "factor certainty evidence",
+          "reviewer determination"
+        ]
+      },
+      {
+        "id": "ONE_YEAR_AND_LOOKBACK",
+        "printed_pages": [
+          4,
+          13,
+          15
+        ],
+        "review": "HUMAN",
+        "source_requirements": [
+          "annual dates",
+          "history for each annual period"
+        ]
+      },
+      {
+        "id": "CERTIFICATION_AND_PUBLICATION",
+        "printed_pages": [
+          5,
+          6,
+          58
+        ],
+        "review": "INDEPENDENT_JBE_COMMITTEE",
+        "source_requirements": [
+          "JBE certification and registry ID",
+          "post-certification public record"
+        ]
+      }
+    ]
+  },
+  "empirical_snapshot": {
+    "population": "J-Blue Credit projects and publicly offered transactions studied through 2025; descriptive historical sample, not current registry/market.",
+    "project_count": 61,
+    "transactions": 471,
+    "project_count_for_selected_association_analysis": 60,
+    "certification_period": "2021-2025",
+    "certified_project_tco2": "9185",
+    "public_offering_projects": 46,
+    "total_offered_tco2": "3482",
+    "public_offering_purchased_tco2": "1081",
+    "transaction_value_jpy": "61805452",
+    "transactions_same_municipality_percent": "39.7",
+    "transactions_same_prefecture_or_municipality_percent": "71.8",
+    "mean_transaction_tco2": "2.3",
+    "sd_transaction_tco2": "4.2",
+    "mean_project_co_creators": "3.2",
+    "sd_project_co_creators": "1.4",
+    "quantified_cobenefits_projects_percent": "11.5",
+    "article_mean_price_approx_usd_per_tco2": "400",
+    "journal_price_usd_is_historical": true,
+    "forex_warning": {
+      "results_section_jpy_per_usd": "145.96",
+      "methods_section_jpy_per_usd": "147.15",
+      "discrepancy": "INTERNAL_PAPER_FX_DIFFERENCE_NOT_RECONCILED",
+      "cannot_use_as_live_fx_or_price_feed": true
+    },
+    "methods": [
+      "Cramers V",
+      "Spearman rho",
+      "MFAmix",
+      "linear mixed effects with transaction mechanism random intercept",
+      "R 4.5.0"
+    ],
+    "causal_claims_supported": false,
+    "row_level_transaction_data_loaded": false,
+    "statistical_model_refitted": false,
+    "observations": [
+      {
+        "claim": "manufacturing more frequently bought local projects than services",
+        "support": "association, not causality",
+        "pdf_pages": [
+          2,
+          3
+        ]
+      },
+      {
+        "claim": "co-benefit appeals have positive and negative associations with prices and number of buyers",
+        "support": "model association, not guaranteed premium",
+        "pdf_pages": [
+          3,
+          4
+        ]
+      },
+      {
+        "claim": "multi-stakeholder collaboration associated with more purchasers and higher price",
+        "support": "study sample, not causal claim",
+        "pdf_pages": [
+          3,
+          4
+        ]
+      }
+    ],
+    "source_pdf_pages": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8
+    ]
+  },
+  "cross_source_note": "The JBE guidance p62 cites a preprint on 61 projects and 471 transactions; this uploaded 2026 DOI paper covers those figures. Do not assume all wording, versions or supplementary datasets are identical without version comparison.",
+  "narrative_use_only": true,
+  "live_market_price_feed": false,
+  "rights_verified": false,
+  "source_pdfs_committed": false,
+  "official_issuance_supported": false,
+  "carbon_token_issuance_supported": false
+}

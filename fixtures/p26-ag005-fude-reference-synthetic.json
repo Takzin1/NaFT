@@ -1,0 +1,18 @@
+{
+  "schema": "naft-p26-ag005-fude-link-request/1",
+  "activity_date": "2025-06-20",
+  "methodology_version": "AG-005 Ver. 3.0",
+  "local_field_reference": "SYNTHETIC_FIELD_2025_01",
+  "polygon_dataset_year": 2026,
+  "polygon_source_id": "MAFF_FUDE_FGB_2026",
+  "polygon_source_url": "https://www.maff.go.jp/j/tokei/census/shuraku_data/2025/mb/index.html",
+  "polygon_feature_id": "SYNTHETIC_FUDE_ID_X_NOT_CHIBAN",
+  "data_use_date": "2026-11-08",
+  "emaff_chiban": "TEST県TEST市TEST町123-1",
+  "area_document_chiban": "TEST県TEST市TEST町123-1",
+  "area_ha": "0.75",
+  "area_document_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "emaff_absence_screenshot_sha256": null,
+  "polygon_local_file_sha256": null,
+  "review_status": "UNREVIEWED_RESEARCH_ONLY"
+}

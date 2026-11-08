@@ -1,0 +1,110 @@
+{
+  "schema": "naft-p26-official-source-role-matrix/1",
+  "source_catalog": "research/registry-source-intake-2026-11-08/ipcc-moe-maff-evidence-2026-11-08.json",
+  "polygon_catalog": "research/registry-source-intake-2026-11-08/maff-fude-polygon-2026-links.json",
+  "layers": [
+    {
+      "source_id": "MAFF_FUDE_POLYGON_EXPLAINER",
+      "layer": "SPATIAL_REFERENCE",
+      "page_ref": [
+        1
+      ],
+      "rule": "Digitized polygons mark approximate agricultural plots; they do not establish cadastral ownership or legal chiban.",
+      "can_infer_credit": false
+    },
+    {
+      "source_id": "IPCC_WETLANDS_2013_CH4",
+      "layer": "GLOBAL_COASTAL_INVENTORY_METHOD",
+      "page_ref": [
+        3,
+        4
+      ],
+      "rule": "Separate managed coastal wetlands CO2 pools and non-CO2 CH4/N2O pathways; emissions method not interchangeable with JBE project credit certification.",
+      "can_infer_credit": false
+    },
+    {
+      "source_id": "JAPAN_NID_2026_ANNEX2_UNCERTAINTY",
+      "layer": "NATIONAL_INVENTORY_UNCERTAINTY",
+      "page_ref": [
+        1
+      ],
+      "rule": "Uncertainty inputs include sampling, measurement, missingness and representativeness. National FY2024 net emissions approximately -3%/+2%; agriculture approx -10%/+22% (rounded), not a field-level AG005 confidence interval.",
+      "numeric_reference": {
+        "country_net_2024_uncertainty_down_percent": "-3",
+        "country_net_2024_uncertainty_up_percent": "+2",
+        "agriculture_2024_uncertainty_down_percent": "-10",
+        "agriculture_2024_uncertainty_up_percent": "+22",
+        "national_scope_only": true
+      },
+      "can_infer_credit": false
+    },
+    {
+      "source_id": "IPCC_2019REF_VOL4_CH5_CROPLAND",
+      "layer": "GLOBAL_CROPLAND_INVENTORY_METHOD",
+      "page_ref": [
+        3,
+        4
+      ],
+      "rule": "Sec 5.5 addresses methane emissions from rice cultivation, including tier choice, emission/scaling factors, activity data and illustrative calculations. Not automatically the current Japanese J-Credit AG005 rules.",
+      "can_infer_credit": false
+    },
+    {
+      "source_id": "JAPAN_NID_2026_ANNEX4_QAQC",
+      "layer": "NATIONAL_INVENTORY_QA_QC",
+      "page_ref": [
+        1,
+        2
+      ],
+      "rule": "QC includes calculation, unit, completeness, time series, record-keeping, trend checking and documented assumptions. Separate independent QAWG peer review is QA; NaFT running unit tests does not establish external QA.",
+      "can_infer_credit": false
+    },
+    {
+      "source_id": "MOE_BLUECARBON_SEAGRASS_TIDALFLAT_GUIDANCE",
+      "layer": "ECOSYSTEM_RESTORATION_ADAPTATION_ASSESSMENT",
+      "page_ref": [
+        3,
+        6,
+        8
+      ],
+      "rule": "MoE guide frames habitat seagrass/tidal-flat restoration, baseline surveys, monitoring and co-benefits; do not infer a certified blue carbon quantity from ecological indicators alone.",
+      "text_full_extraction_available": false,
+      "source_is_image_heavy": true,
+      "can_infer_credit": false
+    },
+    {
+      "source_id": "MAFF_AG005_CHIBAN_GUIDE_2025_12",
+      "layer": "JCREDIT_ACTIVITY_REPORT_CHIBAN",
+      "page_ref": [
+        18,
+        19,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29
+      ],
+      "rule": "AG-005 v3.3 references eMAFF農地ナビ 所在・地番 for 2025-01-01+ activities even when prior project registered under v1.0–3.1; fallback to area-document chiban if absent only with evidence such as screenshot. One-to-many spatial case handling requires human reconciliation.",
+      "apply_date": "2025-01-01",
+      "can_infer_credit": false
+    }
+  ],
+  "numeric_is_global_or_national_not_field_certification": true,
+  "uncertainty_interpretation": "The country inventory's uncertainties are not transferable to an individual rice plot or BlueCarbon credit without validated statistical model and local measurement data.",
+  "qa_interpretation": "Internal code test success is QC at best; authoritative external review and legal certification remain separate.",
+  "cross_source_join_policy": {
+    "eMAFF_first": true,
+    "public_polygon_geometry_reference_only": true,
+    "geometric_overlay_automatic": false,
+    "source_version_required": true,
+    "legal_chiban_or_ownership_inferred": false,
+    "field_area_from_polygon_alone_certified": false
+  },
+  "actual_geometry_loaded": false,
+  "quantitative_CO2e_computed": false,
+  "official_credit_certification": false,
+  "production_mint_authorized": false
+}

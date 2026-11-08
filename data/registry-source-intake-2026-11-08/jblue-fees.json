@@ -1,0 +1,76 @@
+{
+  "schema": "naft-p26-jblue-fees/1",
+  "source_id": "JBLUE_FEES_2026_06_29",
+  "source_sha256": "c2745249acebaf98422232e2e563e49607ac588266eedc9306063f069ef743e9",
+  "date": "2026-06-29",
+  "all_yen_include_tax": true,
+  "official_quote_current": false,
+  "prices_are_market_quotes": false,
+  "reference_public_offering_average_price_jpy_per_tco2e": "75900",
+  "reference_unit_price_tax_excluded_jpy_per_tco2e": "69000",
+  "reference_price_role": "HISTORICAL_PUBLIC_OFFERING_AVERAGE_REFERENCE_NOT_SPOT_PRICE",
+  "cases": [
+    {
+      "case_id": "APPLICATION",
+      "section": "1.1.1",
+      "page": 1,
+      "fee_formula": "GENERALLY_FREE_BUT_EXCEPTION_IF_WITHDRAWN",
+      "fixed_jpy": "0",
+      "exceptions_possible": true
+    },
+    {
+      "case_id": "ISSUANCE_NOT_PUBLIC_OFFERING",
+      "section": "1.2.2",
+      "page": 1,
+      "fee_formula": "FLAT",
+      "fixed_jpy": "110000"
+    },
+    {
+      "case_id": "TRANSFER_PUBLIC_OFFERING",
+      "section": "2.1.1",
+      "page": 2,
+      "fee_formula": "FREE",
+      "fixed_jpy": "0"
+    },
+    {
+      "case_id": "TRANSFER_OTHER",
+      "section": "2.1.2",
+      "page": 2,
+      "fee_formula": "1100_JPY_PLUS_10_PERCENT_AVG_PRICE_TIMES_TCO2E",
+      "fixed_jpy": "1100",
+      "variable_rate_bps": 1000,
+      "not_automatic_regulatory_approval": true
+    },
+    {
+      "case_id": "RETIREMENT_ACQUIRED_CREDITS",
+      "section": "2.2.1",
+      "page": 2,
+      "fee_formula": "FREE",
+      "fixed_jpy": "0"
+    },
+    {
+      "case_id": "RETIREMENT_INITIAL_HOLDER",
+      "section": "2.2.2",
+      "page": 2,
+      "fee_formula": "1100_JPY_PLUS_10_PERCENT_AVG_PRICE_TIMES_TCO2E",
+      "fixed_jpy": "1100",
+      "variable_rate_bps": 1000
+    },
+    {
+      "case_id": "OWNER_NAME_CHANGE",
+      "section": "2.3",
+      "page": 2,
+      "fee_formula": "FROM_FLAT_PER_PARENT_SERIAL",
+      "fixed_jpy_min": "3300"
+    },
+    {
+      "case_id": "OFFSET_CERTIFICATE",
+      "section": "3",
+      "page": 2,
+      "fee_formula": "FLAT_PER_CERTIFICATE",
+      "fixed_jpy": "21780"
+    }
+  ],
+  "caveat": "Fees may be reduced or changed without notice; at application the latest terms apply. Average price is historical reference and not an executable trade price.",
+  "carbon_credit_tokenization_rights": "NOT_ESTABLISHED"
+}

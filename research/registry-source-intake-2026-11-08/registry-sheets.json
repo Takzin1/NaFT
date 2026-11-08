@@ -1,0 +1,133 @@
+{
+  "schema": "naft-p26-registry-workbook-inventory/1",
+  "source_id": "BERKELEY_VROD_REGISTRY_FILES_2026_08",
+  "source_sha256": "16250bcd0cf1b674b143b3360bb429deb884abbe8786f6ed14c25d01c84e2814",
+  "worksheet_dimensions_kind": "EXCEL_DECLARED_RANGE_HINT_NOT_VALIDATED_ROW_COUNT",
+  "rows_are_not_authoritative_registry_balances": true,
+  "sheets": [
+    {
+      "name": "READ FIRST",
+      "declared_range": "B2:C61"
+    },
+    {
+      "name": "ACR Projects",
+      "declared_range": "A1:AY999"
+    },
+    {
+      "name": "ACR Issuances",
+      "declared_range": "A1:DI2382"
+    },
+    {
+      "name": "ACR Retirements",
+      "declared_range": "A1:BR10835"
+    },
+    {
+      "name": "ACR Cancelations",
+      "declared_range": "A1:BR1370"
+    },
+    {
+      "name": "ACR Buffer",
+      "declared_range": "A1:L317"
+    },
+    {
+      "name": "ARB Issuances & Retirements",
+      "declared_range": "A1:AI2218"
+    },
+    {
+      "name": "ART Projects",
+      "declared_range": "A1:AY31"
+    },
+    {
+      "name": "ART Issuances",
+      "declared_range": "A1:BF19"
+    },
+    {
+      "name": "ART Retirements",
+      "declared_range": "A1:BP17"
+    },
+    {
+      "name": "ART Cancelations",
+      "declared_range": "A1:BR5"
+    },
+    {
+      "name": "ART Buffer",
+      "declared_range": "A1:L12"
+    },
+    {
+      "name": "CAR Projects",
+      "declared_range": "A1:X1284"
+    },
+    {
+      "name": "CAR Issuances",
+      "declared_range": "A1:AG5234"
+    },
+    {
+      "name": "CAR Retirements",
+      "declared_range": "A1:W11212"
+    },
+    {
+      "name": "CAR Cancellations",
+      "declared_range": "A1:Q2296"
+    },
+    {
+      "name": "CAR Buffer",
+      "declared_range": "A1:U1994"
+    },
+    {
+      "name": "Gold Projects",
+      "declared_range": "A1:M4190"
+    },
+    {
+      "name": "Gold Issuances",
+      "declared_range": "A1:R16844"
+    },
+    {
+      "name": "Gold Retirements",
+      "declared_range": "A1:Y166479"
+    },
+    {
+      "name": "Gold Buffer",
+      "declared_range": "A1:N240"
+    },
+    {
+      "name": "Isometric Projects",
+      "declared_range": "A1:AO72"
+    },
+    {
+      "name": "Isometric Issuance Batches",
+      "declared_range": "A1:AH24222"
+    },
+    {
+      "name": "Isometric Retirement Batches",
+      "declared_range": "A1:AE3835"
+    },
+    {
+      "name": "Verra VCS Projects",
+      "declared_range": "A1:T5285"
+    },
+    {
+      "name": "Verra VCS Issuances",
+      "declared_range": "A1:S19625"
+    },
+    {
+      "name": "Verra VCS Retirements",
+      "declared_range": "A1:U316578"
+    },
+    {
+      "name": "Verra VCS Cancellations",
+      "declared_range": "A1:T1811"
+    },
+    {
+      "name": "Verra VCS Buffer",
+      "declared_range": "A1:L305"
+    },
+    {
+      "name": "VCS-ARB Projects",
+      "declared_range": "A1:L3"
+    },
+    {
+      "name": "WA Issuances & Retirements",
+      "declared_range": "A1:W21"
+    }
+  ]
+}

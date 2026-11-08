@@ -1,0 +1,74 @@
+{
+  "schema": "naft-p26-jblue-ledger-examples/1",
+  "source_id": "JBLUE_LEDGER_2026_10_16",
+  "source_sha256": "582955f4babf1e7a18b81fa4af6d1b939d70f06516b90fa9713a0a0f90cd5d2b",
+  "ledger_version": "ver5.0",
+  "snapshot_date": "2026-10-16",
+  "extraction_scope": "MANUALLY_REVIEWED_THREE_PROJECT_EXAMPLES_NOT_FULL_LEDGER",
+  "legal_permission_for_tradable_token": "NOT_VERIFIED",
+  "holder_custody_authenticated": false,
+  "projects": [
+    {
+      "project_id": "202608 JBCA 00339",
+      "project_title": "福岡県筑前海域における藻場・磯根保全推進プロジェクト",
+      "issued_tco2e": "32.5",
+      "issue_date": "2026-10-09",
+      "serial_namespace": "202610 JBCT 00339",
+      "denomination_tco2e_per_serial_for_this_case": "0.1",
+      "serial_ranges": [
+        {
+          "from": "00001",
+          "to": "00325",
+          "quantity_tco2e": "32.5",
+          "historical_status": "制度運営者管理"
+        }
+      ],
+      "source_pdf_page": 1
+    },
+    {
+      "project_id": "202608 JBCA 00389",
+      "project_title": "J-Power若松総合事業所周辺護岸に設置したブロックによる藻場造成プロジェクト",
+      "issued_tco2e": "5.0",
+      "issue_date": "2026-10-09 / 2026-10-16",
+      "serial_namespace": "202610 JBCT 00389",
+      "denomination_tco2e_per_serial_for_this_case": "0.1",
+      "serial_ranges": [
+        {
+          "from": "00001",
+          "to": "00049",
+          "quantity_tco2e": "4.9"
+        },
+        {
+          "from": "00050",
+          "to": "00050",
+          "quantity_tco2e": "0.1"
+        }
+      ],
+      "source_pdf_page": 1
+    },
+    {
+      "project_id": "202608 JBCA 00393",
+      "project_title": "J-Power若松総合事業所周辺護岸に設置したブロックによる藻場造成プロジェクト",
+      "issued_tco2e": "10.5",
+      "issue_date": "2026-10-09",
+      "serial_namespace": "202610 JBCT 00393",
+      "denomination_tco2e_per_serial_for_this_case": "0.1",
+      "serial_ranges": [
+        {
+          "from": "00001",
+          "to": "00063",
+          "quantity_tco2e": "6.3"
+        },
+        {
+          "from": "00064",
+          "to": "00105",
+          "quantity_tco2e": "4.2"
+        }
+      ],
+      "source_pdf_page": 1
+    }
+  ],
+  "every_record_is_historical": true,
+  "any_minted_tokens": 0,
+  "note": "Unit denomination inferred for only these ranges by comparing the source's stated amounts and inclusive serial intervals; it is not a rule for every registry or token contract. Publication does not prove lock/custody or rights."
+}

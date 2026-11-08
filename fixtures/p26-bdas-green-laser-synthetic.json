@@ -1,0 +1,12 @@
+{
+  "schema": "naft-p26-bdas-green-laser-input/1",
+  "manual_sha256": "0da1d89b594f2c5835e65193758d1ecf435f1397ce4f9d663f367bd7fb9c309e",
+  "metadata": {
+    "observation_date": "2026-06-15",
+    "vegetation_type": "SYNTHETIC_SEAGRASS_ONLY",
+    "coordinate_system_type": "JAPAN_PLANE_RECTANGULAR",
+    "coordinate_reference": "SYNTHETIC_JP_ZONE_ONLY",
+    "sensor_type": "UAV_GREEN_LASER"
+  },
+  "csv": "x_m,y_m,vegetation_height_m,intensity\n-100.00,200.00,0.80,16\n-101.25,202.50,1.00,11\n"
+}

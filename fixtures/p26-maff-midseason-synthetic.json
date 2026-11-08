@@ -1,0 +1,28 @@
+{
+  "schema": "naft-p26-maff-midseason-evidence-input/1",
+  "pamphlet_sha256": "37471c2d7440f176dd674fedab407c5306ff15456650ec38e1d6ad54b7c79bba",
+  "activity_year": 2025,
+  "baseline_history": [
+    {
+      "year": 2023,
+      "drying_days": 8,
+      "record_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    },
+    {
+      "year": 2024,
+      "drying_days": 9,
+      "record_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+    }
+  ],
+  "drying_start": "2025-06-01",
+  "drying_end": "2025-06-17",
+  "reported_drying_days": 16,
+  "heading_date": "2025-08-03",
+  "field_area_ha": "1.25",
+  "region": "SYNTHETIC_TOHOKU",
+  "prior_crop_organic_inputs_sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+  "activity_records_sha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+  "field_evidence_sha256": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+  "supplemental_irrigation_during_extension": false,
+  "crop_safety_risk": false
+}

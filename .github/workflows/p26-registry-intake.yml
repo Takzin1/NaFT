@@ -1,0 +1,115 @@
+name: P26 Carbon Registry Offline Intake (NO MINT)
+on:
+  pull_request:
+    paths:
+      - "scripts/p26-ag005-fude-polygon-reference.mjs"
+      - "tests/p26-ag005-fude-polygon-reference.test.mjs"
+      - "fixtures/p26-ag005-fude-reference-synthetic.json"
+      - "docs/p26-ipcc-maff-fude-polygon-links-ja.md"
+      - "scripts/p26-official-mrv-prescreen.mjs"
+      - "scripts/p26-verify-official-pdfs.py"
+      - "tests/p26-official-mrv-prescreen.test.mjs"
+      - "fixtures/p26-bdas-green-laser-synthetic.json"
+      - "fixtures/p26-maff-midseason-synthetic.json"
+      - "docs/p26-government-official-mrv-pdfs-ja.md"
+      - "scripts/p26-maff-r7-adaptation-intake.py"
+      - "tests/p26-maff-r7-adaptation-intake.test.py"
+      - "docs/p26-maff-r7-adaptation-details-ja.md"
+      - "scripts/p26-global-registry-intake.py"
+      - "scripts/p26-jcredit-registration-intake.py"
+      - "scripts/p26-jblue-method1-research.mjs"
+      - "tests/p26-global-registry-intake.test.py"
+      - "tests/p26-jcredit-registration-intake.test.py"
+      - "tests/p26-jblue-guidance-market.test.mjs"
+      - "fixtures/p26-jblue-method1-synthetic.json"
+      - "data/registry-source-intake-2026-11-08/**"
+      - "research/registry-source-intake-2026-11-08/**"
+      - "docs/p26-global-carbon-registry-intake-ja-2026-11-08.md"
+      - ".github/workflows/p26-registry-intake.yml"
+  push:
+    branches: [main]
+    paths:
+      - "scripts/p26-ag005-fude-polygon-reference.mjs"
+      - "tests/p26-ag005-fude-polygon-reference.test.mjs"
+      - "fixtures/p26-ag005-fude-reference-synthetic.json"
+      - "docs/p26-ipcc-maff-fude-polygon-links-ja.md"
+      - "scripts/p26-official-mrv-prescreen.mjs"
+      - "scripts/p26-verify-official-pdfs.py"
+      - "tests/p26-official-mrv-prescreen.test.mjs"
+      - "fixtures/p26-bdas-green-laser-synthetic.json"
+      - "fixtures/p26-maff-midseason-synthetic.json"
+      - "docs/p26-government-official-mrv-pdfs-ja.md"
+      - "scripts/p26-maff-r7-adaptation-intake.py"
+      - "tests/p26-maff-r7-adaptation-intake.test.py"
+      - "docs/p26-maff-r7-adaptation-details-ja.md"
+      - "scripts/p26-global-registry-intake.py"
+      - "scripts/p26-jcredit-registration-intake.py"
+      - "scripts/p26-jblue-method1-research.mjs"
+      - "tests/p26-global-registry-intake.test.py"
+      - "tests/p26-jcredit-registration-intake.test.py"
+      - "tests/p26-jblue-guidance-market.test.mjs"
+      - "fixtures/p26-jblue-method1-synthetic.json"
+      - "data/registry-source-intake-2026-11-08/**"
+      - "research/registry-source-intake-2026-11-08/**"
+      - ".github/workflows/p26-registry-intake.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  verify-offline-intake:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Python static syntax
+        run: python -m py_compile scripts/p26-global-registry-intake.py tests/p26-global-registry-intake.test.py scripts/p26-jcredit-registration-intake.py tests/p26-jcredit-registration-intake.test.py scripts/p26-verify-official-pdfs.py
+      - name: Test synthetic-source import and public-source reference gates
+        run: python tests/p26-global-registry-intake.test.py
+      - name: J-Credit and J-VER project registration list safety and AG-005 tests
+        run: python tests/p26-jcredit-registration-intake.test.py
+      - name: MAFF R7 split report page-map, source SHA and no-credit checks
+        run: |
+          python3 tests/p26-maff-r7-adaptation-intake.test.py
+          python3 scripts/p26-maff-r7-adaptation-intake.py > /tmp/maff-r7-catalog.json
+          python3 - <<'PY'
+          import json
+          r=json.load(open("/tmp/maff-r7-catalog.json"))
+          assert r["mode"] == "CATALOG_ONLY_NO_ORIGINAL_BYTES"
+          assert r["part_1_3_missing"] and not r["all_three_parts_integrated"]
+          assert not r["carbon_savings_calculated"] and not r["production_mint_authorized"]
+          print("MAFF_R7_CLIMATE_ADAPTATION_RESEARCH_ONLY_PASS")
+          PY
+      - name: AG-005 2025+ official eMAFF chiban and 2026 MAFF fude polygon URL gates
+        run: |
+          node --test tests/p26-ag005-fude-polygon-reference.test.mjs
+          node scripts/p26-ag005-fude-polygon-reference.mjs fixtures/p26-ag005-fude-reference-synthetic.json > /tmp/p26-fude-reference.json
+          node --input-type=module -e 'import fs from "node:fs";let r=JSON.parse(fs.readFileSync("/tmp/p26-fude-reference.json","utf8"));if(r.certified_tco2e!==null||r.production_mint_authorized!==false||r.actual_geometry_overlap_measured!==false||r.emaff_chiban_source_verified!==false)process.exit(1);console.log("FUDE_POLYGON_URL_PEG_NO_REGISTRY_OR_MINT_PASS");'
+      - name: Government PDF source-gated BDAS and MAFF midseason regression
+        run: |
+          node --test tests/p26-official-mrv-prescreen.test.mjs
+          node scripts/p26-official-mrv-prescreen.mjs bdas fixtures/p26-bdas-green-laser-synthetic.json > /tmp/p26-bdas.json
+          node scripts/p26-official-mrv-prescreen.mjs midseason fixtures/p26-maff-midseason-synthetic.json > /tmp/p26-midseason.json
+          node --input-type=module -e 'import fs from "node:fs"; for(const path of ["/tmp/p26-bdas.json","/tmp/p26-midseason.json"]){const v=JSON.parse(fs.readFileSync(path,"utf8"));if(v.certified_tco2e!==null||v.production_mint_authorized!==false||v.transaction_submitted!==false)process.exit(1);} console.log("GOVERNMENT_MRV_PRESCREEN_NO_MINT_PASS");'
+      - name: Guide v2.6 mathematical replay and 2026 observational-study controls
+        run: |
+          node --test tests/p26-jblue-guidance-market.test.mjs
+          node scripts/p26-jblue-method1-research.mjs fixtures/p26-jblue-method1-synthetic.json > /tmp/p26-jblue-research-only.json
+          node --input-type=module -e 'import fs from "node:fs"; const r=JSON.parse(fs.readFileSync("/tmp/p26-jblue-research-only.json","utf8")); if(r.illustrative_net_tco2!=="13.77"||r.formal_certification!==false||r.certified_tco2e!==null||r.production_mint_authorized!==false)process.exit(1); console.log("P26_JBLUE_RESEARCH_ONLY_PASS");'
+      - name: Assert no carbon credits minted
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          root=Path("research/registry-source-intake-2026-11-08")
+          s=json.loads((root/"sources.json").read_text())
+          assert s["raw_originals_committed"] is False
+          assert s["web3_mint_authorized"] is False
+          assert s["registry_rights_verified"] is False
+          print("P26_REGISTRY_INTAKE_TEST_PASS_NO_MINT")
+          PY

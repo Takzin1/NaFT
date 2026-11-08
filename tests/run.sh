@@ -51,6 +51,17 @@ node tests/p24-jaxa-lulc-batch04.test.mjs
 python3 tests/p24-jaxa-lulc-batch04.test.py
 node tests/p25-jaxa-lulc-batch05.test.mjs
 python3 tests/p25-jaxa-lulc-batch05.test.py
+python3 tests/p26-global-registry-intake.test.py
+python3 tests/p26-jcredit-registration-intake.test.py
+python3 tests/p26-maff-r7-adaptation-intake.test.py
+python3 scripts/p26-maff-r7-adaptation-intake.py > /tmp/naft-p26-maff-r7-adaptation.json
+node --test tests/p26-ag005-fude-polygon-reference.test.mjs
+node scripts/p26-ag005-fude-polygon-reference.mjs fixtures/p26-ag005-fude-reference-synthetic.json > /tmp/naft-p26-fude-receipt.json
+node --test tests/p26-official-mrv-prescreen.test.mjs
+node scripts/p26-official-mrv-prescreen.mjs bdas fixtures/p26-bdas-green-laser-synthetic.json > /tmp/naft-p26-bdas-prescreen.json
+node scripts/p26-official-mrv-prescreen.mjs midseason fixtures/p26-maff-midseason-synthetic.json > /tmp/naft-p26-maff-midseason-prescreen.json
+node --test tests/p26-jblue-guidance-market.test.mjs
+node scripts/p26-jblue-method1-research.mjs fixtures/p26-jblue-method1-synthetic.json > /tmp/naft-p26-jblue-method1.json
 node tests/dmrv-literature-register.test.mjs
 node tests/climatechain-japanese.test.mjs
 node tests/ieee-audit.test.mjs

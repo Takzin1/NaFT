@@ -1,0 +1,166 @@
+{
+  "schema": "naft-p26-official-mrv-pdf-register/1",
+  "compiled_on": "2026-11-08",
+  "source_boundary": "HASH_IDENTIFIES_USER_UPLOADED_BYTES_NOT_OFFICIAL_PUBLISHER_SIGNATURE",
+  "classification": "HISTORICAL_GOVERNMENT_REFERENCE_NOT_LIVE_CREDIT_REGISTRY",
+  "raw_pdf_files_committed": false,
+  "offline_sources_not_auto_updated": true,
+  "formal_certification": false,
+  "certified_tco2e": null,
+  "legal_credit_rights_verified": false,
+  "production_mint_authorized": false,
+  "documents": [
+    {
+      "id": "MLIT_BLUECARBON_MEASUREMENT_V1_2026_03",
+      "filename": "ブルーカーボン計測マニュアルvol.1.pdf",
+      "title": "ブルーカーボンデータ計測マニュアル Ver.1",
+      "issuer": "国土交通省港湾局・港湾空港技術研究所",
+      "edition": "令和8年3月",
+      "pages": 35,
+      "bytes": 2735787,
+      "sha256": "0da1d89b594f2c5835e65193758d1ecf435f1397ce4f9d663f367bd7fb9c309e",
+      "pdf_reference_url": "https://www.mlit.go.jp/report/press/content/002016572.pdf",
+      "content_scope": "GREEN_LASER_ONLY",
+      "extracts": [
+        {
+          "page": 17,
+          "section": "2.4",
+          "name": "point_density_footprint",
+          "fact": "Grid spatial resolution >=15 times one-beam footprint diameter; total footprint coverage should be comparable to or exceed the grid area; examples use different instruments.",
+          "implementation": "REFERENCE_QC_ONLY_NOT_AUTO_CERTIFIED"
+        },
+        {
+          "page": 25,
+          "section": "4.1-4.2",
+          "name": "bdas_green_laser_csv",
+          "fact": "Four ordered mesh CSV fields x(m), y(m), vegetation height(m), intensity; two decimal places for measured coordinates/height; metadata includes survey date, seaweed/seagrass type, coordinate system.",
+          "implementation": "SCHEMA_PRESCREEN_NOT_LIVE_BDAS_UPLOAD"
+        },
+        {
+          "page": 26,
+          "section": "5",
+          "name": "reference_method_version",
+          "fact": "Glossary cites an earlier J-Blue application handbook Ver.2.5, independently of user-provided J-Blue Ver.2.6.",
+          "implementation": "KEEP_GUIDANCE_VERSIONS_DISTINCT"
+        }
+      ]
+    },
+    {
+      "id": "MAFF_2025_HEAT_IMPACT_SUMMARY_R7",
+      "filename": "R7_概要＿温暖化対策レポ.pdf",
+      "title": "令和7年地球温暖化影響調査レポート（概要）",
+      "issuer": "農林水産省",
+      "edition": "令和7年対象（2025年1月～12月）",
+      "pages": 2,
+      "bytes": 773433,
+      "sha256": "4fa0408fcd5b574c6669c5db91ae22cc26406c699838bb4aa2ffd4f6d7b9b8a4",
+      "pdf_reference_url": null,
+      "content_scope": "CLIMATE_ADAPTATION_SURVEY_NOT_CARBON_CERTIFICATION",
+      "extracts": [
+        {
+          "page": 1,
+          "name": "heat_effects",
+          "fact": "Observed rice white immature grains caused by post-heading high temperatures; survey presents regional impact ranges rather than project-specific measurement."
+        },
+        {
+          "page": 2,
+          "name": "heat_tolerant_rice",
+          "fact": "2025: 44 prefectures adopted heat-tolerant rice cultivars, national share 18.2% of table rice and 249,000 ha; prefectural shares supplied as reported."
+        }
+      ]
+    },
+    {
+      "id": "NIES_JAPAN_GHG_INVENTORY_2026_CH5_AGRICULTURE",
+      "filename": "環境省・日本国温室効果ガスインベントリ2026.pdf",
+      "title": "National Greenhouse Gas Inventory Document of Japan 2026 第5章 農業分野",
+      "issuer": "国立環境研究所等（日本国GHGインベントリ）",
+      "edition": "2026公表・2024年度排出実績を含む",
+      "pages": 72,
+      "bytes": 2249767,
+      "sha256": "097ed2284acabea6a65806c0a5584275ff9fb50d0687a961a645ec6a73b175f3",
+      "pdf_reference_url": "https://www.env.go.jp/content/000398403.pdf",
+      "content_scope": "NATIONAL_INVENTORY_3C_NOT_JCREDIT_AG005_CREDIT_CALCULATION",
+      "extracts": [
+        {
+          "page": 1,
+          "section": "5.1",
+          "name": "agriculture_2024",
+          "value_kt_co2eq": "30278",
+          "fact": "Agriculture sector 2024 emissions were 30,278 kt-CO2eq."
+        },
+        {
+          "page": 35,
+          "section": "5.4 / 5.4.1",
+          "name": "rice_2024_ch4",
+          "value_kt_co2eq": "11841",
+          "fact": "2024 rice paddy CH4 reported as 11,841 kt-CO2eq; Japan's usual midseason drainage classified single aeration in the national inventory."
+        },
+        {
+          "page": 36,
+          "section": "5.4.1 b",
+          "name": "dndc_rice_model",
+          "fact": "DNDC-Rice Tier 3 emission factor modeling and modified Tier 2-based national emission calculation; regional area, drainage, water regime, organic matter and extension treatment enter the equation."
+        },
+        {
+          "page": 37,
+          "section": "5.4.1 b",
+          "name": "midseason_extension_reduction_national_assumption",
+          "value_percent": "30",
+          "fact": "The national inventory uses 30% reduction in CH4 EF for extension in its model. This does not imply individual field eligibility or a J-Credit approval."
+        },
+        {
+          "page": 38,
+          "section": "tables_5_44_to_5_45",
+          "name": "regional_factors",
+          "fact": "Tables give regional/year/scenario-specific organic input and emissions factors; no entire coefficients imported to the research preview until independent tabular verification."
+        }
+      ]
+    },
+    {
+      "id": "MAFF_JCREDIT_MIDSEASON_PAMPHLET_2026_05",
+      "filename": "Jクレジット活用_中干し.pdf",
+      "title": "J-クレジット制度を活用して稲作の中干し期間延長に取り組んでみませんか？",
+      "issuer": "農林水産省",
+      "edition": "令和8年5月版",
+      "pages": 2,
+      "bytes": 611162,
+      "sha256": "37471c2d7440f176dd674fedab407c5306ff15456650ec38e1d6ad54b7c79bba",
+      "pdf_reference_url": null,
+      "content_scope": "PUBLIC_INFORMATION_BROCHURE_NOT_CONTROLLING_AG005_METHODOLOGY",
+      "extracts": [
+        {
+          "page": 1,
+          "name": "extension_over_baseline",
+          "fact": "Midseason drainage extension of at least 7 days compared with most recent two or more years' prior duration, with required registration and review; pamphlet describes ~30% methane reduction as indicative."
+        },
+        {
+          "page": 2,
+          "name": "evidence_baseline",
+          "fact": "Two or more years of past midseason drainage management records."
+        },
+        {
+          "page": 2,
+          "name": "evidence_activity",
+          "fact": "Start/end dates, duration, date of heading, paddy area and regional location, previous crop organic inputs; drainage evidence optional with supporting measurements; photographs and objective records."
+        },
+        {
+          "page": 2,
+          "name": "farmer_safety_first",
+          "fact": "If over-dry and yield risks arise, stop extension and apply water as appropriate; the brochure says rewatering during the extension is not accepted for J-Credit issuance."
+        },
+        {
+          "page": 2,
+          "name": "hypothetical_price",
+          "fact": "5,000 JPY/tCO2 is only an explanatory assumed sales price (manager fees excluded); regional revenue examples are not market quotes."
+        }
+      ]
+    }
+  ],
+  "cross_document_rules": [
+    "MLIT manual references J-Blue handbook Ver.2.5 in glossary, whereas separate uploaded application handbook is Ver.2.6. Keep issuer/edition/role distinct.",
+    "NIES national inventory 30% extension model factor and MAFF educational brochure 30% explanatory claim do not authorize multiplying a project estimate into J-Credit supply.",
+    "MAFF 2025 climate adaptation rice cultivar shares are context variables, not an emission factor or direct carbon-credit quantifier.",
+    "No original PDF content uploaded to public GitHub; local exact SHA verification and human review are prerequisites to source-backed use.",
+    "J-Credit registry operations intentionally deferred to weekdays; never infer issuance/serial/custody from these PDFs."
+  ]
+}
