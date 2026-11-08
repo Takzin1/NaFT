@@ -1,0 +1,83 @@
+name: NaFT Blue Carbon Edition Bridge
+on:
+  pull_request:
+    paths:
+      - 'src/edition-bridge.mjs'
+      - 'scripts/bridge-bluecarbon.mjs'
+      - 'tests/edition-bridge.test.mjs'
+      - 'tests/run.sh'
+      - '.github/workflows/bluecarbon-edition-bridge.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'src/edition-bridge.mjs'
+      - 'scripts/bridge-bluecarbon.mjs'
+      - 'tests/edition-bridge.test.mjs'
+      - '.github/workflows/bluecarbon-edition-bridge.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  bluecarbon-to-naft:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout NaFT Core
+        uses: actions/checkout@v4
+        with:
+          path: naft-core
+      - name: Checkout pinned public Blue Carbon edition
+        uses: actions/checkout@v4
+        with:
+          repository: Takzin1/NaFT_BlueCarbon_MRV_Edition
+          ref: e09d109119d141e5a26a9906749ba322e82bfa2f
+          path: naft-blue
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Blue Carbon research regression
+        run: cd naft-blue && npm test
+      - name: NaFT bridge unit tests
+        run: node --test naft-core/tests/edition-bridge.test.mjs
+      - name: Generate Blue Carbon baseline and observation exports
+        run: |
+          cd naft-blue
+          node src/cli.mjs > "$RUNNER_TEMP/bluecarbon-baseline.json"
+          node --input-type=module -e '
+          import {demo} from "./src/demo.mjs";
+          import {syntheticObservations} from "./src/monitoring-demo.mjs";
+          import {compileProject} from "./src/core.mjs";
+          import {writeFile} from "node:fs/promises";
+          const project=Object.assign(structuredClone(demo),structuredClone(syntheticObservations));
+          const output={package:await compileProject(project),sourceProject:project};
+          await writeFile(process.env.RUNNER_TEMP+"/bluecarbon-observations.json",JSON.stringify(output));
+          '
+      - name: Import and independently replay both packages
+        run: |
+          node naft-core/scripts/bridge-bluecarbon.mjs "$RUNNER_TEMP/bluecarbon-baseline.json" > "$RUNNER_TEMP/naft-baseline-receipt.json"
+          node naft-core/scripts/bridge-bluecarbon.mjs "$RUNNER_TEMP/bluecarbon-observations.json" > "$RUNNER_TEMP/naft-observations-receipt.json"
+          node --input-type=module -e '
+          import {readFileSync} from "node:fs";
+          const a=JSON.parse(readFileSync(process.env.RUNNER_TEMP+"/naft-baseline-receipt.json"));
+          const b=JSON.parse(readFileSync(process.env.RUNNER_TEMP+"/naft-observations-receipt.json"));
+          if(a.claim_count!==3 || b.claim_count!==3 || a.certified_tco2e!==null ||
+             b.certified_tco2e!==null || b.claims.reduce((n,r)=>n+r.observation_rows,0)!==5 ||
+             a.total_research_estimate_tco2e!==b.total_research_estimate_tco2e ||
+             a.source_package_hash===b.source_package_hash) process.exit(1);
+          console.log("BLUECARBON_BRIDGE_E2E_PASS");
+          '
+      - name: Tampered input must fail
+        run: |
+          node -e '
+          const fs=require("node:fs");
+          const p=process.env.RUNNER_TEMP+"/bluecarbon-baseline.json";
+          const b=JSON.parse(fs.readFileSync(p));
+          b.sourceProject.claims[0].areaHa+=1;
+          fs.writeFileSync(process.env.RUNNER_TEMP+"/tampered.json",JSON.stringify(b));
+          '
+          if node naft-core/scripts/bridge-bluecarbon.mjs "$RUNNER_TEMP/tampered.json" > "$RUNNER_TEMP/forged.json"; then
+            echo "Tampered input unexpectedly accepted" >&2
+            exit 1
+          fi
+          echo "BLUECARBON_BRIDGE_TAMPER_REJECTED"
