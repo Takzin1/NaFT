@@ -1,0 +1,46 @@
+name: P26 Carbon Registry Offline Intake (NO MINT)
+on:
+  pull_request:
+    paths:
+      - "scripts/p26-global-registry-intake.py"
+      - "tests/p26-global-registry-intake.test.py"
+      - "data/registry-source-intake-2026-11-08/**"
+      - "research/registry-source-intake-2026-11-08/**"
+      - "docs/p26-global-carbon-registry-intake-ja-2026-11-08.md"
+      - ".github/workflows/p26-registry-intake.yml"
+  push:
+    branches: [main]
+    paths:
+      - "scripts/p26-global-registry-intake.py"
+      - "tests/p26-global-registry-intake.test.py"
+      - "data/registry-source-intake-2026-11-08/**"
+      - "research/registry-source-intake-2026-11-08/**"
+      - ".github/workflows/p26-registry-intake.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  verify-offline-intake:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Python static syntax
+        run: python -m py_compile scripts/p26-global-registry-intake.py tests/p26-global-registry-intake.test.py
+      - name: Test synthetic-source import and public-source reference gates
+        run: python tests/p26-global-registry-intake.test.py
+      - name: Assert no carbon credits minted
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          root=Path("research/registry-source-intake-2026-11-08")
+          s=json.loads((root/"sources.json").read_text())
+          assert s["raw_originals_committed"] is False
+          assert s["web3_mint_authorized"] is False
+          assert s["registry_rights_verified"] is False
+          print("P26_REGISTRY_INTAKE_TEST_PASS_NO_MINT")
+          PY
