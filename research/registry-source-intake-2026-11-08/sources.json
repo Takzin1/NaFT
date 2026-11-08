@@ -1,0 +1,79 @@
+{
+  "schema": "naft-p26-carbon-registry-source-register/1",
+  "registered_on": "2026-11-08",
+  "snapshot_date": "2026-08-31",
+  "dataset_scope": "RESEARCH_ONLY_NO_CARBON_CREDIT_ISSUANCE",
+  "actual_registry_authentication": false,
+  "registry_rights_verified": false,
+  "web3_mint_authorized": false,
+  "sources": [
+    {
+      "id": "BERKELEY_VROD_2026_08",
+      "filename": "Voluntary-Registry-Offsets-Database--v2026-08.xlsx",
+      "sha256": "cda76b917a574713d040ea27a5098cd77f14f33bc87aa9dfafaf87a3f329cd88",
+      "bytes": 16668837,
+      "worksheets": 10,
+      "project_count_published": 11856,
+      "through_date": "2026-08-31",
+      "source_sheet": "PROJECTS",
+      "header_row": 4,
+      "first_data_row": 5,
+      "license": "CC BY 4.0 (as declared in workbook READ FIRST!A8)",
+      "redistribute_normalized_project_index": true,
+      "attribution": "Pamela Quartson, Barbara K Haya, Tyler Bernard, Aline Abayo, Xinyun Rong, Ivy S So, Micah Elias. (2026). Voluntary Registry Offsets Database v2026-08, Berkeley Carbon Trading Project, University of California, Berkeley.",
+      "source_homepage": "https://gspp.berkeley.edu/berkeley-carbon-trading-project/offsets-database",
+      "source_quality": "RESEARCH_HARMONIZED_SECONDARY_DATABASE_NOT_LIVE_REGISTRY_OR_VERIFIED_HOLDINGS",
+      "republication_note": "Maintain CC BY 4.0 credit, version, source and any adaptations. Underlying projects may incorporate records from third-party registries."
+    },
+    {
+      "id": "BERKELEY_VROD_REGISTRY_FILES_2026_08",
+      "filename": "VROD-registry-files--2026-08.xlsx",
+      "sha256": "16250bcd0cf1b674b143b3360bb429deb884abbe8786f6ed14c25d01c84e2814",
+      "bytes": 66816465,
+      "worksheets": 31,
+      "through_date": "2026-08-31",
+      "source_homepage": "https://gspp.berkeley.edu/berkeley-carbon-trading-project/offsets-database",
+      "license": "RIGHTS_REVIEW_REQUIRED_PER_UPSTREAM_REGISTRY",
+      "redistribute_original": false,
+      "redist_normalized_serial_rows": false,
+      "source_quality": "PUBLISHED_REGISTRY_DOWNLOAD_BUNDLE_SECONDARY_COPY_NOT_LIVE_AUTHENTICATED_REGISTRY",
+      "note": "Includes ACR/CAR/ART/Verra/Gold Standard/Isometric and policy-scope annexes. Registry-issued serials must not be treated as user custody proof."
+    },
+    {
+      "id": "JBLUE_LEDGER_2026_10_16",
+      "filename": "ブルーカーボン.pdf",
+      "sha256": "582955f4babf1e7a18b81fa4af6d1b939d70f06516b90fa9713a0a0f90cd5d2b",
+      "bytes": 894009,
+      "pages": 1,
+      "title": "Jブルークレジット クレジット管理簿（シリアル番号一括表示版）ver5.0",
+      "snapshot_date": "2026-10-16",
+      "source_homepage": "https://www.blueeconomy.jp/credit/",
+      "license": "PUBLIC_BULLETIN_NOT_PERMISSION_TO_REPUBLISH_OR_TOKENIZE",
+      "redistribute_original": false,
+      "extraction_method": "MANUAL_REVIEWED_SMALL_EXAMPLES_ONLY",
+      "source_quality": "PUBLIC_HISTORICAL_REGISTRY_SNAPSHOT_NOT_LIVE_CUSTODY"
+    },
+    {
+      "id": "JBLUE_FEES_2026_06_29",
+      "filename": "BlueCarbon2026:6:29.pdf",
+      "sha256": "c2745249acebaf98422232e2e563e49607ac588266eedc9306063f069ef743e9",
+      "bytes": 123466,
+      "pages": 2,
+      "title": "Ｊブルークレジット 各種手数料一覧",
+      "snapshot_date": "2026-06-29",
+      "source_homepage": "https://www.blueeconomy.jp/credit/",
+      "license": "FEE_BULLETIN_REPUBLICATION_NOT_ESTABLISHED",
+      "redistribute_original": false,
+      "extraction_method": "SMALL_FACTUAL_FEE_EXTRACT_WITH_PAGE_AND_SECTION",
+      "source_quality": "HISTORICAL_FEE_SCHEDULE_NOT_CURRENT_QUOTE_OR_MARKET_PRICE"
+    }
+  ],
+  "raw_originals_committed": false,
+  "normalized_vrod_projects_full_local_only": true,
+  "public_repository_rules": [
+    "Never commit the 64MB registry-source workbook, original J-Blue PDFs, personal account identifiers, original detailed serial tables or business-sensitive evidence without rights review.",
+    "CC BY 4.0 Berkeley project summaries may be locally normalized with attribution; generated NDJSON is not proof of live issuance, custody or transfer permission.",
+    "Always preserve source SHA-256 and snapshot date. Missing fields remain null. Never equate serial count with tCO2e without a regime-specific denomination.",
+    "No registry or token contract permission is inferred from public source disclosure."
+  ]
+}
