@@ -19,6 +19,7 @@
 | 領域 | ドキュメント |
 | --- | --- |
 | 版管理と変更影響解析の構成 | [アーキテクチャ](architecture.md)、[データモデル](data-model.md) |
+| Why/Where来歴理論の研究用実装（添付論文2本） | [Why/Where Provenance Foundations](provenance-why-where-foundations.md)、[論文根拠台帳](../research/literature-2026-11-08/provenance-foundations.json) |
 | 例外判断・最終確認の条件 | [Human-in-the-loop](human-in-the-loop.md) |
 | AG-005/AG-004の制度資料と未確認部分 | [方法論出典](methodology-sources.md)、[現行版の判定境界](ja-ag005-gxets-cost-sync.md) |
 | ルール群の比較、条項→証憑→Claimの追跡 | [制度別比較](p1-method-comparison-ja-2026-11-02.md)、[条項・証憑の追跡](p5-clause-evidence-trace-ja-2026-11-02.md) |
