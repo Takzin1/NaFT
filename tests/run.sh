@@ -6,6 +6,7 @@ node tests/readme-docs-contract.test.mjs
 node tests/provenance-why-where.test.js
 node tests/opm-fair-interop.test.js
 node tests/incremental-compiler-research.test.js
+node scripts/benchmark-incremental-research.js
 node tests/japanflux-jp-hrt-thesis-lineage.test.mjs
 node tests/japanflux-tellus-ec-reference.test.mjs
 node tests/rice-standards-source-gate.test.mjs
