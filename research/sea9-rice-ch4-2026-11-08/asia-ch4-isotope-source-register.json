@@ -1,0 +1,102 @@
+{
+  "schema": "naft-p27-asia-ch4-isotope-source-register/1",
+  "registered_on": "2026-11-08",
+  "source": {
+    "filename": "Isotope_CH4_source_inventory_Asia_ver.1.0.csv",
+    "bytes": 10393,
+    "sha256": "c9cd4a7191890f58171af7973ded1ce0e24e31bd7c0c7ad552481780af21152a",
+    "reference_url": "https://www.nies.go.jp/doi/10.17595/20260317.001.html",
+    "research_institution_reference": "National Institute for Environmental Studies (NIES)",
+    "version_from_filename": "1.0",
+    "licensing": "NO_LICENSE_TEXT_IN_UPLOADED_CSV_REVIEW_OFFICIAL_REUSE_TERMS_BEFORE_PUBLIC_RAW_REPUBLISHING",
+    "full_original_rows_committed": false
+  },
+  "columns": [
+    "COUNTRY",
+    "STATE_REGION",
+    "GROUP_TYPE",
+    "GROUP",
+    "CATEGORY",
+    "SUB_CATEGORY",
+    "LONGITUDE",
+    "LATITUDE",
+    "SAMPLING_DATE",
+    "d13C_CH4",
+    "Unc_d13C_CH4",
+    "C2C1_ratio",
+    "Unc_C2C1_ratio",
+    "N_AirSample",
+    "AirSample_ID",
+    "COMMENTS"
+  ],
+  "shape": {
+    "source_data_rows_after_header": 95,
+    "non_empty_rows": 70,
+    "empty_trailing_rows": 25,
+    "columns": 16,
+    "years_observed": [
+      2021,
+      2022,
+      2023,
+      2024,
+      2025
+    ],
+    "countries_observed": [
+      "Japan",
+      "Thailand",
+      "Bangladesh"
+    ],
+    "country_counts": {
+      "Japan": 54,
+      "Thailand": 12,
+      "Bangladesh": 4
+    },
+    "category_counts": {
+      "landfill": 55,
+      "sewage": 8,
+      "rice paddies": 4,
+      "gas leak": 2,
+      "crop": 1
+    },
+    "reported_air_sample_count_sum": 383,
+    "c2c1_values_present_in_rows": 3,
+    "blank_ratio_rows": 92
+  },
+  "rice_field_subset": {
+    "rows": 4,
+    "by_country": {
+      "Japan": {
+        "rows": 2,
+        "reported_d13c": [
+          "-67.7",
+          "-58.2"
+        ]
+      },
+      "Bangladesh": {
+        "rows": 2,
+        "reported_d13c": [
+          "-59.8",
+          "-62.8"
+        ]
+      }
+    },
+    "note": "The 4 rice-paddy isotope source signatures are not a rice CH4 surface flux measurement or carbon credit factor. Neither Japan nor Bangladesh is a member of the SEA-9 inventory."
+  },
+  "semantics": {
+    "d13c": "OBSERVED_STABLE_C_ISOTOPE_SIGNATURE;UNIT_NOT_EXPLICIT_IN_CSV_HEADER_CONFIRM_ORIGINAL_METADATA",
+    "uncertainty": "REPORTED_ANALYTICAL_UNCERTAINTY_NOT_A_PER_PLOT_CH4_FLUX_ERROR",
+    "c2c1": "SOURCE_COMPOSITION_INDICATOR_NOT_CONCENTRATION_OR_EMISSION",
+    "nairsample": "REPORTED_SAMPLE_COUNT_PER_SOURCE_GROUP_NOT_INDEPENDENT_FIELD_REPLICATES",
+    "spatial": "SAMPLING_COORDINATES_OF_SOURCES_NOT_PROJECT_REGISTRY_PARCELS",
+    "source_scope": "THAILAND_ROWS_OVERLAP_SEA9_COUNTRY_SET;OTHER_ROWS_JAPAN_AND_BANGLADESH_DO_NOT;NO_DIRECT_GRID_CELL_JOIN_WITHOUT_SPATIAL_REVIEW"
+  },
+  "republication": {
+    "row_level_original_committed": false,
+    "category_level_summary_only": true,
+    "local_replay_allowed": true,
+    "original_csv_copy_in_github": false
+  },
+  "no_credit_issuance": true,
+  "certified_tco2e": null,
+  "web3_mint_authorized": false
+}
