@@ -1,0 +1,134 @@
+{
+  "schema": "naft-p27-sea9-zenodo-package-intake/1",
+  "registered_on": "2026-11-08",
+  "source": {
+    "uploaded_filename": "zenodo_package_v1.0.0.zip",
+    "archive_sha256": "41750fd4d1e1b83a0a5855808d9b9cbed78eebbfa2282c331cf1602cdc635b09",
+    "archive_bytes": 3863169,
+    "extracted_bytes": 41913541,
+    "total_regular_files": 53,
+    "file_types": {
+      "python_scripts": 22,
+      "csv": 13,
+      "netcdf_hdf5": 8,
+      "npz": 2,
+      "other_metadata_or_json": 8
+    },
+    "version": "1.0.0",
+    "archive_root": "zenodo_package/",
+    "authors": [
+      "Gianmarco Goycochea Casas",
+      "Zool Hilmi Ismail"
+    ],
+    "title": "Rice CH4 inventory and validation data + code for Southeast Asia (0.1 deg, 2020-2021)",
+    "record_identifier": "DOI_NOT_PRESENT_IN_UPLOADED_ARCHIVE",
+    "manuscript": "Emission factors dominate the rice methane gap with EDGAR in Southeast Asia: a 10 m harvested-area assessment",
+    "manuscript_reference": "RSASE-D-26-01078",
+    "manuscript_status_as_stated_in_package": "UNDER_REVIEW_NOT_PEER_REVIEWED",
+    "code_license": "MIT",
+    "data_license": "CC-BY-4.0",
+    "license_source": "LICENSE and CITATION.cff included in uploaded ZIP",
+    "upstream_inputs_not_in_archive": [
+      "Open-SEA-Rice-10 247 source tiles",
+      "JRC EDGAR gridded original inputs",
+      "Peat-ML original",
+      "Natural Earth admin-0",
+      "TROPOMI Earth Engine input"
+    ],
+    "rebuild_notice": "README states approximately 30 GB of raw upstream inputs required. Provided archive has derived outputs only.",
+    "commercial_reuse": "Possible under indicated archive licenses with citation, attribution and change indication; check external upstream data rights before further redistribution."
+  },
+  "scope": {
+    "region": "SOUTHEAST_ASIA_9",
+    "countries": [
+      "Indonesia",
+      "Timor-Leste",
+      "Malaysia",
+      "Philippines",
+      "Vietnam",
+      "Thailand",
+      "Cambodia",
+      "Laos",
+      "Myanmar"
+    ],
+    "years": [
+      2020,
+      2021
+    ],
+    "grid_resolution_degrees": 0.1,
+    "study_type": "REGIONAL_RICE_CH4_BOTTOM_UP_INVENTORY_NOT_PROJECT_MRV",
+    "primary_model": "IPCC 2019 Refinement Tier 2",
+    "grid_cells": [
+      400,
+      500
+    ],
+    "mc_samples": 2000,
+    "full_window_tg_ch4_per_year": "6.745447945582598",
+    "admin_masked_9country_tg_ch4_per_year": "6.61379599873184",
+    "edgar_v8_9country_tg_ch4_per_year": "9.910227",
+    "mc_mean_tg_ch4_per_year": "7.229279330705696",
+    "mc_p05_tg_ch4_per_year": "3.855539397332934",
+    "mc_p95_tg_ch4_per_year": "12.308781053231414",
+    "mc_sd_sample_tg_ch4_per_year": "2.6342806422280782",
+    "edgar_country_sum_rounding_discrepancy_gg": "0.0001748046875",
+    "critical_scope_distinction": "6.745 is full bounding-window grid sum; 6.614 is country-mask sum. Different spatial supports; do not claim discrepancy as calculation error.",
+    "README_area_units_warning": "README states 28.98 × 10^3 ha growing and 43.52 × 10^3 ha harvested; source JSON gives sea_growing_kha=28979.929 (28.98 million ha). Preserve original wording and flag unit inconsistency; no silent correction."
+  },
+  "content_integrity": {
+    "nc_examples": [
+      {
+        "path": "data/ch4_inventory_0p1deg.nc",
+        "bytes": 17224387,
+        "sha256": "98f7c568beb30edfbc29bb420dc2c7689a24de54779f050b14284ff3f4ab3877"
+      },
+      {
+        "path": "data/open_sea_rice10_0p1deg.nc",
+        "bytes": 6416253,
+        "sha256": "9b4c86e4fc44fecb92ba1d49d3705b10929c66472fe35b5044f4660aad771639"
+      },
+      {
+        "path": "data/country_fraction_mask_0p1deg.nc",
+        "bytes": 7215536,
+        "sha256": "0ba8240dae05bf8951697e42f7d11942284fec2fa8b289d75be17508f0a90f00"
+      }
+    ],
+    "npz": [
+      {
+        "path": "data/ch4_mc_params.npz",
+        "sha256": "2999e58414cca8a081156153bd670da24238a432ecc5a4e3a11042160acae78c",
+        "samples": 2000
+      },
+      {
+        "path": "data/ch4_mc_sea_total.npz",
+        "sha256": "b6cd420e945fec1cb05b7d76afd0abce0b2862a5bbf5d706a128d80e5e36e3aa",
+        "samples": 2000
+      }
+    ],
+    "source_csv": {
+      "path": "data/ch4_country_comparison.csv",
+      "sha256": "fbbf8a8ed6bfe36bb5b9e205ef49c5d9572fdac49cdea378fabcd454aa8bfd26"
+    },
+    "source_mc_diagnostics": {
+      "path": "data/ch4_mc_diagnostics.json",
+      "sha256": "83d5341b63472ce4f0ee2ab5b898e771e61bf9b98aa2c8b2868c54bfa8b5b14e"
+    }
+  },
+  "github_integration": {
+    "mode": "SMALL_SOURCE_DERIVATIVES_AND_FULL_OFFLINE_LOCAL_INGESTION",
+    "binary_netcdf_and_npz_committed": false,
+    "original_53_file_archive_committed": false,
+    "upstream_22_scripts_committed": false,
+    "added_repo_data": [
+      "9-country summary",
+      "Monte Carlo diagnostics"
+    ],
+    "whole_zip_local_sha_verified": true,
+    "full_local_member_sha_manifest_generated": true,
+    "raw_code_never_executed": true,
+    "no_live_registry_access": true,
+    "no_field_measurement_verified": true,
+    "carbon_credits_issued": false,
+    "certified_tco2e": null,
+    "web3_mint_authorized": false
+  }
+}
