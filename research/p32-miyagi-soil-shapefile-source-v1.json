@@ -1,0 +1,420 @@
+{
+  "schema": "naft-p32-miyagi-soil-shapefile-v1",
+  "source": {
+    "provided_filename": "宮城県(1).zip",
+    "source_zip_sha256": "d6f9d7f637ae210d269c806aafcea6b9498c9cc3ff37068db4ae012bc6606c4f",
+    "zip_bytes": 10603446,
+    "zip_entries": 7,
+    "uncompressed_bytes": 16787142,
+    "member_folder": "k04宮城県",
+    "members": [
+      {
+        "name": "k4宮城県.dbf",
+        "bytes": 1743978,
+        "sha256": "6742ab2cbeb4eb8913dd996046f344a099d16cdd5007b56a9ebf412ae419abce"
+      },
+      {
+        "name": "k4宮城県.prj",
+        "bytes": 145,
+        "sha256": "d1de156bb748892db7642d045767629921ea76cc06597e25cea2411b12e7b0b2"
+      },
+      {
+        "name": "k4宮城県.sbn",
+        "bytes": 15756,
+        "sha256": "a04d5a88a2bf8c3f57a3228ceaa5a91549406da5195a25d9ee58b6de0986acd0"
+      },
+      {
+        "name": "k4宮城県.sbx",
+        "bytes": 1028,
+        "sha256": "7ef682caa5520493ace9f8f75a176536240b0978a546d2c3176c1b99e408fc30"
+      },
+      {
+        "name": "k4宮城県.shp",
+        "bytes": 14907768,
+        "sha256": "9036576c9726607909da86de4ed218db0fe69d7fe8ec50846ac176bf38b94221"
+      },
+      {
+        "name": "k4宮城県.shp.xml",
+        "bytes": 105663,
+        "sha256": "18d7e8f0d84f8465afc3f0389533dbc2ed42508fe4907b25251736c591e2c747"
+      },
+      {
+        "name": "k4宮城県.shx",
+        "bytes": 12804,
+        "sha256": "b2f762a60ecb5672ae512b63511ebc4b8fdf7cb1818099f80a3d4d44d4a729fa"
+      }
+    ],
+    "metadata_creation_date": "2017-01-17",
+    "publisher_authentication": "NOT_VERIFIED",
+    "redistribution_rights": "NOT_VERIFIED",
+    "original_zip_committed": false,
+    "raw_geometry_committed": false
+  },
+  "geometry": {
+    "type": "POLYGON",
+    "shape_count": 1588,
+    "crs": "GCS_JGD_2000",
+    "bounds_lon_lat": [
+      140.28617994472927,
+      37.750934461853944,
+      141.67068446607755,
+      38.981866385479684
+    ],
+    "administrative_code_units": 39,
+    "sendai_ward_units": 5,
+    "municipality_equivalent_groups": 35,
+    "sicho_unique_values": [
+      ""
+    ],
+    "administrative_codes_are_five_digit": true
+  },
+  "fields": [
+    "地目区分",
+    "包括_統群",
+    "統群コード",
+    "亜群コード",
+    "群コード",
+    "JCODE",
+    "KEN_1",
+    "SICHO",
+    "GUN",
+    "SIKUCHOSON"
+  ],
+  "feature_counts_by_landuse": {
+    "田": 625,
+    "普通畑": 551,
+    "牧草地": 216,
+    "樹園地": 196
+  },
+  "soil_group_code_categories": 16,
+  "soil_fine_class_categories": 96,
+  "administrative_units_counts_by_landuse": [
+    [
+      "04101",
+      "青葉区",
+      22,
+      13,
+      1,
+      4
+    ],
+    [
+      "04102",
+      "宮城野区",
+      9,
+      3,
+      0,
+      0
+    ],
+    [
+      "04103",
+      "若林区",
+      9,
+      6,
+      0,
+      0
+    ],
+    [
+      "04104",
+      "太白区",
+      31,
+      24,
+      7,
+      5
+    ],
+    [
+      "04105",
+      "泉区",
+      16,
+      10,
+      5,
+      2
+    ],
+    [
+      "04202",
+      "石巻市",
+      28,
+      31,
+      11,
+      8
+    ],
+    [
+      "04203",
+      "塩竃市",
+      4,
+      5,
+      1,
+      1
+    ],
+    [
+      "04205",
+      "気仙沼市",
+      20,
+      25,
+      8,
+      9
+    ],
+    [
+      "04206",
+      "白石市",
+      20,
+      19,
+      8,
+      9
+    ],
+    [
+      "04207",
+      "名取市",
+      18,
+      19,
+      4,
+      6
+    ],
+    [
+      "04208",
+      "角田市",
+      14,
+      16,
+      3,
+      9
+    ],
+    [
+      "04209",
+      "多賀城市",
+      13,
+      6,
+      0,
+      0
+    ],
+    [
+      "04211",
+      "岩沼市",
+      14,
+      13,
+      0,
+      5
+    ],
+    [
+      "04212",
+      "登米市",
+      31,
+      29,
+      16,
+      22
+    ],
+    [
+      "04213",
+      "栗原市",
+      37,
+      35,
+      26,
+      13
+    ],
+    [
+      "04214",
+      "東松島市",
+      15,
+      14,
+      4,
+      5
+    ],
+    [
+      "04215",
+      "大崎市",
+      43,
+      40,
+      25,
+      8
+    ],
+    [
+      "04301",
+      "蔵王町",
+      15,
+      19,
+      6,
+      15
+    ],
+    [
+      "04302",
+      "七ケ宿町",
+      12,
+      9,
+      8,
+      2
+    ],
+    [
+      "04321",
+      "大河原町",
+      7,
+      7,
+      3,
+      4
+    ],
+    [
+      "04322",
+      "村田町",
+      11,
+      11,
+      7,
+      5
+    ],
+    [
+      "04323",
+      "柴田町",
+      8,
+      6,
+      1,
+      3
+    ],
+    [
+      "04324",
+      "川崎町",
+      19,
+      21,
+      9,
+      4
+    ],
+    [
+      "04341",
+      "丸森町",
+      17,
+      15,
+      7,
+      12
+    ],
+    [
+      "04361",
+      "亘理町",
+      15,
+      15,
+      2,
+      10
+    ],
+    [
+      "04362",
+      "山元町",
+      14,
+      15,
+      5,
+      11
+    ],
+    [
+      "04401",
+      "松島町",
+      11,
+      9,
+      1,
+      1
+    ],
+    [
+      "04404",
+      "七ケ浜町",
+      3,
+      4,
+      0,
+      0
+    ],
+    [
+      "04406",
+      "利府町",
+      9,
+      9,
+      1,
+      5
+    ],
+    [
+      "04421",
+      "大和町",
+      14,
+      9,
+      5,
+      1
+    ],
+    [
+      "04422",
+      "大郷町",
+      11,
+      13,
+      2,
+      0
+    ],
+    [
+      "04423",
+      "富谷町",
+      6,
+      6,
+      1,
+      2
+    ],
+    [
+      "04424",
+      "大衡村",
+      10,
+      3,
+      2,
+      1
+    ],
+    [
+      "04444",
+      "色麻町",
+      19,
+      14,
+      10,
+      1
+    ],
+    [
+      "04445",
+      "加美町",
+      30,
+      18,
+      8,
+      1
+    ],
+    [
+      "04501",
+      "涌谷町",
+      14,
+      10,
+      5,
+      1
+    ],
+    [
+      "04505",
+      "美里町",
+      15,
+      10,
+      6,
+      3
+    ],
+    [
+      "04581",
+      "女川町",
+      4,
+      4,
+      0,
+      1
+    ],
+    [
+      "04606",
+      "南三陸町",
+      17,
+      16,
+      8,
+      7
+    ]
+  ],
+  "historic_place_names_as_source": [
+    "富谷町"
+  ],
+  "scientific_boundaries": {
+    "count_unit": "polygon feature rows, not area hectares",
+    "soil_carbon_measured": false,
+    "field_ch4_measured": false,
+    "no_sicho_subprefecture_in_source": true,
+    "administrative_ward_not_an_independent_municipality": true,
+    "contemporary_ground_truth_not_verified": true,
+    "calculation_of_certified_credits_prohibited": true,
+    "official_credit_tco2e": null,
+    "raw_geometry_licensed_for_publication": false,
+    "correlation_with_2024_rice_stats_not_validated": true
+  }
+}
