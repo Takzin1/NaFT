@@ -1,0 +1,302 @@
+{
+  "schema": "naft-p34-akita-soil-shapefile-v1",
+  "source": {
+    "provided_filename": "秋田県(1).zip",
+    "source_zip_sha256": "3c5b27c3d7da16265add6de7958e10d0cd7cee286d7de093d8f3df760621fa34",
+    "zip_bytes": 10481614,
+    "zip_entries": 7,
+    "uncompressed_bytes": 16098322,
+    "member_folder": "k05秋田県",
+    "members": [
+      {
+        "name": "k5秋田県.dbf",
+        "bytes": 1148862,
+        "sha256": "d4542f908e90493f4731ba93388ba6499c7400d385a127f2b6337cb26a382e36"
+      },
+      {
+        "name": "k5秋田県.prj",
+        "bytes": 145,
+        "sha256": "d1de156bb748892db7642d045767629921ea76cc06597e25cea2411b12e7b0b2"
+      },
+      {
+        "name": "k5秋田県.sbn",
+        "bytes": 11348,
+        "sha256": "3a47f24bd6a2db866052744f4399b0dd5ba64fec6bd58a598525e4e25dbed118"
+      },
+      {
+        "name": "k5秋田県.sbx",
+        "bytes": 988,
+        "sha256": "3171696f6edc1fb36e0e3103afac8f691b622de1abe797e95a6ffe4f29c38ddf"
+      },
+      {
+        "name": "k5秋田県.shp",
+        "bytes": 14822848,
+        "sha256": "4c3a9e4596bb2234c171f7d206b3117474a1628adf42f29c6fa24036e9c02342"
+      },
+      {
+        "name": "k5秋田県.shp.xml",
+        "bytes": 105663,
+        "sha256": "dfc7104b898426b20be7fe281e25b001fb860a75ad6454b0bb07231bd7c14849"
+      },
+      {
+        "name": "k5秋田県.shx",
+        "bytes": 8468,
+        "sha256": "118d733c73769183ae1ce027c1bfe5024e33bcaabfbbdf4a17ff2c98c5bcdde8"
+      }
+    ],
+    "metadata_creation_date": "2017-01-17",
+    "publisher_authentication": "NOT_VERIFIED",
+    "redistribution_rights": "NOT_VERIFIED",
+    "original_zip_committed": false,
+    "raw_geometry_committed": false
+  },
+  "geometry": {
+    "type": "POLYGON",
+    "shape_count": 1046,
+    "crs": "GCS_JGD_2000",
+    "bounds_lon_lat": [
+      139.69867954562713,
+      38.9384878368476,
+      140.97844407518144,
+      40.42182813770626
+    ],
+    "municipalities": 25,
+    "sicho_unique_values": [
+      ""
+    ],
+    "municipality_codes_are_five_digit": true
+  },
+  "fields": [
+    "地目区分",
+    "包括_統群",
+    "統群コード",
+    "亜群コード",
+    "群コード",
+    "JCODE",
+    "KEN_1",
+    "SICHO",
+    "GUN",
+    "SIKUCHOSON"
+  ],
+  "feature_counts_by_landuse": {
+    "田": 432,
+    "普通畑": 342,
+    "牧草地": 113,
+    "樹園地": 159
+  },
+  "soil_group_code_categories": 17,
+  "soil_fine_class_categories": 79,
+  "municipalities_counts_by_landuse": [
+    [
+      "05201",
+      "秋田市",
+      29,
+      26,
+      6,
+      10
+    ],
+    [
+      "05202",
+      "能代市",
+      32,
+      25,
+      5,
+      5
+    ],
+    [
+      "05203",
+      "横手市",
+      29,
+      28,
+      8,
+      23
+    ],
+    [
+      "05204",
+      "大館市",
+      21,
+      21,
+      5,
+      10
+    ],
+    [
+      "05206",
+      "男鹿市",
+      15,
+      12,
+      5,
+      4
+    ],
+    [
+      "05207",
+      "湯沢市",
+      24,
+      16,
+      3,
+      20
+    ],
+    [
+      "05209",
+      "鹿角市",
+      10,
+      11,
+      6,
+      8
+    ],
+    [
+      "05210",
+      "由利本荘市",
+      29,
+      25,
+      14,
+      7
+    ],
+    [
+      "05211",
+      "潟上市",
+      9,
+      3,
+      0,
+      2
+    ],
+    [
+      "05212",
+      "大仙市",
+      35,
+      30,
+      18,
+      16
+    ],
+    [
+      "05213",
+      "北秋田市",
+      11,
+      12,
+      5,
+      6
+    ],
+    [
+      "05214",
+      "にかほ市",
+      19,
+      13,
+      4,
+      3
+    ],
+    [
+      "05215",
+      "仙北市",
+      34,
+      21,
+      12,
+      5
+    ],
+    [
+      "05303",
+      "小坂町",
+      7,
+      5,
+      1,
+      2
+    ],
+    [
+      "05327",
+      "上小阿仁村",
+      5,
+      7,
+      2,
+      1
+    ],
+    [
+      "05346",
+      "藤里町",
+      12,
+      9,
+      0,
+      3
+    ],
+    [
+      "05348",
+      "三種町",
+      15,
+      13,
+      6,
+      5
+    ],
+    [
+      "05349",
+      "八峰町",
+      18,
+      13,
+      0,
+      3
+    ],
+    [
+      "05361",
+      "五城目町",
+      10,
+      8,
+      0,
+      3
+    ],
+    [
+      "05363",
+      "八郎潟町",
+      6,
+      2,
+      0,
+      1
+    ],
+    [
+      "05366",
+      "井川町",
+      9,
+      4,
+      2,
+      2
+    ],
+    [
+      "05368",
+      "大潟村",
+      9,
+      3,
+      1,
+      1
+    ],
+    [
+      "05434",
+      "美郷町",
+      21,
+      13,
+      5,
+      9
+    ],
+    [
+      "05463",
+      "羽後町",
+      14,
+      16,
+      3,
+      9
+    ],
+    [
+      "05464",
+      "東成瀬村",
+      9,
+      6,
+      2,
+      1
+    ]
+  ],
+  "scientific_boundaries": {
+    "count_unit": "polygon feature rows, not area hectares",
+    "soil_carbon_measured": false,
+    "field_ch4_measured": false,
+    "no_sicho_subprefecture_in_source": true,
+    "contemporary_ground_truth_not_verified": true,
+    "calculation_of_certified_credits_prohibited": true,
+    "official_credit_tco2e": null,
+    "raw_geometry_licensed_for_publication": false,
+    "correlation_with_2024_rice_stats_not_validated": true
+  }
+}

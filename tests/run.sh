@@ -40,6 +40,8 @@ python3 scripts/p32-miyagi-soil-audit.py audit
 node tests/p32-miyagi-soil-gis.test.mjs
 python3 scripts/p33-yamagata-soil-audit.py audit
 node tests/p33-yamagata-soil-gis.test.mjs
+python3 scripts/p34-akita-soil-audit.py audit
+node tests/p34-akita-soil-gis.test.mjs
 node tests/p11-real-chamber-source-audit.test.mjs
 node tests/p11-rice-chromatography-guard.test.mjs
 node tests/p12-estat-2025-original-source.test.mjs
