@@ -1,0 +1,490 @@
+{
+  "schema": "naft-p36-ibaraki-soil-shapefile-v1",
+  "source": {
+    "provided_filename": "茨城県.zip",
+    "source_zip_sha256": "af1bbf9d3c12eb51137e9ec8686f1255010eafa2e5424466a8d39b262d11a44f",
+    "zip_bytes": 16098958,
+    "zip_entries": 7,
+    "uncompressed_bytes": 24405160,
+    "member_folder": "k08茨城県",
+    "members": [
+      {
+        "name": "k8茨城県.dbf",
+        "bytes": 1466184,
+        "sha256": "df1b0f83e16b41dc942e1a270bc86be3bd53c231ef683912f01b8746685ccb51"
+      },
+      {
+        "name": "k8茨城県.prj",
+        "bytes": 145,
+        "sha256": "d1de156bb748892db7642d045767629921ea76cc06597e25cea2411b12e7b0b2"
+      },
+      {
+        "name": "k8茨城県.sbn",
+        "bytes": 13732,
+        "sha256": "ee5063b3cfde930cd2eef95a7ab64593f49fa1d29a51ec198854ec05311399f0"
+      },
+      {
+        "name": "k8茨城県.sbx",
+        "bytes": 1068,
+        "sha256": "2d064d9a843612ba7bb435d4d8d0b6bca3e230f0d3684f1b26b9d1a66abbe1b8"
+      },
+      {
+        "name": "k8茨城県.shp",
+        "bytes": 22807588,
+        "sha256": "5e7e9ec69868eb09c91fa81b6c2422591d45d0883c7e0446930f6ac4b0aaf3b4"
+      },
+      {
+        "name": "k8茨城県.shp.xml",
+        "bytes": 105663,
+        "sha256": "b5fef86bb0883632a74796540919c48b5465feabb22db874526344d9c2eab4fb"
+      },
+      {
+        "name": "k8茨城県.shx",
+        "bytes": 10780,
+        "sha256": "54c4b581a99655f6b3f79f1280e689bf27cbd4396b07ac51824427277fde2acf"
+      }
+    ],
+    "metadata_creation_date": "2017-01-17",
+    "publisher_authentication": "NOT_VERIFIED",
+    "redistribution_rights": "NOT_VERIFIED",
+    "original_zip_committed": false,
+    "raw_geometry_committed": false,
+    "likely_source_publisher": "農研機構（NARO）・日本土壌インベントリー",
+    "source_candidate_url": "https://soil-inventory.rad.naro.go.jp/download5.html",
+    "source_match": "CONSISTENT_METADATA_NO_OFFICIAL_ZIP_SHA_COMPARISON"
+  },
+  "geometry": {
+    "type": "POLYGON",
+    "shape_count": 1335,
+    "crs": "GCS_JGD_2000",
+    "bounds_lon_lat": [
+      139.69294608540187,
+      35.74898638062405,
+      140.8214158357868,
+      36.933077667152084
+    ],
+    "municipality_name_count": 44,
+    "unique_jcodes": 44,
+    "administrative_code_name_pairs": 45,
+    "sicho_unique_values": [
+      ""
+    ],
+    "jcodes_are_five_digit": true
+  },
+  "fields": [
+    "地目区分",
+    "包括_統群",
+    "統群コード",
+    "亜群コード",
+    "群コード",
+    "JCODE",
+    "KEN_1",
+    "SICHO",
+    "GUN",
+    "SIKUCHOSON"
+  ],
+  "feature_counts_by_landuse": {
+    "田": 472,
+    "普通畑": 504,
+    "牧草地": 105,
+    "樹園地": 254
+  },
+  "soil_group_code_categories": 13,
+  "soil_fine_class_categories": 51,
+  "jcode_name_pairs_counts_by_landuse": [
+    [
+      "08201",
+      "水戸市",
+      18,
+      20,
+      6,
+      12
+    ],
+    [
+      "08202",
+      "日立市",
+      5,
+      9,
+      3,
+      3
+    ],
+    [
+      "08203",
+      "土浦市",
+      17,
+      18,
+      0,
+      12
+    ],
+    [
+      "08204",
+      "古河市",
+      10,
+      11,
+      2,
+      5
+    ],
+    [
+      "08205",
+      "石岡市",
+      13,
+      15,
+      1,
+      13
+    ],
+    [
+      "08207",
+      "結城市",
+      9,
+      14,
+      5,
+      7
+    ],
+    [
+      "08208",
+      "龍ケ崎市",
+      10,
+      6,
+      1,
+      1
+    ],
+    [
+      "08210",
+      "下妻市",
+      12,
+      13,
+      3,
+      9
+    ],
+    [
+      "08211",
+      "守谷市",
+      1,
+      0,
+      0,
+      0
+    ],
+    [
+      "08211",
+      "常総市",
+      11,
+      9,
+      1,
+      3
+    ],
+    [
+      "08212",
+      "常陸太田市",
+      8,
+      13,
+      6,
+      12
+    ],
+    [
+      "08214",
+      "高萩市",
+      7,
+      8,
+      1,
+      3
+    ],
+    [
+      "08215",
+      "北茨城市",
+      9,
+      9,
+      3,
+      1
+    ],
+    [
+      "08216",
+      "笠間市",
+      14,
+      17,
+      6,
+      15
+    ],
+    [
+      "08217",
+      "取手市",
+      4,
+      5,
+      1,
+      2
+    ],
+    [
+      "08219",
+      "牛久市",
+      6,
+      6,
+      1,
+      3
+    ],
+    [
+      "08220",
+      "つくば市",
+      19,
+      25,
+      2,
+      13
+    ],
+    [
+      "08221",
+      "ひたちなか市",
+      16,
+      15,
+      2,
+      4
+    ],
+    [
+      "08222",
+      "鹿嶋市",
+      6,
+      5,
+      1,
+      1
+    ],
+    [
+      "08223",
+      "潮来市",
+      7,
+      5,
+      2,
+      4
+    ],
+    [
+      "08224",
+      "守谷市",
+      8,
+      5,
+      2,
+      0
+    ],
+    [
+      "08225",
+      "常陸大宮市",
+      11,
+      15,
+      5,
+      10
+    ],
+    [
+      "08226",
+      "那珂市",
+      14,
+      15,
+      2,
+      4
+    ],
+    [
+      "08227",
+      "筑西市",
+      18,
+      19,
+      7,
+      14
+    ],
+    [
+      "08228",
+      "坂東市",
+      12,
+      12,
+      1,
+      6
+    ],
+    [
+      "08229",
+      "稲敷市",
+      10,
+      14,
+      2,
+      5
+    ],
+    [
+      "08230",
+      "かすみがうら市",
+      13,
+      18,
+      1,
+      14
+    ],
+    [
+      "08231",
+      "桜川市",
+      17,
+      22,
+      4,
+      7
+    ],
+    [
+      "08232",
+      "神栖市",
+      6,
+      5,
+      2,
+      2
+    ],
+    [
+      "08233",
+      "行方市",
+      12,
+      12,
+      2,
+      5
+    ],
+    [
+      "08234",
+      "鉾田市",
+      13,
+      14,
+      4,
+      6
+    ],
+    [
+      "08235",
+      "つくばみらい市",
+      11,
+      7,
+      0,
+      1
+    ],
+    [
+      "08236",
+      "小美玉市",
+      13,
+      17,
+      5,
+      9
+    ],
+    [
+      "08302",
+      "茨城町",
+      16,
+      16,
+      2,
+      9
+    ],
+    [
+      "08309",
+      "大洗町",
+      6,
+      2,
+      1,
+      0
+    ],
+    [
+      "08310",
+      "城里町",
+      10,
+      9,
+      5,
+      5
+    ],
+    [
+      "08341",
+      "東海村",
+      10,
+      9,
+      0,
+      4
+    ],
+    [
+      "08364",
+      "大子町",
+      12,
+      13,
+      5,
+      11
+    ],
+    [
+      "08442",
+      "美浦村",
+      8,
+      8,
+      1,
+      2
+    ],
+    [
+      "08443",
+      "阿見町",
+      12,
+      13,
+      1,
+      5
+    ],
+    [
+      "08447",
+      "河内町",
+      7,
+      5,
+      2,
+      1
+    ],
+    [
+      "08521",
+      "八千代町",
+      10,
+      11,
+      3,
+      7
+    ],
+    [
+      "08542",
+      "五霞町",
+      6,
+      8,
+      0,
+      0
+    ],
+    [
+      "08546",
+      "境町",
+      11,
+      8,
+      1,
+      4
+    ],
+    [
+      "08564",
+      "利根町",
+      4,
+      4,
+      0,
+      0
+    ]
+  ],
+  "source_code_name_conflicts": [
+    {
+      "jcode": "08211",
+      "names_in_source": [
+        "守谷市",
+        "常総市"
+      ],
+      "issue": "JCODE 08211 appears with 2 city labels; code/name pairing suspect for one record",
+      "conflicting_pair_polygon_count": 1,
+      "conflicting_pair_landuse": "田",
+      "resolution": "UNRESOLVED_ORIGINAL_KEPT"
+    },
+    {
+      "municipality_name": "守谷市",
+      "jcodes_in_source": [
+        "08211",
+        "08224"
+      ],
+      "issue": "same municipality label associated with two JCODEs in original",
+      "resolution": "UNRESOLVED_ORIGINAL_KEPT"
+    }
+  ],
+  "scientific_boundaries": {
+    "count_unit": "polygon feature rows, not area hectares",
+    "soil_carbon_measured": false,
+    "field_ch4_measured": false,
+    "contemporary_ground_truth_not_verified": true,
+    "jcode_name_conflict_detected": true,
+    "municipality_level_aggregations_pending_reconciliation": true,
+    "calculation_of_certified_credits_prohibited": true,
+    "official_credit_tco2e": null,
+    "raw_geometry_licensed_for_publication": false,
+    "correlation_with_2024_rice_stats_not_validated": true
+  }
+}
