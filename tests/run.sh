@@ -48,6 +48,8 @@ python3 scripts/p36-ibaraki-soil-audit.py audit
 node tests/p36-ibaraki-soil-gis.test.mjs
 python3 scripts/p37-tochigi-soil-audit.py audit
 node tests/p37-tochigi-soil-gis.test.mjs
+python3 scripts/p38-saitama-soil-audit.py audit
+node tests/p38-saitama-soil-gis.test.mjs
 node tests/p11-real-chamber-source-audit.test.mjs
 node tests/p11-rice-chromatography-guard.test.mjs
 node tests/p12-estat-2025-original-source.test.mjs
