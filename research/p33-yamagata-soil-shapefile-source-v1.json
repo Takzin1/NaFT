@@ -1,0 +1,382 @@
+{
+  "schema": "naft-p33-yamagata-soil-shapefile-v1",
+  "source": {
+    "provided_filename": "山形県(1).zip",
+    "source_zip_sha256": "ec2890ef0329b30054159a8a85ba731027d13f952f5ec1c849c36a38d4ec7e2c",
+    "zip_bytes": 10756335,
+    "zip_entries": 7,
+    "uncompressed_bytes": 17175180,
+    "member_folder": "k06山形県",
+    "members": [
+      {
+        "name": "k6山形県.dbf",
+        "bytes": 1813152,
+        "sha256": "f0d3f55397b895bc57bd6e9e3477b12f735b5f8c5464f22022eafbca04a52c14"
+      },
+      {
+        "name": "k6山形県.prj",
+        "bytes": 145,
+        "sha256": "d1de156bb748892db7642d045767629921ea76cc06597e25cea2411b12e7b0b2"
+      },
+      {
+        "name": "k6山形県.sbn",
+        "bytes": 16276,
+        "sha256": "6212b6fe962f0079b30fcae4f7c95350771957a5a11986ac608c41d298d550f3"
+      },
+      {
+        "name": "k6山形県.sbx",
+        "bytes": 1076,
+        "sha256": "f0c94cc8baf25a64eda0380d61188f6773bbe2f6d8033c3e65ece87fdd1a98f0"
+      },
+      {
+        "name": "k6山形県.shp",
+        "bytes": 15225560,
+        "sha256": "fa3f12d5fc47b9f645da9cb3a3b77b4a252edbe5deb738ec2849959acd5189af"
+      },
+      {
+        "name": "k6山形県.shp.xml",
+        "bytes": 105663,
+        "sha256": "e046bcc8e0e177aae41599904ff8a938f0eacedbc7e774d42c4d2b5e779c9f04"
+      },
+      {
+        "name": "k6山形県.shx",
+        "bytes": 13308,
+        "sha256": "910a46ed5767ba95f877e2e4876b5fbf1f6dae488191d24db42800ea4b1acfc7"
+      }
+    ],
+    "metadata_creation_date": "2017-01-17",
+    "publisher_authentication": "NOT_VERIFIED",
+    "redistribution_rights": "NOT_VERIFIED",
+    "original_zip_committed": false,
+    "raw_geometry_committed": false
+  },
+  "geometry": {
+    "type": "POLYGON",
+    "shape_count": 1651,
+    "crs": "GCS_JGD_2000",
+    "bounds_lon_lat": [
+      139.5489311470065,
+      37.79515834071243,
+      140.62155752318338,
+      39.10712316809213
+    ],
+    "municipalities": 35,
+    "sicho_unique_values": [
+      ""
+    ],
+    "municipality_codes_are_five_digit": true
+  },
+  "fields": [
+    "地目区分",
+    "包括_統群",
+    "統群コード",
+    "亜群コード",
+    "群コード",
+    "JCODE",
+    "KEN_1",
+    "SICHO",
+    "GUN",
+    "SIKUCHOSON"
+  ],
+  "feature_counts_by_landuse": {
+    "田": 618,
+    "普通畑": 500,
+    "牧草地": 138,
+    "樹園地": 395
+  },
+  "soil_group_code_categories": 18,
+  "soil_fine_class_categories": 93,
+  "municipalities_counts_by_landuse": [
+    [
+      "06201",
+      "山形市",
+      31,
+      27,
+      3,
+      28
+    ],
+    [
+      "06202",
+      "米沢市",
+      19,
+      14,
+      3,
+      14
+    ],
+    [
+      "06203",
+      "鶴岡市",
+      37,
+      34,
+      8,
+      29
+    ],
+    [
+      "06204",
+      "酒田市",
+      32,
+      29,
+      6,
+      19
+    ],
+    [
+      "06205",
+      "新庄市",
+      24,
+      18,
+      8,
+      10
+    ],
+    [
+      "06206",
+      "寒河江市",
+      14,
+      13,
+      1,
+      16
+    ],
+    [
+      "06207",
+      "上山市",
+      20,
+      18,
+      6,
+      15
+    ],
+    [
+      "06208",
+      "村山市",
+      25,
+      24,
+      2,
+      20
+    ],
+    [
+      "06209",
+      "長井市",
+      20,
+      13,
+      6,
+      12
+    ],
+    [
+      "06210",
+      "天童市",
+      14,
+      12,
+      3,
+      15
+    ],
+    [
+      "06211",
+      "東根市",
+      18,
+      13,
+      3,
+      18
+    ],
+    [
+      "06212",
+      "尾花沢市",
+      21,
+      18,
+      0,
+      7
+    ],
+    [
+      "06213",
+      "南陽市",
+      15,
+      18,
+      5,
+      17
+    ],
+    [
+      "06301",
+      "山辺町",
+      17,
+      12,
+      3,
+      12
+    ],
+    [
+      "06302",
+      "中山町",
+      9,
+      9,
+      0,
+      13
+    ],
+    [
+      "06321",
+      "河北町",
+      16,
+      8,
+      1,
+      10
+    ],
+    [
+      "06322",
+      "西川町",
+      15,
+      7,
+      1,
+      9
+    ],
+    [
+      "06323",
+      "朝日町",
+      22,
+      15,
+      3,
+      17
+    ],
+    [
+      "06324",
+      "大江町",
+      12,
+      14,
+      1,
+      16
+    ],
+    [
+      "06341",
+      "大石田町",
+      16,
+      16,
+      2,
+      11
+    ],
+    [
+      "06361",
+      "金山町",
+      10,
+      7,
+      3,
+      3
+    ],
+    [
+      "06362",
+      "最上町",
+      17,
+      12,
+      7,
+      6
+    ],
+    [
+      "06363",
+      "舟形町",
+      18,
+      12,
+      3,
+      5
+    ],
+    [
+      "06364",
+      "真室川町",
+      12,
+      9,
+      2,
+      6
+    ],
+    [
+      "06365",
+      "大蔵村",
+      17,
+      14,
+      6,
+      3
+    ],
+    [
+      "06366",
+      "鮭川村",
+      14,
+      9,
+      3,
+      2
+    ],
+    [
+      "06367",
+      "戸沢村",
+      15,
+      5,
+      3,
+      2
+    ],
+    [
+      "06381",
+      "高畠町",
+      19,
+      17,
+      11,
+      17
+    ],
+    [
+      "06382",
+      "川西町",
+      14,
+      13,
+      7,
+      8
+    ],
+    [
+      "06401",
+      "小国町",
+      14,
+      14,
+      12,
+      4
+    ],
+    [
+      "06402",
+      "白鷹町",
+      17,
+      19,
+      7,
+      16
+    ],
+    [
+      "06403",
+      "飯豊町",
+      12,
+      10,
+      5,
+      0
+    ],
+    [
+      "06426",
+      "三川町",
+      9,
+      5,
+      0,
+      1
+    ],
+    [
+      "06428",
+      "庄内町",
+      19,
+      15,
+      2,
+      6
+    ],
+    [
+      "06461",
+      "遊佐町",
+      14,
+      7,
+      2,
+      8
+    ]
+  ],
+  "scientific_boundaries": {
+    "count_unit": "polygon feature rows, not area hectares",
+    "soil_carbon_measured": false,
+    "field_ch4_measured": false,
+    "no_sicho_subprefecture_in_source": true,
+    "contemporary_ground_truth_not_verified": true,
+    "calculation_of_certified_credits_prohibited": true,
+    "official_credit_tco2e": null,
+    "raw_geometry_licensed_for_publication": false,
+    "correlation_with_2024_rice_stats_not_validated": true
+  }
+}
