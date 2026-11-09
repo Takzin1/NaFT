@@ -36,6 +36,8 @@ python3 scripts/p30-aomori-soil-audit.py audit
 node tests/p30-aomori-soil-gis.test.mjs
 python3 scripts/p31-iwate-soil-audit.py audit
 node tests/p31-iwate-soil-gis.test.mjs
+python3 scripts/p32-miyagi-soil-audit.py audit
+node tests/p32-miyagi-soil-gis.test.mjs
 node tests/p11-real-chamber-source-audit.test.mjs
 node tests/p11-rice-chromatography-guard.test.mjs
 node tests/p12-estat-2025-original-source.test.mjs
