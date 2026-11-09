@@ -1,0 +1,369 @@
+{
+  "schema": "naft-p31-iwate-soil-shapefile-v1",
+  "source": {
+    "provided_filename": "岩手県(1).zip",
+    "source_zip_sha256": "65e6493313866af25ee5695ef2e1882c4bf9f5cbd12a798c2fb394027d1315ff",
+    "zip_bytes": 15089311,
+    "zip_entries": 7,
+    "uncompressed_bytes": 23795048,
+    "member_folder": "k03岩手県",
+    "members": [
+      {
+        "name": "k3岩手県.dbf",
+        "bytes": 2359956,
+        "sha256": "12234d5fa920a5006b1d6a0529c05f66bb1bf36668741e729ef3bdfe6abe0f00"
+      },
+      {
+        "name": "k3岩手県.prj",
+        "bytes": 145,
+        "sha256": "d1de156bb748892db7642d045767629921ea76cc06597e25cea2411b12e7b0b2"
+      },
+      {
+        "name": "k3岩手県.sbn",
+        "bytes": 22772,
+        "sha256": "7dc037d755c41444f48bf0f26a4f19a8d20b3987885a8f90a548b0c064dafe0b"
+      },
+      {
+        "name": "k3岩手県.sbx",
+        "bytes": 1700,
+        "sha256": "f21d8e322fed3e6facdb4d2f1c1634169c4d1664a6ba895f9d5947e814b816fb"
+      },
+      {
+        "name": "k3岩手県.shp",
+        "bytes": 21287520,
+        "sha256": "f96f447c9b7e71a5f2a24d9cbfac693f8c822e8ba77bcfa31f5dbc101f6da9e1"
+      },
+      {
+        "name": "k3岩手県.shp.xml",
+        "bytes": 105663,
+        "sha256": "01c7bce23e21da4f40048386c54123c1504facda4960e92bdb6fcc87e64dfc02"
+      },
+      {
+        "name": "k3岩手県.shx",
+        "bytes": 17292,
+        "sha256": "28b4e15986d7238a6eefd055344f12ed099832a03e12c384dd49f8cfefbf7b74"
+      }
+    ],
+    "metadata_creation_date": "2017-01-17",
+    "publisher_authentication": "NOT_VERIFIED",
+    "redistribution_rights": "NOT_VERIFIED",
+    "original_zip_committed": false,
+    "raw_geometry_committed": false
+  },
+  "geometry": {
+    "type": "POLYGON",
+    "shape_count": 2149,
+    "crs": "GCS_JGD_2000",
+    "bounds_lon_lat": [
+      140.71055549154266,
+      38.72421929402586,
+      142.0391644869843,
+      40.44934932676321
+    ],
+    "municipalities": 33,
+    "sicho_unique_values": [
+      ""
+    ],
+    "municipality_codes_are_five_digit": true
+  },
+  "fields": [
+    "地目区分",
+    "包括_統群",
+    "統群コード",
+    "亜群コード",
+    "群コード",
+    "JCODE",
+    "KEN_1",
+    "SICHO",
+    "GUN",
+    "SIKUCHOSON"
+  ],
+  "feature_counts_by_landuse": {
+    "田": 726,
+    "普通畑": 641,
+    "牧草地": 415,
+    "樹園地": 367
+  },
+  "soil_group_code_categories": 17,
+  "soil_fine_class_categories": 85,
+  "municipalities_counts_by_landuse": [
+    [
+      "03201",
+      "盛岡市",
+      47,
+      43,
+      22,
+      34
+    ],
+    [
+      "03202",
+      "宮古市",
+      36,
+      30,
+      16,
+      11
+    ],
+    [
+      "03203",
+      "大船渡市",
+      23,
+      19,
+      17,
+      12
+    ],
+    [
+      "03205",
+      "花巻市",
+      53,
+      45,
+      29,
+      42
+    ],
+    [
+      "03206",
+      "北上市",
+      34,
+      29,
+      9,
+      14
+    ],
+    [
+      "03207",
+      "久慈市",
+      26,
+      23,
+      18,
+      7
+    ],
+    [
+      "03208",
+      "遠野市",
+      38,
+      32,
+      29,
+      15
+    ],
+    [
+      "03209",
+      "一関市",
+      47,
+      41,
+      39,
+      36
+    ],
+    [
+      "03210",
+      "陸前高田市",
+      18,
+      17,
+      10,
+      7
+    ],
+    [
+      "03211",
+      "釜石市",
+      14,
+      13,
+      6,
+      7
+    ],
+    [
+      "03213",
+      "二戸市",
+      23,
+      23,
+      7,
+      11
+    ],
+    [
+      "03214",
+      "八幡平市",
+      20,
+      19,
+      14,
+      10
+    ],
+    [
+      "03215",
+      "奥州市",
+      34,
+      28,
+      25,
+      24
+    ],
+    [
+      "03301",
+      "雫石町",
+      27,
+      23,
+      23,
+      5
+    ],
+    [
+      "03302",
+      "葛巻町",
+      14,
+      13,
+      12,
+      6
+    ],
+    [
+      "03303",
+      "岩手町",
+      17,
+      15,
+      11,
+      8
+    ],
+    [
+      "03305",
+      "滝沢村",
+      13,
+      13,
+      7,
+      7
+    ],
+    [
+      "03321",
+      "紫波町",
+      34,
+      29,
+      17,
+      27
+    ],
+    [
+      "03322",
+      "矢巾町",
+      35,
+      20,
+      4,
+      20
+    ],
+    [
+      "03366",
+      "西和賀町",
+      12,
+      13,
+      8,
+      1
+    ],
+    [
+      "03381",
+      "金ヶ崎町",
+      13,
+      9,
+      5,
+      9
+    ],
+    [
+      "03402",
+      "平泉町",
+      16,
+      9,
+      3,
+      5
+    ],
+    [
+      "03441",
+      "住田町",
+      13,
+      13,
+      4,
+      5
+    ],
+    [
+      "03461",
+      "大槌町",
+      9,
+      10,
+      3,
+      1
+    ],
+    [
+      "03482",
+      "山田町",
+      14,
+      11,
+      7,
+      5
+    ],
+    [
+      "03483",
+      "岩泉町",
+      17,
+      16,
+      12,
+      6
+    ],
+    [
+      "03484",
+      "田野畑村",
+      6,
+      8,
+      6,
+      2
+    ],
+    [
+      "03485",
+      "普代村",
+      2,
+      5,
+      5,
+      0
+    ],
+    [
+      "03501",
+      "軽米町",
+      18,
+      17,
+      13,
+      10
+    ],
+    [
+      "03503",
+      "野田村",
+      7,
+      11,
+      4,
+      2
+    ],
+    [
+      "03506",
+      "九戸村",
+      13,
+      11,
+      10,
+      5
+    ],
+    [
+      "03507",
+      "洋野町",
+      16,
+      16,
+      13,
+      5
+    ],
+    [
+      "03524",
+      "一戸町",
+      17,
+      17,
+      7,
+      8
+    ]
+  ],
+  "historical_place_names_as_source": [
+    "滝沢村"
+  ],
+  "scientific_boundaries": {
+    "count_unit": "polygon feature rows, not area hectares",
+    "soil_carbon_measured": false,
+    "field_ch4_measured": false,
+    "no_sicho_subprefecture_in_source": true,
+    "contemporary_ground_truth_not_verified": true,
+    "calculation_of_certified_credits_prohibited": true,
+    "official_credit_tco2e": null,
+    "raw_geometry_licensed_for_publication": false,
+    "correlation_with_2024_rice_stats_not_validated": true
+  }
+}
