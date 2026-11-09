@@ -1,0 +1,738 @@
+{
+  "schema": "naft-p46-fukui-soil-shapefile-v1",
+  "source": {
+    "provided_filename": "福井県.zip",
+    "source_zip_sha256": "4c81e96c9a94f48990cd4ba8ba14cf44ce9fced90321cb30ca65f0dbc2ec5357",
+    "zip_bytes": 3111309,
+    "zip_entries": 7,
+    "uncompressed_bytes": 5089966,
+    "member_folder": "k21福井県",
+    "members": [
+      {
+        "name": "k21福井県.dbf",
+        "bytes": 560334,
+        "sha256": "bcdcda840237697b5bd18bddba2f9dca318e13f0e661c20cdd24c6e2339be4de"
+      },
+      {
+        "name": "k21福井県.prj",
+        "bytes": 145,
+        "sha256": "d1de156bb748892db7642d045767629921ea76cc06597e25cea2411b12e7b0b2"
+      },
+      {
+        "name": "k21福井県.sbn",
+        "bytes": 5588,
+        "sha256": "799919e4444dc10fdfe70df05aa7d65dda0bfbc11f63d1f4fba5c1265420415c"
+      },
+      {
+        "name": "k21福井県.sbx",
+        "bytes": 492,
+        "sha256": "447212c89ca16a8a350ffb86517273a5eeb636276c53a7b5671b2e12a79d6693"
+      },
+      {
+        "name": "k21福井県.shp",
+        "bytes": 4413564,
+        "sha256": "e091109d23d1f908cf709f12e107af50228e5cf6459085bfddacc6b07bbaa855"
+      },
+      {
+        "name": "k21福井県.shp.xml",
+        "bytes": 105663,
+        "sha256": "09d412574e6f711a95e83afd6b73d00626390f861579c1c4651c511df0d87939"
+      },
+      {
+        "name": "k21福井県.shx",
+        "bytes": 4180,
+        "sha256": "6d0f8985bf893566a2cd612732ff9c0cdf77160757f49ee5d3bf5f78a3f98e43"
+      }
+    ],
+    "metadata_creation_date": "2017-01-17",
+    "publisher_authentication": "NOT_VERIFIED",
+    "redistribution_rights": "NOT_VERIFIED",
+    "original_zip_committed": false,
+    "raw_geometry_committed": false,
+    "likely_source_publisher": "農研機構（NARO）・日本土壌インベントリー",
+    "source_candidate_url": "https://soil-inventory.rad.naro.go.jp/download5.html",
+    "source_match": "CONSISTENT_METADATA_NO_OFFICIAL_ZIP_SHA_COMPARISON"
+  },
+  "geometry": {
+    "type": "POLYGON",
+    "shape_count": 510,
+    "crs": "GCS_JGD_2000",
+    "bounds_lon_lat": [
+      135.45436972693855,
+      35.38873158534855,
+      136.69095552335563,
+      36.288086622838335
+    ],
+    "municipality_name_count": 17,
+    "unique_jcodes": 18,
+    "administrative_code_name_pairs": 31,
+    "sicho_unique_values": [
+      ""
+    ],
+    "sicho_counts": {
+      "": 510
+    },
+    "gun_counts": {
+      "": 333,
+      "三方上中郡": 30,
+      "三方郡": 32,
+      "丹生郡": 26,
+      "今立郡": 17,
+      "南条郡": 18,
+      "吉田郡": 20,
+      "大飯郡": 34
+    },
+    "jcodes_are_five_digit": true
+  },
+  "fields": [
+    "地目区分",
+    "包括_統群",
+    "統群コード",
+    "亜群コード",
+    "群コード",
+    "JCODE",
+    "KEN_1",
+    "SICHO",
+    "GUN",
+    "SIKUCHOSON"
+  ],
+  "feature_counts_by_landuse": {
+    "田": 265,
+    "普通畑": 159,
+    "牧草地": 19,
+    "樹園地": 67
+  },
+  "soil_group_code_categories": 16,
+  "soil_fine_class_categories": 48,
+  "jcode_name_pairs_counts_by_landuse": [
+    [
+      "17206",
+      "あわら市",
+      0,
+      0,
+      0,
+      1
+    ],
+    [
+      "18201",
+      "坂井市",
+      10,
+      4,
+      0,
+      0
+    ],
+    [
+      "18201",
+      "永平寺町",
+      4,
+      0,
+      0,
+      0
+    ],
+    [
+      "18201",
+      "福井市",
+      30,
+      21,
+      6,
+      8
+    ],
+    [
+      "18201",
+      "越前町",
+      3,
+      0,
+      0,
+      0
+    ],
+    [
+      "18201",
+      "鯖江市",
+      1,
+      0,
+      0,
+      0
+    ],
+    [
+      "18202",
+      "敦賀市",
+      12,
+      5,
+      0,
+      1
+    ],
+    [
+      "18204",
+      "小浜市",
+      12,
+      10,
+      0,
+      3
+    ],
+    [
+      "18204",
+      "若狭町",
+      3,
+      0,
+      0,
+      0
+    ],
+    [
+      "18205",
+      "勝山市",
+      0,
+      0,
+      1,
+      0
+    ],
+    [
+      "18205",
+      "大野市",
+      14,
+      6,
+      1,
+      0
+    ],
+    [
+      "18206",
+      "勝山市",
+      11,
+      9,
+      2,
+      1
+    ],
+    [
+      "18207",
+      "越前市",
+      7,
+      0,
+      0,
+      0
+    ],
+    [
+      "18207",
+      "越前町",
+      2,
+      0,
+      0,
+      0
+    ],
+    [
+      "18207",
+      "鯖江市",
+      10,
+      5,
+      0,
+      1
+    ],
+    [
+      "18208",
+      "あわら市",
+      16,
+      10,
+      0,
+      6
+    ],
+    [
+      "18208",
+      "坂井市",
+      11,
+      3,
+      0,
+      1
+    ],
+    [
+      "18209",
+      "南越前町",
+      2,
+      1,
+      0,
+      0
+    ],
+    [
+      "18209",
+      "越前市",
+      18,
+      13,
+      0,
+      3
+    ],
+    [
+      "18209",
+      "越前町",
+      1,
+      0,
+      0,
+      0
+    ],
+    [
+      "18210",
+      "坂井市",
+      19,
+      17,
+      1,
+      3
+    ],
+    [
+      "18210",
+      "永平寺町",
+      4,
+      0,
+      0,
+      0
+    ],
+    [
+      "18322",
+      "永平寺町",
+      10,
+      7,
+      0,
+      3
+    ],
+    [
+      "18382",
+      "池田町",
+      7,
+      7,
+      2,
+      1
+    ],
+    [
+      "18404",
+      "南越前町",
+      7,
+      7,
+      0,
+      4
+    ],
+    [
+      "18423",
+      "越前町",
+      11,
+      6,
+      1,
+      8
+    ],
+    [
+      "18442",
+      "美浜町",
+      11,
+      10,
+      2,
+      7
+    ],
+    [
+      "18442",
+      "若狭町",
+      1,
+      0,
+      0,
+      1
+    ],
+    [
+      "18481",
+      "高浜町",
+      8,
+      4,
+      1,
+      2
+    ],
+    [
+      "18483",
+      "おおい町",
+      7,
+      7,
+      1,
+      4
+    ],
+    [
+      "18501",
+      "若狭町",
+      13,
+      7,
+      1,
+      9
+    ]
+  ],
+  "gun_name_pairs_counts_by_landuse": [
+    [
+      "",
+      "あわら市",
+      16,
+      10,
+      0,
+      7
+    ],
+    [
+      "",
+      "勝山市",
+      11,
+      9,
+      3,
+      1
+    ],
+    [
+      "",
+      "南越前町",
+      2,
+      1,
+      0,
+      0
+    ],
+    [
+      "",
+      "坂井市",
+      40,
+      24,
+      1,
+      4
+    ],
+    [
+      "",
+      "大野市",
+      14,
+      6,
+      1,
+      0
+    ],
+    [
+      "",
+      "小浜市",
+      12,
+      10,
+      0,
+      3
+    ],
+    [
+      "",
+      "敦賀市",
+      12,
+      5,
+      0,
+      1
+    ],
+    [
+      "",
+      "永平寺町",
+      8,
+      0,
+      0,
+      0
+    ],
+    [
+      "",
+      "福井市",
+      30,
+      21,
+      6,
+      8
+    ],
+    [
+      "",
+      "若狭町",
+      3,
+      0,
+      0,
+      0
+    ],
+    [
+      "",
+      "越前市",
+      25,
+      13,
+      0,
+      3
+    ],
+    [
+      "",
+      "越前町",
+      6,
+      0,
+      0,
+      0
+    ],
+    [
+      "",
+      "鯖江市",
+      11,
+      5,
+      0,
+      1
+    ],
+    [
+      "三方上中郡",
+      "若狭町",
+      13,
+      7,
+      1,
+      9
+    ],
+    [
+      "三方郡",
+      "美浜町",
+      11,
+      10,
+      2,
+      7
+    ],
+    [
+      "三方郡",
+      "若狭町",
+      1,
+      0,
+      0,
+      1
+    ],
+    [
+      "丹生郡",
+      "越前町",
+      11,
+      6,
+      1,
+      8
+    ],
+    [
+      "今立郡",
+      "池田町",
+      7,
+      7,
+      2,
+      1
+    ],
+    [
+      "南条郡",
+      "南越前町",
+      7,
+      7,
+      0,
+      4
+    ],
+    [
+      "吉田郡",
+      "永平寺町",
+      10,
+      7,
+      0,
+      3
+    ],
+    [
+      "大飯郡",
+      "おおい町",
+      7,
+      7,
+      1,
+      4
+    ],
+    [
+      "大飯郡",
+      "高浜町",
+      8,
+      4,
+      1,
+      2
+    ]
+  ],
+  "source_code_name_anomalies": {
+    "foreign_prefecture_code_feature_count": 1,
+    "foreign_prefecture_code_pairs": [
+      [
+        "17206",
+        "あわら市",
+        0,
+        0,
+        0,
+        1
+      ]
+    ],
+    "foreign_code_prefix_totals": {
+      "17": 1
+    },
+    "foreign_prefixes": [
+      "17"
+    ],
+    "one_to_one_code_name_mapping": false,
+    "codes_with_multiple_names": {
+      "18201": [
+        "坂井市",
+        "永平寺町",
+        "福井市",
+        "越前町",
+        "鯖江市"
+      ],
+      "18204": [
+        "小浜市",
+        "若狭町"
+      ],
+      "18205": [
+        "勝山市",
+        "大野市"
+      ],
+      "18207": [
+        "越前市",
+        "越前町",
+        "鯖江市"
+      ],
+      "18208": [
+        "あわら市",
+        "坂井市"
+      ],
+      "18209": [
+        "南越前町",
+        "越前市",
+        "越前町"
+      ],
+      "18210": [
+        "坂井市",
+        "永平寺町"
+      ],
+      "18442": [
+        "美浜町",
+        "若狭町"
+      ]
+    },
+    "names_with_multiple_codes": {
+      "あわら市": [
+        "17206",
+        "18208"
+      ],
+      "坂井市": [
+        "18201",
+        "18208",
+        "18210"
+      ],
+      "永平寺町": [
+        "18201",
+        "18210",
+        "18322"
+      ],
+      "越前町": [
+        "18201",
+        "18207",
+        "18209",
+        "18423"
+      ],
+      "鯖江市": [
+        "18201",
+        "18207"
+      ],
+      "若狭町": [
+        "18204",
+        "18442",
+        "18501"
+      ],
+      "勝山市": [
+        "18205",
+        "18206"
+      ],
+      "越前市": [
+        "18207",
+        "18209"
+      ],
+      "南越前町": [
+        "18209",
+        "18404"
+      ]
+    },
+    "status": "UNRESOLVED_ORIGINAL_KEPT_NO_CITY_JOIN"
+  },
+  "source_gun_quality": {
+    "gun_feature_counts": {
+      "": 333,
+      "三方上中郡": 30,
+      "三方郡": 32,
+      "丹生郡": 26,
+      "今立郡": 17,
+      "南条郡": 18,
+      "吉田郡": 20,
+      "大飯郡": 34
+    },
+    "empty_gun_name_pairs_with_nonempty_gun_elsewhere": [
+      {
+        "municipality_name": "南越前町",
+        "empty_gun_landuse_counts": {
+          "田": 2,
+          "普通畑": 1,
+          "牧草地": 0,
+          "樹園地": 0
+        },
+        "empty_gun_polygon_count": 3,
+        "gun_names_seen_elsewhere": [
+          "南条郡"
+        ]
+      },
+      {
+        "municipality_name": "永平寺町",
+        "empty_gun_landuse_counts": {
+          "田": 8,
+          "普通畑": 0,
+          "牧草地": 0,
+          "樹園地": 0
+        },
+        "empty_gun_polygon_count": 8,
+        "gun_names_seen_elsewhere": [
+          "吉田郡"
+        ]
+      },
+      {
+        "municipality_name": "若狭町",
+        "empty_gun_landuse_counts": {
+          "田": 3,
+          "普通畑": 0,
+          "牧草地": 0,
+          "樹園地": 0
+        },
+        "empty_gun_polygon_count": 3,
+        "gun_names_seen_elsewhere": [
+          "三方上中郡",
+          "三方郡"
+        ]
+      },
+      {
+        "municipality_name": "越前町",
+        "empty_gun_landuse_counts": {
+          "田": 6,
+          "普通畑": 0,
+          "牧草地": 0,
+          "樹園地": 0
+        },
+        "empty_gun_polygon_count": 6,
+        "gun_names_seen_elsewhere": [
+          "丹生郡"
+        ]
+      }
+    ],
+    "empty_gun_features_for_known_gun_towns": 20,
+    "wakasa_multiple_gun_names_as_source": [
+      [
+        "三方上中郡",
+        "若狭町"
+      ],
+      [
+        "三方郡",
+        "若狭町"
+      ]
+    ],
+    "wakasa_sanpo_gun_feature_count": 2,
+    "wakasa_sanpo_gun_landuse": {
+      "田": 1,
+      "普通畑": 0,
+      "牧草地": 0,
+      "樹園地": 1
+    },
+    "status": "SOURCE_GUN_VARIATION_KEPT_NO_GUN_JOIN"
+  },
+  "scientific_boundaries": {
+    "count_unit": "polygon feature rows, not hectares, parcels or agricultural activity",
+    "soil_carbon_measured": false,
+    "field_ch4_measured": false,
+    "contemporary_ground_truth_not_verified": true,
+    "jcode_name_conflict_detected": true,
+    "gun_name_missingness_detected": true,
+    "gun_name_variation_detected": true,
+    "municipality_level_aggregations_pending_reconciliation": true,
+    "calculation_of_certified_credits_prohibited": true,
+    "official_credit_tco2e": null,
+    "raw_geometry_licensed_for_publication": false,
+    "correlation_with_2024_rice_stats_not_validated": true
+  }
+}
