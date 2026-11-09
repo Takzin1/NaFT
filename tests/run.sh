@@ -54,6 +54,8 @@ python3 scripts/p39-gunma-soil-audit.py audit
 node tests/p39-gunma-soil-gis.test.mjs
 python3 scripts/p40-tokyo-soil-audit.py audit
 node tests/p40-tokyo-soil-gis.test.mjs
+python3 scripts/p41-chiba-soil-audit.py audit
+node tests/p41-chiba-soil-gis.test.mjs
 node tests/p11-real-chamber-source-audit.test.mjs
 node tests/p11-rice-chromatography-guard.test.mjs
 node tests/p12-estat-2025-original-source.test.mjs
