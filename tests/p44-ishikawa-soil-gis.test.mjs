@@ -55,7 +55,7 @@ assert.equal(a.one_to_one_code_name_mapping,false);
 assert.equal(a.status,'UNRESOLVED_ORIGINAL_KEPT_NO_CITY_JOIN');
 assert.deepEqual(a.historical_place_names_as_source,['野々市町']);
 assert.deepEqual(a.historical_place_name_polygon_counts,{'野々市町':11});
-assert.equal(pairs.filter(r=>r[1]==='野々市町').reduce((s,r)=>s+r.slice(2).reduce((x,y)=>x+y,0),11);
+assert.equal(pairs.filter(r=>r[1]==='野々市町').reduce((s,r)=>s+r.slice(2).reduce((x,y)=>x+y,0),0),11);
 
 const gunPairs=m.gun_name_pairs_counts_by_landuse;
 assert.equal(gunPairs.length,29);
