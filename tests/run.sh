@@ -66,6 +66,8 @@ python3 scripts/p45-toyama-soil-audit.py audit
 node tests/p45-toyama-soil-gis.test.mjs
 python3 scripts/p46-fukui-soil-audit.py audit
 node tests/p46-fukui-soil-gis.test.mjs
+python3 scripts/p47-yamanashi-soil-audit.py audit
+node tests/p47-yamanashi-soil-gis.test.mjs
 node tests/p11-real-chamber-source-audit.test.mjs
 node tests/p11-rice-chromatography-guard.test.mjs
 node tests/p12-estat-2025-original-source.test.mjs
