@@ -54,5 +54,5 @@ function gxTokyoSoilPanel(prefCode){
   '<div class="gx-detail-grid">'+cards+'</div>'+
   '<details><summary>島しょ部の支庁別レコード数を確認する</summary><div class="scroll"><table><thead><tr><th scope="col">原本のSICHO（支庁）</th><th scope="col">ポリゴン件数</th></tr></thead><tbody>'+sub+'</tbody></table></div><p>島しょ部の記録は21件（大島支庁9、三宅支庁6、八丈支庁6）。対応する原本名称：'+isle+'。本ファイルに収録されていない市区町村があっても、当該地域に農地が存在しないことを意味しません。</p></details>'+
   '<details><summary>原本の87 JCODE×市区町村名組合せを見る（要照合）</summary><div class="scroll"><table>'+head+'<tbody>'+body+'</tbody></table></div></details>'+
-  '<p class="gx-advisory"><b>科学的・配布上の境界：</b>農研機構「日本土壌インベントリー」は出典候補ですが、公式東京都ZIPと原本のSHA一致は未確認。原Shapefile/DBF/ZIPは公開GitHubへ置かず、原本ハッシュと派生集計のみを掲載。ここに示すのはポリゴン件数であり、農地面積ha・筆数・CH₄実測値・土壌炭素量・CO₂e削減量ではありません。2024年水稲統計やJAXA土地被覆との自治体単位の自動結合はしていません。監査台帳：research/p40-tokyo-soil-shapefile-source-v1.json。検証：docs/p40-tokyo-soil-gis-ja.md。</p></section>';
+  '<p class="gx-advisory"><b>科学的・配布上の境界：</b>農研機構「日本土壌インベントリー」は出典候補ですが、公式東京都ZIPと原本のSHA一致は未確認。原Shapefile/DBF/ZIPは公開GitHubへ置かず、原本ハッシュと派生集計のみを掲載。ここに示すのはポリゴン件数であり、農地面積ha・筆数・CH₄実測値・土壌炭素量・CO₂e削減量ではありません。2024年水稲統計やJAXA土地被覆との自治体単位の自動結合はしていません。原本監査台帳：research/p40-tokyo-soil-shapefile-source-v1.json。検証：docs/p40-tokyo-soil-gis-ja.md。</p></section>';
 }
