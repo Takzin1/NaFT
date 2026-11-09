@@ -1,0 +1,742 @@
+{
+  "schema": "naft-p45-toyama-soil-shapefile-v1",
+  "source": {
+    "provided_filename": "富山県.zip",
+    "source_zip_sha256": "fbbe882b713db76fc18fde6106cdbaeb2a82a2302e97b1cb8dc33b1d8cc19ab7",
+    "zip_bytes": 4675546,
+    "zip_entries": 7,
+    "uncompressed_bytes": 7481198,
+    "member_folder": "k19富山県",
+    "members": [
+      {
+        "name": "k19富山県.dbf",
+        "bytes": 694290,
+        "sha256": "158e773d0266b0f0b87a35efb3c435cfeea048098e89c6ccdc6ef786370367f8"
+      },
+      {
+        "name": "k19富山県.prj",
+        "bytes": 145,
+        "sha256": "d1de156bb748892db7642d045767629921ea76cc06597e25cea2411b12e7b0b2"
+      },
+      {
+        "name": "k19富山県.sbn",
+        "bytes": 6620,
+        "sha256": "e373f0b000552498f1ebd0a5fa3bce76d17e188eaa5affb513cbc85ffea4ea1c"
+      },
+      {
+        "name": "k19富山県.sbx",
+        "bytes": 580,
+        "sha256": "752c97db7864c2110181709378db886ab7349751ed51c1975de9f72408576a78"
+      },
+      {
+        "name": "k19富山県.shp",
+        "bytes": 6668744,
+        "sha256": "fcd9fd1afd546185886fc2dcdb2850955e801081ecfa59abcad5630a0473fd80"
+      },
+      {
+        "name": "k19富山県.shp.xml",
+        "bytes": 105663,
+        "sha256": "8890448eb7153f1dfbbc0b9b765733b370dd563c95586d201ca29687be127f9c"
+      },
+      {
+        "name": "k19富山県.shx",
+        "bytes": 5156,
+        "sha256": "7038a1dcb180b7038022501266abd477c6ab5abf13c77f7f0ac611a182f68a5b"
+      }
+    ],
+    "metadata_creation_date": "2017-01-17",
+    "publisher_authentication": "NOT_VERIFIED",
+    "redistribution_rights": "NOT_VERIFIED",
+    "original_zip_committed": false,
+    "raw_geometry_committed": false,
+    "likely_source_publisher": "農研機構（NARO）・日本土壌インベントリー",
+    "source_candidate_url": "https://soil-inventory.rad.naro.go.jp/download5.html",
+    "source_match": "CONSISTENT_METADATA_NO_OFFICIAL_ZIP_SHA_COMPARISON"
+  },
+  "geometry": {
+    "type": "POLYGON",
+    "shape_count": 632,
+    "crs": "GCS_JGD_2000",
+    "bounds_lon_lat": [
+      136.78498869633378,
+      36.34960657076776,
+      137.65754674358115,
+      36.97336380774928
+    ],
+    "municipality_name_count": 15,
+    "unique_jcodes": 15,
+    "administrative_code_name_pairs": 36,
+    "sicho_unique_values": [
+      ""
+    ],
+    "sicho_counts": {
+      "": 632
+    },
+    "gun_counts": {
+      "": 495,
+      "下新川郡": 50,
+      "中新川郡": 87
+    },
+    "jcodes_are_five_digit": true
+  },
+  "fields": [
+    "地目区分",
+    "包括_統群",
+    "統群コード",
+    "亜群コード",
+    "群コード",
+    "JCODE",
+    "KEN_1",
+    "SICHO",
+    "GUN",
+    "SIKUCHOSON"
+  ],
+  "feature_counts_by_landuse": {
+    "田": 428,
+    "普通畑": 116,
+    "牧草地": 18,
+    "樹園地": 70
+  },
+  "soil_group_code_categories": 15,
+  "soil_fine_class_categories": 59,
+  "jcode_name_pairs_counts_by_landuse": [
+    [
+      "16201",
+      "上市町",
+      8,
+      0,
+      0,
+      0
+    ],
+    [
+      "16201",
+      "富山市",
+      45,
+      27,
+      7,
+      9
+    ],
+    [
+      "16201",
+      "射水市",
+      8,
+      4,
+      0,
+      3
+    ],
+    [
+      "16201",
+      "滑川市",
+      2,
+      0,
+      0,
+      0
+    ],
+    [
+      "16201",
+      "砺波市",
+      3,
+      0,
+      0,
+      0
+    ],
+    [
+      "16201",
+      "立山町",
+      1,
+      0,
+      0,
+      0
+    ],
+    [
+      "16201",
+      "舟橋村",
+      3,
+      1,
+      0,
+      0
+    ],
+    [
+      "16202",
+      "射水市",
+      4,
+      1,
+      0,
+      1
+    ],
+    [
+      "16202",
+      "小矢部市",
+      6,
+      0,
+      0,
+      0
+    ],
+    [
+      "16202",
+      "氷見市",
+      2,
+      1,
+      0,
+      0
+    ],
+    [
+      "16202",
+      "砺波市",
+      12,
+      0,
+      0,
+      0
+    ],
+    [
+      "16202",
+      "高岡市",
+      26,
+      7,
+      1,
+      7
+    ],
+    [
+      "16204",
+      "魚津市",
+      19,
+      6,
+      0,
+      13
+    ],
+    [
+      "16204",
+      "黒部市",
+      6,
+      0,
+      0,
+      0
+    ],
+    [
+      "16205",
+      "氷見市",
+      10,
+      8,
+      0,
+      4
+    ],
+    [
+      "16206",
+      "上市町",
+      7,
+      0,
+      0,
+      0
+    ],
+    [
+      "16206",
+      "滑川市",
+      16,
+      2,
+      0,
+      3
+    ],
+    [
+      "16207",
+      "入善町",
+      5,
+      0,
+      0,
+      0
+    ],
+    [
+      "16207",
+      "黒部市",
+      21,
+      5,
+      4,
+      2
+    ],
+    [
+      "16208",
+      "南砺市",
+      7,
+      1,
+      0,
+      0
+    ],
+    [
+      "16208",
+      "射水市",
+      2,
+      1,
+      0,
+      0
+    ],
+    [
+      "16208",
+      "小矢部市",
+      5,
+      0,
+      0,
+      0
+    ],
+    [
+      "16208",
+      "砺波市",
+      23,
+      6,
+      0,
+      2
+    ],
+    [
+      "16209",
+      "南砺市",
+      3,
+      0,
+      0,
+      0
+    ],
+    [
+      "16209",
+      "小矢部市",
+      24,
+      8,
+      1,
+      1
+    ],
+    [
+      "16210",
+      "南砺市",
+      30,
+      13,
+      4,
+      8
+    ],
+    [
+      "16211",
+      "射水市",
+      17,
+      11,
+      0,
+      8
+    ],
+    [
+      "16321",
+      "上市町",
+      1,
+      0,
+      0,
+      0
+    ],
+    [
+      "16321",
+      "立山町",
+      9,
+      0,
+      0,
+      0
+    ],
+    [
+      "16321",
+      "舟橋村",
+      9,
+      0,
+      0,
+      0
+    ],
+    [
+      "16322",
+      "上市町",
+      21,
+      3,
+      1,
+      3
+    ],
+    [
+      "16322",
+      "立山町",
+      6,
+      0,
+      0,
+      1
+    ],
+    [
+      "16323",
+      "立山町",
+      23,
+      6,
+      0,
+      4
+    ],
+    [
+      "16342",
+      "入善町",
+      14,
+      0,
+      0,
+      0
+    ],
+    [
+      "16342",
+      "朝日町",
+      10,
+      0,
+      0,
+      0
+    ],
+    [
+      "16343",
+      "朝日町",
+      20,
+      5,
+      0,
+      1
+    ]
+  ],
+  "gun_name_pairs_counts_by_landuse": [
+    [
+      "",
+      "上市町",
+      15,
+      0,
+      0,
+      0
+    ],
+    [
+      "",
+      "入善町",
+      5,
+      0,
+      0,
+      0
+    ],
+    [
+      "",
+      "南砺市",
+      40,
+      14,
+      4,
+      8
+    ],
+    [
+      "",
+      "富山市",
+      45,
+      27,
+      7,
+      9
+    ],
+    [
+      "",
+      "射水市",
+      31,
+      17,
+      0,
+      12
+    ],
+    [
+      "",
+      "小矢部市",
+      35,
+      8,
+      1,
+      1
+    ],
+    [
+      "",
+      "氷見市",
+      12,
+      9,
+      0,
+      4
+    ],
+    [
+      "",
+      "滑川市",
+      18,
+      2,
+      0,
+      3
+    ],
+    [
+      "",
+      "砺波市",
+      38,
+      6,
+      0,
+      2
+    ],
+    [
+      "",
+      "立山町",
+      1,
+      0,
+      0,
+      0
+    ],
+    [
+      "",
+      "舟橋村",
+      3,
+      1,
+      0,
+      0
+    ],
+    [
+      "",
+      "高岡市",
+      26,
+      7,
+      1,
+      7
+    ],
+    [
+      "",
+      "魚津市",
+      19,
+      6,
+      0,
+      13
+    ],
+    [
+      "",
+      "黒部市",
+      27,
+      5,
+      4,
+      2
+    ],
+    [
+      "下新川郡",
+      "入善町",
+      14,
+      0,
+      0,
+      0
+    ],
+    [
+      "下新川郡",
+      "朝日町",
+      30,
+      5,
+      0,
+      1
+    ],
+    [
+      "中新川郡",
+      "上市町",
+      22,
+      3,
+      1,
+      3
+    ],
+    [
+      "中新川郡",
+      "立山町",
+      38,
+      6,
+      0,
+      5
+    ],
+    [
+      "中新川郡",
+      "舟橋村",
+      9,
+      0,
+      0,
+      0
+    ]
+  ],
+  "source_code_name_anomalies": {
+    "foreign_prefecture_code_feature_count": 0,
+    "foreign_prefecture_code_pairs": [],
+    "foreign_code_prefix_totals": {},
+    "foreign_prefixes": [],
+    "one_to_one_code_name_mapping": false,
+    "codes_with_multiple_names": {
+      "16201": [
+        "上市町",
+        "富山市",
+        "射水市",
+        "滑川市",
+        "砺波市",
+        "立山町",
+        "舟橋村"
+      ],
+      "16202": [
+        "射水市",
+        "小矢部市",
+        "氷見市",
+        "砺波市",
+        "高岡市"
+      ],
+      "16204": [
+        "魚津市",
+        "黒部市"
+      ],
+      "16206": [
+        "上市町",
+        "滑川市"
+      ],
+      "16207": [
+        "入善町",
+        "黒部市"
+      ],
+      "16208": [
+        "南砺市",
+        "射水市",
+        "小矢部市",
+        "砺波市"
+      ],
+      "16209": [
+        "南砺市",
+        "小矢部市"
+      ],
+      "16321": [
+        "上市町",
+        "立山町",
+        "舟橋村"
+      ],
+      "16322": [
+        "上市町",
+        "立山町"
+      ],
+      "16342": [
+        "入善町",
+        "朝日町"
+      ]
+    },
+    "names_with_multiple_codes": {
+      "上市町": [
+        "16201",
+        "16206",
+        "16321",
+        "16322"
+      ],
+      "射水市": [
+        "16201",
+        "16202",
+        "16208",
+        "16211"
+      ],
+      "滑川市": [
+        "16201",
+        "16206"
+      ],
+      "砺波市": [
+        "16201",
+        "16202",
+        "16208"
+      ],
+      "立山町": [
+        "16201",
+        "16321",
+        "16322",
+        "16323"
+      ],
+      "舟橋村": [
+        "16201",
+        "16321"
+      ],
+      "小矢部市": [
+        "16202",
+        "16208",
+        "16209"
+      ],
+      "氷見市": [
+        "16202",
+        "16205"
+      ],
+      "黒部市": [
+        "16204",
+        "16207"
+      ],
+      "入善町": [
+        "16207",
+        "16342"
+      ],
+      "南砺市": [
+        "16208",
+        "16209",
+        "16210"
+      ],
+      "朝日町": [
+        "16342",
+        "16343"
+      ]
+    },
+    "status": "UNRESOLVED_ORIGINAL_KEPT_NO_CITY_JOIN"
+  },
+  "source_gun_quality": {
+    "gun_feature_counts": {
+      "": 495,
+      "下新川郡": 50,
+      "中新川郡": 87
+    },
+    "empty_gun_name_pairs_with_nonempty_gun_elsewhere": [
+      {
+        "municipality_name": "上市町",
+        "empty_gun_landuse_counts": {
+          "田": 15,
+          "普通畑": 0,
+          "牧草地": 0,
+          "樹園地": 0
+        },
+        "empty_gun_polygon_count": 15,
+        "gun_names_seen_elsewhere": [
+          "中新川郡"
+        ]
+      },
+      {
+        "municipality_name": "入善町",
+        "empty_gun_landuse_counts": {
+          "田": 5,
+          "普通畑": 0,
+          "牧草地": 0,
+          "樹園地": 0
+        },
+        "empty_gun_polygon_count": 5,
+        "gun_names_seen_elsewhere": [
+          "下新川郡"
+        ]
+      },
+      {
+        "municipality_name": "立山町",
+        "empty_gun_landuse_counts": {
+          "田": 1,
+          "普通畑": 0,
+          "牧草地": 0,
+          "樹園地": 0
+        },
+        "empty_gun_polygon_count": 1,
+        "gun_names_seen_elsewhere": [
+          "中新川郡"
+        ]
+      },
+      {
+        "municipality_name": "舟橋村",
+        "empty_gun_landuse_counts": {
+          "田": 3,
+          "普通畑": 1,
+          "牧草地": 0,
+          "樹園地": 0
+        },
+        "empty_gun_polygon_count": 4,
+        "gun_names_seen_elsewhere": [
+          "中新川郡"
+        ]
+      }
+    ],
+    "empty_gun_features_for_known_gun_towns": 25,
+    "status": "SOURCE_NULL_PRESERVED_GUN_COMPLETENESS_PENDING"
+  },
+  "scientific_boundaries": {
+    "count_unit": "polygon feature rows, not hectares, parcels or agricultural activity",
+    "soil_carbon_measured": false,
+    "field_ch4_measured": false,
+    "contemporary_ground_truth_not_verified": true,
+    "jcode_name_conflict_detected": true,
+    "gun_name_missingness_detected": true,
+    "municipality_level_aggregations_pending_reconciliation": true,
+    "calculation_of_certified_credits_prohibited": true,
+    "official_credit_tco2e": null,
+    "raw_geometry_licensed_for_publication": false,
+    "correlation_with_2024_rice_stats_not_validated": true
+  }
+}
