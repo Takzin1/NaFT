@@ -102,9 +102,15 @@ assert.match(html,/浜松市旧行政区名称/);
 assert.match(html,/面積haではありません/);
 assert.match(html,/原本監査台帳/);
 assert.equal((html.match(/<tr>/g)||[]).length,170);
+// A foreign-code record must fail at the independent foreign-prefecture guard.
 ctx.GX_SHIZUOKA_CODE_NAME_PAIRS[0][2]++;
-assert.throws(()=>ctx.gxShizuokaSoilValidate(),/P50_SHIZUOKA_LANDUSE/);
+assert.throws(()=>ctx.gxShizuokaSoilValidate(),/P50_SHIZUOKA_FOREIGN_JCODE/);
 ctx.GX_SHIZUOKA_CODE_NAME_PAIRS[0][2]--;
+// A domestic record mutation must separately fail the aggregate landuse guard.
+const domestic=ctx.GX_SHIZUOKA_CODE_NAME_PAIRS.find(r=>r[0]==='22101'&&r[1]==='葵区');
+domestic[2]++;
+assert.throws(()=>ctx.gxShizuokaSoilValidate(),/P50_SHIZUOKA_LANDUSE/);
+domestic[2]--;
 ctx.GX_SHIZUOKA_GUN_NAME_PAIRS.find(r=>r[0]==='南都留郡')[4]++;
 assert.throws(()=>ctx.gxShizuokaSoilValidate(),/P50_SHIZUOKA_GUN_TOTAL|P50_SHIZUOKA_GUN_PARITY/);
 
