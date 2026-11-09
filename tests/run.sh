@@ -70,6 +70,8 @@ python3 scripts/p47-yamanashi-soil-audit.py audit
 node tests/p47-yamanashi-soil-gis.test.mjs
 python3 scripts/p48-nagano-soil-audit.py audit
 node tests/p48-nagano-soil-gis.test.mjs
+python3 scripts/p49-gifu-soil-audit.py audit
+node tests/p49-gifu-soil-gis.test.mjs
 node tests/p11-real-chamber-source-audit.test.mjs
 node tests/p11-rice-chromatography-guard.test.mjs
 node tests/p12-estat-2025-original-source.test.mjs
