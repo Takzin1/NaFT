@@ -86,6 +86,8 @@ python3 scripts/p55-osaka-soil-audit.py audit
 node tests/p55-osaka-soil-gis.test.mjs
 python3 scripts/p56-hyogo-soil-audit.py audit
 node tests/p56-hyogo-soil-gis.test.mjs
+python3 scripts/p57-nara-soil-audit.py audit
+node tests/p57-nara-soil-gis.test.mjs
 node tests/p11-real-chamber-source-audit.test.mjs
 node tests/p11-rice-chromatography-guard.test.mjs
 node tests/p12-estat-2025-original-source.test.mjs
