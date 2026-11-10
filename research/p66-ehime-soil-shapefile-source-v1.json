@@ -1,0 +1,778 @@
+{
+  "schema": "naft-p66-ehime-soil-shapefile-v1",
+  "source": {
+    "provided_filename": "愛媛県.zip",
+    "source_zip_sha256": "3af0a956b989b9eaac0746695e6bc9930dab6267a62061a3aca84aa6bceecbbc",
+    "zip_bytes": 13466351,
+    "zip_entries": 7,
+    "uncompressed_bytes": 19995760,
+    "member_folder": "k38愛媛県",
+    "members": [
+      {
+        "name": "k38愛媛県.dbf",
+        "bytes": 690996,
+        "sha256": "80ddf93cc4ab7f0db134dd18624c78be8abbb76b98704d6c35c7beaedc47570a"
+      },
+      {
+        "name": "k38愛媛県.prj",
+        "bytes": 145,
+        "sha256": "d1de156bb748892db7642d045767629921ea76cc06597e25cea2411b12e7b0b2"
+      },
+      {
+        "name": "k38愛媛県.sbn",
+        "bytes": 6468,
+        "sha256": "6f9897662d04567f8444d9d287c0cf83718b16445c6c084c25393e85c86c2bbc"
+      },
+      {
+        "name": "k38愛媛県.sbx",
+        "bytes": 468,
+        "sha256": "2d962589b8339510becf9ca4b1bdf165cf54ebda26f561004428ecef6c8e9556"
+      },
+      {
+        "name": "k38愛媛県.shp",
+        "bytes": 19186888,
+        "sha256": "2cd65147f887c0ca50b0883a2e1c2a4463dcffa78d25b51f80c3f383b50d4781"
+      },
+      {
+        "name": "k38愛媛県.shp.xml",
+        "bytes": 105663,
+        "sha256": "3566a4ca06df0ffa024ef83a3ba402d55fe977022b8444e009d73edb7a96c377"
+      },
+      {
+        "name": "k38愛媛県.shx",
+        "bytes": 5132,
+        "sha256": "d964dcd3b327451f618237200875f0ee5c4058983f9587415349be5da9eb843c"
+      }
+    ],
+    "metadata_creation_date": "2017-01-17",
+    "publisher_authentication": "NOT_VERIFIED",
+    "redistribution_rights": "NOT_VERIFIED",
+    "original_zip_committed": false,
+    "raw_geometry_committed": false,
+    "likely_source_publisher": "農研機構（NARO）・日本土壌インベントリー",
+    "source_candidate_url": "https://soil-inventory.rad.naro.go.jp/download5.html",
+    "source_match": "CONSISTENT_METADATA_NO_OFFICIAL_ZIP_SHA_COMPARISON"
+  },
+  "geometry": {
+    "type": "POLYGON",
+    "shape_count": 629,
+    "crs": "GCS_JGD_2000",
+    "bounds_lon_lat": [
+      132.01877797092675,
+      32.92831060495059,
+      133.69142601919563,
+      34.29875962795462
+    ],
+    "municipality_name_count": 20,
+    "unique_jcodes": 21,
+    "administrative_code_name_pairs": 37,
+    "gun_name_pairs": 25,
+    "sicho_counts": {
+      "": 629
+    },
+    "gun_counts": {
+      "": 454,
+      "上浮穴郡": 31,
+      "伊予郡": 34,
+      "北宇和郡": 42,
+      "南宇和郡": 26,
+      "喜多郡": 27,
+      "西宇和郡": 8,
+      "越智郡": 7
+    }
+  },
+  "fields": [
+    "地目区分",
+    "包括_統群",
+    "統群コード",
+    "亜群コード",
+    "群コード",
+    "JCODE",
+    "KEN_1",
+    "SICHO",
+    "GUN",
+    "SIKUCHOSON"
+  ],
+  "feature_counts_by_landuse": {
+    "田": 219,
+    "普通畑": 189,
+    "牧草地": 14,
+    "樹園地": 207
+  },
+  "soil_group_code_categories": 13,
+  "soil_fine_class_categories": 50,
+  "soil_group_missing_features": 0,
+  "soil_detail_missing_features": 0,
+  "jcode_name_pairs_counts_by_landuse": [
+    [
+      "36208",
+      "四国中央市",
+      0,
+      0,
+      0,
+      1
+    ],
+    [
+      "38201",
+      "今治市",
+      0,
+      0,
+      0,
+      2
+    ],
+    [
+      "38201",
+      "東温市",
+      3,
+      0,
+      0,
+      2
+    ],
+    [
+      "38201",
+      "松山市",
+      20,
+      12,
+      3,
+      18
+    ],
+    [
+      "38201",
+      "砥部町",
+      2,
+      0,
+      0,
+      3
+    ],
+    [
+      "38202",
+      "今治市",
+      13,
+      12,
+      0,
+      12
+    ],
+    [
+      "38203",
+      "宇和島市",
+      11,
+      11,
+      0,
+      11
+    ],
+    [
+      "38203",
+      "西予市",
+      0,
+      0,
+      0,
+      1
+    ],
+    [
+      "38203",
+      "鬼北町",
+      2,
+      1,
+      0,
+      0
+    ],
+    [
+      "38204",
+      "伊方町",
+      0,
+      0,
+      0,
+      1
+    ],
+    [
+      "38204",
+      "八幡浜市",
+      4,
+      3,
+      0,
+      7
+    ],
+    [
+      "38204",
+      "大洲市",
+      0,
+      0,
+      0,
+      2
+    ],
+    [
+      "38204",
+      "西予市",
+      1,
+      0,
+      0,
+      1
+    ],
+    [
+      "38205",
+      "新居浜市",
+      10,
+      11,
+      0,
+      8
+    ],
+    [
+      "38205",
+      "西条市",
+      3,
+      0,
+      0,
+      0
+    ],
+    [
+      "38206",
+      "西条市",
+      19,
+      12,
+      1,
+      17
+    ],
+    [
+      "38207",
+      "内子町",
+      2,
+      2,
+      0,
+      1
+    ],
+    [
+      "38207",
+      "大洲市",
+      18,
+      16,
+      0,
+      14
+    ],
+    [
+      "38207",
+      "西予市",
+      0,
+      2,
+      0,
+      0
+    ],
+    [
+      "38210",
+      "伊予市",
+      12,
+      15,
+      0,
+      11
+    ],
+    [
+      "38210",
+      "内子町",
+      0,
+      1,
+      0,
+      1
+    ],
+    [
+      "38210",
+      "松前町",
+      6,
+      1,
+      0,
+      0
+    ],
+    [
+      "38210",
+      "砥部町",
+      0,
+      0,
+      0,
+      4
+    ],
+    [
+      "38213",
+      "四国中央市",
+      14,
+      13,
+      0,
+      14
+    ],
+    [
+      "38214",
+      "西予市",
+      14,
+      11,
+      6,
+      13
+    ],
+    [
+      "38214",
+      "鬼北町",
+      2,
+      0,
+      0,
+      0
+    ],
+    [
+      "38215",
+      "東温市",
+      6,
+      7,
+      0,
+      8
+    ],
+    [
+      "38356",
+      "上島町",
+      2,
+      2,
+      0,
+      3
+    ],
+    [
+      "38386",
+      "久万高原町",
+      11,
+      10,
+      3,
+      7
+    ],
+    [
+      "38401",
+      "松前町",
+      8,
+      6,
+      0,
+      0
+    ],
+    [
+      "38402",
+      "砥部町",
+      6,
+      5,
+      0,
+      9
+    ],
+    [
+      "38422",
+      "内子町",
+      8,
+      10,
+      0,
+      9
+    ],
+    [
+      "38442",
+      "伊方町",
+      0,
+      3,
+      1,
+      4
+    ],
+    [
+      "38484",
+      "松野町",
+      5,
+      6,
+      0,
+      5
+    ],
+    [
+      "38484",
+      "鬼北町",
+      0,
+      0,
+      0,
+      1
+    ],
+    [
+      "38488",
+      "鬼北町",
+      7,
+      9,
+      0,
+      9
+    ],
+    [
+      "38506",
+      "愛南町",
+      10,
+      8,
+      0,
+      8
+    ]
+  ],
+  "gun_name_pairs_counts_by_landuse": [
+    [
+      "",
+      "今治市",
+      13,
+      12,
+      0,
+      14
+    ],
+    [
+      "",
+      "伊予市",
+      12,
+      15,
+      0,
+      11
+    ],
+    [
+      "",
+      "伊方町",
+      0,
+      0,
+      0,
+      1
+    ],
+    [
+      "",
+      "八幡浜市",
+      4,
+      3,
+      0,
+      7
+    ],
+    [
+      "",
+      "内子町",
+      2,
+      3,
+      0,
+      2
+    ],
+    [
+      "",
+      "四国中央市",
+      14,
+      13,
+      0,
+      15
+    ],
+    [
+      "",
+      "大洲市",
+      18,
+      16,
+      0,
+      16
+    ],
+    [
+      "",
+      "宇和島市",
+      11,
+      11,
+      0,
+      11
+    ],
+    [
+      "",
+      "新居浜市",
+      10,
+      11,
+      0,
+      8
+    ],
+    [
+      "",
+      "東温市",
+      9,
+      7,
+      0,
+      10
+    ],
+    [
+      "",
+      "松前町",
+      6,
+      1,
+      0,
+      0
+    ],
+    [
+      "",
+      "松山市",
+      20,
+      12,
+      3,
+      18
+    ],
+    [
+      "",
+      "砥部町",
+      2,
+      0,
+      0,
+      7
+    ],
+    [
+      "",
+      "西予市",
+      15,
+      13,
+      6,
+      15
+    ],
+    [
+      "",
+      "西条市",
+      22,
+      12,
+      1,
+      17
+    ],
+    [
+      "",
+      "鬼北町",
+      4,
+      1,
+      0,
+      0
+    ],
+    [
+      "上浮穴郡",
+      "久万高原町",
+      11,
+      10,
+      3,
+      7
+    ],
+    [
+      "伊予郡",
+      "松前町",
+      8,
+      6,
+      0,
+      0
+    ],
+    [
+      "伊予郡",
+      "砥部町",
+      6,
+      5,
+      0,
+      9
+    ],
+    [
+      "北宇和郡",
+      "松野町",
+      5,
+      6,
+      0,
+      5
+    ],
+    [
+      "北宇和郡",
+      "鬼北町",
+      7,
+      9,
+      0,
+      10
+    ],
+    [
+      "南宇和郡",
+      "愛南町",
+      10,
+      8,
+      0,
+      8
+    ],
+    [
+      "喜多郡",
+      "内子町",
+      8,
+      10,
+      0,
+      9
+    ],
+    [
+      "西宇和郡",
+      "伊方町",
+      0,
+      3,
+      1,
+      4
+    ],
+    [
+      "越智郡",
+      "上島町",
+      2,
+      2,
+      0,
+      3
+    ]
+  ],
+  "source_code_name_anomalies": {
+    "foreign_prefecture_code_feature_count": 1,
+    "foreign_code_prefix_totals": {
+      "36": 1
+    },
+    "foreign_prefecture_code_pairs": [
+      [
+        "36208",
+        "四国中央市",
+        0,
+        0,
+        0,
+        1
+      ]
+    ],
+    "codes_with_multiple_names": {
+      "38201": [
+        "今治市",
+        "東温市",
+        "松山市",
+        "砥部町"
+      ],
+      "38203": [
+        "宇和島市",
+        "西予市",
+        "鬼北町"
+      ],
+      "38204": [
+        "伊方町",
+        "八幡浜市",
+        "大洲市",
+        "西予市"
+      ],
+      "38205": [
+        "新居浜市",
+        "西条市"
+      ],
+      "38207": [
+        "内子町",
+        "大洲市",
+        "西予市"
+      ],
+      "38210": [
+        "伊予市",
+        "内子町",
+        "松前町",
+        "砥部町"
+      ],
+      "38214": [
+        "西予市",
+        "鬼北町"
+      ],
+      "38484": [
+        "松野町",
+        "鬼北町"
+      ]
+    },
+    "names_with_multiple_codes": {
+      "四国中央市": [
+        "36208",
+        "38213"
+      ],
+      "今治市": [
+        "38201",
+        "38202"
+      ],
+      "東温市": [
+        "38201",
+        "38215"
+      ],
+      "砥部町": [
+        "38201",
+        "38210",
+        "38402"
+      ],
+      "西予市": [
+        "38203",
+        "38204",
+        "38207",
+        "38214"
+      ],
+      "鬼北町": [
+        "38203",
+        "38214",
+        "38484",
+        "38488"
+      ],
+      "伊方町": [
+        "38204",
+        "38442"
+      ],
+      "大洲市": [
+        "38204",
+        "38207"
+      ],
+      "西条市": [
+        "38205",
+        "38206"
+      ],
+      "内子町": [
+        "38207",
+        "38210",
+        "38422"
+      ],
+      "松前町": [
+        "38210",
+        "38401"
+      ]
+    },
+    "one_to_one_code_name_mapping": false,
+    "status": "UNRESOLVED_ORIGINAL_KEPT_NO_CITY_JOIN"
+  },
+  "source_gun_quality": {
+    "gun_feature_counts": {
+      "": 454,
+      "上浮穴郡": 31,
+      "伊予郡": 34,
+      "北宇和郡": 42,
+      "南宇和郡": 26,
+      "喜多郡": 27,
+      "西宇和郡": 8,
+      "越智郡": 7
+    },
+    "blank_gun_features": 454,
+    "empty_gun_features_for_names_with_county_elsewhere": 29,
+    "empty_gun_name_pairs_with_nonempty_gun_elsewhere": [
+      {
+        "municipality_name": "伊方町",
+        "empty_gun_polygon_count": 1,
+        "gun_names_seen_elsewhere": [
+          "西宇和郡"
+        ]
+      },
+      {
+        "municipality_name": "内子町",
+        "empty_gun_polygon_count": 7,
+        "gun_names_seen_elsewhere": [
+          "喜多郡"
+        ]
+      },
+      {
+        "municipality_name": "松前町",
+        "empty_gun_polygon_count": 7,
+        "gun_names_seen_elsewhere": [
+          "伊予郡"
+        ]
+      },
+      {
+        "municipality_name": "砥部町",
+        "empty_gun_polygon_count": 9,
+        "gun_names_seen_elsewhere": [
+          "伊予郡"
+        ]
+      },
+      {
+        "municipality_name": "鬼北町",
+        "empty_gun_polygon_count": 5,
+        "gun_names_seen_elsewhere": [
+          "北宇和郡"
+        ]
+      }
+    ],
+    "multiple_nonempty_guns_per_municipality_name": {},
+    "status": "UNRESOLVED_ORIGINAL_KEPT_NO_GUN_JOIN"
+  },
+  "scientific_boundaries": {
+    "counts_are_polygon_features_not_area_ha": true,
+    "municipality_level_aggregations_pending_reconciliation": true,
+    "calculation_of_certified_credits_prohibited": true,
+    "official_credit_tco2e": null,
+    "raw_geometry_licensed_for_publication": false
+  }
+}
