@@ -110,6 +110,8 @@ python3 scripts/p67-kochi-soil-audit.py audit
 node tests/p67-kochi-soil-gis.test.mjs
 python3 scripts/p68-fukuoka-soil-audit.py audit
 node tests/p68-fukuoka-soil-gis.test.mjs
+python3 scripts/p69-saga-soil-audit.py audit
+node tests/p69-saga-soil-gis.test.mjs
 node tests/p11-real-chamber-source-audit.test.mjs
 node tests/p11-rice-chromatography-guard.test.mjs
 node tests/p12-estat-2025-original-source.test.mjs
