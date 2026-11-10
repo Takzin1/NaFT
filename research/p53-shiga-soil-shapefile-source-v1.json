@@ -1,0 +1,1068 @@
+{
+  "schema": "naft-p53-shiga-soil-shapefile-v1",
+  "source": {
+    "provided_filename": "滋賀県.zip",
+    "source_zip_sha256": "3fef4ebc36d2856543a0034f05815fb1961e37b9ad1a160883d2ad22a0229a19",
+    "zip_bytes": 4887387,
+    "zip_entries": 7,
+    "uncompressed_bytes": 7899584,
+    "member_folder": "k25滋賀県",
+    "members": [
+      {
+        "name": "k25滋賀県.dbf",
+        "bytes": 862284,
+        "sha256": "f487359629c466947f2da20032a23966bf8bac07da409f177cf67925a575073a"
+      },
+      {
+        "name": "k25滋賀県.prj",
+        "bytes": 145,
+        "sha256": "d1de156bb748892db7642d045767629921ea76cc06597e25cea2411b12e7b0b2"
+      },
+      {
+        "name": "k25滋賀県.sbn",
+        "bytes": 7948,
+        "sha256": "9e8776d11a2b493126e601ebeeb33bc9a287f89110c64e0d2362e62218d9887d"
+      },
+      {
+        "name": "k25滋賀県.sbx",
+        "bytes": 668,
+        "sha256": "eef9ffad7ef890e31f73adcf9d6a731d413e7095fc0803405e9734cd0f75a926"
+      },
+      {
+        "name": "k25滋賀県.shp",
+        "bytes": 6916496,
+        "sha256": "ae35bf29c389635ab18304abdbb3bce274731c5f447413d07aabed9c2777784a"
+      },
+      {
+        "name": "k25滋賀県.shp.xml",
+        "bytes": 105663,
+        "sha256": "f24f39da19ee5bfead68fe7d663c08af7ea6d196ad9605aefe570ba23ec87f64"
+      },
+      {
+        "name": "k25滋賀県.shx",
+        "bytes": 6380,
+        "sha256": "9ed2a03c3dbf0713b43ebe51331c86331faddc29201dca43786818bb0367e0a9"
+      }
+    ],
+    "metadata_creation_date": "2017-01-17",
+    "publisher_authentication": "NOT_VERIFIED",
+    "redistribution_rights": "NOT_VERIFIED",
+    "original_zip_committed": false,
+    "raw_geometry_committed": false,
+    "likely_source_publisher": "農研機構（NARO）・日本土壌インベントリー",
+    "source_candidate_url": "https://soil-inventory.rad.naro.go.jp/download5.html",
+    "source_match": "CONSISTENT_METADATA_NO_OFFICIAL_ZIP_SHA_COMPARISON"
+  },
+  "geometry": {
+    "type": "POLYGON",
+    "shape_count": 785,
+    "crs": "GCS_JGD_2000",
+    "bounds_lon_lat": [
+      135.7872572992245,
+      34.79754192350782,
+      136.43336700581398,
+      35.671852353859066
+    ],
+    "municipality_name_count": 19,
+    "unique_jcodes": 22,
+    "administrative_code_name_pairs": 51,
+    "sicho_unique_values": [
+      ""
+    ],
+    "sicho_counts": {
+      "": 785
+    },
+    "gun_counts": {
+      "": 662,
+      "不破郡": 1,
+      "愛知郡": 25,
+      "犬上郡": 41,
+      "蒲生郡": 56
+    },
+    "jcodes_are_five_digit": true
+  },
+  "fields": [
+    "地目区分",
+    "包括_統群",
+    "統群コード",
+    "亜群コード",
+    "群コード",
+    "JCODE",
+    "KEN_1",
+    "SICHO",
+    "GUN",
+    "SIKUCHOSON"
+  ],
+  "feature_counts_by_landuse": {
+    "田": 410,
+    "普通畑": 257,
+    "牧草地": 9,
+    "樹園地": 109
+  },
+  "soil_group_code_categories": 16,
+  "soil_fine_class_categories": 64,
+  "soil_column_missing_features": {
+    "包括_統群": 0,
+    "統群コード": 0,
+    "亜群コード": 0,
+    "群コード": 0
+  },
+  "jcode_name_pairs_counts_by_landuse": [
+    [
+      "21362",
+      "米原市",
+      0,
+      0,
+      0,
+      1
+    ],
+    [
+      "24210",
+      "甲賀市",
+      0,
+      0,
+      0,
+      1
+    ],
+    [
+      "24216",
+      "甲賀市",
+      3,
+      0,
+      0,
+      0
+    ],
+    [
+      "25201",
+      "大津市",
+      30,
+      17,
+      0,
+      6
+    ],
+    [
+      "25201",
+      "栗東市",
+      1,
+      0,
+      0,
+      0
+    ],
+    [
+      "25201",
+      "甲賀市",
+      2,
+      0,
+      0,
+      0
+    ],
+    [
+      "25201",
+      "草津市",
+      4,
+      1,
+      0,
+      1
+    ],
+    [
+      "25201",
+      "高島市",
+      2,
+      0,
+      0,
+      0
+    ],
+    [
+      "25202",
+      "多賀町",
+      3,
+      0,
+      0,
+      0
+    ],
+    [
+      "25202",
+      "彦根市",
+      15,
+      13,
+      0,
+      5
+    ],
+    [
+      "25202",
+      "愛荘町",
+      4,
+      0,
+      0,
+      0
+    ],
+    [
+      "25202",
+      "甲良町",
+      2,
+      2,
+      0,
+      0
+    ],
+    [
+      "25202",
+      "米原市",
+      4,
+      0,
+      0,
+      0
+    ],
+    [
+      "25202",
+      "豊郷町",
+      5,
+      0,
+      0,
+      0
+    ],
+    [
+      "25203",
+      "米原市",
+      6,
+      1,
+      0,
+      0
+    ],
+    [
+      "25203",
+      "長浜市",
+      30,
+      25,
+      0,
+      10
+    ],
+    [
+      "25204",
+      "東近江市",
+      7,
+      1,
+      0,
+      0
+    ],
+    [
+      "25204",
+      "竜王町",
+      3,
+      0,
+      0,
+      0
+    ],
+    [
+      "25204",
+      "近江八幡市",
+      19,
+      13,
+      0,
+      0
+    ],
+    [
+      "25204",
+      "野洲市",
+      5,
+      0,
+      0,
+      0
+    ],
+    [
+      "25206",
+      "守山市",
+      3,
+      1,
+      0,
+      0
+    ],
+    [
+      "25206",
+      "栗東市",
+      3,
+      1,
+      0,
+      0
+    ],
+    [
+      "25206",
+      "草津市",
+      16,
+      12,
+      0,
+      6
+    ],
+    [
+      "25207",
+      "守山市",
+      19,
+      16,
+      0,
+      5
+    ],
+    [
+      "25207",
+      "栗東市",
+      3,
+      0,
+      0,
+      0
+    ],
+    [
+      "25207",
+      "野洲市",
+      4,
+      3,
+      0,
+      1
+    ],
+    [
+      "25208",
+      "栗東市",
+      3,
+      0,
+      0,
+      0
+    ],
+    [
+      "25208",
+      "湖南市",
+      2,
+      0,
+      0,
+      0
+    ],
+    [
+      "25209",
+      "日野町",
+      4,
+      1,
+      0,
+      0
+    ],
+    [
+      "25209",
+      "東近江市",
+      1,
+      0,
+      0,
+      0
+    ],
+    [
+      "25209",
+      "湖南市",
+      2,
+      3,
+      0,
+      0
+    ],
+    [
+      "25209",
+      "甲賀市",
+      24,
+      22,
+      4,
+      27
+    ],
+    [
+      "25210",
+      "湖南市",
+      1,
+      0,
+      0,
+      0
+    ],
+    [
+      "25210",
+      "野洲市",
+      17,
+      13,
+      1,
+      1
+    ],
+    [
+      "25211",
+      "湖南市",
+      11,
+      9,
+      0,
+      1
+    ],
+    [
+      "25211",
+      "竜王町",
+      1,
+      0,
+      0,
+      0
+    ],
+    [
+      "25212",
+      "高島市",
+      25,
+      21,
+      0,
+      9
+    ],
+    [
+      "25213",
+      "愛荘町",
+      5,
+      0,
+      0,
+      0
+    ],
+    [
+      "25213",
+      "日野町",
+      5,
+      1,
+      0,
+      0
+    ],
+    [
+      "25213",
+      "東近江市",
+      27,
+      24,
+      1,
+      15
+    ],
+    [
+      "25213",
+      "竜王町",
+      2,
+      0,
+      0,
+      0
+    ],
+    [
+      "25214",
+      "米原市",
+      20,
+      20,
+      0,
+      5
+    ],
+    [
+      "25383",
+      "日野町",
+      17,
+      6,
+      3,
+      8
+    ],
+    [
+      "25384",
+      "竜王町",
+      10,
+      7,
+      0,
+      5
+    ],
+    [
+      "25425",
+      "愛荘町",
+      14,
+      7,
+      0,
+      1
+    ],
+    [
+      "25425",
+      "豊郷町",
+      3,
+      0,
+      0,
+      0
+    ],
+    [
+      "25441",
+      "甲良町",
+      2,
+      0,
+      0,
+      0
+    ],
+    [
+      "25441",
+      "豊郷町",
+      7,
+      3,
+      0,
+      0
+    ],
+    [
+      "25442",
+      "多賀町",
+      1,
+      1,
+      0,
+      0
+    ],
+    [
+      "25442",
+      "甲良町",
+      6,
+      6,
+      0,
+      1
+    ],
+    [
+      "25443",
+      "多賀町",
+      7,
+      7,
+      0,
+      0
+    ]
+  ],
+  "gun_name_pairs_counts_by_landuse": [
+    [
+      "",
+      "多賀町",
+      3,
+      0,
+      0,
+      0
+    ],
+    [
+      "",
+      "大津市",
+      30,
+      17,
+      0,
+      6
+    ],
+    [
+      "",
+      "守山市",
+      22,
+      17,
+      0,
+      5
+    ],
+    [
+      "",
+      "彦根市",
+      15,
+      13,
+      0,
+      5
+    ],
+    [
+      "",
+      "愛荘町",
+      9,
+      0,
+      0,
+      0
+    ],
+    [
+      "",
+      "日野町",
+      9,
+      2,
+      0,
+      0
+    ],
+    [
+      "",
+      "東近江市",
+      35,
+      25,
+      1,
+      15
+    ],
+    [
+      "",
+      "栗東市",
+      10,
+      1,
+      0,
+      0
+    ],
+    [
+      "",
+      "湖南市",
+      16,
+      12,
+      0,
+      1
+    ],
+    [
+      "",
+      "甲良町",
+      2,
+      2,
+      0,
+      0
+    ],
+    [
+      "",
+      "甲賀市",
+      29,
+      22,
+      4,
+      28
+    ],
+    [
+      "",
+      "竜王町",
+      6,
+      0,
+      0,
+      0
+    ],
+    [
+      "",
+      "米原市",
+      30,
+      21,
+      0,
+      5
+    ],
+    [
+      "",
+      "草津市",
+      20,
+      13,
+      0,
+      7
+    ],
+    [
+      "",
+      "豊郷町",
+      5,
+      0,
+      0,
+      0
+    ],
+    [
+      "",
+      "近江八幡市",
+      19,
+      13,
+      0,
+      0
+    ],
+    [
+      "",
+      "野洲市",
+      26,
+      16,
+      1,
+      2
+    ],
+    [
+      "",
+      "長浜市",
+      30,
+      25,
+      0,
+      10
+    ],
+    [
+      "",
+      "高島市",
+      27,
+      21,
+      0,
+      9
+    ],
+    [
+      "不破郡",
+      "米原市",
+      0,
+      0,
+      0,
+      1
+    ],
+    [
+      "愛知郡",
+      "愛荘町",
+      14,
+      7,
+      0,
+      1
+    ],
+    [
+      "愛知郡",
+      "豊郷町",
+      3,
+      0,
+      0,
+      0
+    ],
+    [
+      "犬上郡",
+      "多賀町",
+      8,
+      8,
+      0,
+      0
+    ],
+    [
+      "犬上郡",
+      "甲良町",
+      8,
+      6,
+      0,
+      1
+    ],
+    [
+      "犬上郡",
+      "豊郷町",
+      7,
+      3,
+      0,
+      0
+    ],
+    [
+      "蒲生郡",
+      "日野町",
+      17,
+      6,
+      3,
+      8
+    ],
+    [
+      "蒲生郡",
+      "竜王町",
+      10,
+      7,
+      0,
+      5
+    ]
+  ],
+  "source_code_name_anomalies": {
+    "foreign_prefecture_code_feature_count": 5,
+    "foreign_prefecture_code_pairs": [
+      [
+        "21362",
+        "米原市",
+        0,
+        0,
+        0,
+        1
+      ],
+      [
+        "24210",
+        "甲賀市",
+        0,
+        0,
+        0,
+        1
+      ],
+      [
+        "24216",
+        "甲賀市",
+        3,
+        0,
+        0,
+        0
+      ]
+    ],
+    "foreign_code_prefix_totals": {
+      "21": 1,
+      "24": 4
+    },
+    "foreign_prefixes": [
+      "21",
+      "24"
+    ],
+    "one_to_one_code_name_mapping": false,
+    "codes_with_multiple_names": {
+      "25201": [
+        "大津市",
+        "栗東市",
+        "甲賀市",
+        "草津市",
+        "高島市"
+      ],
+      "25202": [
+        "多賀町",
+        "彦根市",
+        "愛荘町",
+        "甲良町",
+        "米原市",
+        "豊郷町"
+      ],
+      "25203": [
+        "米原市",
+        "長浜市"
+      ],
+      "25204": [
+        "東近江市",
+        "竜王町",
+        "近江八幡市",
+        "野洲市"
+      ],
+      "25206": [
+        "守山市",
+        "栗東市",
+        "草津市"
+      ],
+      "25207": [
+        "守山市",
+        "栗東市",
+        "野洲市"
+      ],
+      "25208": [
+        "栗東市",
+        "湖南市"
+      ],
+      "25209": [
+        "日野町",
+        "東近江市",
+        "湖南市",
+        "甲賀市"
+      ],
+      "25210": [
+        "湖南市",
+        "野洲市"
+      ],
+      "25211": [
+        "湖南市",
+        "竜王町"
+      ],
+      "25213": [
+        "愛荘町",
+        "日野町",
+        "東近江市",
+        "竜王町"
+      ],
+      "25425": [
+        "愛荘町",
+        "豊郷町"
+      ],
+      "25441": [
+        "甲良町",
+        "豊郷町"
+      ],
+      "25442": [
+        "多賀町",
+        "甲良町"
+      ]
+    },
+    "names_with_multiple_codes": {
+      "多賀町": [
+        "25202",
+        "25442",
+        "25443"
+      ],
+      "守山市": [
+        "25206",
+        "25207"
+      ],
+      "愛荘町": [
+        "25202",
+        "25213",
+        "25425"
+      ],
+      "日野町": [
+        "25209",
+        "25213",
+        "25383"
+      ],
+      "東近江市": [
+        "25204",
+        "25209",
+        "25213"
+      ],
+      "栗東市": [
+        "25201",
+        "25206",
+        "25207",
+        "25208"
+      ],
+      "湖南市": [
+        "25208",
+        "25209",
+        "25210",
+        "25211"
+      ],
+      "甲良町": [
+        "25202",
+        "25441",
+        "25442"
+      ],
+      "甲賀市": [
+        "24210",
+        "24216",
+        "25201",
+        "25209"
+      ],
+      "竜王町": [
+        "25204",
+        "25211",
+        "25213",
+        "25384"
+      ],
+      "米原市": [
+        "21362",
+        "25202",
+        "25203",
+        "25214"
+      ],
+      "草津市": [
+        "25201",
+        "25206"
+      ],
+      "豊郷町": [
+        "25202",
+        "25425",
+        "25441"
+      ],
+      "野洲市": [
+        "25204",
+        "25207",
+        "25210"
+      ],
+      "高島市": [
+        "25201",
+        "25212"
+      ]
+    },
+    "status": "UNRESOLVED_ORIGINAL_KEPT_NO_CITY_JOIN"
+  },
+  "source_gun_quality": {
+    "gun_feature_counts": {
+      "": 662,
+      "不破郡": 1,
+      "愛知郡": 25,
+      "犬上郡": 41,
+      "蒲生郡": 56
+    },
+    "empty_gun_name_pairs_with_nonempty_gun_elsewhere": [
+      {
+        "municipality_name": "多賀町",
+        "empty_gun_landuse_counts": {
+          "田": 3,
+          "普通畑": 0,
+          "牧草地": 0,
+          "樹園地": 0
+        },
+        "empty_gun_polygon_count": 3,
+        "gun_names_seen_elsewhere": [
+          "犬上郡"
+        ]
+      },
+      {
+        "municipality_name": "愛荘町",
+        "empty_gun_landuse_counts": {
+          "田": 9,
+          "普通畑": 0,
+          "牧草地": 0,
+          "樹園地": 0
+        },
+        "empty_gun_polygon_count": 9,
+        "gun_names_seen_elsewhere": [
+          "愛知郡"
+        ]
+      },
+      {
+        "municipality_name": "日野町",
+        "empty_gun_landuse_counts": {
+          "田": 9,
+          "普通畑": 2,
+          "牧草地": 0,
+          "樹園地": 0
+        },
+        "empty_gun_polygon_count": 11,
+        "gun_names_seen_elsewhere": [
+          "蒲生郡"
+        ]
+      },
+      {
+        "municipality_name": "甲良町",
+        "empty_gun_landuse_counts": {
+          "田": 2,
+          "普通畑": 2,
+          "牧草地": 0,
+          "樹園地": 0
+        },
+        "empty_gun_polygon_count": 4,
+        "gun_names_seen_elsewhere": [
+          "犬上郡"
+        ]
+      },
+      {
+        "municipality_name": "竜王町",
+        "empty_gun_landuse_counts": {
+          "田": 6,
+          "普通畑": 0,
+          "牧草地": 0,
+          "樹園地": 0
+        },
+        "empty_gun_polygon_count": 6,
+        "gun_names_seen_elsewhere": [
+          "蒲生郡"
+        ]
+      },
+      {
+        "municipality_name": "米原市",
+        "empty_gun_landuse_counts": {
+          "田": 30,
+          "普通畑": 21,
+          "牧草地": 0,
+          "樹園地": 5
+        },
+        "empty_gun_polygon_count": 56,
+        "gun_names_seen_elsewhere": [
+          "不破郡"
+        ]
+      },
+      {
+        "municipality_name": "豊郷町",
+        "empty_gun_landuse_counts": {
+          "田": 5,
+          "普通畑": 0,
+          "牧草地": 0,
+          "樹園地": 0
+        },
+        "empty_gun_polygon_count": 5,
+        "gun_names_seen_elsewhere": [
+          "愛知郡",
+          "犬上郡"
+        ]
+      }
+    ],
+    "empty_gun_features_for_names_with_county_elsewhere": 94,
+    "empty_gun_features_in_town_village_names": 38,
+    "city_name_empty_gun_features_with_county_elsewhere": 56,
+    "municipality_names_with_multiple_nonempty_guns": {
+      "豊郷町": [
+        "愛知郡",
+        "犬上郡"
+      ]
+    },
+    "non_shiga_gun_pairs": [
+      {
+        "gun": "不破郡",
+        "municipality_name": "米原市",
+        "landuse_counts": {
+          "田": 0,
+          "普通畑": 0,
+          "牧草地": 0,
+          "樹園地": 1
+        },
+        "polygon_count": 1
+      }
+    ],
+    "status": "UNRESOLVED_ORIGINAL_KEPT_NO_GUN_JOIN"
+  },
+  "scientific_boundaries": {
+    "count_unit": "polygon feature rows, not hectares, parcels or agricultural activity",
+    "soil_carbon_measured": false,
+    "field_ch4_measured": false,
+    "contemporary_ground_truth_not_verified": true,
+    "jcode_name_conflict_detected": true,
+    "gun_name_conflict_detected": true,
+    "municipality_level_aggregations_pending_reconciliation": true,
+    "calculation_of_certified_credits_prohibited": true,
+    "official_credit_tco2e": null,
+    "raw_geometry_licensed_for_publication": false,
+    "correlation_with_2024_rice_stats_not_validated": true
+  }
+}
