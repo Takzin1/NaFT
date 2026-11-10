@@ -118,6 +118,8 @@ python3 scripts/p71-oita-soil-audit.py audit
 node tests/p71-oita-soil-gis.test.mjs
 python3 scripts/p72-kumamoto-soil-audit.py audit
 node tests/p72-kumamoto-soil-gis.test.mjs
+python3 scripts/p73-miyazaki-soil-audit.py audit
+node tests/p73-miyazaki-soil-gis.test.mjs
 node tests/p11-real-chamber-source-audit.test.mjs
 node tests/p11-rice-chromatography-guard.test.mjs
 node tests/p12-estat-2025-original-source.test.mjs
