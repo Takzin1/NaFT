@@ -106,6 +106,8 @@ python3 scripts/p65-kagawa-soil-audit.py audit
 node tests/p65-kagawa-soil-gis.test.mjs
 python3 scripts/p66-ehime-soil-audit.py audit
 node tests/p66-ehime-soil-gis.test.mjs
+python3 scripts/p67-kochi-soil-audit.py audit
+node tests/p67-kochi-soil-gis.test.mjs
 node tests/p11-real-chamber-source-audit.test.mjs
 node tests/p11-rice-chromatography-guard.test.mjs
 node tests/p12-estat-2025-original-source.test.mjs
