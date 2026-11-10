@@ -1,0 +1,381 @@
+{
+  "schema": "naft-p76-registry-staging-batch-v1",
+  "range": [
+    53,
+    64
+  ],
+  "records": [
+    {
+      "p": 53,
+      "prefecture_code": "25",
+      "prefecture_name": "滋賀県",
+      "polygon_features": 785,
+      "landuse_counts": {
+        "田": 410,
+        "普通畑": 257,
+        "牧草地": 9,
+        "樹園地": 109
+      },
+      "source": {
+        "ledger_path": "research/p53-shiga-soil-shapefile-source-v1.json",
+        "zip_sha256": "3fef4ebc36d2856543a0034f05815fb1961e37b9ad1a160883d2ad22a0229a19",
+        "zip_bytes": 4887387,
+        "official_source_match": "CONSISTENT_METADATA_NO_OFFICIAL_ZIP_SHA_COMPARISON",
+        "publisher_authentication": "NOT_VERIFIED",
+        "redistribution_rights": "NOT_VERIFIED",
+        "original_zip_committed": false,
+        "raw_geometry_committed": false
+      },
+      "quality": {
+        "foreign_jcode_features": 5,
+        "blank_gun_features": null,
+        "ambiguous_jcodes": 14,
+        "ambiguous_names": 15,
+        "ambiguous_guns": null,
+        "soil_group_missing_features": null,
+        "soil_detail_missing_features": null
+      }
+    },
+    {
+      "p": 54,
+      "prefecture_code": "26",
+      "prefecture_name": "京都府",
+      "polygon_features": 969,
+      "landuse_counts": {
+        "田": 452,
+        "普通畑": 279,
+        "牧草地": 11,
+        "樹園地": 227
+      },
+      "source": {
+        "ledger_path": "research/p54-kyoto-soil-shapefile-source-v1.json",
+        "zip_sha256": "f5440640ef355f37e6bd4ee67f2039521407f252398fdfdabcb3b5fbf221bf9a",
+        "zip_bytes": 3960656,
+        "official_source_match": "CONSISTENT_METADATA_NO_OFFICIAL_ZIP_SHA_COMPARISON",
+        "publisher_authentication": "NOT_VERIFIED",
+        "redistribution_rights": "NOT_VERIFIED",
+        "original_zip_committed": false,
+        "raw_geometry_committed": false
+      },
+      "quality": {
+        "foreign_jcode_features": 10,
+        "blank_gun_features": null,
+        "ambiguous_jcodes": 23,
+        "ambiguous_names": 26,
+        "ambiguous_guns": 1,
+        "soil_group_missing_features": 1,
+        "soil_detail_missing_features": 1
+      }
+    },
+    {
+      "p": 55,
+      "prefecture_code": "27",
+      "prefecture_name": "大阪府",
+      "polygon_features": 764,
+      "landuse_counts": {
+        "田": 391,
+        "普通畑": 158,
+        "牧草地": 2,
+        "樹園地": 213
+      },
+      "source": {
+        "ledger_path": "research/p55-osaka-soil-shapefile-source-v1.json",
+        "zip_sha256": "1f75d80027ea0d1ea2718d00f0c8d5106694991733440544f3fd040155f8909d",
+        "zip_bytes": 1989097,
+        "official_source_match": "CONSISTENT_METADATA_NO_OFFICIAL_ZIP_SHA_COMPARISON",
+        "publisher_authentication": "NOT_VERIFIED",
+        "redistribution_rights": "NOT_VERIFIED",
+        "original_zip_committed": false,
+        "raw_geometry_committed": false
+      },
+      "quality": {
+        "foreign_jcode_features": 7,
+        "blank_gun_features": null,
+        "ambiguous_jcodes": 31,
+        "ambiguous_names": 41,
+        "ambiguous_guns": 0,
+        "soil_group_missing_features": 2,
+        "soil_detail_missing_features": 2
+      }
+    },
+    {
+      "p": 56,
+      "prefecture_code": "28",
+      "prefecture_name": "兵庫県",
+      "polygon_features": 1216,
+      "landuse_counts": {
+        "田": 615,
+        "普通畑": 333,
+        "牧草地": 60,
+        "樹園地": 208
+      },
+      "source": {
+        "ledger_path": "research/p56-hyogo-soil-shapefile-source-v1.json",
+        "zip_sha256": "d0e2c012e060014b341595d3a34aadb83498476290c7a1ae1cd2a27363733e38",
+        "zip_bytes": 11256943,
+        "official_source_match": "CONSISTENT_METADATA_NO_OFFICIAL_ZIP_SHA_COMPARISON",
+        "publisher_authentication": "NOT_VERIFIED",
+        "redistribution_rights": "NOT_VERIFIED",
+        "original_zip_committed": false,
+        "raw_geometry_committed": false
+      },
+      "quality": {
+        "foreign_jcode_features": 8,
+        "blank_gun_features": null,
+        "ambiguous_jcodes": 25,
+        "ambiguous_names": 31,
+        "ambiguous_guns": 0,
+        "soil_group_missing_features": 0,
+        "soil_detail_missing_features": 0
+      }
+    },
+    {
+      "p": 57,
+      "prefecture_code": "29",
+      "prefecture_name": "奈良県",
+      "polygon_features": 855,
+      "landuse_counts": {
+        "田": 401,
+        "普通畑": 265,
+        "牧草地": 9,
+        "樹園地": 180
+      },
+      "source": {
+        "ledger_path": "research/p57-nara-soil-shapefile-source-v1.json",
+        "zip_sha256": "6a1787c976149b29fead495730d749b0ce072e1e5d9922f4d25786aba3d61d16",
+        "zip_bytes": 3703958,
+        "official_source_match": "CONSISTENT_METADATA_NO_OFFICIAL_ZIP_SHA_COMPARISON",
+        "publisher_authentication": "NOT_VERIFIED",
+        "redistribution_rights": "NOT_VERIFIED",
+        "original_zip_committed": false,
+        "raw_geometry_committed": false
+      },
+      "quality": {
+        "foreign_jcode_features": 33,
+        "blank_gun_features": null,
+        "ambiguous_jcodes": 24,
+        "ambiguous_names": 28,
+        "ambiguous_guns": 2,
+        "soil_group_missing_features": 0,
+        "soil_detail_missing_features": 0
+      }
+    },
+    {
+      "p": 58,
+      "prefecture_code": "30",
+      "prefecture_name": "和歌山県",
+      "polygon_features": 822,
+      "landuse_counts": {
+        "田": 280,
+        "普通畑": 209,
+        "牧草地": 8,
+        "樹園地": 325
+      },
+      "source": {
+        "ledger_path": "research/p58-wakayama-soil-shapefile-source-v1.json",
+        "zip_sha256": "c663a62ae93deb5672cc7645ec9ec98d18b1bb80171171ce1c74f8b591090453",
+        "zip_bytes": 5134115,
+        "official_source_match": "CONSISTENT_METADATA_NO_OFFICIAL_ZIP_SHA_COMPARISON",
+        "publisher_authentication": "NOT_VERIFIED",
+        "redistribution_rights": "NOT_VERIFIED",
+        "original_zip_committed": false,
+        "raw_geometry_committed": false
+      },
+      "quality": {
+        "foreign_jcode_features": 11,
+        "blank_gun_features": null,
+        "ambiguous_jcodes": 15,
+        "ambiguous_names": 20,
+        "ambiguous_guns": 1,
+        "soil_group_missing_features": 0,
+        "soil_detail_missing_features": 0
+      }
+    },
+    {
+      "p": 59,
+      "prefecture_code": "31",
+      "prefecture_name": "鳥取県",
+      "polygon_features": 1032,
+      "landuse_counts": {
+        "田": 352,
+        "普通畑": 358,
+        "牧草地": 41,
+        "樹園地": 281
+      },
+      "source": {
+        "ledger_path": "research/p59-tottori-soil-shapefile-source-v1.json",
+        "zip_sha256": "a4bdf588790b48d87d445d25c03151caae781937b5ccb3b3054e574acf558915",
+        "zip_bytes": 5198920,
+        "official_source_match": "CONSISTENT_METADATA_NO_OFFICIAL_ZIP_SHA_COMPARISON",
+        "publisher_authentication": "NOT_VERIFIED",
+        "redistribution_rights": "NOT_VERIFIED",
+        "original_zip_committed": false,
+        "raw_geometry_committed": false
+      },
+      "quality": {
+        "foreign_jcode_features": null,
+        "blank_gun_features": null,
+        "ambiguous_jcodes": 11,
+        "ambiguous_names": 12,
+        "ambiguous_guns": 4,
+        "soil_group_missing_features": 0,
+        "soil_detail_missing_features": 0
+      }
+    },
+    {
+      "p": 60,
+      "prefecture_code": "32",
+      "prefecture_name": "島根県",
+      "polygon_features": 927,
+      "landuse_counts": {
+        "田": 350,
+        "普通畑": 309,
+        "牧草地": 81,
+        "樹園地": 187
+      },
+      "source": {
+        "ledger_path": "research/p60-shimane-soil-shapefile-source-v1.json",
+        "zip_sha256": "1c54bcdf1360103a856404e32bb6a31e5072ab35eb76b805b367ad8c500e0d90",
+        "zip_bytes": 6246580,
+        "official_source_match": "CONSISTENT_METADATA_NO_OFFICIAL_ZIP_SHA_COMPARISON",
+        "publisher_authentication": "NOT_VERIFIED",
+        "redistribution_rights": "NOT_VERIFIED",
+        "original_zip_committed": false,
+        "raw_geometry_committed": false
+      },
+      "quality": {
+        "foreign_jcode_features": null,
+        "blank_gun_features": 577,
+        "ambiguous_jcodes": 8,
+        "ambiguous_names": 11,
+        "ambiguous_guns": 1,
+        "soil_group_missing_features": 0,
+        "soil_detail_missing_features": 0
+      }
+    },
+    {
+      "p": 61,
+      "prefecture_code": "33",
+      "prefecture_name": "岡山県",
+      "polygon_features": 1151,
+      "landuse_counts": {
+        "田": 489,
+        "普通畑": 337,
+        "牧草地": 74,
+        "樹園地": 251
+      },
+      "source": {
+        "ledger_path": "research/p61-okayama-soil-shapefile-source-v1.json",
+        "zip_sha256": "beb5ffe3f03d788641d952b9d51621ee1d70612d7bd544b82b03476d94b3b47d",
+        "zip_bytes": 13379023,
+        "official_source_match": "CONSISTENT_METADATA_NO_OFFICIAL_ZIP_SHA_COMPARISON",
+        "publisher_authentication": "NOT_VERIFIED",
+        "redistribution_rights": "NOT_VERIFIED",
+        "original_zip_committed": false,
+        "raw_geometry_committed": false
+      },
+      "quality": {
+        "foreign_jcode_features": 4,
+        "blank_gun_features": 891,
+        "ambiguous_jcodes": 18,
+        "ambiguous_names": 22,
+        "ambiguous_guns": 1,
+        "soil_group_missing_features": 0,
+        "soil_detail_missing_features": 0
+      }
+    },
+    {
+      "p": 62,
+      "prefecture_code": "34",
+      "prefecture_name": "広島県",
+      "polygon_features": 1209,
+      "landuse_counts": {
+        "田": 478,
+        "普通畑": 407,
+        "牧草地": 125,
+        "樹園地": 199
+      },
+      "source": {
+        "ledger_path": "research/p62-hiroshima-soil-shapefile-source-v1.json",
+        "zip_sha256": "44953dd998ad968355c0d33dc910fd8806dd1a2064c4d1a10976902c0aafb626",
+        "zip_bytes": 12206280,
+        "official_source_match": "CONSISTENT_METADATA_NO_OFFICIAL_ZIP_SHA_COMPARISON",
+        "publisher_authentication": "NOT_VERIFIED",
+        "redistribution_rights": "NOT_VERIFIED",
+        "original_zip_committed": false,
+        "raw_geometry_committed": false
+      },
+      "quality": {
+        "foreign_jcode_features": 15,
+        "blank_gun_features": 991,
+        "ambiguous_jcodes": 15,
+        "ambiguous_names": 15,
+        "ambiguous_guns": 0,
+        "soil_group_missing_features": 0,
+        "soil_detail_missing_features": 0
+      }
+    },
+    {
+      "p": 63,
+      "prefecture_code": "35",
+      "prefecture_name": "山口県",
+      "polygon_features": 1033,
+      "landuse_counts": {
+        "田": 483,
+        "普通畑": 276,
+        "牧草地": 59,
+        "樹園地": 215
+      },
+      "source": {
+        "ledger_path": "research/p63-yamaguchi-soil-shapefile-source-v1.json",
+        "zip_sha256": "9331249a4b2fef18bba89979954c06a12ea69e8c33708aa1b89282f66c50d957",
+        "zip_bytes": 8786845,
+        "official_source_match": "CONSISTENT_METADATA_NO_OFFICIAL_ZIP_SHA_COMPARISON",
+        "publisher_authentication": "NOT_VERIFIED",
+        "redistribution_rights": "NOT_VERIFIED",
+        "original_zip_committed": false,
+        "raw_geometry_committed": false
+      },
+      "quality": {
+        "foreign_jcode_features": 4,
+        "blank_gun_features": 890,
+        "ambiguous_jcodes": 11,
+        "ambiguous_names": 14,
+        "ambiguous_guns": 0,
+        "soil_group_missing_features": 0,
+        "soil_detail_missing_features": 0
+      }
+    },
+    {
+      "p": 64,
+      "prefecture_code": "36",
+      "prefecture_name": "徳島県",
+      "polygon_features": 692,
+      "landuse_counts": {
+        "田": 291,
+        "普通畑": 203,
+        "牧草地": 29,
+        "樹園地": 169
+      },
+      "source": {
+        "ledger_path": "research/p64-tokushima-soil-shapefile-source-v1.json",
+        "zip_sha256": "2871b5b2f6f7d22840da9062b01684c67d2a221bcbfa21290362d21271d4c587",
+        "zip_bytes": 4553174,
+        "official_source_match": "CONSISTENT_METADATA_NO_OFFICIAL_ZIP_SHA_COMPARISON",
+        "publisher_authentication": "NOT_VERIFIED",
+        "redistribution_rights": "NOT_VERIFIED",
+        "original_zip_committed": false,
+        "raw_geometry_committed": false
+      },
+      "quality": {
+        "foreign_jcode_features": 0,
+        "blank_gun_features": 368,
+        "ambiguous_jcodes": 14,
+        "ambiguous_names": 18,
+        "ambiguous_guns": 3,
+        "soil_group_missing_features": 0,
+        "soil_detail_missing_features": 0
+      }
+    }
+  ]
+}
