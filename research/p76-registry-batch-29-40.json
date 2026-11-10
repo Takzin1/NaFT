@@ -1,0 +1,381 @@
+{
+  "schema": "naft-p76-registry-staging-batch-v1",
+  "range": [
+    29,
+    40
+  ],
+  "records": [
+    {
+      "p": 29,
+      "prefecture_code": "01",
+      "prefecture_name": "北海道",
+      "polygon_features": 5477,
+      "landuse_counts": {
+        "田": 1390,
+        "普通畑": 2092,
+        "牧草地": 1813,
+        "樹園地": 182
+      },
+      "source": {
+        "ledger_path": "research/p29-hokkaido-soil-shapefile-source-v1.json",
+        "zip_sha256": "1b645c6234a6eb1a712246d9d5a8163b02592ab08a14afc01850ab0ded5414e3",
+        "zip_bytes": 43028818,
+        "official_source_match": null,
+        "publisher_authentication": "NOT_VERIFIED",
+        "redistribution_rights": "NOT_VERIFIED",
+        "original_zip_committed": false,
+        "raw_geometry_committed": false
+      },
+      "quality": {
+        "foreign_jcode_features": null,
+        "blank_gun_features": null,
+        "ambiguous_jcodes": null,
+        "ambiguous_names": null,
+        "ambiguous_guns": null,
+        "soil_group_missing_features": null,
+        "soil_detail_missing_features": null
+      }
+    },
+    {
+      "p": 30,
+      "prefecture_code": "02",
+      "prefecture_name": "青森県",
+      "polygon_features": 1311,
+      "landuse_counts": {
+        "田": 457,
+        "普通畑": 394,
+        "牧草地": 180,
+        "樹園地": 280
+      },
+      "source": {
+        "ledger_path": "research/p30-aomori-soil-shapefile-source-v1.json",
+        "zip_sha256": "8fc34f2d1dfa18569c4411f36c6fc6dac5400fa63763734b4efc18af7484d321",
+        "zip_bytes": 9300558,
+        "official_source_match": null,
+        "publisher_authentication": "NOT_VERIFIED",
+        "redistribution_rights": "NOT_VERIFIED",
+        "original_zip_committed": false,
+        "raw_geometry_committed": false
+      },
+      "quality": {
+        "foreign_jcode_features": null,
+        "blank_gun_features": null,
+        "ambiguous_jcodes": null,
+        "ambiguous_names": null,
+        "ambiguous_guns": null,
+        "soil_group_missing_features": null,
+        "soil_detail_missing_features": null
+      }
+    },
+    {
+      "p": 31,
+      "prefecture_code": "03",
+      "prefecture_name": "岩手県",
+      "polygon_features": 2149,
+      "landuse_counts": {
+        "田": 726,
+        "普通畑": 641,
+        "牧草地": 415,
+        "樹園地": 367
+      },
+      "source": {
+        "ledger_path": "research/p31-iwate-soil-shapefile-source-v1.json",
+        "zip_sha256": "65e6493313866af25ee5695ef2e1882c4bf9f5cbd12a798c2fb394027d1315ff",
+        "zip_bytes": 15089311,
+        "official_source_match": null,
+        "publisher_authentication": "NOT_VERIFIED",
+        "redistribution_rights": "NOT_VERIFIED",
+        "original_zip_committed": false,
+        "raw_geometry_committed": false
+      },
+      "quality": {
+        "foreign_jcode_features": null,
+        "blank_gun_features": null,
+        "ambiguous_jcodes": null,
+        "ambiguous_names": null,
+        "ambiguous_guns": null,
+        "soil_group_missing_features": null,
+        "soil_detail_missing_features": null
+      }
+    },
+    {
+      "p": 32,
+      "prefecture_code": "04",
+      "prefecture_name": "宮城県",
+      "polygon_features": 1588,
+      "landuse_counts": {
+        "田": 625,
+        "普通畑": 551,
+        "牧草地": 216,
+        "樹園地": 196
+      },
+      "source": {
+        "ledger_path": "research/p32-miyagi-soil-shapefile-source-v1.json",
+        "zip_sha256": "d6f9d7f637ae210d269c806aafcea6b9498c9cc3ff37068db4ae012bc6606c4f",
+        "zip_bytes": 10603446,
+        "official_source_match": null,
+        "publisher_authentication": "NOT_VERIFIED",
+        "redistribution_rights": "NOT_VERIFIED",
+        "original_zip_committed": false,
+        "raw_geometry_committed": false
+      },
+      "quality": {
+        "foreign_jcode_features": null,
+        "blank_gun_features": null,
+        "ambiguous_jcodes": null,
+        "ambiguous_names": null,
+        "ambiguous_guns": null,
+        "soil_group_missing_features": null,
+        "soil_detail_missing_features": null
+      }
+    },
+    {
+      "p": 33,
+      "prefecture_code": "06",
+      "prefecture_name": "山形県",
+      "polygon_features": 1651,
+      "landuse_counts": {
+        "田": 618,
+        "普通畑": 500,
+        "牧草地": 138,
+        "樹園地": 395
+      },
+      "source": {
+        "ledger_path": "research/p33-yamagata-soil-shapefile-source-v1.json",
+        "zip_sha256": "ec2890ef0329b30054159a8a85ba731027d13f952f5ec1c849c36a38d4ec7e2c",
+        "zip_bytes": 10756335,
+        "official_source_match": null,
+        "publisher_authentication": "NOT_VERIFIED",
+        "redistribution_rights": "NOT_VERIFIED",
+        "original_zip_committed": false,
+        "raw_geometry_committed": false
+      },
+      "quality": {
+        "foreign_jcode_features": null,
+        "blank_gun_features": null,
+        "ambiguous_jcodes": null,
+        "ambiguous_names": null,
+        "ambiguous_guns": null,
+        "soil_group_missing_features": null,
+        "soil_detail_missing_features": null
+      }
+    },
+    {
+      "p": 34,
+      "prefecture_code": "05",
+      "prefecture_name": "秋田県",
+      "polygon_features": 1046,
+      "landuse_counts": {
+        "田": 432,
+        "普通畑": 342,
+        "牧草地": 113,
+        "樹園地": 159
+      },
+      "source": {
+        "ledger_path": "research/p34-akita-soil-shapefile-source-v1.json",
+        "zip_sha256": "3c5b27c3d7da16265add6de7958e10d0cd7cee286d7de093d8f3df760621fa34",
+        "zip_bytes": 10481614,
+        "official_source_match": null,
+        "publisher_authentication": "NOT_VERIFIED",
+        "redistribution_rights": "NOT_VERIFIED",
+        "original_zip_committed": false,
+        "raw_geometry_committed": false
+      },
+      "quality": {
+        "foreign_jcode_features": null,
+        "blank_gun_features": null,
+        "ambiguous_jcodes": null,
+        "ambiguous_names": null,
+        "ambiguous_guns": null,
+        "soil_group_missing_features": null,
+        "soil_detail_missing_features": null
+      }
+    },
+    {
+      "p": 35,
+      "prefecture_code": "07",
+      "prefecture_name": "福島県",
+      "polygon_features": 2407,
+      "landuse_counts": {
+        "田": 865,
+        "普通畑": 856,
+        "牧草地": 259,
+        "樹園地": 427
+      },
+      "source": {
+        "ledger_path": "research/p35-fukushima-soil-shapefile-source-v1.json",
+        "zip_sha256": "db264851d4e3ca44bcb90bf778e1cfa58a877f1af1ce1a5c77958ea1f56f7de6",
+        "zip_bytes": 18951682,
+        "official_source_match": null,
+        "publisher_authentication": "NOT_VERIFIED",
+        "redistribution_rights": "NOT_VERIFIED",
+        "original_zip_committed": false,
+        "raw_geometry_committed": false
+      },
+      "quality": {
+        "foreign_jcode_features": null,
+        "blank_gun_features": null,
+        "ambiguous_jcodes": null,
+        "ambiguous_names": null,
+        "ambiguous_guns": null,
+        "soil_group_missing_features": null,
+        "soil_detail_missing_features": null
+      }
+    },
+    {
+      "p": 36,
+      "prefecture_code": "08",
+      "prefecture_name": "茨城県",
+      "polygon_features": 1335,
+      "landuse_counts": {
+        "田": 472,
+        "普通畑": 504,
+        "牧草地": 105,
+        "樹園地": 254
+      },
+      "source": {
+        "ledger_path": "research/p36-ibaraki-soil-shapefile-source-v1.json",
+        "zip_sha256": "af1bbf9d3c12eb51137e9ec8686f1255010eafa2e5424466a8d39b262d11a44f",
+        "zip_bytes": 16098958,
+        "official_source_match": "CONSISTENT_METADATA_NO_OFFICIAL_ZIP_SHA_COMPARISON",
+        "publisher_authentication": "NOT_VERIFIED",
+        "redistribution_rights": "NOT_VERIFIED",
+        "original_zip_committed": false,
+        "raw_geometry_committed": false
+      },
+      "quality": {
+        "foreign_jcode_features": null,
+        "blank_gun_features": null,
+        "ambiguous_jcodes": null,
+        "ambiguous_names": null,
+        "ambiguous_guns": null,
+        "soil_group_missing_features": null,
+        "soil_detail_missing_features": null
+      }
+    },
+    {
+      "p": 37,
+      "prefecture_code": "09",
+      "prefecture_name": "栃木県",
+      "polygon_features": 1798,
+      "landuse_counts": {
+        "田": 755,
+        "普通畑": 615,
+        "牧草地": 135,
+        "樹園地": 293
+      },
+      "source": {
+        "ledger_path": "research/p37-tochigi-soil-shapefile-source-v1.json",
+        "zip_sha256": "780db24d2bdb7f088e3c8f203bb52cbe20c9789534651b6327455d42f3b2b1c4",
+        "zip_bytes": 13379287,
+        "official_source_match": "CONSISTENT_METADATA_NO_OFFICIAL_ZIP_SHA_COMPARISON",
+        "publisher_authentication": "NOT_VERIFIED",
+        "redistribution_rights": "NOT_VERIFIED",
+        "original_zip_committed": false,
+        "raw_geometry_committed": false
+      },
+      "quality": {
+        "foreign_jcode_features": 19,
+        "blank_gun_features": null,
+        "ambiguous_jcodes": 19,
+        "ambiguous_names": 23,
+        "ambiguous_guns": null,
+        "soil_group_missing_features": null,
+        "soil_detail_missing_features": null
+      }
+    },
+    {
+      "p": 38,
+      "prefecture_code": "11",
+      "prefecture_name": "埼玉県",
+      "polygon_features": 1912,
+      "landuse_counts": {
+        "田": 673,
+        "普通畑": 830,
+        "牧草地": 24,
+        "樹園地": 385
+      },
+      "source": {
+        "ledger_path": "research/p38-saitama-soil-shapefile-source-v1.json",
+        "zip_sha256": "6472a9e2fc0aa25c23e08b3593d9c8bc1135db7e22dd09c8083eb865923ed474",
+        "zip_bytes": 8008925,
+        "official_source_match": "CONSISTENT_METADATA_NO_OFFICIAL_ZIP_SHA_COMPARISON",
+        "publisher_authentication": "NOT_VERIFIED",
+        "redistribution_rights": "NOT_VERIFIED",
+        "original_zip_committed": false,
+        "raw_geometry_committed": false
+      },
+      "quality": {
+        "foreign_jcode_features": 17,
+        "blank_gun_features": null,
+        "ambiguous_jcodes": 54,
+        "ambiguous_names": 64,
+        "ambiguous_guns": null,
+        "soil_group_missing_features": null,
+        "soil_detail_missing_features": null
+      }
+    },
+    {
+      "p": 39,
+      "prefecture_code": "10",
+      "prefecture_name": "群馬県",
+      "polygon_features": 1331,
+      "landuse_counts": {
+        "田": 411,
+        "普通畑": 554,
+        "牧草地": 62,
+        "樹園地": 304
+      },
+      "source": {
+        "ledger_path": "research/p39-gunma-soil-shapefile-source-v1.json",
+        "zip_sha256": "b0e17480fb6e63a9d06282021bdf4cb9d8370d1d9609395b23ee475eed609596",
+        "zip_bytes": 9054377,
+        "official_source_match": "CONSISTENT_METADATA_NO_OFFICIAL_ZIP_SHA_COMPARISON",
+        "publisher_authentication": "NOT_VERIFIED",
+        "redistribution_rights": "NOT_VERIFIED",
+        "original_zip_committed": false,
+        "raw_geometry_committed": false
+      },
+      "quality": {
+        "foreign_jcode_features": 24,
+        "blank_gun_features": null,
+        "ambiguous_jcodes": 20,
+        "ambiguous_names": 30,
+        "ambiguous_guns": null,
+        "soil_group_missing_features": null,
+        "soil_detail_missing_features": null
+      }
+    },
+    {
+      "p": 40,
+      "prefecture_code": "13",
+      "prefecture_name": "東京都",
+      "polygon_features": 472,
+      "landuse_counts": {
+        "田": 48,
+        "普通畑": 248,
+        "牧草地": 5,
+        "樹園地": 171
+      },
+      "source": {
+        "ledger_path": "research/p40-tokyo-soil-shapefile-source-v1.json",
+        "zip_sha256": "b4dcede3f7664f4366d7d6ab5ead2c06314602c8c9d691a946d90984af3d9c1e",
+        "zip_bytes": 1227836,
+        "official_source_match": "CONSISTENT_METADATA_NO_OFFICIAL_ZIP_SHA_COMPARISON",
+        "publisher_authentication": "NOT_VERIFIED",
+        "redistribution_rights": "NOT_VERIFIED",
+        "original_zip_committed": false,
+        "raw_geometry_committed": false
+      },
+      "quality": {
+        "foreign_jcode_features": 15,
+        "blank_gun_features": null,
+        "ambiguous_jcodes": 23,
+        "ambiguous_names": 26,
+        "ambiguous_guns": null,
+        "soil_group_missing_features": null,
+        "soil_detail_missing_features": null
+      }
+    }
+  ]
+}
