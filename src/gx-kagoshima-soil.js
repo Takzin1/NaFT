@@ -52,4 +52,3 @@ function gxKagoshimaSoilPanel(prefCode){
  '<details><summary>原本GUN×市町村名51組合せ</summary><div class="scroll"><table><thead><tr>'+header.replace('<th scope="col">区分</th>','<th scope="col">GUN</th>')+'</tr></thead><tbody>'+guns+'</tbody></table></div></details>'+
  '<p class="gx-kicker">Source ledger: research/p74-kagoshima-soil-shapefile-source-v1.json · 元ZIP/SHP/DBF・地物座標は公開していません。</p></section>';
 }
-
