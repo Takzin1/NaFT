@@ -126,6 +126,8 @@ python3 scripts/p75-okinawa-soil-audit.py audit
 node tests/p75-okinawa-soil-gis.test.mjs
 node scripts/p76-national-soil-registry-audit.mjs --check
 node tests/p76-national-soil-registry.test.mjs
+node --test tests/p77-field-identity.test.mjs
+node --test tests/p77-field-cli.test.mjs
 node tests/p11-real-chamber-source-audit.test.mjs
 node tests/p11-rice-chromatography-guard.test.mjs
 node tests/p12-estat-2025-original-source.test.mjs
