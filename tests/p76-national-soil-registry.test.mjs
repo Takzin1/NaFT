@@ -45,25 +45,26 @@ const audit=spawnSync('node',['scripts/p76-national-soil-registry-audit.mjs','--
 assert.equal(audit.status,0,audit.stderr);
 assert.equal(JSON.parse(audit.stdout).polygons,60863);
 
-let fetchCount=0;
+let forbiddenNetworkCalls=0;
 const slot={isConnected:true,innerHTML:'',getAttribute:key=>key==='data-pref-code'?'07':null};
 const gxEsc=s=>String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
-const ctx={gxEsc,fetch:async()=>{fetchCount++;return {ok:true,json:async()=>reg};},document:{getElementById:id=>id==='gx-national-soil-registry'?slot:null}};
+const ctx={gxEsc,fetch:()=>{forbiddenNetworkCalls++;throw Error('NETWORK_FORBIDDEN');},document:{getElementById:id=>id==='gx-national-soil-registry'?slot:null}};
 vm.createContext(ctx);
 vm.runInContext(readFileSync('src/gx-national-soil-registry.js','utf8'),ctx);
 assert.ok(ctx.gxNationalSoilEvidencePanel('07').includes('data-pref-code="07"'));
 assert.equal(ctx.gxNationalSoilRegistryValidate(reg),reg);
+assert.deepEqual(JSON.parse(JSON.stringify(ctx.GX_NATIONAL_SOIL_REGISTRY_CACHE)),reg,'browser snapshot must equal audited JSON');
 assert.ok(ctx.gxNationalSoilRegistryHtml(reg,'07').includes('福島県'));
 ctx.gxNationalSoilEvidenceHydrate();
 await ctx.gxNationalSoilRegistryLoad();
 await new Promise(resolve=>setImmediate(resolve));
-assert.equal(fetchCount,1,'national JSON fetched once');
+assert.equal(forbiddenNetworkCalls,0,'static registry must not call a network source');
 for(const str of ['60,863','福島県','未記録','NOT_VERIFIED','47都道府県','10県','31県','research/p35-fukushima-soil-shapefile-source-v1.json'])
  assert.ok(slot.innerHTML.includes(str),'missing panel text: '+str);
 assert.equal((slot.innerHTML.match(/>台帳 ↗<\/a>/g)||[]).length,47);
 ctx.gxNationalSoilEvidenceHydrate();
 await ctx.gxNationalSoilRegistryLoad();
-assert.equal(fetchCount,1,'cached registry reused');
+assert.equal(forbiddenNetworkCalls,0,'rerender must remain offline');
 const corrupted=JSON.parse(JSON.stringify(reg));
 corrupted.records[0].source.zip_sha256='bad';
 assert.throws(()=>ctx.gxNationalSoilRegistryValidate(corrupted),/P76_REGISTRY_PROVENANCE/);

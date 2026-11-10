@@ -90,10 +90,21 @@ export function checkNationalRegistry(snapshot,root=ROOT){
  const expected=buildNationalRegistry(root);
  assert.deepEqual(snapshot.records,expected.records,'P76 registry diverged from source-ledger data');
  assert.deepEqual(snapshot.summary,expected.summary,'P76 national rollup diverged from source-ledger data');
+ checkBundledRegistry(snapshot,root);
  return {status:'P76_NATIONAL_SOURCE_REGISTRY_PASS',prefectures:expected.records.length,polygons:expected.summary.polygon_features,
   foreign_jcode_unreported_prefectures:expected.summary.quality_field_coverage.foreign_jcode_features.unreported_prefectures,
   gun_blank_unreported_prefectures:expected.summary.quality_field_coverage.blank_gun_features.unreported_prefectures,
   rights_claims_verified:expected.summary.redistribution_rights_verified_prefectures};
+}
+export function checkBundledRegistry(snapshot,root=ROOT){
+ const js=readFileSync(join(root,'src/gx-national-soil-registry.js'),'utf8');
+ const begin='/* P76_STATIC_SNAPSHOT_BEGIN */\nvar GX_NATIONAL_SOIL_REGISTRY_CACHE=';
+ const end=';\n/* P76_STATIC_SNAPSHOT_END */';
+ const a=js.indexOf(begin),b=js.indexOf(end,a+begin.length);
+ assert.ok(a>=0&&b>a&&js.indexOf(begin,a+begin.length)<0,'P76 static snapshot marker invalid');
+ const embedded=JSON.parse(js.slice(a+begin.length,b));
+ assert.deepEqual(embedded,snapshot,'P76 static browser registry diverged from research JSON');
+ return {embedded,begin,end};
 }
 function run(){
  const args=process.argv.slice(2);
@@ -103,6 +114,12 @@ function run(){
   const original=JSON.parse(readFileSync(output,'utf8')),derived=buildNationalRegistry();
   original.records=derived.records;original.summary=derived.summary;
   writeFileSync(output,JSON.stringify(original,null,2)+'\n');
+  const jsFile=join(ROOT,'src/gx-national-soil-registry.js'),existing=readFileSync(jsFile,'utf8');
+  const begin='/* P76_STATIC_SNAPSHOT_BEGIN */\nvar GX_NATIONAL_SOIL_REGISTRY_CACHE=';
+  const end=';\n/* P76_STATIC_SNAPSHOT_END */';
+  const a=existing.indexOf(begin),b=existing.indexOf(end,a+begin.length);
+  assert.ok(a>=0&&b>a,'P76 static snapshot markers unavailable');
+  writeFileSync(jsFile,existing.slice(0,a+begin.length)+JSON.stringify(original)+existing.slice(b));
  }
  const snapshot=JSON.parse(readFileSync(output,'utf8'));
  process.stdout.write(JSON.stringify(checkNationalRegistry(snapshot))+'\n');
