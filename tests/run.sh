@@ -92,6 +92,8 @@ python3 scripts/p58-wakayama-soil-audit.py audit
 node tests/p58-wakayama-soil-gis.test.mjs
 python3 scripts/p59-tottori-soil-audit.py audit
 node tests/p59-tottori-soil-gis.test.mjs
+python3 scripts/p60-shimane-soil-audit.py audit
+node tests/p60-shimane-soil-gis.test.mjs
 node tests/p11-real-chamber-source-audit.test.mjs
 node tests/p11-rice-chromatography-guard.test.mjs
 node tests/p12-estat-2025-original-source.test.mjs
