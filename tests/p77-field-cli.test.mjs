@@ -1,0 +1,53 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {mkdtempSync,rmSync,readFileSync,writeFileSync} from 'node:fs';
+import {join} from 'node:path';
+import {tmpdir} from 'node:os';
+import {createHash} from 'node:crypto';
+import {spawnSync} from 'node:child_process';
+import {runP77FieldCli} from '../scripts/p77-field-cli.mjs';
+const H=s=>createHash('sha256').update(s).digest('hex');
+const uid='fld_eeeeeeee-eeee-4eee-8eee-eeeeeeeeeeee';
+const cli='scripts/p77-field-cli.mjs';
+test('P77 field CLI persists private state outside repository, never emits raw UUID or geometry, imports 2026 and stages HITL',async()=>{
+ const dir=mkdtempSync(join(tmpdir(),'naft-p77-'));
+ try{
+  const state=join(dir,'private-state.json'),req=join(dir,'field-request.json');
+  let out=await runP77FieldCli({action:'init',state});
+  assert.equal(out.counts.fields,0);
+  writeFileSync(req,JSON.stringify({field_id:uid,prefecture_code:'07',reference_hash:H('synthetic private reference')}));
+  out=await runP77FieldCli({action:'add-field',state,payload:req});
+  assert.equal(out.counts.fields,1);
+  out=await runP77FieldCli({action:'import',state,input:'fixtures/p77-fude-2026-synthetic.geojsons',year:'2026',pref:'07',max:'10'});
+  assert.equal(out.imported_polygons,2);
+  assert.equal(out.counts.annual_observations,2);
+  assert.equal(out.counts.links_approved,0);
+  const privateState=JSON.parse(readFileSync(state,'utf8'));
+  assert.equal(privateState.observations.length,2);
+  assert.equal(privateState.fields[0].field_id,uid);
+  assert.equal(out.formal_certification,false);
+  assert.ok(!JSON.stringify(out).includes(uid));
+  assert.ok(!JSON.stringify(out).includes('140.001'));
+  const cand=join(dir,'propose.json');
+  writeFileSync(cand,JSON.stringify({field_id:uid,observation_id:privateState.observations[0].observation_id,reason:'MANUAL_REVIEW',proposal_basis_sha256:H('synth proposal basis')}));
+  out=await runP77FieldCli({action:'propose',state,payload:cand});
+  assert.equal(out.counts.review_pending,1);
+  let updated=JSON.parse(readFileSync(state,'utf8'));
+  assert.equal(updated.observations[0].approved_field_id,null);
+  const rev=join(dir,'review.json');
+  writeFileSync(rev,JSON.stringify({candidate_id:updated.candidates[0].candidate_id,decision:'APPROVE',reviewer_reference_hash:H('human reviewer synthetic'),decision_evidence_sha256:H('human proof synthetic'),reason:'Reviewer checked the synthetic annual record'}));
+  out=await runP77FieldCli({action:'review',state,payload:rev});
+  assert.equal(out.counts.links_approved,1);
+  updated=JSON.parse(readFileSync(state,'utf8'));
+  assert.equal(updated.observations[0].approved_field_id,uid);
+  assert.equal((await runP77FieldCli({action:'receipt',state})).counts.links_approved,1);
+  await assert.rejects(()=>runP77FieldCli({action:'import',state,input:'fixtures/p77-fude-2026-synthetic.geojsons',year:'2026',pref:'07'}),/UUID_REUSED_ACROSS_YEARS/);
+  assert.equal(JSON.parse(readFileSync(state,'utf8')).observations.length,2,'failed re-import must not overwrite state');
+  assert.equal((await runP77FieldCli({action:'receipt',state})).original_geometry_disclosed,false);
+ }finally{rmSync(dir,{recursive:true,force:true});}
+});
+test('P77 CLI blocks private state under repository even for initialization',()=>{
+ const r=spawnSync('node',[cli,'--action','init','--state','./DO_NOT_WRITE_PRIVATE_P77_STATE.json'],{encoding:'utf8',timeout:12000});
+ assert.notEqual(r.status,0);
+ assert.match(r.stderr,/STATE_CANNOT_BE_INSIDE_REPOSITORY/);
+});
