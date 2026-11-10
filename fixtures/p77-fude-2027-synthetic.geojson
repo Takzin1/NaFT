@@ -1,0 +1,44 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "polygon_uuid": "33333333-3333-4333-8333-333333333333",
+        "issue_year": 2027,
+        "edit_year": 2025,
+        "land_type": 100,
+        "local_government_cd": "072010",
+        "last_polygon_uuid": "11111111-1111-4111-8111-111111111111",
+        "history": "SYNTHETIC: same shape, new uuid"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              140,
+              37
+            ],
+            [
+              140.001,
+              37
+            ],
+            [
+              140.001,
+              37.001
+            ],
+            [
+              140,
+              37.001
+            ],
+            [
+              140,
+              37
+            ]
+          ]
+        ]
+      }
+    }
+  ]
+}
