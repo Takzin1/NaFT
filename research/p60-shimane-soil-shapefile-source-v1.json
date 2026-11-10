@@ -1,0 +1,746 @@
+{
+  "schema": "naft-p60-shimane-soil-shapefile-v1",
+  "source": {
+    "provided_filename": "島根県.zip",
+    "source_zip_sha256": "1c54bcdf1360103a856404e32bb6a31e5072ab35eb76b805b367ad8c500e0d90",
+    "zip_bytes": 6246580,
+    "zip_entries": 7,
+    "uncompressed_bytes": 10003612,
+    "member_folder": "k32島根県",
+    "members": [
+      {
+        "name": "k32島根県.dbf",
+        "bytes": 1018200,
+        "sha256": "bd32905bddb5df0eb36d2bd555fb73c0e367fdb90c0f0fdbecc6b4944db2c8af"
+      },
+      {
+        "name": "k32島根県.prj",
+        "bytes": 145,
+        "sha256": "d1de156bb748892db7642d045767629921ea76cc06597e25cea2411b12e7b0b2"
+      },
+      {
+        "name": "k32島根県.sbn",
+        "bytes": 8884,
+        "sha256": "fec8231985f3d958a1fa10e1c9a6acda379a409a36d4494ab1432a505575c4c0"
+      },
+      {
+        "name": "k32島根県.sbx",
+        "bytes": 452,
+        "sha256": "90cbafa906fc9a610a90bb8e7851b59b7a1f58f2a69f98cd6b555568959d91a4"
+      },
+      {
+        "name": "k32島根県.shp",
+        "bytes": 8862752,
+        "sha256": "b6ec459dd4d218645cefeae122189f6778d437b40c326d6118231e5ec1ada14f"
+      },
+      {
+        "name": "k32島根県.shp.xml",
+        "bytes": 105663,
+        "sha256": "944a0e8fb0b83703078a8631c134383b19c950b29742d6d88080e975fcee8b3f"
+      },
+      {
+        "name": "k32島根県.shx",
+        "bytes": 7516,
+        "sha256": "453355696882469e1b007f98bdf4fa4a6c8b96b73931ea73911af413b7bf2587"
+      }
+    ],
+    "metadata_creation_date": "2017-01-17",
+    "publisher_authentication": "NOT_VERIFIED",
+    "redistribution_rights": "NOT_VERIFIED",
+    "original_zip_committed": false,
+    "raw_geometry_committed": false,
+    "likely_source_publisher": "農研機構（NARO）・日本土壌インベントリー",
+    "source_candidate_url": "https://soil-inventory.rad.naro.go.jp/download5.html",
+    "source_match": "CONSISTENT_METADATA_NO_OFFICIAL_ZIP_SHA_COMPARISON"
+  },
+  "geometry": {
+    "type": "POLYGON",
+    "shape_count": 927,
+    "crs": "GCS_JGD_2000",
+    "bounds_lon_lat": [
+      131.67586058329942,
+      34.321693076674265,
+      133.37630558513476,
+      36.333444824119496
+    ],
+    "municipality_name_count": 19,
+    "unique_jcodes": 20,
+    "administrative_code_name_pairs": 35,
+    "gun_name_pairs": 24,
+    "sicho_counts": {
+      "": 927
+    },
+    "gun_counts": {
+      "": 577,
+      "邑智郡": 112,
+      "鹿足郡": 96,
+      "仁多郡": 54,
+      "隠岐郡": 44,
+      "飯石郡": 44
+    }
+  },
+  "fields": [
+    "地目区分",
+    "包括_統群",
+    "統群コード",
+    "亜群コード",
+    "群コード",
+    "JCODE",
+    "KEN_1",
+    "SICHO",
+    "GUN",
+    "SIKUCHOSON"
+  ],
+  "feature_counts_by_landuse": {
+    "田": 350,
+    "普通畑": 309,
+    "牧草地": 81,
+    "樹園地": 187
+  },
+  "soil_group_code_categories": 19,
+  "soil_fine_class_categories": 74,
+  "soil_group_missing_features": 0,
+  "soil_detail_missing_features": 0,
+  "jcode_name_pairs_counts_by_landuse": [
+    [
+      "31202",
+      "安来市",
+      1,
+      0,
+      0,
+      0
+    ],
+    [
+      "32201",
+      "出雲市",
+      2,
+      0,
+      0,
+      0
+    ],
+    [
+      "32201",
+      "安来市",
+      0,
+      1,
+      0,
+      1
+    ],
+    [
+      "32201",
+      "松江市",
+      27,
+      31,
+      4,
+      13
+    ],
+    [
+      "32201",
+      "雲南市",
+      1,
+      1,
+      0,
+      1
+    ],
+    [
+      "32202",
+      "江津市",
+      1,
+      0,
+      0,
+      0
+    ],
+    [
+      "32202",
+      "浜田市",
+      22,
+      21,
+      5,
+      15
+    ],
+    [
+      "32202",
+      "益田市",
+      2,
+      0,
+      0,
+      0
+    ],
+    [
+      "32202",
+      "邑南町",
+      1,
+      0,
+      0,
+      0
+    ],
+    [
+      "32203",
+      "出雲市",
+      25,
+      28,
+      6,
+      25
+    ],
+    [
+      "32203",
+      "大田市",
+      1,
+      0,
+      0,
+      0
+    ],
+    [
+      "32203",
+      "雲南市",
+      7,
+      3,
+      0,
+      3
+    ],
+    [
+      "32204",
+      "益田市",
+      23,
+      23,
+      9,
+      16
+    ],
+    [
+      "32205",
+      "大田市",
+      26,
+      26,
+      8,
+      14
+    ],
+    [
+      "32205",
+      "川本町",
+      1,
+      0,
+      1,
+      0
+    ],
+    [
+      "32205",
+      "美郷町",
+      1,
+      1,
+      1,
+      0
+    ],
+    [
+      "32205",
+      "飯南町",
+      0,
+      0,
+      2,
+      0
+    ],
+    [
+      "32206",
+      "安来市",
+      21,
+      19,
+      3,
+      13
+    ],
+    [
+      "32207",
+      "川本町",
+      1,
+      0,
+      0,
+      0
+    ],
+    [
+      "32207",
+      "江津市",
+      19,
+      20,
+      2,
+      5
+    ],
+    [
+      "32209",
+      "雲南市",
+      25,
+      24,
+      10,
+      15
+    ],
+    [
+      "32343",
+      "奥出雲町",
+      27,
+      17,
+      4,
+      6
+    ],
+    [
+      "32386",
+      "美郷町",
+      1,
+      0,
+      0,
+      0
+    ],
+    [
+      "32386",
+      "飯南町",
+      18,
+      12,
+      9,
+      4
+    ],
+    [
+      "32441",
+      "川本町",
+      13,
+      11,
+      0,
+      9
+    ],
+    [
+      "32441",
+      "美郷町",
+      1,
+      0,
+      0,
+      0
+    ],
+    [
+      "32448",
+      "美郷町",
+      13,
+      10,
+      1,
+      6
+    ],
+    [
+      "32449",
+      "邑南町",
+      22,
+      16,
+      4,
+      6
+    ],
+    [
+      "32501",
+      "吉賀町",
+      0,
+      1,
+      0,
+      0
+    ],
+    [
+      "32501",
+      "津和野町",
+      20,
+      20,
+      3,
+      22
+    ],
+    [
+      "32505",
+      "吉賀町",
+      14,
+      9,
+      0,
+      7
+    ],
+    [
+      "32525",
+      "海士町",
+      1,
+      2,
+      1,
+      1
+    ],
+    [
+      "32526",
+      "西ノ島町",
+      2,
+      3,
+      3,
+      1
+    ],
+    [
+      "32527",
+      "知夫村",
+      1,
+      1,
+      1,
+      0
+    ],
+    [
+      "32528",
+      "隠岐の島町",
+      10,
+      9,
+      4,
+      4
+    ]
+  ],
+  "gun_name_pairs_counts_by_landuse": [
+    [
+      "",
+      "出雲市",
+      27,
+      28,
+      6,
+      25
+    ],
+    [
+      "",
+      "大田市",
+      27,
+      26,
+      8,
+      14
+    ],
+    [
+      "",
+      "安来市",
+      22,
+      20,
+      3,
+      14
+    ],
+    [
+      "",
+      "川本町",
+      2,
+      0,
+      1,
+      0
+    ],
+    [
+      "",
+      "松江市",
+      27,
+      31,
+      4,
+      13
+    ],
+    [
+      "",
+      "江津市",
+      20,
+      20,
+      2,
+      5
+    ],
+    [
+      "",
+      "浜田市",
+      22,
+      21,
+      5,
+      15
+    ],
+    [
+      "",
+      "益田市",
+      25,
+      23,
+      9,
+      16
+    ],
+    [
+      "",
+      "美郷町",
+      1,
+      1,
+      1,
+      0
+    ],
+    [
+      "",
+      "邑南町",
+      1,
+      0,
+      0,
+      0
+    ],
+    [
+      "",
+      "雲南市",
+      33,
+      28,
+      10,
+      19
+    ],
+    [
+      "",
+      "飯南町",
+      0,
+      0,
+      2,
+      0
+    ],
+    [
+      "仁多郡",
+      "奥出雲町",
+      27,
+      17,
+      4,
+      6
+    ],
+    [
+      "邑智郡",
+      "川本町",
+      13,
+      11,
+      0,
+      9
+    ],
+    [
+      "邑智郡",
+      "美郷町",
+      14,
+      10,
+      1,
+      6
+    ],
+    [
+      "邑智郡",
+      "邑南町",
+      22,
+      16,
+      4,
+      6
+    ],
+    [
+      "隠岐郡",
+      "海士町",
+      1,
+      2,
+      1,
+      1
+    ],
+    [
+      "隠岐郡",
+      "知夫村",
+      1,
+      1,
+      1,
+      0
+    ],
+    [
+      "隠岐郡",
+      "西ノ島町",
+      2,
+      3,
+      3,
+      1
+    ],
+    [
+      "隠岐郡",
+      "隠岐の島町",
+      10,
+      9,
+      4,
+      4
+    ],
+    [
+      "飯石郡",
+      "美郷町",
+      1,
+      0,
+      0,
+      0
+    ],
+    [
+      "飯石郡",
+      "飯南町",
+      18,
+      12,
+      9,
+      4
+    ],
+    [
+      "鹿足郡",
+      "吉賀町",
+      14,
+      10,
+      0,
+      7
+    ],
+    [
+      "鹿足郡",
+      "津和野町",
+      20,
+      20,
+      3,
+      22
+    ]
+  ],
+  "source_code_name_anomalies": {
+    "foreign_code_prefix_totals": {
+      "31": 1
+    },
+    "foreign_prefecture_code_pairs": [
+      [
+        "31202",
+        "安来市",
+        1,
+        0,
+        0,
+        0
+      ]
+    ],
+    "codes_with_multiple_names": {
+      "32201": [
+        "出雲市",
+        "安来市",
+        "松江市",
+        "雲南市"
+      ],
+      "32202": [
+        "江津市",
+        "浜田市",
+        "益田市",
+        "邑南町"
+      ],
+      "32203": [
+        "出雲市",
+        "大田市",
+        "雲南市"
+      ],
+      "32205": [
+        "大田市",
+        "川本町",
+        "美郷町",
+        "飯南町"
+      ],
+      "32207": [
+        "川本町",
+        "江津市"
+      ],
+      "32386": [
+        "美郷町",
+        "飯南町"
+      ],
+      "32441": [
+        "川本町",
+        "美郷町"
+      ],
+      "32501": [
+        "吉賀町",
+        "津和野町"
+      ]
+    },
+    "names_with_multiple_codes": {
+      "安来市": [
+        "31202",
+        "32201",
+        "32206"
+      ],
+      "出雲市": [
+        "32201",
+        "32203"
+      ],
+      "雲南市": [
+        "32201",
+        "32203",
+        "32209"
+      ],
+      "江津市": [
+        "32202",
+        "32207"
+      ],
+      "益田市": [
+        "32202",
+        "32204"
+      ],
+      "邑南町": [
+        "32202",
+        "32449"
+      ],
+      "大田市": [
+        "32203",
+        "32205"
+      ],
+      "川本町": [
+        "32205",
+        "32207",
+        "32441"
+      ],
+      "美郷町": [
+        "32205",
+        "32386",
+        "32441",
+        "32448"
+      ],
+      "飯南町": [
+        "32205",
+        "32386"
+      ],
+      "吉賀町": [
+        "32501",
+        "32505"
+      ]
+    },
+    "one_to_one_code_name_mapping": false,
+    "status": "UNRESOLVED_ORIGINAL_KEPT_NO_CITY_JOIN"
+  },
+  "source_gun_quality": {
+    "gun_feature_counts": {
+      "": 577,
+      "邑智郡": 112,
+      "鹿足郡": 96,
+      "仁多郡": 54,
+      "隠岐郡": 44,
+      "飯石郡": 44
+    },
+    "blank_gun_features": 577,
+    "empty_gun_features_for_names_with_county_elsewhere": 9,
+    "empty_gun_name_pairs_with_nonempty_gun_elsewhere": [
+      {
+        "municipality_name": "川本町",
+        "empty_gun_polygon_count": 3,
+        "gun_names_seen_elsewhere": [
+          "邑智郡"
+        ]
+      },
+      {
+        "municipality_name": "美郷町",
+        "empty_gun_polygon_count": 3,
+        "gun_names_seen_elsewhere": [
+          "邑智郡",
+          "飯石郡"
+        ]
+      },
+      {
+        "municipality_name": "邑南町",
+        "empty_gun_polygon_count": 1,
+        "gun_names_seen_elsewhere": [
+          "邑智郡"
+        ]
+      },
+      {
+        "municipality_name": "飯南町",
+        "empty_gun_polygon_count": 2,
+        "gun_names_seen_elsewhere": [
+          "飯石郡"
+        ]
+      }
+    ],
+    "multiple_nonempty_guns_per_municipality_name": {
+      "美郷町": [
+        "邑智郡",
+        "飯石郡"
+      ]
+    },
+    "status": "UNRESOLVED_ORIGINAL_KEPT_NO_GUN_JOIN"
+  },
+  "scientific_boundaries": {
+    "counts_are_polygon_features_not_area_ha": true,
+    "municipality_level_aggregations_pending_reconciliation": true,
+    "calculation_of_certified_credits_prohibited": true,
+    "official_credit_tco2e": null,
+    "raw_geometry_licensed_for_publication": false
+  }
+}
