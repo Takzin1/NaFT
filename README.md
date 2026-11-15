@@ -81,6 +81,7 @@ python3 -m http.server 8000
 | 検査 | リポジトリで確認できる範囲 |
 | --- | --- |
 | 中核の回帰検査 | 既存182、Compiler354、合成変更実験10、Impact Proof619の**計1,165アサーション**（[記録](docs/test-report.md)） |
+| 追加層（Evidence Intelligence）の検査 | 依存グラフ・係数の版管理・差分再計算・根拠付きレポート・APIを追加で**3,054アサーション**とPython独立オラクルで検査。同じ614件で見逃し0件・安全側の追加再検証0件、差分結果は全再構築と一致。合成データでの工学的検査であり、画面・保存処理への統合とAIによる説明生成は未実装（[設計](docs/evidence-intelligence-design-ja.md)／[実測](docs/evidence-intelligence-measurements-ja.md)） |
 | 変更の見逃し検査 | 614件の決定論的な反例ケース。**試験範囲内**の見逃し0件、安全側の追加再検証107件（[分析](docs/impact-soundness.md)） |
 | 画面の検査 | GitHub Actions上のheadless ChromeでReviewer Demo、６つの画面、ファイル同一性検査、役割ごとの操作と出力、日本語デモを確認 |
 | 再現性と改変検出 | 正規化JSON、SHA-256、原本のローカル照合、独立再計算、生成レポートとGitの差分確認 |
@@ -88,7 +89,7 @@ python3 -m http.server 8000
 
 `npm test` / `bash tests/run.sh`はコア・静的・セキュリティ検査を実行します。**実ブラウザ検査は別コマンド**で、CIからも実行します。合成テストと実観測データの品質評価を混同しません。
 
-詳細：[全テスト内容](docs/test-report.md) ／ [反例検査の境界](docs/impact-soundness.md) ／ [セキュリティ](docs/security-checklist.md)
+詳細：[全テスト内容](docs/test-report.md) ／ [反例検査の境界](docs/impact-soundness.md) ／ [セキュリティ](docs/security-checklist.md) ／ [追加層の既知の制約](docs/known-limitations.md)
 
 ## アーキテクチャ
 

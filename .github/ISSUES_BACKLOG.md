@@ -23,3 +23,39 @@
 - [ ] Formal amendment/revocation, signatures and legacy-to-Compiler conversion.
 - [ ] Native OS file-picker UX, native download behavior, accessibility, persistence and production-authenticated browser verification.
 - [ ] Field MRV cost/review time/income measurements and external verifier acceptance.
+
+## Evidence Intelligence — stage 1 (2026-11-14)
+
+Additive modules `src/evidence-intel-*.js`; existing compiler, session, UI, fixtures and reports are unchanged. See [design](../docs/evidence-intelligence-design-ja.md), [audit](../docs/evidence-intelligence-audit-ja.md) and [measurements](../docs/evidence-intelligence-measurements-ja.md).
+
+### Completed and verified
+
+- [x] Exact rational calculation interpreter with explicit rounding, unit dimensions and a step trace; independent Python `Fraction` oracle.
+- [x] Coefficient registry with versions, effective periods and supersession; advisory methodology candidates; evidence revision lineage; standards scope register with accounting contexts.
+- [x] Node-level dependency graph that is the computation itself; O(V+E) upstream/downstream trace, cycle detection and dependency paths.
+- [x] Differential re-computation with reuse and early cutoff; equal to a full rebuild and to `compileEvidence` on the 614-case matrix, a 60-step change sequence and every change type.
+- [x] Explanation boundary: one-directional context, deterministic template explainer, validator for externally written drafts.
+- [x] Typed audit log for inputs, calculations, verification results, changes, reports and explanations.
+- [x] Grounded reports with re-verification; stateless API with loopback HTTP adapter and CLI.
+- [x] Benchmarks at 100 / 1,000 / 5,000 synthetic Claims with correctness gates.
+
+### Not done (do not report as complete)
+
+- [ ] AI-generated explanations: no model is called; only the boundary and the validator exist.
+- [ ] Session persistence, role/scope guards and binding to the existing audit chain for engine states and logs.
+- [ ] UI inside the six routes; CI real-browser coverage for the new modules.
+- [ ] Corporate GHG inventory accounting; pinned primary text of the GHG Protocol LSR Standard v1.1.
+- [ ] Real coefficients, period splitting across coefficient versions, conditional or tabular calculation.
+- [ ] Signatures, external timestamps or an independent witness for the audit log.
+
+### Evidence Intelligence 次のPR計画
+
+| PR | Scope | Gate before merge |
+| --- | --- | --- |
+| PR-2 Session integration | Persist engine state and audit log through the existing store adapter; operator/reviewer/maintainer guards; bind the log head to `audit()`; bind exception decisions and attestation to `record_hash`; stale-export rules | Existing 1,165 assertions unchanged; negative tests for every guard; tamper tests on persisted state |
+| PR-3 UI in the six routes | Read-only panels: dependency trace, impact, grounded report download, explanation sidecar display with the non-authoritative label; `esc` and delegated handlers only | Headless-Chrome flow in CI; mobile overflow; no new route |
+| PR-4 Analyzer convergence | Route `analyzeImpact` / `applyCompilerChange` through the engine behind an explicit option; keep the legacy path as oracle; decide the future of `incremental-compiler-research.js` | 614-case matrix and 100-Claim experiment identical on both paths; package hashes unchanged |
+| PR-5 Source pinning and scope | Pin LSR Standard v1.1 bytes and SHA-256 (needs network allowance); clause-level scope notes; current AG-005 version check. No executable inventory Pack until text is verified | Source ledger test; register stays `executable: false` |
+| PR-6 Calculation coverage | Conditional expressions, lookup tables, stratified sums, uncertainty propagation; period splitting across coefficient versions | Independent oracle for every new operation; fail-closed tests |
+| PR-7 Audit witness and scale | Merkle inclusion proofs, optional external timestamp/signature, persisted structural sharing, memory profile above 5,000 Claims, large evidence payloads | Tamper matrix; benchmark report with the same correctness gates |
+| PR-8 External explainer adapter | Adapter outside the deterministic core for a caller-operated model; evaluation set for validator false accepts/rejects, including paraphrase attacks | Validator metrics reported; sidecar never enters any hash |

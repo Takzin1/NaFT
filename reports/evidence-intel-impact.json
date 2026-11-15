@@ -1,0 +1,145 @@
+{
+  "schema": "naft-evidence-intel-impact-1",
+  "boundary": "Synthetic deterministic adversarial engineering cases within the supported interpreter and change types. Not a universal soundness proof, not field accuracy, not a runtime or cost claim.",
+  "oracle": "full-recomputation-semantic-view-v1 (legacy compileEvidence before/after; does not call either analyzer)",
+  "matrix_cases": 614,
+  "legacy_selective_analyzer": {
+    "cases": 614,
+    "oracle_changed": 429,
+    "oracle_unchanged": 185,
+    "true_positive": 429,
+    "true_negative": 78,
+    "false_positive": 107,
+    "false_negative": 0,
+    "over_verification_rate": 0.5783783783783784
+  },
+  "differential_engine": {
+    "cases": 614,
+    "oracle_changed": 429,
+    "oracle_unchanged": 185,
+    "true_positive": 429,
+    "true_negative": 185,
+    "false_positive": 0,
+    "false_negative": 0,
+    "over_verification_rate": 0,
+    "classifications": {
+      "SEMANTIC_CHANGE": 429,
+      "PROVENANCE_ONLY": 181,
+      "NO_OP": 4
+    }
+  },
+  "by_group": {
+    "methodology": {
+      "legacy": {
+        "cases": 408,
+        "oracle_changed": 275,
+        "oracle_unchanged": 133,
+        "true_positive": 275,
+        "true_negative": 62,
+        "false_positive": 71,
+        "false_negative": 0
+      },
+      "engine": {
+        "cases": 408,
+        "oracle_changed": 275,
+        "oracle_unchanged": 133,
+        "true_positive": 275,
+        "true_negative": 133,
+        "false_positive": 0,
+        "false_negative": 0
+      }
+    },
+    "parameter": {
+      "legacy": {
+        "cases": 24,
+        "oracle_changed": 12,
+        "oracle_unchanged": 12,
+        "true_positive": 12,
+        "true_negative": 12,
+        "false_positive": 0,
+        "false_negative": 0
+      },
+      "engine": {
+        "cases": 24,
+        "oracle_changed": 12,
+        "oracle_unchanged": 12,
+        "true_positive": 12,
+        "true_negative": 12,
+        "false_positive": 0,
+        "false_negative": 0
+      }
+    },
+    "field": {
+      "legacy": {
+        "cases": 24,
+        "oracle_changed": 23,
+        "oracle_unchanged": 1,
+        "true_positive": 23,
+        "true_negative": 1,
+        "false_positive": 0,
+        "false_negative": 0
+      },
+      "engine": {
+        "cases": 24,
+        "oracle_changed": 23,
+        "oracle_unchanged": 1,
+        "true_positive": 23,
+        "true_negative": 1,
+        "false_positive": 0,
+        "false_negative": 0
+      }
+    },
+    "activity": {
+      "legacy": {
+        "cases": 48,
+        "oracle_changed": 33,
+        "oracle_unchanged": 15,
+        "true_positive": 33,
+        "true_negative": 3,
+        "false_positive": 12,
+        "false_negative": 0
+      },
+      "engine": {
+        "cases": 48,
+        "oracle_changed": 33,
+        "oracle_unchanged": 15,
+        "true_positive": 33,
+        "true_negative": 15,
+        "false_positive": 0,
+        "false_negative": 0
+      }
+    },
+    "evidence": {
+      "legacy": {
+        "cases": 110,
+        "oracle_changed": 86,
+        "oracle_unchanged": 24,
+        "true_positive": 86,
+        "true_negative": 0,
+        "false_positive": 24,
+        "false_negative": 0
+      },
+      "engine": {
+        "cases": 110,
+        "oracle_changed": 86,
+        "oracle_unchanged": 24,
+        "true_positive": 86,
+        "true_negative": 24,
+        "false_positive": 0,
+        "false_negative": 0
+      }
+    }
+  },
+  "engine_work": {
+    "nodes_total": 20375,
+    "nodes_recomputed": 5240,
+    "leaves_changed": 1610,
+    "recomputed_share": 0.25717791411042945,
+    "note": "Deterministic node counts over affected Claims only (single-Claim cases). A count of operations, not a timing."
+  },
+  "equivalence_checks": {
+    "incremental_equals_full_rebuild": 614,
+    "engine_equals_legacy_compiler_after_change": 614
+  },
+  "counterexamples": []
+}

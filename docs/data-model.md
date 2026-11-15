@@ -23,3 +23,17 @@ Existing: users, programs, farmers, fields, activities, evidence_manifests, evid
 Added: compiler_runs (input/Pack/draft snapshots with owner/hash), compiler_decisions (one record per exact exception: claim_id, run_id, exception_code, input_fingerprint, pack_hash, reviewer, reason, decision, decision_hash), compiler_attestations (immutable document/hash). Decision values are `ACCEPT / REJECT / NEED_MORE_EVIDENCE / ABSTAIN`. All are audit-bound. Three demo roles: operator, reviewer, maintainer.
 
 Run IDs and audit timestamps may vary. They are outside the undecided pure draft hash. Supplying an explicit Human Decision set or supersedes reference is a different compilation input and deliberately changes the Package hash; the same input, same Pack and same explicit decision objects reproduce the same Package hash. The legacy AG-005 path retains its historical ID/time behavior.
+
+## Evidence Intelligence schemas (additive)
+
+None of these replace the Package above. They are produced by `src/evidence-intel-*.js` from the same Claim input and are not stored by the session layer yet.
+
+- `naft-evidence-intel-state-1`: `{shared, packs, factor_registry_hash, claims, aggregates}`. Each Claim holds its canonical input, typed nodes `{id, kind, op, args, deps:[{role,id}], value, vh}`, evaluation order, `record_hash`, `semantic_hash`, evidence revision lineage and superseded record history. States are immutable by contract and structurally shared.
+- `naft-evidence-intel-record-1`: methodology/source, `input_merkle`, evidence manifest hashes, parameters, coefficient versions, evaluation (checks, rules, requirements, issues, status), calculation (operation, values, `exact`, `arithmetic_preview`, unit check, trace, `result: null`), `semantic_hash`, `formal_certification: false`, `certified_result: null`.
+- `naft-evidence-graph-1`: nodes `{id, kind, hash, scope}` and edges `{from, to, type}`, dependency → dependent.
+- `naft-evidence-intel-delta-1`: change, `change_hash`, counts and per-Claim `SEMANTIC_CHANGE / PROVENANCE_ONLY / NO_OP` with changed leaves, recomputed, cut-off, added and removed nodes.
+- `naft-evidence-report-1`: statements `{id, section, kind, text, values, numerals, grounds:[{node, hash}]}`, boundary (`is_ghg_inventory: false`, `is_credit_certification: false`), lineage, unresolved items, `report_hash`.
+- `naft-explanation-sidecar-1`: `authoritative: false`, `affects_calculation: false`, generator, cited statements, validation result, `sidecar_hash`. Never part of a record, report or Package hash.
+- `naft-evidence-intel-audit-1`: `{entries:[{seq, type, subject, payload, payload_hash, actor, at, previous_hash, entry_hash}], head}` with types `INPUT / CALCULATION / VERIFICATION / CHANGE / REPORT / EXPLANATION`.
+- Coefficient entry: `factor_id, version, value (decimal string), unit, unit_label, status (SYNTHETIC / REFERENCE / CONFIG_REQUIRED), effective_from, effective_to, source_url, source_hash, source_checked_at, supersedes`. Only `SYNTHETIC` entries are executed.
+- Optional Pack fields used only by the engine: `accounting_context`, `supersedes`, parameter `factor_ref`, decimal-string parameter values, `calculation_spec.operation: "expression"` with `expression`, `unit_dimensions`. The legacy compiler fails closed on them.

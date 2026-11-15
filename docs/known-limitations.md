@@ -8,3 +8,16 @@
 - **Workflow:** append-only successor、stale current-export拒否、例外単位の`ACCEPT / REJECT / NEED_MORE_EVIDENCE / ABSTAIN`は実装済み。宣誓の取消・修正protocol、cross-owner field change、外部署名、legacy snapshot migrationは未実装。
 - **ブラウザ検証:** GitHub Actionsのheadless ChromeでReviewer Demoを375×812相当にし、100 / 30 / 70 / 15 / 15のDOM描画、first-view位置、横overflowを検証する。さらに同じ実ブラウザでOperator選択 → Activity登録 → SYNTHETIC Evidence追加 → Evaluation → 通常6 route全遷移を実行し、各routeの横overflow・render/status error・runtime/console errorを検査する。新CompilerについてはOperator draft → Maintainer Pack release → Reviewer attestation → attested JSON exportまで実ブラウザで通し、研究用境界を確認する。Evidence file inputについてはrunner上の実ファイルをChromeへ渡し、attach→SHA-256 Manifest→同一原本recheck=MATCHまで検証する。ただしnative OS file-picker UXそのもの、iOS Safari等のnative download挙動、永続化、accessibility、全端末visual inspection、外部認証主体を含むproduction E2Eは未実施である。
 - **有効性の証拠境界:** 36件の合成適合性テスト、100 Claimの合成方法論改定実験、614件の決定論的adversarial impact proofがengineering evidenceの範囲。いずれも合成データ/合成ルールであり、field accuracyや制度受入れの証拠ではない。時間短縮、MRV費用削減、reviewer工数、農家所得、検証機関受入れは未計測で、field-PoC KPIはnullのまま。
+
+## Evidence Intelligence 層（2026-11-14 追加）の制約
+
+- **位置づけ:** `src/evidence-intel-*.js` は追加モジュールで、既存の `compileEvidence` / `analyzeImpact` / セッション層・6画面には接続していない。`naft-app.html` は読み込まない。人間の例外判断・Pack承認・最終確認は既存セッション層のままで、エンジンのレコードは判断前の評価である。
+- **会計文脈:** GHG Protocol Land Sector and Removals Standard v1.1 は企業インベントリ算定の基準として**スコープ参照のみ**登録した。原文PDFはネットワーク制限で取得できず、`source_hash: UNKNOWN`・`primary_text_verified: false`。企業GHGインベントリ算定は未実装で、要求は常に `EI_INVENTORY_ACCOUNTING_NOT_IMPLEMENTED` で拒否する。クレジット認証も行わない。
+- **係数:** 実行されるのは合成係数（`SYN-EF`）だけ。実在の排出係数は登録していない。活動期間が2つの版にまたがる場合の按分は未実装で fail closed。
+- **差分再計算の正しさ:** 614件の反例行列・60ステップの擬似乱数変更列・各変更種別で「差分結果＝全再構築」「既存コンパイラと一致」を確認した範囲に限る。任意の制度方法論に対する健全性・最小性の証明ではない。過剰再検証0件は、エンジンがオラクルと同じ意味論定義で差分を取るための結果であり、実制度の再検証率を予測しない。
+- **算定:** 四則・最小・最大・丸めのみ。条件分岐、表引き、層別、積算期間をまたぐ計算、不確かさの伝播は未実装。既存 `multiply` 仕様は互換のため浮動小数点の値を保持し、正確な値を並記するにとどまる。
+- **AI説明:** リポジトリは生成モデルを呼び出さない。**AIによる説明生成は未実装・未検証**で、実装・検証したのは説明境界と検証器だけである。検証は語彙的（引用の実在、数値の一致、禁止語、マークアップ）で、文の意味の正しさは証明しない。言い換えによる誤誘導を検出できない可能性がある。
+- **監査ログ:** ハッシュ連鎖は部分的改変を検出するが、署名・外部タイムスタンプ・独立した証人ではない。全コピーを支配する主体は連鎖を作り直せる。チェックポイント検証はそれ以前のエントリを再検査しない。既存セッションの監査連鎖とは未結合。
+- **API:** 状態を持たないローカル計算用。認証・レート制限・TLSは無く、HTTPアダプタは 127.0.0.1 のみ。共有ネットワークや本番公開を想定しない。
+- **性能:** 計測は合成Claim（小さな証憑）・単一プロセス・純JSのSHA-256・GC制御なし・信頼区間なし。状態は全てメモリ上で、永続化と並行実行は未実装。5,000件を超える規模、大きな証憑バイト、ブラウザでの大規模実行は未計測。
+- **ブラウザ:** 新モジュールは本セッションで headless Chromium に読み込み、Nodeと同一のハッシュになることを1回確認しただけで、CIのブラウザ検査には含まれない。UIは未実装。

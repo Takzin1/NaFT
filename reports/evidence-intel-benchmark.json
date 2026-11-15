@@ -1,0 +1,391 @@
+{
+  "schema": "naft-evidence-intel-benchmark-1",
+  "fixture": "SYNTHETIC_ONLY",
+  "mode": "full",
+  "statistic": "median of N runs after one excluded warm-up",
+  "unit": "milliseconds",
+  "environment": {
+    "node": "v22.23.4",
+    "platform": "linux",
+    "arch": "x64",
+    "cpu": "Intel(R) Xeon(R) Processor @ 2.10GHz",
+    "logical_cpus": 4
+  },
+  "scenarios": [
+    {
+      "claims": 100,
+      "graph": {
+        "nodes": 3413,
+        "edges": 7670
+      },
+      "full_evaluation": {
+        "legacy_compile_all": {
+          "median_ms": 108.774,
+          "min_ms": 107.637,
+          "max_ms": 165.212,
+          "runs": 5
+        },
+        "engine_build": {
+          "median_ms": 158.015,
+          "min_ms": 123.143,
+          "max_ms": 181.333,
+          "runs": 5
+        },
+        "engine_over_legacy": 1.453
+      },
+      "single_evidence_change": {
+        "legacy_analyze_impact_stateless": {
+          "median_ms": 136.306,
+          "min_ms": 129.422,
+          "max_ms": 140.874,
+          "runs": 5
+        },
+        "legacy_two_compiles_of_the_one_claim": {
+          "median_ms": 1.885,
+          "min_ms": 1.814,
+          "max_ms": 2.766,
+          "runs": 9
+        },
+        "existing_per_claim_cache": {
+          "median_ms": 261.885,
+          "min_ms": 226.274,
+          "max_ms": 271.746,
+          "runs": 5
+        },
+        "engine_apply_change": {
+          "median_ms": 0.89,
+          "min_ms": 0.791,
+          "max_ms": 1.221,
+          "runs": 9
+        },
+        "legacy_over_engine": 153.153,
+        "work": {
+          "total_claims": 100,
+          "examined": 1,
+          "semantic_change": 0,
+          "provenance_only": 1,
+          "no_op": 0,
+          "untouched": 99,
+          "leaves_hashed": 10,
+          "nodes_recomputed": 7,
+          "nodes_reused": 14
+        }
+      },
+      "methodology_transition_all_claims": {
+        "legacy_analyze_impact": {
+          "median_ms": 237.68,
+          "min_ms": 220.863,
+          "max_ms": 284.261,
+          "runs": 5
+        },
+        "engine_apply_change": {
+          "median_ms": 115.648,
+          "min_ms": 108.522,
+          "max_ms": 145.869,
+          "runs": 5
+        },
+        "legacy_over_engine": 2.055,
+        "work": {
+          "total_claims": 100,
+          "examined": 100,
+          "semantic_change": 30,
+          "provenance_only": 70,
+          "no_op": 0,
+          "untouched": 0,
+          "leaves_hashed": 1040,
+          "nodes_recomputed": 1710,
+          "nodes_reused": 1310
+        }
+      },
+      "dependents_of_shared_parameter": {
+        "reached_nodes": 502,
+        "legacy_trace_dependents": {
+          "median_ms": 33.024,
+          "min_ms": 30.403,
+          "max_ms": 38.159,
+          "runs": 5
+        },
+        "engine_index_plus_trace": {
+          "median_ms": 1.351,
+          "min_ms": 1.202,
+          "max_ms": 1.404,
+          "runs": 5
+        },
+        "legacy_over_engine": 24.444
+      },
+      "audit_log": {
+        "entries": 304,
+        "verify_full": {
+          "median_ms": 13.41,
+          "min_ms": 11.937,
+          "max_ms": 15.727,
+          "runs": 5
+        },
+        "verify_after_checkpoint": {
+          "median_ms": 0.253,
+          "min_ms": 0.242,
+          "max_ms": 0.334,
+          "runs": 9
+        }
+      },
+      "heap_used_mb_after_scenario": 33.393
+    },
+    {
+      "claims": 1000,
+      "graph": {
+        "nodes": 34013,
+        "edges": 76700
+      },
+      "full_evaluation": {
+        "legacy_compile_all": {
+          "median_ms": 1071.087,
+          "min_ms": 1045.432,
+          "max_ms": 1153.45,
+          "runs": 5
+        },
+        "engine_build": {
+          "median_ms": 1396.806,
+          "min_ms": 1196.627,
+          "max_ms": 1565.241,
+          "runs": 5
+        },
+        "engine_over_legacy": 1.304
+      },
+      "single_evidence_change": {
+        "legacy_analyze_impact_stateless": {
+          "median_ms": 1326.347,
+          "min_ms": 1277.377,
+          "max_ms": 1397.532,
+          "runs": 5
+        },
+        "legacy_two_compiles_of_the_one_claim": {
+          "median_ms": 3.385,
+          "min_ms": 2.593,
+          "max_ms": 24.123,
+          "runs": 9
+        },
+        "existing_per_claim_cache": {
+          "median_ms": 2640.864,
+          "min_ms": 2286.072,
+          "max_ms": 2844.689,
+          "runs": 5
+        },
+        "engine_apply_change": {
+          "median_ms": 1.414,
+          "min_ms": 1.191,
+          "max_ms": 1.748,
+          "runs": 9
+        },
+        "legacy_over_engine": 938.011,
+        "work": {
+          "total_claims": 1000,
+          "examined": 1,
+          "semantic_change": 0,
+          "provenance_only": 1,
+          "no_op": 0,
+          "untouched": 999,
+          "leaves_hashed": 10,
+          "nodes_recomputed": 7,
+          "nodes_reused": 14
+        }
+      },
+      "methodology_transition_all_claims": {
+        "legacy_analyze_impact": {
+          "median_ms": 2193.831,
+          "min_ms": 2120.407,
+          "max_ms": 2335.668,
+          "runs": 5
+        },
+        "engine_apply_change": {
+          "median_ms": 1199.372,
+          "min_ms": 1093.132,
+          "max_ms": 1276.541,
+          "runs": 5
+        },
+        "legacy_over_engine": 1.829,
+        "work": {
+          "total_claims": 1000,
+          "examined": 1000,
+          "semantic_change": 300,
+          "provenance_only": 700,
+          "no_op": 0,
+          "untouched": 0,
+          "leaves_hashed": 10400,
+          "nodes_recomputed": 17100,
+          "nodes_reused": 13100
+        }
+      },
+      "dependents_of_shared_parameter": {
+        "reached_nodes": 5002,
+        "legacy_trace_dependents": {
+          "median_ms": 2421.543,
+          "min_ms": 2338.845,
+          "max_ms": 3878.386,
+          "runs": 3
+        },
+        "engine_index_plus_trace": {
+          "median_ms": 37.578,
+          "min_ms": 29.687,
+          "max_ms": 85.459,
+          "runs": 5
+        },
+        "legacy_over_engine": 64.44
+      },
+      "audit_log": {
+        "entries": 3004,
+        "verify_full": {
+          "median_ms": 142.464,
+          "min_ms": 135.736,
+          "max_ms": 156.305,
+          "runs": 5
+        },
+        "verify_after_checkpoint": {
+          "median_ms": 0.208,
+          "min_ms": 0.199,
+          "max_ms": 0.228,
+          "runs": 9
+        }
+      },
+      "heap_used_mb_after_scenario": 111.595
+    },
+    {
+      "claims": 5000,
+      "graph": {
+        "nodes": 170013,
+        "edges": 383500
+      },
+      "full_evaluation": {
+        "legacy_compile_all": {
+          "median_ms": 5698.381,
+          "min_ms": 5581.03,
+          "max_ms": 5753.999,
+          "runs": 3
+        },
+        "engine_build": {
+          "median_ms": 6460.523,
+          "min_ms": 6319.793,
+          "max_ms": 6544.054,
+          "runs": 3
+        },
+        "engine_over_legacy": 1.134
+      },
+      "single_evidence_change": {
+        "legacy_analyze_impact_stateless": {
+          "median_ms": 7232.716,
+          "min_ms": 7232.716,
+          "max_ms": 7232.716,
+          "runs": 1
+        },
+        "legacy_two_compiles_of_the_one_claim": {
+          "median_ms": 1.788,
+          "min_ms": 1.682,
+          "max_ms": 5.552,
+          "runs": 9
+        },
+        "existing_per_claim_cache": null,
+        "engine_apply_change": {
+          "median_ms": 3.481,
+          "min_ms": 3.291,
+          "max_ms": 6.778,
+          "runs": 9
+        },
+        "legacy_over_engine": 2077.77,
+        "work": {
+          "total_claims": 5000,
+          "examined": 1,
+          "semantic_change": 0,
+          "provenance_only": 1,
+          "no_op": 0,
+          "untouched": 4999,
+          "leaves_hashed": 10,
+          "nodes_recomputed": 7,
+          "nodes_reused": 14
+        }
+      },
+      "methodology_transition_all_claims": {
+        "legacy_analyze_impact": {
+          "median_ms": 11898.837,
+          "min_ms": 11898.837,
+          "max_ms": 11898.837,
+          "runs": 1
+        },
+        "engine_apply_change": {
+          "median_ms": 6193.424,
+          "min_ms": 6146.338,
+          "max_ms": 6467.83,
+          "runs": 3
+        },
+        "legacy_over_engine": 1.921,
+        "work": {
+          "total_claims": 5000,
+          "examined": 5000,
+          "semantic_change": 1500,
+          "provenance_only": 3500,
+          "no_op": 0,
+          "untouched": 0,
+          "leaves_hashed": 52000,
+          "nodes_recomputed": 85500,
+          "nodes_reused": 65500
+        }
+      },
+      "dependents_of_shared_parameter": {
+        "reached_nodes": 25002,
+        "legacy_trace_dependents": null,
+        "engine_index_plus_trace": {
+          "median_ms": 234.984,
+          "min_ms": 226.027,
+          "max_ms": 335.643,
+          "runs": 3
+        },
+        "legacy_over_engine": null
+      },
+      "audit_log": {
+        "entries": 15004,
+        "verify_full": {
+          "median_ms": 817.41,
+          "min_ms": 806.142,
+          "max_ms": 1063.73,
+          "runs": 3
+        },
+        "verify_after_checkpoint": {
+          "median_ms": 0.231,
+          "min_ms": 0.226,
+          "max_ms": 0.315,
+          "runs": 9
+        }
+      },
+      "heap_used_mb_after_scenario": 576.593
+    }
+  ],
+  "existing_session_audit_chain": [
+    {
+      "existing_events": 200,
+      "append_one_event": {
+        "median_ms": 3.63,
+        "min_ms": 3.358,
+        "max_ms": 6.553,
+        "runs": 5
+      }
+    },
+    {
+      "existing_events": 800,
+      "append_one_event": {
+        "median_ms": 19.965,
+        "min_ms": 12.353,
+        "max_ms": 23.412,
+        "runs": 5
+      }
+    },
+    {
+      "existing_events": 1600,
+      "append_one_event": {
+        "median_ms": 27.382,
+        "min_ms": 24.315,
+        "max_ms": 37.832,
+        "runs": 5
+      }
+    }
+  ],
+  "correctness_gates": "Each scenario passed the full-rebuild oracle, legacy parity on a sample, analyzer set equality and audit cross-check before timing.",
+  "limitations": "Single process, synthetic Claims with small evidence payloads, pure-JS SHA-256, no GC control, no confidence intervals. Legacy analyzeImpact is stateless and recompiles every baseline, while the engine keeps an in-memory state; the comparison measures that architectural difference, not a tuned legacy implementation. Not a production throughput, cost, review-time or field claim."
+}

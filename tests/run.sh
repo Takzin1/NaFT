@@ -177,10 +177,22 @@ node --check tests/smoke.test.js
 node --check tests/compiler.test.js
 node --check tests/mitou-impact.test.js
 node --check tests/impact-proof.test.js
+node --check tests/evidence-intel.test.js
+node --check tests/evidence-intel-impact.test.js
+node --check tests/lib/impact-matrix.cjs
+node --check scripts/lib/evidence-intel-load.cjs
+node --check scripts/evidence-intel-exact-replay.cjs
+node --check scripts/benchmark-evidence-intel.cjs
+node --check scripts/evidence-intel-api.mjs
 node tests/smoke.test.js
 node tests/compiler.test.js
 node tests/mitou-impact.test.js
 node tests/impact-proof.test.js
+node tests/evidence-intel.test.js
+node tests/evidence-intel-impact.test.js
+node tests/evidence-intel-api.test.mjs
+python3 tests/evidence-intel-independent-oracle.test.py
+node scripts/benchmark-evidence-intel.cjs --quick
 node tests/gikuten-ja.test.js
 node tests/japan-calculation-reference.test.js
 node tests/asia-mrv-compat.test.js

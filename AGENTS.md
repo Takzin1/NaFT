@@ -23,9 +23,10 @@ This branch is Version-aware MRV Evidence Compiler + Re-verification Engine. Sco
 - `src/mrv-core.js`: canonical JSON, SHA-256, exact-version registry, model, role/scope guards, evidence, evaluation, audit, exception decisions, attestation and canonical export.
 - `src/methodology-packs.js`, `src/mrv-compiler.js`: declarative registry, diff, normalization, graph, impact, pure Packages.
 - `src/compiler-session.js`, `src/compiler-demo.js`: guarded persistence/decisions and three demos.
+- `src/evidence-intel-*.js`: additive Evidence Intelligence layer (exact calculation, coefficient/scope registers, node-level dependency graph, differential re-computation, grounded reports, explanation boundary, typed audit log, stateless API). Pure; not wired into the session or UI. The explanation module must stay one-directional: decision modules never reference it. Inventory accounting and credit certification are separate accounting contexts; never relabel one as the other.
 - `src/mrv-ui.js`: six hash routes, pure page functions, event dispatch and file download.
 - `naft-app.html`: static app shell/style. `index.html`: entry redirect.
-- `tests/smoke.test.js` + `tests/compiler.test.js`: dependency-free Node assertions; DOM stubs are not actual browser tests.
+- `tests/smoke.test.js` + `tests/compiler.test.js` + `tests/evidence-intel*.test.*`: dependency-free Node assertions and an independent Python oracle; DOM stubs are not actual browser tests.
 
 Use build-free vanilla JS and existing function conventions. Keep page rendering read-only. Escape untrusted HTML via `esc`; use data attributes and delegated handlers instead of interpolating untrusted executable code. All mutations must pass role/scope and audit guards. Bind metadata to hashes and audit events; revalidate actor and input after asynchronous hashing. Persist through the store adapter; do not introduce another storage backend.
 

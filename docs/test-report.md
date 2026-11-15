@@ -70,3 +70,18 @@ The Reviewer Demo displays the 100-Claim result from the same computation used b
 ## Validation limits
 
 The core UI handler suites still use DOM stubs for many detailed action regressions, but Reviewer Demo and a normal Operator path through Activity registration → SYNTHETIC Evidence → Evaluation → all six routes now have a real-browser headless-Chrome smoke. Browser File-object upload/hash/recheck is now exercised with a real runner file, but native OS file-picker UX itself is not. Native browser download behavior including iOS Safari, persistence across reload/storage adapters, accessibility and device-specific visual rendering remain unverified. The synthetic Compiler Maintainer release → Reviewer attestation → export path is browser-tested, but institution-specific external verification and production identity/authentication are not. There is no production authentication, independent audit witness, concurrent-client transaction guarantee or real farmer/verifier validation. The Impact Proof result is bounded to the current supported interpreter/change APIs and deterministic synthetic state space; arbitrary institutional-rule translation remains unproven. No mixed-domain UI performance result is reused.
+
+## Evidence Intelligence suites (2026-11-14, additive)
+
+The 1,165 assertions above are unchanged. Four suites were added and run by `bash tests/run.sh`; the Node total is now **4,219 passed / 0 failed** (1,165 + 571 + 2,461 + 22), plus two Python oracle tests.
+
+| Suite | Count | What it establishes |
+|---|---:|---|
+| `tests/evidence-intel.test.js` | 571 | Exact rational arithmetic, rounding and units fail closed; scope and coefficient registers; engine equals `compileEvidence` on the 36-case Corpus and 100 synthetic Claims; node-level graph reachability, cycles and dangling edges; every change type equals a full rebuild; a 60-step deterministic change sequence; exact aggregates; grounded reports and tamper/stale detection; explanation boundary including static separation; audit-log tamper matrix; every API route, error and limit |
+| `tests/evidence-intel-impact.test.js` | 2,461 | The 614-case adversarial matrix against the same full-recomputation oracle: no false negative, incremental state equals a from-scratch build, the changed state equals `compileEvidence`, the previous state is untouched. Also asserts that the shared matrix reproduces `reports/impact-proof.json` for the legacy analyzer and that [the committed report](../reports/evidence-intel-impact.json) is reproducible |
+| `tests/evidence-intel-api.test.mjs` | 22 | Real loopback HTTP round trips: loopback bind, Host check, no CORS header, JSON content type, 5 MiB body limit, byte-identical repeated responses, CLI exit codes |
+| `tests/evidence-intel-independent-oracle.test.py` | 2 tests | Python `fractions.Fraction` recomputes 442 expressions and 60 synthetic Claims under two coefficient versions, including the exact programme total |
+
+`node scripts/benchmark-evidence-intel.cjs --quick` also runs in the suite as a correctness gate (full-rebuild oracle, legacy parity, analyzer set equality, audit cross-check) with no timing threshold. Measured timings and their limits are in [the measurement report](evidence-intelligence-measurements-ja.md).
+
+Validation limits specific to this layer: synthetic Claims only; no generative model is called, so AI-written explanations are untested beyond hand-written drafts fed to the validator; the modules were loaded once in headless Chromium in the authoring session (hashes identical to Node) but are not part of the CI browser check; nothing here exercises the session store, roles or the six routes.

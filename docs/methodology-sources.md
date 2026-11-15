@@ -21,3 +21,9 @@ AG-005の現行制度版は本repositoryに登録していない。e-Gov一次�
 ## 関連するDMRV研究文献（2026-10-25）
 
 [先行研究5本の根拠台帳・方法論との差異](dmrv-literature-2026-10-25.md)と[機械可読ソースレジストリ](../research/literature-2026-10-25/source-register.json)を追加。IEEE Access、PACT、オラクル問題、ZKP研究、ICVCM DMRV報告を整理。**文献であり、観測原データや正式算定Packではない。** 検証: `node tests/dmrv-literature-register.test.mjs`。
+
+## GHG Protocol Land Sector and Removals Standard v1.1 — scope reference only（2026-11-14）
+
+`src/evidence-intel-versions.js` の `EI_STANDARDS_SCOPE` に、会計文脈 `CORPORATE_INVENTORY` の**スコープ参照**として登録した。検索結果に表示された公式ページの記述と複数の二次資料から、v1.0の公表日（2026-01-30）、発効日（2027-01-01）、軽微な非実質的修正によるv1.1が参照版であること、Corporate Standard / Scope 3 Standard を補足する企業インベントリ算定の基準であることを確認した。**原文PDFは本セッションのネットワーク制限（`ghgprotocol.org` が許可ドメイン外）で取得できず、byte列・SHA-256を固定していない**ため、`source_hash: UNKNOWN`、`primary_text_verified: false` とした。条文単位の要求事項は翻訳・実装していない。
+
+この基準は企業のインベントリ算定・報告を対象とし、J-クレジット AG-005 のようなクレジット制度の方法論（活動単位の算定と制度による認証）とは別の会計文脈である。NaFTはどちらの算定・認証も行わず、両者を取り違えた出力要求を拒否する（[設計書 第2節](evidence-intelligence-design-ja.md)）。
