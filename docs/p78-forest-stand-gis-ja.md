@@ -58,6 +58,8 @@ node scripts/forest-stand-cli.mjs --action receipt --state $S
 - `tests/p78-gis-layer-manifest.test.mjs`：47県の遅延読込定義が、パネルの県コード・P76レジストリと一致し、不正なパスや種別を拒否すること。
 - `tests/browser-p78-forest-smoke.mjs`（実Chrome）：起動直後は土壌モジュール0本、選んだ県だけ読み込み、新潟(15)で新潟県の台帳が出ること、森林パネルの件数とCompilerの結果の一致、390pxで横はみ出しがないこと。
 
+- 森林簿の合成CSV 2件は原本のCRLF・UTF-8／Shift_JISのバイト列を保持する。`.gitattributes`はこの2件だけCRLFを正規の行末とし、実際の末尾空白検査は残す。回帰テストは両ファイルのGit blobハッシュと文字コードを固定して検査する。
+
 ## 同時に直したこと
 
 - **P76全国土壌レジストリの県コード誤り**：配布ZIPのフォルダ番号（例：`k18新潟県`）をJISコードとして使っていたため、新潟〜静岡の8県のコードがずれ、新潟(15)を選ぶと山梨県の台帳が表示されていた。県名からJIS X 0401コードを引き、元の番号は`source_folder_code`として保持する。

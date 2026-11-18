@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
+import {createHash} from 'node:crypto';
 import {readFileSync,mkdtempSync,writeFileSync,existsSync} from 'node:fs';
 import {tmpdir} from 'node:os';
 import {join} from 'node:path';
@@ -22,6 +23,19 @@ function compiler(){
  for(const f of ['src/mrv-core.js','src/methodology-packs.js','src/mrv-compiler.js','src/forest-packs.js'])vm.runInContext(readFileSync(f,'utf8'),ctx,{filename:f});
  return ctx;
 }
+
+test('synthetic register fixtures retain original CRLF and encoded Git blob bytes',()=>{
+ const fixtures=[[csv2026,'5c630923d310910f8e11077fdbdfffd86e6d5bb0'],[csv2027,'b9147d2f459ecf55c41b870b65bb7eb70e4653e3']];
+ for(const [bytes,expected] of fixtures){
+  const actual=createHash('sha1').update('blob '+bytes.length+'\0').update(bytes).digest('hex');
+  assert.equal(actual,expected,'fixture bytes changed');
+  assert.ok(bytes.includes(Buffer.from('\r\n')));
+  assert.equal(bytes.toString('latin1').replace(/\r\n/g,'').includes('\n'),false,'mixed line endings');
+ }
+ assert.equal(F.decodeRegisterBytes(csv2026,'utf-8').split(',')[0],'市町村コード');
+ assert.equal(F.decodeRegisterBytes(csv2027,'shift_jis').split(',')[0],'市町村コード');
+ assert.throws(()=>new TextDecoder('utf-8',{fatal:true}).decode(csv2027));
+});
 
 test('CSV parser: quotes, escaped quotes, CRLF, BOM and fail-closed malformed input',()=>{
  assert.deepEqual(F.parseCsv('a,"b,c","d""e"\r\n1,2,3\n'),[['a','b,c','d"e'],['1','2','3']]);
