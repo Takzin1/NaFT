@@ -42,6 +42,10 @@ try{
  const counts=await ev("(()=>{const d=forestImpactDemo();return {total:d.counts.total,re:d.counts.require_reverification,un:d.counts.UNAFFECTED}})()");
  if(counts.total!==first.rows+counts.un||counts.re!==first.rows)throw Error('P78_FOREST_TABLE_PARITY:'+JSON.stringify({counts,rows:first.rows}));
  if(!first.forest.includes('合成')||!first.forest.includes('小班')||first.forest.includes('NaN'))throw Error('P78_FOREST_PANEL_TEXT:'+first.forest.slice(0,300));
+ // P79: AG-005 real revision triage hydrates after render and sums to the compiler's claim count.
+ await until("document.querySelector('#gx-ag005-slot table')",'AG-005 revision triage');
+ const ag=await ev("({sum:[...document.querySelectorAll('#gx-ag005-slot [data-paddy-count]')].reduce((a,e)=>a+Number(e.dataset.paddyCount),0),total:ag005RevisionDemo().counts.total,text:document.querySelector('#gx-ag005-revision').innerText})");
+ if(ag.sum!==ag.total||!ag.text.includes('Ver.3.3')||!ag.text.includes('合成')||ag.text.includes('NaN'))throw Error('P79_AG005_PANEL:'+JSON.stringify({sum:ag.sum,total:ag.total}));
  // Niigata (JIS 15): publisher folder k18 must not leak Fukui/Yamanashi data into the selection.
  await ev("(()=>{const s=document.querySelector('#gx-pref-select');s.value='15';s.dispatchEvent(new Event('change',{bubbles:true}));return true})()");
  await until("typeof gxNiigataSoilPanel==='function'&&document.querySelector('#gx-niigata-soil-title')",'Niigata lazy soil panel');
@@ -52,5 +56,5 @@ try{
  const mobile=await ev("({w:innerWidth,s:document.documentElement.scrollWidth})");
  if(mobile.s>mobile.w+1)throw Error('P78_MOBILE_OVERFLOW:'+JSON.stringify(mobile));
  if(errors.length)throw Error('P78_RUNTIME_EXCEPTIONS:'+JSON.stringify(errors));
- console.log('NAFT_P78_BROWSER_PASS: cold start 0 soil modules, lazy 07→15, Niigata JIS registry, forest panel parity, 390px no overflow',JSON.stringify({scripts:cold.total,forest:counts}));
+ console.log('NAFT_P78_BROWSER_PASS: cold start 0 soil modules, lazy 07→15, Niigata JIS registry, forest panel parity, AG-005 3.1→3.3 triage parity, 390px no overflow',JSON.stringify({scripts:cold.total,forest:counts}));
 }finally{ws.close();}

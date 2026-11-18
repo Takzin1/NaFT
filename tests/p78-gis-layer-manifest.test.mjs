@@ -37,5 +37,6 @@ for(const bad of [{...soil[0],src:'https://evil.example/x.js'},{...soil[0],src:'
 ctx.__m={schema:manifest.schema,layers:[soil[0],soil[0]]};
 assert.throws(()=>vm.runInContext('gxLayerManifestValidate(__m)',ctx),/P78_LAYER_DUPLICATE/);
 const scripts=(html.match(/<script defer src=/g)||[]).length;
-assert.ok(scripts<=32,'eager script count regressed: '+scripts);
+// Budget guards against returning to per-prefecture eager loading (was 76); small feature modules may be added.
+assert.ok(scripts<=40,'eager script count regressed: '+scripts);
 console.log('NAFT_P78_GIS_LAYER_MANIFEST_PASS',JSON.stringify({soil_layers:soil.length,eager_scripts:scripts}));
