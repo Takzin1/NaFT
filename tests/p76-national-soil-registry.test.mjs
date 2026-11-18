@@ -79,4 +79,19 @@ assert.ok(atlas.includes('gxNationalSoilEvidencePanel(current.code)'));
 assert.ok(ui.includes('gxNationalSoilEvidenceHydrate()'));
 assert.ok(runner.includes('node scripts/p76-national-soil-registry-audit.mjs --check'));
 assert.ok(runner.includes('node tests/p76-national-soil-registry.test.mjs'));
+// P78 regression: publisher folder numbers (k15..k22) are not JIS codes. The registry must key
+// records by JIS X 0401 so that selecting 新潟県(15) never shows 山梨県's ledger.
+{
+ const jis=(code)=>expected.records.find(r=>r.prefecture_code===code).prefecture_name;
+ assert.deepEqual(['15','16','17','18','19','20','21','22'].map(jis),['新潟県','富山県','石川県','福井県','山梨県','長野県','岐阜県','静岡県']);
+ assert.deepEqual(expected.records.map(r=>r.prefecture_code).sort(),Array.from({length:47},(_,i)=>String(i+1).padStart(2,'0')));
+ const remapped=expected.records.filter(r=>r.prefecture_code!==r.source_folder_code);
+ assert.equal(remapped.length,8);
+ assert.equal(expected.records.find(r=>r.prefecture_name==='新潟県').source_folder_code,'18');
+ assert.ok(expected.records.every(r=>/^\d{2}$/.test(r.source_folder_code)));
+ for(const r of expected.records){
+  const panel=readFileSync(new URL('../src/gx-'+r.source.ledger_path.match(/^research\/p\d+-([a-z]+)-soil/)[1]+'-soil.js',import.meta.url),'utf8');
+  assert.ok(panel.includes("prefCode!=='"+r.prefecture_code+"'"),'P78 panel guard and registry code diverge for '+r.prefecture_name);
+ }
+}
 console.log('NAFT_P76_NATIONAL_47_LEDGER_60863_POLYGONS_SOURCE_PARITY_AND_QC_PASS');

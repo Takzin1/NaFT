@@ -14,6 +14,10 @@ const SHA=/^[0-9a-f]{64}$/;
 const has=(obj,key)=>Object.prototype.hasOwnProperty.call(obj,key);
 const field=(obj,key)=>has(obj,key)?obj[key]:null;
 const sum=(rows,get)=>rows.reduce((a,r)=>a+get(r),0);
+export const JIS_PREFECTURE_CODES=Object.freeze(Object.fromEntries(
+ ('北海道 青森県 岩手県 宮城県 秋田県 山形県 福島県 茨城県 栃木県 群馬県 埼玉県 千葉県 東京都 神奈川県 新潟県 富山県 石川県 福井県 山梨県 長野県 '+
+  '岐阜県 静岡県 愛知県 三重県 滋賀県 京都府 大阪府 兵庫県 奈良県 和歌山県 鳥取県 島根県 岡山県 広島県 山口県 徳島県 香川県 愛媛県 高知県 '+
+  '福岡県 佐賀県 長崎県 熊本県 大分県 宮崎県 鹿児島県 沖縄県').split(' ').map((n,i)=>[n,String(i+1).padStart(2,'0')])));
 
 export function buildNationalRegistry(root=ROOT){
  const files=readdirSync(join(root,'research')).filter(f=>/^p\d+-[a-z0-9-]+-soil-shapefile-source-v1\.json$/.test(f))
@@ -26,6 +30,9 @@ export function buildNationalRegistry(root=ROOT){
   const s=raw.source||{},g=raw.geometry||{},c=raw.source_code_name_anomalies||{},q=raw.source_gun_quality||{},land=raw.feature_counts_by_landuse||{};
   const name=/^k(\d{2})(.+)$/.exec(s.member_folder||'');
   assert.ok(name&&name[2],'P76 missing original prefecture folder '+file);
+  // P78: the k?? folder number in the publisher ZIP is NOT the JIS X 0401 code (e.g. k18新潟県).
+  // Keep it verbatim as source_folder_code and derive prefecture_code from the prefecture name.
+  assert.ok(has(JIS_PREFECTURE_CODES,name[2]),'P76 unknown prefecture name '+file);
   assert.ok(Number.isSafeInteger(g.shape_count)&&g.shape_count>0,'P76 bad polygon count '+file);
   assert.equal(sum(LAND,k=>land[k]),g.shape_count,'P76 original landuse count mismatch '+file);
   assert.ok(SHA.test(s.source_zip_sha256),'P76 bad ZIP SHA '+file);
@@ -41,7 +48,7 @@ export function buildNationalRegistry(root=ROOT){
   assert.equal(zipCommitted,false,'P76 original archive must not be committed');
   assert.equal(geoCommitted,false,'P76 original geometry must not be committed');
   return {
-   p,prefecture_code:name[1],prefecture_name:name[2],polygon_features:g.shape_count,
+   p,prefecture_code:JIS_PREFECTURE_CODES[name[2]],source_folder_code:name[1],prefecture_name:name[2],polygon_features:g.shape_count,
    landuse_counts:Object.fromEntries(LAND.map(k=>[k,land[k]])),
    source:{ledger_path:path,zip_sha256:s.source_zip_sha256,zip_bytes:s.zip_bytes,
     official_source_match:field(s,'source_match'),publisher_authentication:field(s,'publisher_authentication'),

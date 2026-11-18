@@ -1,0 +1,2 @@
+# Forest register fixtures deliberately use CRLF (and Shift_JIS) to test real 森林簿 exports.
+fixtures/p78-forest-register-*.csv -text whitespace=cr-at-eol
