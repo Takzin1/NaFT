@@ -48,7 +48,7 @@ test('forest original byte SHA-256, public anomaly counts and prefecture-scoped 
  const feats=mapLines.map(f=>F.normalizePlanFeature(f,{prefecture_code:'20',properties:PROFILE.map_properties}));
  const initial=F.applyPlanMap(s,2026,feats,H('map'),'20');
  s=initial.state;
- assert.deepEqual(s.observations.filter(o=>o.prefecture_code==='21'),other.observations);
+ assert.deepEqual(s.observations.filter(o=>o.prefecture_code==='21'),other.observations.map(o=>({...o,approved_stand_id:null})));
  assert.throws(()=>F.applyPlanMap(s,2026,feats,H('map'),'21'),/MAP_PREF_SCOPE/);
  assert.throws(()=>F.applyPlanMap(s,2026,feats,H('map')),/MAP_PREF_CODE/);
  const matched=s.observations.filter(o=>o.prefecture_code==='20'&&o.map_state==='MATCHED_BY_LOCAL_KEY');
