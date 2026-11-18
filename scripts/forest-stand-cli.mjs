@@ -90,7 +90,7 @@ export async function main(argv){
   s=stageObservations(s,r.observations);extra={register_file_sha256:src,anomalies:r.anomalies,source_terms:{publisher:profile.source.publisher,redistribution:profile.source.redistribution}};
  }else if(o.action==='import-map'){
   const profile=validateProfile(json(o.profile,'PROFILE')),input=resolve(o.input||'');must(existsSync(input)&&statSync(input).isFile(),'INPUT_FILE');
-  const feats=await readMap(input,profile,pref(o.pref)),r=applyPlanMap(s,year(o.year),feats,fileSha(input));s=r.state;extra={anomalies:r.anomalies};
+  const feats=await readMap(input,profile,pref(o.pref)),r=applyPlanMap(s,year(o.year),feats,fileSha(input),pref(o.pref));s=r.state;extra={anomalies:r.anomalies};
  }else if(o.action==='add-stand'){
   const p=json(o.payload,'PAYLOAD');s=addStand(s,{stand_id:p.stand_id||newStandId(),prefecture_code:p.prefecture_code,reference_hash:p.reference_hash});extra={stand_id:s.stands.at(-1).stand_id};
  }else if(o.action==='suggest'){

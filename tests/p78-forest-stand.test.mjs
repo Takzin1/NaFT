@@ -37,6 +37,29 @@ test('synthetic register fixtures retain original CRLF and encoded Git blob byte
  assert.throws(()=>new TextDecoder('utf-8',{fatal:true}).decode(csv2027));
 });
 
+test('forest original byte SHA-256, public anomaly counts and prefecture-scoped map replacement',()=>{
+ assert.equal(F.digest(Buffer.from('abc')),'ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad');
+ assert.equal(F.digest(csv2027),createHash('sha256').update(csv2027).digest('hex'));
+ assert.notEqual(F.digest(csv2027),F.digest(JSON.stringify(csv2027)));
+ const r=reg(csv2026,PROFILE,2026);
+ const otherCSV=F.decodeRegisterBytes(csv2026,PROFILE.encoding).replaceAll('20999','21999');
+ const other=F.normalizeRegister(otherCSV,PROFILE,{prefecture_code:'21',plan_year:2026,source_file_sha256:H(otherCSV)});
+ let s=F.stageObservations(F.emptyStandRegistry(),[...r.observations,...other.observations]);
+ const feats=mapLines.map(f=>F.normalizePlanFeature(f,{prefecture_code:'20',properties:PROFILE.map_properties}));
+ const initial=F.applyPlanMap(s,2026,feats,H('map'),'20');
+ s=initial.state;
+ assert.deepEqual(s.observations.filter(o=>o.prefecture_code==='21'),other.observations);
+ assert.throws(()=>F.applyPlanMap(s,2026,feats,H('map'),'21'),/MAP_PREF_SCOPE/);
+ assert.throws(()=>F.applyPlanMap(s,2026,feats,H('map')),/MAP_PREF_CODE/);
+ const matched=s.observations.filter(o=>o.prefecture_code==='20'&&o.map_state==='MATCHED_BY_LOCAL_KEY');
+ assert.ok(matched.length>1);
+ const replacement=F.applyPlanMap(s,2026,[feats.find(f=>f.local_key===matched[0].local_key)],H('new-map'),'20').state;
+ assert.equal(replacement.observations.find(o=>o.observation_id===matched[1].observation_id).geometry_sha256,null);
+ const receipt=F.buildPublicReceipt(s,{duplicate_local_keys:['20999-5-1-0'],polygons_without_register:['20999-9-1-0'],unmapped_forest_type:{SECRET_RAW_LABEL:2}});
+ assert.deepEqual(receipt.anomalies,{duplicate_local_keys_count:1,polygons_without_register_count:1,unmapped_forest_type_count:2});
+ assert.ok(!JSON.stringify(receipt).includes('20999-')&&!JSON.stringify(receipt).includes('SECRET_RAW_LABEL'));
+});
+
 test('CSV parser: quotes, escaped quotes, CRLF, BOM and fail-closed malformed input',()=>{
  assert.deepEqual(F.parseCsv('a,"b,c","d""e"\r\n1,2,3\n'),[['a','b,c','d"e'],['1','2','3']]);
  assert.equal(F.decodeRegisterBytes(Buffer.from('﻿x,y'),'utf-8'),'x,y');
@@ -96,7 +119,7 @@ test('plan map polygons are hashed, joined by local key and never retained as co
 function linkedRegistry(){
  let s=F.emptyStandRegistry();
  s=F.stageObservations(s,reg(csv2026,PROFILE,2026).observations);
- s=F.applyPlanMap(s,2026,mapLines.map(f=>F.normalizePlanFeature(f,{prefecture_code:'20',properties:PROFILE.map_properties})),H('map')).state;
+ s=F.applyPlanMap(s,2026,mapLines.map(f=>F.normalizePlanFeature(f,{prefecture_code:'20',properties:PROFILE.map_properties})),H('map'),'20').state;
  const ids={};
  for(const key of ['20999-1-1-0','20999-1-2-0','20999-1-3-0','20999-2-1-0','20999-4-1-0']){
   const stand_id='std_'+H(key).slice(0,8)+'-0000-4000-8000-'+H(key).slice(8,20);
