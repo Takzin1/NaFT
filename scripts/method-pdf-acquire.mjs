@@ -77,8 +77,8 @@ function workspace(parent){
 }
 function checkPdf(b){
  guard(Buffer.isBuffer(b)&&b.length>=24&&b.length<=MAX,'PDF_SIZE_LIMIT');
- guard(/^%PDF-[12]\\.[0-9](\\r?\\n|\\r)/.test(b.subarray(0,12).toString('latin1')),'PDF_HEADER');
- guard(/%%EOF[\\t \\r\\n]*$/.test(b.subarray(-1024).toString('latin1')),'PDF_EOF');
+ guard(/^%PDF-[12]\.[0-9](\r?\n|\r)/.test(b.subarray(0,12).toString('latin1')),'PDF_HEADER');
+ guard(/%%EOF[\t \r\n]*$/.test(b.subarray(-1024).toString('latin1')),'PDF_EOF');
 }
 function record(s,status,more={}){
  return {schema:'naft-method-pdf-acquisition-v1',source_id:s.id,family:s.family,
@@ -100,7 +100,7 @@ export async function acquireSource(id,{request=globalThis.fetch,timeoutMs=30000
  const ct=(res.headers.get('content-type')||'').split(';')[0].trim().toLowerCase();
  if(!['application/pdf','application/octet-stream'].includes(ct))return stop('CONTENT_TYPE_REJECTED',{http_status:200});
  const len=res.headers.get('content-length');
- if(len!==null&&(!/^\\d+$/.test(len)||Number(len)>MAX))return stop('SIZE_LIMIT',{http_status:200});
+ if(len!==null&&(!/^\d+$/.test(len)||Number(len)>MAX))return stop('SIZE_LIMIT',{http_status:200});
  let bytes;
  try{
   const parts=[];let size=0;
@@ -125,7 +125,7 @@ export async function acquireBatch(ids,parent,{request=globalThis.fetch}={}){
   receipts.push(r);
  }
  const report={schema:'naft-method-pdf-acquisition-batch-v1',received_at:new Date().toISOString(),receipts,official_adoption_verified:false,certified_tco2e:null};
- writeFileSync(join(dir,'receipts.json'),JSON.stringify(report,null,2)+'\\n',{mode:0o600,flag:'wx'});
+ writeFileSync(join(dir,'receipts.json'),JSON.stringify(report,null,2)+'\n',{mode:0o600,flag:'wx'});
  return {directory:dir,...report};
 }
 function checkedReceipt(path,id){
