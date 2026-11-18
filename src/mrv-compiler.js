@@ -97,10 +97,19 @@ function compileEvidence(input,pack,options) {
   Object.keys(pack.rules).sort().forEach(function(id) {
     var rule=pack.rules[id];if(!matchesWhen(input,rule.when)) return;
     if(rule.parameter) usedParameters.add(rule.parameter);
-    var left=getPath(input,rule.input),right=rule.parameter?params[rule.parameter]:rule.value,ok=false,supported=['gte','gt','eq'].includes(rule.op);
-    if(rule.op==='eq') ok=left!==undefined&&canonicalize(left)===canonicalize(right);
-    else if(typeof left==='number'&&Number.isFinite(left)&&typeof right==='number'&&Number.isFinite(right)) ok=rule.op==='gte'?left>=right:rule.op==='gt'&&left>right;
-    ruleResults.push({id:id,pass:ok,supported:supported,input:rule.input,value:left===undefined?null:left,threshold:right===undefined?null:right});
+    // P80: lte/lt/neq/in and input_ref (compare with another input path). Existing ops and result shape unchanged.
+    var refMode=rule.input_ref!==undefined,left=getPath(input,rule.input),right=refMode?getPath(input,rule.input_ref):rule.parameter?params[rule.parameter]:rule.value,ok=false;
+    var supported=['gte','gt','eq','lte','lt','neq','in'].includes(rule.op);
+    if(refMode&&(typeof rule.input_ref!=='string'||rule.parameter!==undefined||Object.prototype.hasOwnProperty.call(rule,'value'))) supported=false;
+    if(rule.op==='in'&&(!Array.isArray(right)||refMode)) supported=false;
+    if(!supported) ok=false;
+    else if(rule.op==='eq') ok=left!==undefined&&canonicalize(left)===canonicalize(right);
+    else if(rule.op==='neq') ok=left!==undefined&&right!==undefined&&canonicalize(left)!==canonicalize(right);
+    else if(rule.op==='in') ok=left!==undefined&&right.some(function(v) { return canonicalize(v)===canonicalize(left); });
+    else if(typeof left==='number'&&Number.isFinite(left)&&typeof right==='number'&&Number.isFinite(right)) ok=rule.op==='gte'?left>=right:rule.op==='gt'?left>right:rule.op==='lte'?left<=right:left<right;
+    var ruleResult={id:id,pass:ok,supported:supported,input:rule.input,value:left===undefined?null:left,threshold:right===undefined?null:right};
+    if(refMode) ruleResult.input_ref=rule.input_ref;
+    ruleResults.push(ruleResult);
     if(!supported||!ok) issue('rule:'+id,'UNSUPPORTED',supported?'Deterministic rule failed; correction required':'Unsupported rule operation');
   });
   ['exceptions','unsupported_conditions'].forEach(function(group) {
@@ -213,4 +222,25 @@ function analyzeImpact(claims,change,registry) {
   var counts={total:rows.length,potentially_affected:0,require_reverification:0,UNAFFECTED:0,AUTO_REEVALUATED:0,EVIDENCE_REQUIRED:0,HUMAN_REVIEW_REQUIRED:0,UNSUPPORTED:0};
   rows.forEach(function(r) { if(r.potentially_affected) counts.potentially_affected++;if(r.requires_reverification) counts.require_reverification++;counts[r.status]++; });
   return {change:clone(change),counts:counts,claims:rows};
+}
+/* P80 · Static Pack input inventory and claim preflight.
+ * required: paths used by rules, when-conditions and calculation (absence makes evaluation fail or be ambiguous).
+ * conditions: paths used by exceptions / unsupported conditions. compileEvidence treats an absent condition input as
+ * "not triggered", so preflight reports them explicitly instead of letting them pass silently. */
+function packInputPaths(pack) {
+  validatePack(pack);
+  var required=new Set(),conditions=new Set();
+  function when(item) { if(item&&item.when&&typeof item.when.path==='string') required.add(item.when.path); }
+  Object.values(pack.rules).forEach(function(r) { if(r&&typeof r.input==='string') required.add(r.input);if(r&&typeof r.input_ref==='string') required.add(r.input_ref);when(r); });
+  Object.values(pack.evidence_requirements).forEach(when);
+  (pack.calculation_spec.inputs||[]).forEach(function(p) { required.add(p); });
+  ['exceptions','unsupported_conditions'].forEach(function(g) { Object.values(pack[g]).forEach(function(e) { if(e&&typeof e==='object') { if(typeof e.input==='string') conditions.add(e.input);when(e); } }); });
+  conditions.forEach(function(p) { if(required.has(p)) conditions.delete(p); });
+  return {required:Array.from(required).sort(),conditions:Array.from(conditions).sort()};
+}
+function preflightClaim(input,pack) {
+  var paths=packInputPaths(pack),missing=function(p) { return getPath(input,p)===undefined; };
+  var out={claim_id:input&&input.activity?input.activity.id:null,pack_key:compilerKey(pack),missing_required:paths.required.filter(missing),missing_conditions:paths.conditions.filter(missing)};
+  out.status=out.missing_required.length?'INPUT_REQUIRED':out.missing_conditions.length?'CONDITION_INPUT_UNCONFIRMED':'READY';
+  return out;
 }

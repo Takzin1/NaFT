@@ -11,7 +11,8 @@
  *
  * Translation is partial by design. Clause locators live in AG005_TEXT_CLAUSES (outside the Packs) so that
  * page-number shifts between versions are not mistaken for semantic rule changes by impact analysis.
- * Inputs prefixed years_* / extension_days are adapter-normalized facts (see ag005ExtensionDays()).
+ * extension_days and years_cert_start_after_registration are adapter-normalized facts (see ag005ExtensionDays()).
+ * P80: year comparisons use input_ref; the 3.1 "following year" upper bound uses lte.
  */
 var AG005_TEXT_COMMON_EVIDENCE={
   heading_date_record:{category:'heading_date_record',required:true},
@@ -42,7 +43,7 @@ function ag005TextPack(version,extra){
     rules:{
       extension:{op:'gte',input:'activity.extension_days',parameter:'minimum_extension_days',status:'REFERENCE'},
       baseline_years:{op:'gte',input:'activity.baseline_years',parameter:'minimum_baseline_years',status:'REFERENCE'},
-      certification_start_not_before_registration:{op:'gte',input:'activity.years_cert_start_after_registration',value:0,status:'REFERENCE'}
+      certification_start_not_before_registration:{op:'gte',input:'activity.cert_start_year',input_ref:'activity.registration_year',status:'REFERENCE'}
     },
     calculation_spec:{operation:'UNSUPPORTED',result:null,reason:'CONFIG_REQUIRED: inventory emission-factor table, GWP and adopted version not pinned'},
     exceptions:{},
@@ -54,7 +55,11 @@ function ag005TextPack(version,extra){
 var AG005_TEXT_PACKS=[
   ag005TextPack({id:'3.1-pc-text',short:'3.1',url:'https://public-comment.e-gov.go.jp/pcm/download?seqNo=0000281460',
     hash:'f861e4af40f3fa1fb3a0b54327cd7720f6e5028ae99455bf39274f97140a2050',
-    scope:'Ver.3.1 text (hash pinned in research). Partial translation: certification start upper bound (翌暦年まで) not expressible with gte/gt/eq and not translated.'}),
+    scope:'Ver.3.1 text (hash pinned in research). Partial translation.'},
+    function(p){
+      // Ver.3.1: certification start = registration-application year or the following year (P80 lte op).
+      p.rules.certification_start_within_next_year={op:'lte',input:'activity.years_cert_start_after_registration',value:1,status:'REFERENCE'};
+    }),
   ag005TextPack({id:'3.3-pc-draft-text',short:'3.3',url:'https://public-comment.e-gov.go.jp/pcm/download?seqNo=0000288301',hash:'UNKNOWN',
     scope:'Ver.3.3 public-comment text reviewed 2026-11-18; bytes not pinned; dates shown as 2025.3.XX. Partial translation.'},
     function(p){
@@ -63,7 +68,8 @@ var AG005_TEXT_PACKS=[
       // Ver.3.3: activity lists including activities from 2025-01-01 follow the 付記 (地番 notation).
       p.evidence_requirements.activity_report_list={category:'activity_report_list_lot_numbers',required:true,when:{path:'activity.post_2025_activity',equals:true}};
       // Ver.3.3: certification start = later of registration-application year and extension-start year.
-      p.rules.certification_start_not_before_extension={op:'gte',input:'activity.years_cert_start_after_extension_start',value:0,status:'REFERENCE'};
+      // The 3.1 "or the following year" option is gone; an exact max() upper bound is not expressible and not translated.
+      p.rules.certification_start_not_before_extension={op:'gte',input:'activity.cert_start_year',input_ref:'activity.extension_start_year',status:'REFERENCE'};
     })
 ];
 var AG005_TEXT_REGISTRY=createMethodologyRegistry(AG005_TEXT_PACKS);
@@ -73,6 +79,7 @@ var AG005_TEXT_CLAUSES={
   'AG-005@3.1-pc-text':{
     'rules.extension':'適用条件1 p.1 (7日間以上)','rules.baseline_years':'適用条件1 p.1–2 (直近2か年以上)',
     'rules.certification_start_not_before_registration':'認証対象期間 p.8–9 (登録申請日の暦年又は翌暦年)',
+    'rules.certification_start_within_next_year':'認証対象期間 p.8–9 (又はその翌暦年まで)',
     'evidence_requirements.heading_date_record':'検証時の証跡 p.9','evidence_requirements.baseline_drainage_days':'検証時の証跡 p.9',
     'evidence_requirements.project_drainage_dates':'検証時の証跡 p.9','evidence_requirements.drainage_start_end_proof':'中干し開始・終了の証跡 p.9–10 (Ver.3.0〜)',
     'evidence_requirements.planted_area_record':'モニタリング A_PJ p.4','evidence_requirements.organic_matter_record':'モニタリング l 施用有機物 ※4 p.4–6',
@@ -105,7 +112,7 @@ function ag005SyntheticPaddy(i){
   return {paddy_id:'PADDY-SYN-'+n,farmer_id:'FARMER-SYN-'+String(Math.ceil(i/8)).padStart(2,'0'),area_ha:0.3+(i%6)*0.1,season:season,
     drainage_basis:measured?'MEASURED':'DEFAULT',land_consolidation:consolidation,post_2025_activity:season>=2025,
     extension_days:ext.extension_days,baseline_years:ext.baseline_years,
-    years_cert_start_after_registration:certStartYear-registrationYear,years_cert_start_after_extension_start:certStartYear-extensionStartYear};
+    registration_year:registrationYear,extension_start_year:extensionStartYear,cert_start_year:certStartYear,years_cert_start_after_registration:certStartYear-registrationYear};
 }
 function ag005PaddyClaim(p,version){
   var id='RCLAIM-'+p.paddy_id.replace(/^PADDY-/,''),start=p.season+'-06-01',end=p.season+'-08-31';
@@ -114,7 +121,7 @@ function ag005PaddyClaim(p,version){
     activity:{id:id,field_id:p.paddy_id,farmer_id:p.farmer_id,program_id:'AG005-SYN-PROGRAM',methodology_id:'AG-005',methodology_version:version,
       type:'midseason_drainage_extension',start:start,end:end,extension_days:p.extension_days,baseline_years:p.baseline_years,
       drainage_basis:p.drainage_basis,land_consolidation:p.land_consolidation,post_2025_activity:p.post_2025_activity,
-      years_cert_start_after_registration:p.years_cert_start_after_registration,years_cert_start_after_extension_start:p.years_cert_start_after_extension_start},
+      registration_year:p.registration_year,extension_start_year:p.extension_start_year,cert_start_year:p.cert_start_year,years_cert_start_after_registration:p.years_cert_start_after_registration},
     evidence:[],peers:[]};
   var cats=['heading_date_record','baseline_drainage_days_record','project_drainage_dates_record','drainage_start_end_proof','planted_area_record','organic_matter_record'];
   if(p.drainage_basis==='MEASURED') cats.push('percolation_measurement_record','no_rain_record');

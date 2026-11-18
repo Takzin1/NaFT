@@ -78,3 +78,7 @@ The core count above (**1165 passed / 0 failed**) is unchanged; no core assertio
 ## P79 additions (2026-11-18)
 
 Core count unchanged (**1165 passed / 0 failed**). Added: `tests/p79-ag005-text-packs.test.mjs` (7 cases: Ver.3.1 hash binding, clause-locator completeness, exact three-item source diff, 適用条件1 ceil averaging, REFERENCE Packs never certify, 48-paddy triage equals an independent reading of the Ver.3.3 additions, legacy registry untouched), `tests/p79-data-rights-ledger.test.mjs` (every data-bearing tracked file registered exactly once; honesty constraints on rights/risk), `tests/p79-soil-panels-common.test.mjs` (47-layer invariants incl. landuse totals = P76 = 60,863), and the browser smoke now also checks the AG-005 triage panel parity.
+
+## P80 additions (2026-11-18)
+
+Core count unchanged (**1165 passed / 0 failed**) after extending the rule interpreter (`lte/lt/neq/in`, `input_ref`). Added `tests/p80-rule-ops-preflight.test.mjs` (5 cases) and `tests/p80-ag005-farm-log-worklist.test.mjs` (7 cases: drainage-day/heading/baseline/drainage-class/organic-matter boundaries, import guards, compilation under both AG-005 text Packs, worklist parity with the P79 triage, CSV formula neutralisation, end-to-end CLIs). Browser smoke additionally fetches the worklist CSV blob and checks the UTF-8 BOM.

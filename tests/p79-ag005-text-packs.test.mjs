@@ -36,9 +36,9 @@ test('every translated item has a clause locator, and nothing else does',()=>{
  }
 });
 
-test('the structured diff is exactly the three Ver.3.3 additions read from the texts',()=>{
+test('the structured diff is the Ver.3.3 changes read from the texts (3 additions, 1 removed option)',()=>{
  const d=plain(c.compareMethodologyVersions(c.AG005_TEXT_REGISTRY[K31],c.AG005_TEXT_REGISTRY[K33]));
- assert.deepEqual(d.changed_rules.map(x=>x.id+':'+x.change),['certification_start_not_before_extension:added']);
+ assert.deepEqual(d.changed_rules.map(x=>x.id+':'+x.change).sort(),['certification_start_not_before_extension:added','certification_start_within_next_year:removed']);
  assert.deepEqual(d.changed_evidence_requirements.map(x=>x.id+':'+x.change).sort(),['activity_report_list:added','percolation_record_proof:added']);
  assert.deepEqual(d.changed_parameters,[]);                    // 7 days, 2 years, 1.22, 7.5/12.5 unchanged
  assert.ok(c.AG005_TEXT_CLAUSES[K33]['evidence_requirements.percolation_record_proof'].includes('Ver.3.3追加'));
@@ -71,7 +71,7 @@ test('revision triage matches an independent reading of the Ver.3.3 additions',(
   const expected=[];
   if(p.post_2025_activity)expected.push('missing_evidence:activity_report_list');
   if(p.drainage_basis==='MEASURED')expected.push('missing_evidence:percolation_record_proof');
-  if(p.years_cert_start_after_extension_start<0)expected.push('rule:certification_start_not_before_extension');
+  if(p.cert_start_year<p.extension_start_year)expected.push('rule:certification_start_not_before_extension');
   assert.deepEqual(r.new_issues,expected.sort(),r.paddy_id);
   // A rule that applies to every paddy was added, so every claim must be re-evaluated (soundness).
   assert.equal(r.requires_reverification,true,r.paddy_id);
@@ -80,6 +80,16 @@ test('revision triage matches an independent reading of the Ver.3.3 additions',(
  const t=d.triage;assert.equal(t.NO_NEW_DEMAND+t.NEW_EVIDENCE+t.RULE_NOT_MET,48);
  assert.ok(t.NO_NEW_DEMAND>0&&t.NEW_EVIDENCE>0&&t.RULE_NOT_MET>0,'fixture must exercise all three paths');
  assert.deepEqual(plain(c.ag005RevisionDemo()),d);           // deterministic
+});
+
+test('P80 operators: 3.1 next-year upper bound and 3.3 input-to-input comparison are evaluated, not pre-computed',()=>{
+ const p=c.ag005SyntheticPaddy(1),late={...p,cert_start_year:p.registration_year+2,years_cert_start_after_registration:2};
+ const e31=c.compileEvidence(c.ag005PaddyClaim(late,'3.1-pc-text'),c.AG005_TEXT_REGISTRY[K31]).document.evaluation;
+ assert.ok(e31.issues.some(i=>i.code==='rule:certification_start_within_next_year'));
+ const e33=c.compileEvidence(c.ag005PaddyClaim(late,'3.3-pc-draft-text'),c.AG005_TEXT_REGISTRY[K33]).document.evaluation;
+ assert.ok(!e33.issues.some(i=>i.code.startsWith('rule:certification')));
+ const r=plain(e33.rules.find(x=>x.id==='certification_start_not_before_extension'));
+ assert.equal(r.input_ref,'activity.extension_start_year');assert.equal(r.threshold,p.extension_start_year);
 });
 
 test('agricultural registry and the legacy 3.1-reference Pack are untouched',()=>{

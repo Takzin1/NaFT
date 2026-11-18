@@ -47,6 +47,7 @@
 | J-クレジット・国内クレジット・J-VER登録一覧（P26追加） | [登録見込み1,537行・AG-005方法論版・平日以降の登録簿照合](p26-jcredit-registration-lists-ja.md)、[2原本SHA・5シートの台帳](../research/registry-source-intake-2026-11-08/jcredit-project-registration-sources.json)、[方法論・地域集計](../data/registry-source-intake-2026-11-08/jcredit-registration-summary.json) |
 | Jブルー認証手引 Ver.2.6／購入者実証論文（P26追加） | [算定要件・市場エビデンス](p26-jblue-guidance-market-evidence-ja.md)、[原本SHA・制度チェックリスト](../research/registry-source-intake-2026-11-08/jblue-guidance-market-evidence.json) |
 | 世界のクレジット登録簿・Jブルー履歴（P26） | [Berkeley＋Jブルー出典取込手順](p26-global-carbon-registry-intake-ja-2026-11-08.md)、[4原本のSHA台帳](../research/registry-source-intake-2026-11-08/sources.json)、[手数料参照値](../data/registry-source-intake-2026-11-08/jblue-fees.json) |
+| 運用部品：ルール演算・入力チェック・生産管理記録の取込・見直しリスト（P80追加） | [構成要素と使い方](p80-components-ja.md) |
 | AG-005実改定3.1→3.3・第三者データ権利台帳（P79追加） | [原文由来Pack・再検証の振り分け・権利台帳と削除候補](p79-ag005-real-revision-and-data-rights-ja.md) |
 | 森林GIS・小班×FO-001の変更影響（P78追加） | [森林簿／森林計画図のローカル取込・恒久stand_id・合成60小班デモ・P76県コード修正](p78-forest-stand-gis-ja.md) |
 | JAXA 2024土地被覆マップ（段階取込） | [P21最初の3タイル](p21-jaxa-lulc-batch01-ja-2026-11-03.md)、[P22追加の1タイル](p22-jaxa-lulc-batch02-ja-2026-11-03.md)、[P23追加の6タイル](p23-jaxa-lulc-batch03-ja-2026-11-03.md)、[P24追加の6タイル](p24-jaxa-lulc-batch04-ja-2026-11-03.md)、[P25追加の6タイル](p25-jaxa-lulc-batch05-ja-2026-11-04.md) |

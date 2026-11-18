@@ -47,7 +47,7 @@ function gxForestStandPanel(prefCode){
  '<div class="gx-detail-grid">'+cards+'</div>'+
  '<p class="gx-anomaly"><b>v1→v2の変更点：</b>パラメータ「'+nm(d.methodology_diff.changed_parameters)+'」、証拠要件「'+nm(d.methodology_diff.changed_evidence_requirements)+'」の追加。再検証の内訳：'+summary+'。</p>'+
  '<table><thead><tr><th scope="col" style="white-space:normal">見直す理由（小班数）・対象・再評価の結果</th></tr></thead><tbody>'+rows+'</tbody></table>'+
- '<details><summary>該当する小班（合成ID・'+fmt(affected.length)+'件）</summary>'+idList+'</details>'+
+ (typeof gxWorklistSlot==='function'?gxWorklistSlot('forest'):'')+'<details><summary>該当する小班（合成ID・'+fmt(affected.length)+'件）</summary>'+idList+'</details>'+
  '<div class="gx-source-panel"><div><h3>実データはローカルで</h3><p>森林簿CSV（UTF-8／Shift_JIS）と森林計画図（GeoJSON・GeoJSONSeq、GDALがあればGeoPackage）を<code>scripts/forest-stand-cli.mjs</code>で取り込みます。林小班番号は計画の見直しで変わり、分割・統合も起きるため、NaFT独自の恒久<code>stand_id</code>と年度別の観測を分け、対応づけは人が根拠ハッシュと理由を残して承認したときだけ確定します。所有者名などの列があれば取り込みを止め、座標は保存せずハッシュだけを残します。</p></div>'+
  '<div><h3>出典と利用条件</h3><p>林野庁は2026年2月、民有林・国有林を統合した全国統一仕様の森林GISオープンデータ（森林計画対象森林、20mの森林資源メッシュ等）の順次公開を発表しました。都道府県の森林簿・森林計画図は県ごとに利用条件が異なり、複製・再配布を禁止する県もあります。NaFTは利用条件を取り込みプロファイルに必須で記録し、公開リポジトリに原データを置きません。</p></div></div>'+
  '<p class="gx-anomaly"><b>重要：</b>小班・ルール・結果はすべて合成です。FO-001の適用可否、森林吸収量、クレジット発行量、林地の権利や境界を示すものではありません。参照用のFO-001 Packは原文・係数が未固定のため、常に自動判定を停止します。</p>'+

@@ -1,0 +1,14 @@
+{
+  "schema": "naft-p80-ag005-farm-log-profile-1",
+  "profile_id": "naft-synthetic-ag005-farm-log-v1",
+  "encoding": "utf-8",
+  "columns": {
+    "field_ref": "圃場ID", "year": "年", "cycle": "作期", "drain_start": "中干し開始日", "drain_end": "中干し終了日",
+    "heading_date": "出穂日", "planted_area_ha": "作付面積ha", "straw_pct": "稲わらすき込み割合", "compost_t_10a": "堆肥施用量t_10a",
+    "drainage_basis": "排水性区分の根拠", "percolation_mm_day": "日減水深実測mm_日", "land_consolidation": "換地等"
+  },
+  "drainage_basis_values": {"実測": "MEASURED", "デフォルト": "DEFAULT"},
+  "true_values": ["あり", "有"],
+  "source": {"publisher": "NaFT synthetic fixture", "terms_url": "urn:naft:synthetic", "redistribution": "PERMITTED", "personal_info_removed": true},
+  "note": "Map these to the operator's actual 生産管理記録 export headers in a private copy outside the repository."
+}
