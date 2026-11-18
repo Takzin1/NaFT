@@ -12,6 +12,7 @@
 <script defer src="src/mrv-core.js"></script>
 <script defer src="src/methodology-packs.js"></script>
 <script defer src="src/mrv-compiler.js"></script>
+<script defer src="src/forest-packs.js"></script>
 <script defer src="src/provenance-why-where.js"></script>
 <script defer src="src/opm-fair-interop.js"></script>
 <script defer src="src/compiler-session.js"></script>
@@ -35,55 +36,61 @@
 <script defer src="src/gx-rice-ch4-asia.js"></script>
 <script defer src="src/gx-jaxa-landcover-2024.js"></script>
 <script defer src="src/gx-prefecture-candidates.js"></script>
-<script defer src="src/gx-hokkaido-soil.js"></script>
-<script defer src="src/gx-aomori-soil.js"></script>
-<script defer src="src/gx-iwate-soil.js"></script>
-<script defer src="src/gx-miyagi-soil.js"></script>
-<script defer src="src/gx-yamagata-soil.js"></script>
-<script defer src="src/gx-akita-soil.js"></script>
-<script defer src="src/gx-fukushima-soil.js"></script>
-<script defer src="src/gx-ibaraki-soil.js"></script>
-<script defer src="src/gx-tochigi-soil.js"></script>
-<script defer src="src/gx-saitama-soil.js"></script>
-<script defer src="src/gx-gunma-soil.js"></script>
-<script defer src="src/gx-tokyo-soil.js"></script>
-<script defer src="src/gx-chiba-soil.js"></script>
-<script defer src="src/gx-kanagawa-soil.js"></script>
-<script defer src="src/gx-niigata-soil.js"></script>
-<script defer src="src/gx-ishikawa-soil.js"></script>
-<script defer src="src/gx-toyama-soil.js"></script>
-<script defer src="src/gx-fukui-soil.js"></script>
-<script defer src="src/gx-yamanashi-soil.js"></script>
-<script defer src="src/gx-nagano-soil.js"></script>
-<script defer src="src/gx-gifu-soil.js"></script>
-<script defer src="src/gx-shizuoka-soil.js"></script>
-<script defer src="src/gx-aichi-soil.js"></script>
-<script defer src="src/gx-mie-soil.js"></script>
-<script defer src="src/gx-shiga-soil.js"></script>
-<script defer src="src/gx-kyoto-soil.js"></script>
-<script defer src="src/gx-osaka-soil.js"></script>
-<script defer src="src/gx-hyogo-soil.js"></script>
-<script defer src="src/gx-nara-soil.js"></script>
-<script defer src="src/gx-wakayama-soil.js"></script>
-<script defer src="src/gx-tottori-soil.js"></script>
-<script defer src="src/gx-shimane-soil.js"></script>
-<script defer src="src/gx-okayama-soil.js"></script>
-<script defer src="src/gx-hiroshima-soil.js"></script>
-<script defer src="src/gx-yamaguchi-soil.js"></script>
-<script defer src="src/gx-tokushima-soil.js"></script>
-<script defer src="src/gx-kagawa-soil.js"></script>
-<script defer src="src/gx-ehime-soil.js"></script>
-<script defer src="src/gx-kochi-soil.js"></script>
-<script defer src="src/gx-fukuoka-soil.js"></script>
-<script defer src="src/gx-saga-soil.js"></script>
-<script defer src="src/gx-nagasaki-soil.js"></script>
-<script defer src="src/gx-oita-soil.js"></script>
-<script defer src="src/gx-kumamoto-soil.js"></script>
-<script defer src="src/gx-miyazaki-soil.js"></script>
-<script defer src="src/gx-kagoshima-soil.js"></script>
-<script defer src="src/gx-okinawa-soil.js"></script>
+<script type="application/json" id="gx-lazy-layer-manifest">
+{"schema":"naft-gis-layer-manifest-1","note":"P78: prefecture GIS panels load on demand on #/gx-data. Codes are JIS X 0401 and cross-checked against the P76 registry.","layers":[
+{"kind":"soil","pref":"01","src":"src/gx-hokkaido-soil.js","panel":"gxHokkaidoSoilPanel"},
+{"kind":"soil","pref":"02","src":"src/gx-aomori-soil.js","panel":"gxAomoriSoilPanel"},
+{"kind":"soil","pref":"03","src":"src/gx-iwate-soil.js","panel":"gxIwateSoilPanel"},
+{"kind":"soil","pref":"04","src":"src/gx-miyagi-soil.js","panel":"gxMiyagiSoilPanel"},
+{"kind":"soil","pref":"05","src":"src/gx-akita-soil.js","panel":"gxAkitaSoilPanel"},
+{"kind":"soil","pref":"06","src":"src/gx-yamagata-soil.js","panel":"gxYamagataSoilPanel"},
+{"kind":"soil","pref":"07","src":"src/gx-fukushima-soil.js","panel":"gxFukushimaSoilPanel"},
+{"kind":"soil","pref":"08","src":"src/gx-ibaraki-soil.js","panel":"gxIbarakiSoilPanel"},
+{"kind":"soil","pref":"09","src":"src/gx-tochigi-soil.js","panel":"gxTochigiSoilPanel"},
+{"kind":"soil","pref":"10","src":"src/gx-gunma-soil.js","panel":"gxGunmaSoilPanel"},
+{"kind":"soil","pref":"11","src":"src/gx-saitama-soil.js","panel":"gxSaitamaSoilPanel"},
+{"kind":"soil","pref":"12","src":"src/gx-chiba-soil.js","panel":"gxChibaSoilPanel"},
+{"kind":"soil","pref":"13","src":"src/gx-tokyo-soil.js","panel":"gxTokyoSoilPanel"},
+{"kind":"soil","pref":"14","src":"src/gx-kanagawa-soil.js","panel":"gxKanagawaSoilPanel"},
+{"kind":"soil","pref":"15","src":"src/gx-niigata-soil.js","panel":"gxNiigataSoilPanel"},
+{"kind":"soil","pref":"16","src":"src/gx-toyama-soil.js","panel":"gxToyamaSoilPanel"},
+{"kind":"soil","pref":"17","src":"src/gx-ishikawa-soil.js","panel":"gxIshikawaSoilPanel"},
+{"kind":"soil","pref":"18","src":"src/gx-fukui-soil.js","panel":"gxFukuiSoilPanel"},
+{"kind":"soil","pref":"19","src":"src/gx-yamanashi-soil.js","panel":"gxYamanashiSoilPanel"},
+{"kind":"soil","pref":"20","src":"src/gx-nagano-soil.js","panel":"gxNaganoSoilPanel"},
+{"kind":"soil","pref":"21","src":"src/gx-gifu-soil.js","panel":"gxGifuSoilPanel"},
+{"kind":"soil","pref":"22","src":"src/gx-shizuoka-soil.js","panel":"gxShizuokaSoilPanel"},
+{"kind":"soil","pref":"23","src":"src/gx-aichi-soil.js","panel":"gxAichiSoilPanel"},
+{"kind":"soil","pref":"24","src":"src/gx-mie-soil.js","panel":"gxMieSoilPanel"},
+{"kind":"soil","pref":"25","src":"src/gx-shiga-soil.js","panel":"gxShigaSoilPanel"},
+{"kind":"soil","pref":"26","src":"src/gx-kyoto-soil.js","panel":"gxKyotoSoilPanel"},
+{"kind":"soil","pref":"27","src":"src/gx-osaka-soil.js","panel":"gxOsakaSoilPanel"},
+{"kind":"soil","pref":"28","src":"src/gx-hyogo-soil.js","panel":"gxHyogoSoilPanel"},
+{"kind":"soil","pref":"29","src":"src/gx-nara-soil.js","panel":"gxNaraSoilPanel"},
+{"kind":"soil","pref":"30","src":"src/gx-wakayama-soil.js","panel":"gxWakayamaSoilPanel"},
+{"kind":"soil","pref":"31","src":"src/gx-tottori-soil.js","panel":"gxTottoriSoilPanel"},
+{"kind":"soil","pref":"32","src":"src/gx-shimane-soil.js","panel":"gxShimaneSoilPanel"},
+{"kind":"soil","pref":"33","src":"src/gx-okayama-soil.js","panel":"gxOkayamaSoilPanel"},
+{"kind":"soil","pref":"34","src":"src/gx-hiroshima-soil.js","panel":"gxHiroshimaSoilPanel"},
+{"kind":"soil","pref":"35","src":"src/gx-yamaguchi-soil.js","panel":"gxYamaguchiSoilPanel"},
+{"kind":"soil","pref":"36","src":"src/gx-tokushima-soil.js","panel":"gxTokushimaSoilPanel"},
+{"kind":"soil","pref":"37","src":"src/gx-kagawa-soil.js","panel":"gxKagawaSoilPanel"},
+{"kind":"soil","pref":"38","src":"src/gx-ehime-soil.js","panel":"gxEhimeSoilPanel"},
+{"kind":"soil","pref":"39","src":"src/gx-kochi-soil.js","panel":"gxKochiSoilPanel"},
+{"kind":"soil","pref":"40","src":"src/gx-fukuoka-soil.js","panel":"gxFukuokaSoilPanel"},
+{"kind":"soil","pref":"41","src":"src/gx-saga-soil.js","panel":"gxSagaSoilPanel"},
+{"kind":"soil","pref":"42","src":"src/gx-nagasaki-soil.js","panel":"gxNagasakiSoilPanel"},
+{"kind":"soil","pref":"43","src":"src/gx-kumamoto-soil.js","panel":"gxKumamotoSoilPanel"},
+{"kind":"soil","pref":"44","src":"src/gx-oita-soil.js","panel":"gxOitaSoilPanel"},
+{"kind":"soil","pref":"45","src":"src/gx-miyazaki-soil.js","panel":"gxMiyazakiSoilPanel"},
+{"kind":"soil","pref":"46","src":"src/gx-kagoshima-soil.js","panel":"gxKagoshimaSoilPanel"},
+{"kind":"soil","pref":"47","src":"src/gx-okinawa-soil.js","panel":"gxOkinawaSoilPanel"}
+]}
+</script>
+<script defer src="src/gx-layer-loader.js"></script>
 <script defer src="src/gx-national-soil-registry.js"></script>
 <script defer src="src/gx-field-identity.js"></script>
+<script defer src="src/gx-forest-stand.js"></script>
 <script defer src="src/gx-data-explorer.js"></script>
 <script defer src="src/mrv-ui.js"></script>
 </head>

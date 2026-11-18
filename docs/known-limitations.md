@@ -1,6 +1,6 @@
 # 既知の制約
 
-- **方法論対応範囲:** AG-005 `3.1-reference`は歴史的参照版として保持しており、現行制度対応を意味しない。e-Gov一次資料でVer.3.3は確認済み、第三者資料には2025年9月のVer.3.4参照があるが、現行最新版の原文byte列・SHA-256・完全差分は本repositoryで固定していない。AG-004はVer.2.4原文を確認済みだがExecutable Pack未実装のためCompiler上は`UNKNOWN / UNSUPPORTED`を維持する。適用係数と完全な制度翻訳は未確認であり、制度評価はfail closedする。
+- **方法論対応範囲:** AG-005 `3.1-reference`は歴史的参照版として保持しており、現行制度対応を意味しない。e-Gov一次資料でVer.3.3は確認済み。J-クレジット公式の方法論一覧は2026-11-18の検索結果でAG-005を**Ver.3.5（制改定日2026-03-04）**と表示しているが、Ver.3.5原文のbyte列・SHA-256・完全差分は本repositoryで固定していない（P78で版表記を統一）。AG-004はVer.2.4原文を確認済みだがExecutable Pack未実装のためCompiler上は`UNKNOWN / UNSUPPORTED`を維持する。適用係数と完全な制度翻訳は未確認であり、制度評価はfail closedする。
 - **ルール表現力:** 現在は小規模な宣言的comparison / conditional / multiplication interpreterである。複雑なstrata、例外、係数適用条件、計算結果に応じて必要Evidenceが変わる循環的評価構造は未実装で、未踏期間の研究課題である。
 - **Evidence adapter:** raw-byte SHA-256、metadata、JSON構文の正規化まで。写真内容理解、農学的意味抽出、センサー校正、GIS幾何検証、権威あるidentity resolutionは行わない。expected hashはtrust anchorであり外部真正性証明ではない。
 - **変更影響解析:** Activity粒度の保守的dependency pathを扱う。適用rule・使用parameterに基づく選択的再検証は実装済み。独立Full Re-computation Oracleとの614件adversarial matrixではTP 429 / TN 78 / FP 107 / FN 0で、現在サポートするinterpreter/change APIのtested state spaceではfalse negativeは見つかっていない。ただし任意の実制度Methodologyに対するsoundness/minimalityの普遍的証明ではなく、107 false positivesは保守的over-verificationを示す。100 Claimの30 / 70も性能指標ではなくfixture構成に由来し、実制度の再検証率を予測しない。

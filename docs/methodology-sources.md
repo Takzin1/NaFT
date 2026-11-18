@@ -3,7 +3,7 @@
 | Source | Retrieval and implementation boundary |
 |---|---|
 | [AG-005 public-comment reference PDF](https://public-comment.e-gov.go.jp/pcm/download?seqNo=0000281460) | HTTP 200, 384,171 bytes; document title identifies Ver.3.1. SHA-256 `f861e4af40f3fa1fb3a0b54327cd7720f6e5028ae99455bf39274f97140a2050` |
-| [Official methodology index](https://japancredit.go.jp/about/methodology/) | この環境ではfull body取得が安定せず、現行最新版は独立確定していない |
+| [Official methodology index](https://japancredit.go.jp/about/methodology/) | 2026-11-18の検索インデックス上でAG-005 **Ver.3.5・制改定日2026-03-04**の表示を確認（本文の直接取得は失敗）。原文byte列・SHA-256は未固定 |
 | [AG-005 Ver.3.3 e-Gov primary document](https://public-comment.e-gov.go.jp/pcm/download?seqNo=0000288301) | Ver.3.3原文を一次資料として確認。文書内の改定履歴ではVer.3.1の有効期限は2025-02-24。repositoryのExecutable Packには未反映 |
 | AG-005 Ver.3.4 secondary reference | 2025年9月時点の第三者資料がJ-クレジット制度のVer.3.4を参照。ただし本repositoryでは一次原文byte列・SHA-256を固定しておらず、現行最新版とも断定しない |
 | AG-004 Ver.2.4 | 2026-09-23時点の研究状況では原文を確認済み。ただし原文byte snapshot / SHA-256を本repositoryへ固定しておらず、Executable Packへの翻訳も未実装。Compilerは`AG-004@UNKNOWN` / `UNSUPPORTED`のfail-closed placeholderを維持 |
@@ -16,7 +16,7 @@ NAFT-SYNTHETIC 1/2 are invented engineering protocols under a separate methodolo
 
 ## 2026-09-21 repair re-check boundary
 
-AG-005の現行制度版は本repositoryに登録していない。e-Gov一次資料でVer.3.3は確認でき、第三者資料では2025年9月のVer.3.4参照が確認できるが、現行最新版の原文byte snapshot / SHA-256 / effective statusを本repositoryでは独立固定していない。したがって`AG-005@3.1-reference`から実在版へのinstitutional diffをNaFTの実証結果として扱わない。
+AG-005の現行制度版は本repositoryに登録していない。e-Gov一次資料でVer.3.3は確認でき、公式方法論一覧ではVer.3.5（2026-03-04）が表示されている（2026-11-18確認）が、Ver.3.5の原文byte snapshot / SHA-256 / effective statusを本repositoryでは独立固定していない。したがって`AG-005@3.1-reference`から実在版へのinstitutional diffをNaFTの実証結果として扱わない。
 
 ## 関連するDMRV研究文献（2026-10-25）
 

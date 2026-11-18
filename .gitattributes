@@ -1,0 +1,4 @@
+# Preserve the exact bytes of the two synthetic forest-register intake fixtures.
+# CRLF is intentional; still reject actual trailing spaces, tabs and blank EOF lines.
+fixtures/p78-forest-register-2026-synthetic.csv -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+fixtures/p78-forest-register-2027-synthetic-sjis.csv -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
