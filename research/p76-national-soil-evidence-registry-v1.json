@@ -73,6 +73,7 @@
     {
       "p": 29,
       "prefecture_code": "01",
+      "source_folder_code": "01",
       "prefecture_name": "北海道",
       "polygon_features": 5477,
       "landuse_counts": {
@@ -104,6 +105,7 @@
     {
       "p": 30,
       "prefecture_code": "02",
+      "source_folder_code": "02",
       "prefecture_name": "青森県",
       "polygon_features": 1311,
       "landuse_counts": {
@@ -135,6 +137,7 @@
     {
       "p": 31,
       "prefecture_code": "03",
+      "source_folder_code": "03",
       "prefecture_name": "岩手県",
       "polygon_features": 2149,
       "landuse_counts": {
@@ -166,6 +169,7 @@
     {
       "p": 32,
       "prefecture_code": "04",
+      "source_folder_code": "04",
       "prefecture_name": "宮城県",
       "polygon_features": 1588,
       "landuse_counts": {
@@ -197,6 +201,7 @@
     {
       "p": 33,
       "prefecture_code": "06",
+      "source_folder_code": "06",
       "prefecture_name": "山形県",
       "polygon_features": 1651,
       "landuse_counts": {
@@ -228,6 +233,7 @@
     {
       "p": 34,
       "prefecture_code": "05",
+      "source_folder_code": "05",
       "prefecture_name": "秋田県",
       "polygon_features": 1046,
       "landuse_counts": {
@@ -259,6 +265,7 @@
     {
       "p": 35,
       "prefecture_code": "07",
+      "source_folder_code": "07",
       "prefecture_name": "福島県",
       "polygon_features": 2407,
       "landuse_counts": {
@@ -290,6 +297,7 @@
     {
       "p": 36,
       "prefecture_code": "08",
+      "source_folder_code": "08",
       "prefecture_name": "茨城県",
       "polygon_features": 1335,
       "landuse_counts": {
@@ -321,6 +329,7 @@
     {
       "p": 37,
       "prefecture_code": "09",
+      "source_folder_code": "09",
       "prefecture_name": "栃木県",
       "polygon_features": 1798,
       "landuse_counts": {
@@ -352,6 +361,7 @@
     {
       "p": 38,
       "prefecture_code": "11",
+      "source_folder_code": "11",
       "prefecture_name": "埼玉県",
       "polygon_features": 1912,
       "landuse_counts": {
@@ -383,6 +393,7 @@
     {
       "p": 39,
       "prefecture_code": "10",
+      "source_folder_code": "10",
       "prefecture_name": "群馬県",
       "polygon_features": 1331,
       "landuse_counts": {
@@ -414,6 +425,7 @@
     {
       "p": 40,
       "prefecture_code": "13",
+      "source_folder_code": "13",
       "prefecture_name": "東京都",
       "polygon_features": 472,
       "landuse_counts": {
@@ -445,6 +457,7 @@
     {
       "p": 41,
       "prefecture_code": "12",
+      "source_folder_code": "12",
       "prefecture_name": "千葉県",
       "polygon_features": 1907,
       "landuse_counts": {
@@ -476,6 +489,7 @@
     {
       "p": 42,
       "prefecture_code": "14",
+      "source_folder_code": "14",
       "prefecture_name": "神奈川県",
       "polygon_features": 1060,
       "landuse_counts": {
@@ -506,7 +520,8 @@
     },
     {
       "p": 43,
-      "prefecture_code": "18",
+      "prefecture_code": "15",
+      "source_folder_code": "18",
       "prefecture_name": "新潟県",
       "polygon_features": 1503,
       "landuse_counts": {
@@ -537,7 +552,8 @@
     },
     {
       "p": 44,
-      "prefecture_code": "20",
+      "prefecture_code": "17",
+      "source_folder_code": "20",
       "prefecture_name": "石川県",
       "polygon_features": 630,
       "landuse_counts": {
@@ -568,7 +584,8 @@
     },
     {
       "p": 45,
-      "prefecture_code": "19",
+      "prefecture_code": "16",
+      "source_folder_code": "19",
       "prefecture_name": "富山県",
       "polygon_features": 632,
       "landuse_counts": {
@@ -599,7 +616,8 @@
     },
     {
       "p": 46,
-      "prefecture_code": "21",
+      "prefecture_code": "18",
+      "source_folder_code": "21",
       "prefecture_name": "福井県",
       "polygon_features": 510,
       "landuse_counts": {
@@ -630,7 +648,8 @@
     },
     {
       "p": 47,
-      "prefecture_code": "15",
+      "prefecture_code": "19",
+      "source_folder_code": "15",
       "prefecture_name": "山梨県",
       "polygon_features": 564,
       "landuse_counts": {
@@ -661,7 +680,8 @@
     },
     {
       "p": 48,
-      "prefecture_code": "16",
+      "prefecture_code": "20",
+      "source_folder_code": "16",
       "prefecture_name": "長野県",
       "polygon_features": 2518,
       "landuse_counts": {
@@ -692,7 +712,8 @@
     },
     {
       "p": 49,
-      "prefecture_code": "22",
+      "prefecture_code": "21",
+      "source_folder_code": "22",
       "prefecture_name": "岐阜県",
       "polygon_features": 1942,
       "landuse_counts": {
@@ -723,7 +744,8 @@
     },
     {
       "p": 50,
-      "prefecture_code": "17",
+      "prefecture_code": "22",
+      "source_folder_code": "17",
       "prefecture_name": "静岡県",
       "polygon_features": 1376,
       "landuse_counts": {
@@ -755,6 +777,7 @@
     {
       "p": 51,
       "prefecture_code": "23",
+      "source_folder_code": "23",
       "prefecture_name": "愛知県",
       "polygon_features": 2117,
       "landuse_counts": {
@@ -786,6 +809,7 @@
     {
       "p": 52,
       "prefecture_code": "24",
+      "source_folder_code": "24",
       "prefecture_name": "三重県",
       "polygon_features": 1626,
       "landuse_counts": {
@@ -817,6 +841,7 @@
     {
       "p": 53,
       "prefecture_code": "25",
+      "source_folder_code": "25",
       "prefecture_name": "滋賀県",
       "polygon_features": 785,
       "landuse_counts": {
@@ -848,6 +873,7 @@
     {
       "p": 54,
       "prefecture_code": "26",
+      "source_folder_code": "26",
       "prefecture_name": "京都府",
       "polygon_features": 969,
       "landuse_counts": {
@@ -879,6 +905,7 @@
     {
       "p": 55,
       "prefecture_code": "27",
+      "source_folder_code": "27",
       "prefecture_name": "大阪府",
       "polygon_features": 764,
       "landuse_counts": {
@@ -910,6 +937,7 @@
     {
       "p": 56,
       "prefecture_code": "28",
+      "source_folder_code": "28",
       "prefecture_name": "兵庫県",
       "polygon_features": 1216,
       "landuse_counts": {
@@ -941,6 +969,7 @@
     {
       "p": 57,
       "prefecture_code": "29",
+      "source_folder_code": "29",
       "prefecture_name": "奈良県",
       "polygon_features": 855,
       "landuse_counts": {
@@ -972,6 +1001,7 @@
     {
       "p": 58,
       "prefecture_code": "30",
+      "source_folder_code": "30",
       "prefecture_name": "和歌山県",
       "polygon_features": 822,
       "landuse_counts": {
@@ -1003,6 +1033,7 @@
     {
       "p": 59,
       "prefecture_code": "31",
+      "source_folder_code": "31",
       "prefecture_name": "鳥取県",
       "polygon_features": 1032,
       "landuse_counts": {
@@ -1034,6 +1065,7 @@
     {
       "p": 60,
       "prefecture_code": "32",
+      "source_folder_code": "32",
       "prefecture_name": "島根県",
       "polygon_features": 927,
       "landuse_counts": {
@@ -1065,6 +1097,7 @@
     {
       "p": 61,
       "prefecture_code": "33",
+      "source_folder_code": "33",
       "prefecture_name": "岡山県",
       "polygon_features": 1151,
       "landuse_counts": {
@@ -1096,6 +1129,7 @@
     {
       "p": 62,
       "prefecture_code": "34",
+      "source_folder_code": "34",
       "prefecture_name": "広島県",
       "polygon_features": 1209,
       "landuse_counts": {
@@ -1127,6 +1161,7 @@
     {
       "p": 63,
       "prefecture_code": "35",
+      "source_folder_code": "35",
       "prefecture_name": "山口県",
       "polygon_features": 1033,
       "landuse_counts": {
@@ -1158,6 +1193,7 @@
     {
       "p": 64,
       "prefecture_code": "36",
+      "source_folder_code": "36",
       "prefecture_name": "徳島県",
       "polygon_features": 692,
       "landuse_counts": {
@@ -1189,6 +1225,7 @@
     {
       "p": 65,
       "prefecture_code": "37",
+      "source_folder_code": "37",
       "prefecture_name": "香川県",
       "polygon_features": 508,
       "landuse_counts": {
@@ -1220,6 +1257,7 @@
     {
       "p": 66,
       "prefecture_code": "38",
+      "source_folder_code": "38",
       "prefecture_name": "愛媛県",
       "polygon_features": 629,
       "landuse_counts": {
@@ -1251,6 +1289,7 @@
     {
       "p": 67,
       "prefecture_code": "39",
+      "source_folder_code": "39",
       "prefecture_name": "高知県",
       "polygon_features": 767,
       "landuse_counts": {
@@ -1282,6 +1321,7 @@
     {
       "p": 68,
       "prefecture_code": "40",
+      "source_folder_code": "40",
       "prefecture_name": "福岡県",
       "polygon_features": 1706,
       "landuse_counts": {
@@ -1313,6 +1353,7 @@
     {
       "p": 69,
       "prefecture_code": "41",
+      "source_folder_code": "41",
       "prefecture_name": "佐賀県",
       "polygon_features": 712,
       "landuse_counts": {
@@ -1344,6 +1385,7 @@
     {
       "p": 70,
       "prefecture_code": "42",
+      "source_folder_code": "42",
       "prefecture_name": "長崎県",
       "polygon_features": 863,
       "landuse_counts": {
@@ -1375,6 +1417,7 @@
     {
       "p": 71,
       "prefecture_code": "44",
+      "source_folder_code": "44",
       "prefecture_name": "大分県",
       "polygon_features": 820,
       "landuse_counts": {
@@ -1406,6 +1449,7 @@
     {
       "p": 72,
       "prefecture_code": "43",
+      "source_folder_code": "43",
       "prefecture_name": "熊本県",
       "polygon_features": 1573,
       "landuse_counts": {
@@ -1437,6 +1481,7 @@
     {
       "p": 73,
       "prefecture_code": "45",
+      "source_folder_code": "45",
       "prefecture_name": "宮崎県",
       "polygon_features": 756,
       "landuse_counts": {
@@ -1468,6 +1513,7 @@
     {
       "p": 74,
       "prefecture_code": "46",
+      "source_folder_code": "46",
       "prefecture_name": "鹿児島県",
       "polygon_features": 1549,
       "landuse_counts": {
@@ -1499,6 +1545,7 @@
     {
       "p": 75,
       "prefecture_code": "47",
+      "source_folder_code": "47",
       "prefecture_name": "沖縄県",
       "polygon_features": 663,
       "landuse_counts": {

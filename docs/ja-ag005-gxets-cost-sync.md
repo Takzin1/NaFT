@@ -10,7 +10,7 @@
 - **GX-ETS**: J-クレジットと独立した燃料起源CO₂の参照計算 `Q_fuel*HV*(tC/GJ)*(44/12)`。燃料単位と発熱量単位が一致しない入力、購入電力等の別排出源を拒否。公式係数、報告値、排出枠・クレジット量は計算しない。
 
 ## コスト同期
-移植元: [IEEE版のコスト計算](https://github.com/Takzin1/NaFT-IEEE_Climate_Hackthon_Edition/blob/main/src/cost-estimator.js)。
+移植元: [IEEE版のコスト計算](https://github.com/Takzin1/NaFT-IEEE_Climate_Hackathon_Edition/blob/main/src/cost-estimator.js)。
 同一計算エンジンと[仮定値config](../config/cost-estimator.defaults.json)を日本語版に移植。
 合成100 Claim `NAFT-SYNTHETIC@1→@2` を**実際の影響解析エンジン**で再計算した件数から、総件数・再検証件数を表示し、任意入力の作業時間、時間単価、固定費、為替から全件/選択的コストを試算する。
 
