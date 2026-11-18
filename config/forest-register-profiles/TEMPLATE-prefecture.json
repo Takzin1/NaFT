@@ -1,0 +1,20 @@
+{
+  "schema": "naft-p78-forest-register-profile-1",
+  "profile_id": "REPLACE-prefecture-forest-register-YYYY",
+  "encoding": "shift_jis",
+  "columns": {
+    "municipality_cd": "REPLACE_WITH_ACTUAL_HEADER",
+    "rinpan": "REPLACE_WITH_ACTUAL_HEADER",
+    "shohan": "REPLACE_WITH_ACTUAL_HEADER",
+    "edaban": "REPLACE_WITH_ACTUAL_HEADER",
+    "forest_type": "REPLACE_WITH_ACTUAL_HEADER",
+    "species": "REPLACE_WITH_ACTUAL_HEADER",
+    "age": "REPLACE_WITH_ACTUAL_HEADER",
+    "area_ha": "REPLACE_WITH_ACTUAL_HEADER"
+  },
+  "forest_class_map": {"REPLACE_RAW_VALUE": "IKUSEI"},
+  "mature_age_by_species": null,
+  "map_properties": {"municipality_cd": "REPLACE", "rinpan": "REPLACE", "shohan": "REPLACE", "edaban": "REPLACE"},
+  "source": {"publisher": "REPLACE (e.g. prefecture forestry department)", "terms_url": "REPLACE with the terms page you read", "redistribution": "NOT_VERIFIED", "personal_info_removed": true},
+  "instructions": "Copy to a private path outside the repository, fill every REPLACE from the actual CSV header and published terms, then pass with --profile. Headers that do not exist stop the import (CSV_COLUMN_NOT_FOUND). Some prefectures prohibit reproduction or redistribution of forest data; keep redistribution NOT_VERIFIED or PROHIBITED unless the terms explicitly allow it."
+}

@@ -109,4 +109,5 @@ fi
 # These are correctness tests. Never retry or suppress their assertion failures.
 node tests/browser-reviewer-smoke.mjs
 node tests/browser-gx-data-smoke.mjs
+node tests/browser-p78-forest-smoke.mjs
 node tests/browser-gikuten-smoke.mjs

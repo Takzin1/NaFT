@@ -1,0 +1,22 @@
+{
+  "schema": "naft-p78-forest-register-profile-1",
+  "profile_id": "naft-synthetic-forest-register-v1",
+  "encoding": "utf-8",
+  "columns": {
+    "municipality_cd": "市町村コード",
+    "rinpan": "林班",
+    "shohan": "小班",
+    "edaban": "枝番",
+    "forest_type": "林種",
+    "species": "樹種",
+    "age": "林齢",
+    "area_ha": "面積",
+    "restricted": "制限林"
+  },
+  "forest_class_map": {"人工林": "IKUSEI", "育成天然林": "IKUSEI", "天然林": "TENNEN", "竹林": "BAMBOO", "無立木地": "TREELESS"},
+  "restricted_values": ["保安林", "保安施設地区", "国立公園特別地域"],
+  "mature_age_by_species": {"スギ": 40, "ヒノキ": 45, "カラマツ": 40},
+  "mature_age_note": "SYNTHETIC thresholds. Real 標準伐期齢 are set per municipality forest plan and species; copy them from the applicable plan, never from this file.",
+  "map_properties": {"municipality_cd": "KEN_CITY", "rinpan": "RINPAN", "shohan": "SHOHAN", "edaban": "EDABAN"},
+  "source": {"publisher": "NaFT synthetic fixture", "terms_url": "urn:naft:synthetic", "redistribution": "PERMITTED", "personal_info_removed": true}
+}
