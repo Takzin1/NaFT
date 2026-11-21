@@ -43,7 +43,7 @@ node scripts/valuation-book.mjs examples/p80-scenario.json examples/p80-bindings
 
 同じasset_idとvaluation_scenario_idで新しい入力を作り、`ledger OLD_HISTORY NEW_INPUTS UTC` に渡す。全対象の現在入力を渡し、更新は直前版にリンクする。既存履歴の整合性を確認後、入力変更または時間境界を跨いだ対象のみ計算する。同一証拠を同一シナリオで別資産として再評価しない。複数シナリオの評価額を合算しない。旧ファイルを保存し、新規出力先を指定する。複数の書き手が同じheadから分岐した場合、採用するheadは呼出元が決める。
 
-Compilerの変更影響レポートは `impact INPUTS REPORT` に渡す。`analyzeImpact`のrequires_reverification行だけを選び、previous_package_hashを照合してsuccessorへ差し替える。その出力をledgerに渡す。数量・係数由来の指紋・原証拠・方法論版・単価・FX・ペッグ・権利状態も評価履歴の依存入力である。REVOKED、AUTHENTICITY_FAILEDまたは期限切れの権利は後続のBLOCKEDレシートになる。撤回の自動配信はなく、Marketの最新head更新が必要。
+Compilerの変更影響レポートは `impact INPUTS REPORT` に渡す。`analyzeImpact`のrequires_reverification行だけを選び、previous_package_hashとsuccessorの来歴エッジを照合して差し替える。Compiler入力では正確なパッケージのハッシュに加え、先行版へのエッジを付与する前のドラフトのハッシュを保存し、連続する変更を追跡する。その出力をledgerに渡す。数量・係数由来の指紋・原証拠・方法論版・単価・FX・ペッグ・権利状態も評価履歴の依存入力である。REVOKED、AUTHENTICITY_FAILEDまたは期限切れの権利は後続のBLOCKEDレシートになる。撤回の自動配信はなく、Marketの最新head更新が必要。
 
 ## 検証
 
