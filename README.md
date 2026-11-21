@@ -140,14 +140,6 @@ flowchart TD
 - **開発・管理**：[Takzin1](https://github.com/Takzin1)。[技育展向け資料](gikuten-pitch.html)には弓田隆仁（福島大学大学院）の表記があります。
 - **ご注意**：MITは本リポジトリのソフトウェア・付随ドキュメントの条項です。JAXA、官公庁、研究者等の第三者原データとその派生物の利用条件は別途確認してください。研究用の試作であり、公式なクレジット認証製品ではありません。
 
-## English summary
-
-- NaFT helps climate-project operators identify which evidence-backed claims need review after rules or inputs change.
-- It pins evidence and rule versions, traces dependencies, and produces reproducible research JSON.
-- Missing evidence and unsupported institutional rules block automated approval.
-- The 100-claim demo and 614 adversarial cases use synthetic scenarios, not certified farm reductions.
-- This is an MIT-licensed research prototype; see the browser demo, tests, and documentation above.
-
 ## P80.5 統合プレビュー（未マージ）
 
 - [環境価値参考評価画面](valuation.html)：P80の研究数量・FX・模擬ステーブル建て参考換算。価格は仮定値であり市場で売却可能な実資産ではありません。
@@ -155,3 +147,12 @@ flowchart TD
 - [P80.5 統合と再現手順](docs/p805-integration-ja.md)：P78〜P80の見直しリスト、森林GIS、評価エンジンとMarket接続の統合、残課題を記録。
 
 NaFTの研究用見積りは実クレジットの発行・移転・ステーブルコイン決済を行いません。第三者由来の原データの再配布権利は別途確認が必要です。
+
+
+## English summary
+
+- NaFT helps climate-project operators identify which evidence-backed claims need review after rules or inputs change.
+- It pins evidence and rule versions, traces dependencies, and produces reproducible research JSON.
+- Missing evidence and unsupported institutional rules block automated approval.
+- The 100-claim demo and 614 adversarial cases use synthetic scenarios, not certified farm reductions.
+- This is an MIT-licensed research prototype; see the browser demo, tests, and documentation above.
