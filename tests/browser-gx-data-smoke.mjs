@@ -1,4 +1,5 @@
 'use strict';
+import {checkValuationDashboard} from './browser-valuation.mjs';
 /** Real Chrome CDP smoke for the new GX source atlas, no external networks. */
 const base=process.env.NAFT_CDP_URL||'http://127.0.0.1:9222';
 const wait=ms=>new Promise(r=>setTimeout(r,ms));
@@ -104,6 +105,7 @@ try{
  if(desktop.scroll>desktop.width+1||desktop.cards!==3||desktop.columns<3)throw Error('GX_DESKTOP_GRID_FAILED:'+JSON.stringify(desktop));
  await ev("location.hash='#/methodologies';true");
  await until("document.body.innerText.includes('Rule Packを版で固定する')",'original MRV route');
+ await checkValuationDashboard(ev,until);
  if(errors.length)throw Error('GX_RUNTIME_EXCEPTIONS:'+JSON.stringify(errors));
  console.log('NAFT_P10_GX_BROWSER_PASS: Chrome 390px + 1280px, 47-pref selector, Tokyo switch, original six-route, no overflow');
 }finally{ws.close();}

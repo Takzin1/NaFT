@@ -128,6 +128,18 @@ flowchart TD
 - **開発・管理**：[Takzin1](https://github.com/Takzin1)。[技育展向け資料](gikuten-pitch.html)には弓田隆仁（福島大学大学院）の表記があります。
 - **ご注意**：MITは本リポジトリのソフトウェア・付随ドキュメントの条項です。JAXA、官公庁、研究者等の第三者原データとその派生物の利用条件は別途確認してください。研究用の試作であり、公式なクレジット認証製品ではありません。
 
+## P80 環境価値の参考評価
+
+[環境価値ダッシュボード](valuation.html)で、研究推定量・仮定単価・為替・ペッグ・手数料を変更できます。初期表示は既存のAG-005歴史式を合成入力で再計算した2.24 tCO₂eです。参考評価額と模擬注文の約定額は個別に記録されます。
+
+```sh
+node scripts/valuation.mjs demo 2026-11-21T00:00:00.000Z > /tmp/naft-valuation.json
+node scripts/valuation.mjs replay /tmp/naft-valuation.json
+python3 -m http.server 8000 --bind 127.0.0.1
+```
+
+ブラウザで `http://127.0.0.1:8000/valuation.html` を開いてください。評価履歴とMarket接続の再現手順は [P80ガイド](docs/p80-valuation.md) にあります。
+
 ## English summary
 
 - NaFT helps climate-project operators identify which evidence-backed claims need review after rules or inputs change.
