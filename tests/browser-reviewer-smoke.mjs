@@ -186,7 +186,7 @@ await until("db.compiler_attestations.some(function(a){return a.run_id===Compile
 const attestedRunId=await evaluate("CompilerUI.runId");
 if(attestedRunId!==compilerRunId) throw new Error('COMPILER_RUN_CHANGED_DURING_ATTESTATION:'+compilerRunId+':'+attestedRunId);
 
-await evaluate("(function(){window.__naftDownloads=[];window.__naftExportText=null;var original=URL.createObjectURL.bind(URL);URL.createObjectURL=function(blob){blob.text().then(function(t){window.__naftExportText=t;});return original(blob);};HTMLAnchorElement.prototype.click=function(){window.__naftDownloads.push({download:this.download,href:this.href});};return true;})()");
+await evaluate("(function(){window.__naftDownloads=[];window.__naftExportText=null;var original=URL.createObjectURL;var anchorClick=HTMLAnchorElement.prototype.click;window.__naftRestoreDownloadHooks=function(){HTMLAnchorElement.prototype.click=anchorClick;URL.createObjectURL=original;delete window.__naftRestoreDownloadHooks;};URL.createObjectURL=function(blob){blob.text().then(function(t){window.__naftExportText=t;});return original.call(URL,blob);};HTMLAnchorElement.prototype.click=function(){window.__naftDownloads.push({download:this.download,href:this.href});};return true;})()");
 await evaluate("document.querySelector('[data-action=\\\"compiler-export-attested\\\"]').click(); true");
 await until("window.__naftExportText!==null && window.__naftDownloads.length===1",'compiler attested export');
 const exportedCompiler=await evaluate("(function(){var x=JSON.parse(window.__naftExportText);return {download:window.__naftDownloads[0].download,status:x.document.status,formal_certification:x.document.formal_certification,acknowledged:x.document.attestation&&x.document.attestation.acknowledged,scope:x.document.attestation&&x.document.attestation.scope,hashMatches:typeof x.package_hash==='string'&&x.package_hash.length===64};})()");
@@ -194,6 +194,8 @@ if(exportedCompiler.download!=='naft-compiler-package.json') throw new Error('CO
 if(exportedCompiler.status!=='ATTESTED_RESEARCH_PACKAGE'||exportedCompiler.formal_certification!==false||exportedCompiler.acknowledged!==true||exportedCompiler.scope!=='not_formal_certification'||!exportedCompiler.hashMatches) {
   throw new Error('COMPILER_ATTESTED_EXPORT_INVALID:'+JSON.stringify(exportedCompiler));
 }
+// Release the download probe before following normal navigation links in this tab.
+await evaluate("window.__naftRestoreDownloadHooks(); true");
 // Japanese IEEE port: actual browser route and click-handler proof.
 await evaluate("location.hash='#/climatechain'; true");
 await until("document.querySelector('[data-action=\\\"climatechain-run\\\"]')!==null && document.body.innerText.includes('版管理型 気候MRV')",'Japanese ClimateChain route');

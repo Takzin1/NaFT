@@ -210,4 +210,5 @@ node tests/japanflux-jp-hrt-source-gate.test.mjs
 python3 tests/japanflux-jp-hrt-badm.test.py
 python3 tests/asia-ephemeral-provenance.test.py
 python3 tests/check-static.py
+node --test tests/p80-valuation.test.mjs
 bash tests/security.sh
