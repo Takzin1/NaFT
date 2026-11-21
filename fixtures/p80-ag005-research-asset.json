@@ -1,0 +1,12 @@
+{
+  "asset_id": "P9-DEMO-07",
+  "asset_category": "AGRICULTURE",
+  "methodology_id": "AG-005",
+  "methodology_version": "AG-005 v1.0",
+  "evidence_package_sha256": "f3897faccf2ec7aa3d27e4bdaee4fb433dd3c9c1270b3541e13ba32a4570fa89",
+  "source_record_sha256": "36a8693eb04b30c8c65561d303fbef6dca676eebdfd429a8bd1a3d5b159d9501",
+  "verification_status": "REFERENCE",
+  "quantity": "2.24",
+  "quantity_unit": "tCO2e",
+  "rights_status": "UNVERIFIED"
+}

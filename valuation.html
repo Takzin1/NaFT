@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>環境価値の参考評価 | NaFT</title><link rel="icon" href="favicon.svg"><link rel="stylesheet" href="src/valuation.css">
+<script type="module" src="src/valuation-dashboard.mjs"></script></head>
+<body><header><a href="naft-app.html#/packages">← NaFT · Monitoring Package</a>
+<h1>環境価値の参考評価</h1><p>MRVの研究推定量と価格の仮定から、円・米ドル・ステーブル単位の参考値を計算します。</p></header>
+<main><section><h2>環境価値</h2><p id="source"></p><div class="metrics" id="amounts" aria-live="polite"></div></section>
+<section><h2>シナリオ設定</h2><form id="scenario">
+<div class="grid"><label>シナリオ数量（tCO2e）<input id="quantity" inputmode="decimal" placeholder="原推定量を使用"></label>
+<label>参考単価（円 / tCO2e）<input id="price" inputmode="decimal" required></label>
+<label>為替（円 / 米ドル）<input id="fx" inputmode="decimal" required></label>
+<label>参考単位<select id="symbol"><option>SIM-USD</option><option>USDC</option><option>JPYC</option></select></label>
+<label>ペッグ乖離（bp、100 bp = 1%）<input id="deviation" inputmode="text" required></label>
+<label>想定手数料（bp）<input id="fee" inputmode="numeric" required></label></div>
+<button>再計算</button></form><p id="message" role="status"></p></section>
+<section><h2>検証状態</h2><p id="gate"></p><p>正式な認証には外部検証が必要です。表示した数量から所有権や発行済みクレジットは生じません。</p></section>
+<section><h2>監査・再現</h2><label>評価レシートまたはCompiler Packageを開く <input type="file" accept=".json" id="import"></label>
+<p id="replay"></p><details><summary>証拠ハッシュ・価格スナップショット・計算履歴</summary><pre id="audit"></pre></details>
+<button id="export" disabled>評価JSONを保存</button><button id="history" disabled>履歴JSONを保存</button></section>
+</main><footer>NaFT Environmental Asset Valuation Engine · SIMULATION_ONLY</footer></body></html>

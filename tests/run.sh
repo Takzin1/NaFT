@@ -128,6 +128,16 @@ node scripts/p76-national-soil-registry-audit.mjs --check
 node tests/p76-national-soil-registry.test.mjs
 node --test tests/p77-field-identity.test.mjs
 node --test tests/p77-field-cli.test.mjs
+node tests/p78-gis-layer-manifest.test.mjs
+node --test tests/p78-forest-stand.test.mjs
+node --test tests/p79-ag005-text-packs.test.mjs
+node tests/p79-data-rights-ledger.test.mjs
+node tests/p79-soil-panels-common.test.mjs
+node --test tests/p80-rule-ops-preflight.test.mjs
+node --test tests/p80-ag005-farm-log-worklist.test.mjs
+node --test tests/p80-valuation.test.mjs
+node --test tests/method-pdf-acquire.test.mjs
+node --test tests/p805-integration.test.mjs
 node tests/p11-real-chamber-source-audit.test.mjs
 node tests/p11-rice-chromatography-guard.test.mjs
 node tests/p12-estat-2025-original-source.test.mjs

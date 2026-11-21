@@ -1,0 +1,41 @@
+{
+  "schema": "naft-p79-data-rights-ledger-v1",
+  "date_created": "2026-11-18",
+  "purpose": "Every committed file that carries third-party-derived or observational data must match exactly one entry. Adding such a file without an entry fails tests/p79-data-rights-ledger.test.mjs. Software MIT terms do not license third-party data.",
+  "rights_status_values": {
+    "SYNTHETIC": "Invented by NaFT; no third-party data.",
+    "UPSTREAM_LICENSE_INCLUDED": "Upstream licence text is committed next to the file.",
+    "SOURCE_LICENSE_DECLARED": "The source package declares an open licence (recorded in the source register); attribution still required.",
+    "NOT_VERIFIED": "Redistribution permission has not been established."
+  },
+  "content_kind_values": {
+    "SYNTHETIC": "Engineering fixture.",
+    "RAW_OR_ROW_LEVEL": "Original records or a row-for-row restructuring of them.",
+    "DERIVED_AGGREGATE": "Counts, sums, summaries or tiles derived from a source; no original records.",
+    "CURATED_SUMMARY": "Hand-curated summary of public documents or registries.",
+    "NAFT_METADATA": "NaFT-authored documentation about a dataset."
+  },
+  "entries": [
+    {"id": "crops-row-level", "pattern": "^data/japan-crops-1883-2022/remastered-v1/[a-z]+\\.csv$", "content_kind": "RAW_OR_ROW_LEVEL", "rights_status": "NOT_VERIFIED", "risk": "HIGH",
+     "origin": "Japan six-crop production 1883–2022 archive (see research/p16-...-receipt.json); publisher licence for public raw redistribution not verified",
+     "action": "OWNER_DECISION_REMOVE_FROM_HEAD_OR_OBTAIN_PERMISSION"},
+    {"id": "crops-metadata", "pattern": "^data/japan-crops-1883-2022/remastered-v1/(README\\.md|MANIFEST\\.json)$", "content_kind": "NAFT_METADATA", "rights_status": "NOT_VERIFIED", "risk": "LOW", "origin": "NaFT documentation of the remaster", "action": "KEEP"},
+    {"id": "crops-ui-aggregate", "pattern": "^src/gx-japan-crop-history\\.js$", "content_kind": "DERIVED_AGGREGATE", "rights_status": "NOT_VERIFIED", "risk": "MEDIUM", "origin": "Aggregates of the six-crop archive", "action": "KEEP_PENDING_RIGHTS_REVIEW"},
+    {"id": "sea9-ch4-aggregates", "pattern": "^data/sea9-rice-ch4-2026-11-08/(ch4_country_comparison\\.csv|ch4_mc_diagnostics\\.json|04_inventory_summary\\.json)$", "content_kind": "DERIVED_AGGREGATE", "rights_status": "SOURCE_LICENSE_DECLARED", "risk": "LOW",
+     "origin": "SEA-9 rice CH4 Zenodo package; data_license CC-BY-4.0 per research/sea9-rice-ch4-2026-11-08/source-register-v1.json", "action": "KEEP_WITH_ATTRIBUTION"},
+    {"id": "sea9-isotope-aggregates", "pattern": "^data/sea9-rice-ch4-2026-11-08/asia-isotope-country-category-aggregates\\.csv$", "content_kind": "DERIVED_AGGREGATE", "rights_status": "NOT_VERIFIED", "risk": "MEDIUM", "origin": "Asia CH4 isotope observations (research/sea9-rice-ch4-2026-11-08/asia-ch4-isotope-source-register.json)", "action": "KEEP_PENDING_RIGHTS_REVIEW"},
+    {"id": "registry-curated", "pattern": "^data/registry-source-intake-2026-11-08/[a-z0-9-]+\\.json$", "content_kind": "CURATED_SUMMARY", "rights_status": "NOT_VERIFIED", "risk": "LOW", "origin": "Summaries of public registries, government documents and fee tables", "action": "KEEP"},
+    {"id": "field-observation-aggregates", "pattern": "^data/japan-original-field-observation-aggregates\\.json$", "content_kind": "DERIVED_AGGREGATE", "rights_status": "NOT_VERIFIED", "risk": "MEDIUM", "origin": "Aggregates of Japanese field observation originals", "action": "KEEP_PENDING_RIGHTS_REVIEW"},
+    {"id": "fixtures-synthetic", "pattern": "^fixtures/", "content_kind": "SYNTHETIC", "rights_status": "SYNTHETIC", "risk": "NONE", "origin": "NaFT engineering fixtures and request payloads", "action": "KEEP"},
+    {"id": "observation-adapters-synthetic", "pattern": "^research/japan-observation-adapters-2026-10-19/[a-z]+\\.csv$", "content_kind": "SYNTHETIC", "rights_status": "SYNTHETIC", "risk": "NONE", "origin": "data_class SYNTHETIC in the adjacent manifests", "action": "KEEP"},
+    {"id": "raw-flux-synthetic", "pattern": "^research/japan-field-raw-flux-2026-10-19/synthetic-flux\\.csv$", "content_kind": "SYNTHETIC", "rights_status": "SYNTHETIC", "risk": "NONE", "origin": "Synthetic raw flux", "action": "KEEP"},
+    {"id": "upstream-chamber-raw", "pattern": "^research/p11-upstream-chamber-raw/(sample_data_CH4\\.csv|UPSTREAM-LICENSE\\.txt)$", "content_kind": "RAW_OR_ROW_LEVEL", "rights_status": "UPSTREAM_LICENSE_INCLUDED", "risk": "LOW", "origin": "mthayne527/fluxCH4 inst/extdata (MIT, licence text committed)", "action": "KEEP"},
+    {"id": "soil-ledgers", "pattern": "^research/p(29|[3-6][0-9]|7[0-5])-[a-z]+-soil-shapefile-source-v1\\.json$", "content_kind": "DERIVED_AGGREGATE", "rights_status": "NOT_VERIFIED", "risk": "MEDIUM", "origin": "Attribute counts and municipality code/name pairs from NARO 日本土壌インベントリー prefectural ZIPs; no geometry", "action": "KEEP_PENDING_RIGHTS_REVIEW"},
+    {"id": "soil-national", "pattern": "^(research/p76-national-soil-evidence-registry-v1\\.json|src/gx-national-soil-registry\\.js)$", "content_kind": "DERIVED_AGGREGATE", "rights_status": "NOT_VERIFIED", "risk": "MEDIUM", "origin": "Roll-up of the 47 soil ledgers", "action": "KEEP_PENDING_RIGHTS_REVIEW"},
+    {"id": "soil-ui-modules", "pattern": "^src/gx-[a-z]+-soil\\.js$", "content_kind": "DERIVED_AGGREGATE", "rights_status": "NOT_VERIFIED", "risk": "MEDIUM", "origin": "Per-prefecture soil attribute aggregates embedded for the UI", "action": "KEEP_PENDING_RIGHTS_REVIEW"},
+    {"id": "jaxa-lulc", "pattern": "^(research/p2[1-5]-jaxa-lulc-2024-v25-04-batch0[1-5]\\.json|src/gx-jaxa-landcover-2024\\.js)$", "content_kind": "DERIVED_AGGREGATE", "rights_status": "NOT_VERIFIED", "risk": "MEDIUM", "origin": "JAXA 2024 land-use/land-cover tile class counts", "action": "KEEP_PENDING_RIGHTS_REVIEW"},
+    {"id": "rice-ch4-rasters", "pattern": "^src/(gx-ch4-20(01-2005|06-2010|11-2015)|gx-rice-ch4-asia)\\.js$", "content_kind": "DERIVED_AGGREGATE", "rights_status": "NOT_VERIFIED", "risk": "MEDIUM", "origin": "Coarse tiles derived from Asian rice CH4 annual GeoTIFFs (research/p19, p20)", "action": "KEEP_PENDING_RIGHTS_REVIEW"},
+    {"id": "government-statistics", "pattern": "^src/(gx-rice-history|gx-2025-prefecture|gx-prefecture-candidates)\\.js$", "content_kind": "DERIVED_AGGREGATE", "rights_status": "NOT_VERIFIED", "risk": "LOW", "origin": "MAFF / e-Stat prefecture rice statistics and prefecture source candidates", "action": "CONFIRM_GOVERNMENT_STANDARD_TERMS_AND_ATTRIBUTE"},
+    {"id": "gimje-views", "pattern": "^src/gimje-(real-source|sampling-qc)-view\\.js$", "content_kind": "DERIVED_AGGREGATE", "rights_status": "NOT_VERIFIED", "risk": "MEDIUM", "origin": "Summaries of the Gimje (KR) rice CH4 original archive", "action": "KEEP_PENDING_RIGHTS_REVIEW"}
+  ]
+}

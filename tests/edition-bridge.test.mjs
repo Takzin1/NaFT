@@ -116,3 +116,15 @@ test('rejects prototype keys and impossible inputs', () => {
     '"sourceProject":{', '"sourceProject":{"__proto__":{"x":true},'));
   rejects(raw, 'UNSAFE_JSON_KEY');
 });
+
+test('P80 coastal adapter binds the replayed source and research quantity to a quote', async () => {
+  const {coastalAsset} = await import('../scripts/valuation.mjs');
+  const {scenario} = await import('../src/valuation-demo.mjs');
+  const {valueAsset} = await import('../src/environmental-valuation.mjs');
+  const bundle = fixture(), asset = coastalAsset(bundle), at = '2026-11-21T00:00:00.000Z';
+  assert.equal(asset.evidence_package_sha256,bundle.package.packageHash);
+  assert.equal(asset.quantity,String(bundle.package.sumResearchEstimateTco2e));
+  const result = await valueAsset(scenario(asset,at),at);
+  assert.equal(result.status,'VALID');
+  assert.equal(result.formal_certification,false);
+});
