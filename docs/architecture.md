@@ -37,3 +37,7 @@ Pure APIs are computation APIs, not authorization endpoints. Session APIs reuse 
 Twelve existing arrays plus compiler_runs, compiler_decisions, compiler_attestations; optional Compiler arrays initialize for older local snapshots. No production database migration. The AG-005 reference flow stays usable with its unchanged 182 regression assertions. Its legacy registry is a compatibility path; multi-Pack compilation uses COMPILER_REGISTRY.
 
 [Data model](data-model.md) · [Limits](known-limitations.md)
+
+## Environmental valuation
+
+The [P80 engine](p80-valuation.md) consumes version-bound compiler packages, historical AG-005 previews, Blue Carbon replay output and external forestry research estimates. A separate scenario layer holds quantity overrides and time-bounded observations. Selective revisions form an append-only digest chain. The Market reads the [v1 JSON contract](../schemas/valuation-quote-v1.json); each repository owns its executable code. The effort-cost estimator and its illustrative defaults are independent of environmental asset pricing.

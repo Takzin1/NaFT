@@ -82,7 +82,7 @@ test('plan map polygons are hashed, joined by local key and never retained as co
 function linkedRegistry(){
  let s=F.emptyStandRegistry();
  s=F.stageObservations(s,reg(csv2026,PROFILE,2026).observations);
- s=F.applyPlanMap(s,2026,mapLines.map(f=>F.normalizePlanFeature(f,{prefecture_code:'20',properties:PROFILE.map_properties})),H('map')).state;
+ s=F.applyPlanMap(s,2026,mapLines.map(f=>F.normalizePlanFeature(f,{prefecture_code:'20',properties:PROFILE.map_properties})),H('map'),'20').state;
  const ids={};
  for(const key of ['20999-1-1-0','20999-1-2-0','20999-1-3-0','20999-2-1-0','20999-4-1-0']){
   const stand_id='std_'+H(key).slice(0,8)+'-0000-4000-8000-'+H(key).slice(8,20);

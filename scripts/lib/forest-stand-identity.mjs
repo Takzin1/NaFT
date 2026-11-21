@@ -23,7 +23,7 @@ const MAX_ROWS=200000;
 
 function fail(code){throw new Error('P78_FOREST_BLOCKED:'+code);}
 function must(c,code){if(!c)fail(code);}
-export function digest(x){return createHash('sha256').update(typeof x==='string'?x:JSON.stringify(x)).digest('hex');}
+export function digest(x){return createHash('sha256').update(typeof x==='string'||ArrayBuffer.isView(x)?x:JSON.stringify(x)).digest('hex');}
 function dup(s){return JSON.parse(JSON.stringify(s));}
 const sha=v=>typeof v==='string'&&SHA.test(v);
 const text=(v,max=200)=>typeof v==='string'&&v.trim().length>0&&v.length<=max;
@@ -131,7 +131,7 @@ export function joinPlanMap(observations,mapFeatures){
  const out=observations.map(o=>{const c=dup(o);
   if(dupMap.has(o.local_key)){c.geometry_sha256=null;c.map_state='MULTIPLE_POLYGONS_REQUIRE_REVIEW';}
   else if(byKey.has(o.local_key)){c.geometry_sha256=byKey.get(o.local_key);c.map_state='MATCHED_BY_LOCAL_KEY';}
-  else c.map_state='NO_POLYGON';
+  else {c.geometry_sha256=null;c.map_state='NO_POLYGON';}
   return c;});
  const regKeys=new Set(observations.map(o=>o.local_key));
  return {observations:out,anomalies:{polygons_without_register:[...byKey.keys()].filter(k=>!regKeys.has(k)).sort(),register_without_polygon:out.filter(o=>o.map_state==='NO_POLYGON').length,multi_polygon_keys:[...dupMap].sort()}};
@@ -260,6 +260,21 @@ export function standClaims(state,{plan_id,manager_id,methodology_id,methodology
  }
  return claims;
 }
+// Public receipts expose only aggregate anomaly counts, never local keys or raw source labels.
+function publicAnomalyCounts(anomalies){
+ if(!anomalies)return null;
+ const out={};
+ for(const key of ['duplicate_local_keys','polygons_without_register','multi_polygon_keys']){
+  if(Array.isArray(anomalies[key]))out[key+'_count']=anomalies[key].length;
+ }
+ for(const key of ['unmapped_forest_type','unknown_maturity_species']){
+  if(anomalies[key]&&typeof anomalies[key]==='object'&&!Array.isArray(anomalies[key]))
+   out[key+'_count']=Object.values(anomalies[key]).reduce((sum,n)=>sum+(Number.isSafeInteger(n)&&n>=0?n:0),0);
+ }
+ if(Number.isSafeInteger(anomalies.register_without_polygon)&&anomalies.register_without_polygon>=0)
+  out.register_without_polygon=anomalies.register_without_polygon;
+ return out;
+}
 export function buildPublicReceipt(state,anomalies){
  assertStandRegistry(state);
  const by=k=>state.observations.reduce((m,o)=>(m[o[k]]=(m[o[k]]||0)+1,m),{});
@@ -267,14 +282,16 @@ export function buildPublicReceipt(state,anomalies){
   counts:{stands:state.stands.length,observations:state.observations.length,links_approved:state.candidates.filter(c=>c.status==='APPROVED_RESEARCH_LINK').length,
    review_pending:state.candidates.filter(c=>c.status==='PENDING_HUMAN_REVIEW').length,evidence_hashes:state.evidence.length,
    by_forest_class:by('forest_class'),by_age_class:by('age_class'),by_map_state:by('map_state')},
-  anomalies:anomalies||null,local_keys_disclosed:false,original_geometry_disclosed:false,personal_data_ingested:false,formal_certification:false,certified_tco2_removals:null};
+  anomalies:publicAnomalyCounts(anomalies),local_keys_disclosed:false,original_geometry_disclosed:false,personal_data_ingested:false,formal_certification:false,certified_tco2_removals:null};
 }
-export function applyPlanMap(state,plan_year,mapFeatures,map_file_sha256){
+export function applyPlanMap(state,plan_year,mapFeatures,map_file_sha256,prefecture_code){
  assertStandRegistry(state);must(sha(map_file_sha256),'MAP_FILE_HASH');
- const targets=state.observations.filter(o=>o.plan_year===plan_year);must(targets.length>0,'NO_OBSERVATIONS_FOR_PLAN_YEAR');
+ must(typeof prefecture_code==='string'&&/^(0[1-9]|[1-3][0-9]|4[0-7])$/.test(prefecture_code),'MAP_PREF_CODE');
+ must(Array.isArray(mapFeatures)&&mapFeatures.length>0&&mapFeatures.every(f=>typeof f.local_key==='string'&&f.local_key.startsWith(prefecture_code)&&sha(f.geometry_sha256)),'MAP_PREF_SCOPE');
+ const targets=state.observations.filter(o=>o.plan_year===plan_year&&o.prefecture_code===prefecture_code);must(targets.length>0,'NO_OBSERVATIONS_FOR_PLAN_YEAR');
  must(targets.every(o=>!o.approved_stand_id),'MAP_AFTER_LINKING_REQUIRES_NEW_OBSERVATIONS');
  const joined=joinPlanMap(targets,mapFeatures);
- const s=updated(state,'APPLY_PLAN_MAP',{plan_year,map_file_sha256,polygons:mapFeatures.length});
+ const s=updated(state,'APPLY_PLAN_MAP',{plan_year,prefecture_code,map_file_sha256,polygons:mapFeatures.length});
  const byId=new Map(joined.observations.map(o=>[o.observation_id,o]));
  s.observations=s.observations.map(o=>byId.has(o.observation_id)?{...byId.get(o.observation_id),map_file_sha256}:o);
  return {state:s,anomalies:joined.anomalies};
