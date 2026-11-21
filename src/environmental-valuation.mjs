@@ -48,7 +48,7 @@ const assetKeys = ['asset_id','asset_category','methodology_id','methodology_ver
   'evidence_package_sha256','source_record_sha256','verification_status','quantity','quantity_unit','rights_status'];
 function assetGate(a) {
   fields(a,assetKeys);
-  for (const k of ['asset_id','methodology_id','methodology_version','verification_status','quantity_unit'])
+  for (const k of ['asset_id','methodology_id','methodology_version','verification_status','quantity_unit','rights_status'])
     requireValue(label(a[k]), 'ASSET_IDENTITY');
   requireValue(typeof a.evidence_package_sha256 === 'string' && HASH.test(a.evidence_package_sha256) &&
     typeof a.source_record_sha256 === 'string' && HASH.test(a.source_record_sha256), 'EVIDENCE_HASH');
@@ -74,16 +74,18 @@ export class SnapshotProvider {
 const observationKeys = ['pair','source','source_kind','observed_at','as_of','expires_at',
   'market_price','fixed_redemption_value','user_assumption','selected','conflicting'];
 function observe(obs, pair, at, places) {
-  if (!obs) return {state:'MISSING'};
+  if (obs === null) return {state:'MISSING'};
   fields(obs,observationKeys);
   requireValue(obs.pair === pair, 'CURRENCY_OR_UNIT_MISMATCH');
   requireValue(['market_price','user_assumption'].includes(obs.selected) && typeof obs.conflicting === 'boolean','PRICE_BASIS');
   for (const key of ['market_price','fixed_redemption_value','user_assumption'])
     if (obs[key] !== null) fixed(obs[key],places,9);
+  requireValue(typeof obs.source === 'string' && obs.source.length <= 256 && label(obs.source_kind),'SOURCE_METADATA');
+  const observed = instant(obs.observed_at), asOf = instant(obs.as_of), expires = instant(obs.expires_at);
   if (obs.conflicting) return {state:'CONFLICTING_QUOTES'};
   if (obs[obs.selected] === null) return {state:'MISSING'};
-  if (!label(obs.source) || !['SYNTHETIC','USER_INPUT'].includes(obs.source_kind)) return {state:'SOURCE_UNVERIFIED'};
-  const observed = instant(obs.observed_at), asOf = instant(obs.as_of), expires = instant(obs.expires_at);
+  if (!label(obs.source) || obs.source.trim().toUpperCase() === 'UNKNOWN' ||
+      !['SYNTHETIC','USER_INPUT'].includes(obs.source_kind)) return {state:'SOURCE_UNVERIFIED'};
   if (observed > at || asOf > observed || expires <= observed) return {state:'BLOCKED'};
   if (at >= expires) return {state:'STALE'};
   const n = fixed(obs[obs.selected],places,9);

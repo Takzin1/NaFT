@@ -17,6 +17,8 @@ test('P9 historical adapter regenerates the dashboard fixture from original inpu
 });
 test('reproduce the exact reference value, USD and synthetic units from fixed observations',async()=>{
   const r = await run(input()); assert.equal(r.quote.reference_value_jpy,'3360');
+  const missingSource=input();missingSource.snapshot.price.source='UNKNOWN';
+  assert.equal((await run(missingSource)).states.price,'SOURCE_UNVERIFIED');
   assert.equal(r.quote.reference_value_usd,'22.362728'); assert.equal(r.quote.net_amount,'22.306822');
   assert.deepEqual(await replay(JSON.parse(JSON.stringify(r))),r);
 });
