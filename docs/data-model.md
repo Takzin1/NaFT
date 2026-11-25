@@ -24,6 +24,15 @@ Added: compiler_runs (input/Pack/draft snapshots with owner/hash), compiler_deci
 
 Run IDs and audit timestamps may vary. They are outside the undecided pure draft hash. Supplying an explicit Human Decision set or supersedes reference is a different compilation input and deliberately changes the Package hash; the same input, same Pack and same explicit decision objects reproduce the same Package hash. The legacy AG-005 path retains its historical ID/time behavior.
 
+## Evidence Intelligence session arrays (optional, created on first use)
+
+- `ei_runs`: `{id, owner, label, factor_registry, claim_inputs, state_digest, records:[{claim_id, record_hash, status}], engine_audit_head, engine_audit_entries, supersedes, change, change_hash, engine_version, calculation_engine, formal_certification:false, run_hash}`. No derived state is stored; reads rebuild and compare.
+- `ei_decisions`: `{id, run_id, run_hash, claim_id, record_hash, exception_code, reviewer, reason, decision, decision_hash}`.
+- `ei_attestations`: `{id, run_id, claim_id, document, package_hash, attestation_hash}` where `document` is `naft-ei-attested-research-package-1` with the grounded report, decisions, Pack release and an explicit non-certification boundary.
+- `ei_anchors`: `{id, run_id, run_hash, label, attestation_ids, anchor, call_plan, chain_status:'NOT_SUBMITTED', record_hash}`.
+
+Each is paired with an `audit()` event (`ei_run`, `ei_decision`, `ei_attested`, `ei_anchor`). Older snapshots without these arrays load unchanged.
+
 ## Evidence Intelligence schemas (additive)
 
 None of these replace the Package above. They are produced by `src/evidence-intel-*.js` from the same Claim input and are not stored by the session layer yet.

@@ -52,8 +52,10 @@ Version-aware MRV Evidence Compiler + Re-verification Engine に、**追加モ�
 | `src/evidence-intel-audit.js` | 型付き監査ログ（ハッシュ連鎖、チェックポイント、照会、状態との突合） | engine |
 | `src/evidence-intel-api.js` | 輸送層に依存しないAPIルーター | 全て |
 | `scripts/evidence-intel-api.mjs` | ループバック専用HTTPアダプタと単発CLI | api |
+| `src/evidence-intel-anchor.js` | 取引しない来歴アンカー（Merkle、呼び出し引数、照合） | engine / report / audit |
+| `src/evidence-intel-session.js` | 既存の保存・役割・監査ガードを通したセッション操作 | 上記と mrv-core |
 
-既存の流儀に合わせ、ビルド不要のグローバル関数（接頭辞 `ei` / `EI_`）で、ブラウザの `<script>` と Node の `vm` の両方で読み込めます。**`naft-app.html` にはまだ読み込ませていません**（UI統合は次段階）。
+既存の流儀に合わせ、ビルド不要のグローバル関数（接頭辞 `ei` / `EI_`）で、ブラウザの `<script>` と Node の `vm` の両方で読み込めます。**`naft-app.html` にはまだ読み込ませていません**（UI統合は次段階）。セッション統合（10.5節）は保存・役割・監査に接続済みですが、画面からは呼ばれません。
 
 ## 4. 依存関係グラフ
 
@@ -154,6 +156,27 @@ Version-aware MRV Evidence Compiler + Re-verification Engine に、**追加モ�
 `eiApiHandle({method, path, body})` は状態を持たない純粋関数で、同じリクエストには同じレスポンス（`data_hash` つき）を返します。認可エンドポイントではなく**計算インターフェース**です。保存、人間判断、最終確認、登録・発行に相当する操作は存在しません。HTTPアダプタは 127.0.0.1 のみにバインドし、Hostヘッダを検査し、CORSヘッダを出しません。詳細は [APIリファレンス](evidence-intelligence-api.md)。
 
 AGENTS.md の「external APIs を使わない」は外部サービスの呼び出しを禁じる規定と解釈し、本APIは外部呼び出しを一切行わないローカルの読み取り専用計算として実装しました。
+
+## 10.5 セッション統合（`src/evidence-intel-session.js`、2026-11-25追加）
+
+既存の `db`・`saveDB`・役割ガード・監査連鎖を使い、新しい保存先は作りません。
+
+| 操作 | 役割 | 内容 |
+| --- | --- | --- |
+| `eiSessionCompile(claims, {label, factor_registry})` | operator | ラベルごとに1系譜。同じClaimを2つの現行実行に入れることはできない（他のoperatorのClaimは `ROLE_BLOCKED`） |
+| `eiSessionApplyChange(runId, change)` | 所有者のoperator | 現行実行にのみ適用し、`supersedes` で連結した後継実行を追加する。旧実行・旧判断・旧最終確認は履歴として残る |
+| `eiSessionApprovePack(key, note)` | maintainer | 拡張Packの研究用リリース。既存の `pack_releases` と `validRelease` をそのまま使い、公式採用状況は変えない |
+| `eiSessionDecide(runId, claimId, code, decision, reason)` | reviewer | `HUMAN_REVIEW_REQUIRED` の例外1件ずつ。実行ハッシュとレコードハッシュに束縛する |
+| `eiSessionAttest(runId, claimId, note, ack)` | reviewer | 阻害要因が無く、判断事項が全て `ACCEPT` で、Packがリリース済みのときだけ。根拠付きレポートを含む不変の研究パッケージを作る |
+| `eiSessionExport(runId, claimId, attested)` | 所有者またはreviewer | 最終確認済みの出力は、完全性・現行性・リリース・レポートの根拠を毎回再検証する |
+| `eiSessionAnchor(runId)` | reviewer | 最終確認済みパッケージを含む実行だけを対象に、来歴アンカーを `NOT_SUBMITTED` で記録し、直前のアンカーに連結する |
+| `eiSessionSummary` / `eiSessionVerifyAnchors` | 所有者またはreviewer | 読み取りのみ |
+
+- **保存するのは入力とハッシュだけ**です。読み取りのたびに入力からエンジン状態を作り直し、保存したダイジェスト・レコードハッシュ・エンジン監査ログの先頭ハッシュと照合します。長期の完全性キャッシュは持ちません。
+- 保存するレコードは、それぞれ封印したうえで既存の `audit()` の監査イベント（`ei_run` / `ei_decision` / `ei_attested` / `ei_anchor` / `pack_release`）に結び付けます。
+- **保存に失敗した場合**は、操作前の `db` に戻します（実行も監査イベントも残りません）。
+- **旧スナップショット**：4つの配列（`ei_runs` / `ei_decisions` / `ei_attestations` / `ei_anchors`）が無い旧データもそのまま読めます。配列は初回使用時に作ります。
+- **検証**：`tests/evidence-intel-session.test.js` に90アサーションがあります。主要な検査17箇所を1つずつ外す変異テストでは、全てがテストの失敗として検出されることを確認しました。過程で、冗長な所有者チェックと系譜の重複検査を削除し、保存失敗・束縛は正しいが内容が古い記録・系譜の分岐のテストを追加しました。
 
 ## 11. 互換性（破壊的変更の回避）
 

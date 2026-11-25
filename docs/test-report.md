@@ -73,7 +73,7 @@ The core UI handler suites still use DOM stubs for many detailed action regressi
 
 ## Evidence Intelligence suites (2026-11-14, additive)
 
-The 1,165 assertions above are unchanged. Five suites were added and run by `bash tests/run.sh`; the Node total is now **4,334 passed / 0 failed** (1,165 + 571 + 2,461 + 22 + 115), plus three Python oracle tests.
+The 1,165 assertions above are unchanged. Six suites were added and run by `bash tests/run.sh`; the Node total is now **4,424 passed / 0 failed** (1,165 + 571 + 2,461 + 22 + 115 + 90), plus three Python oracle tests.
 
 | Suite | Count | What it establishes |
 |---|---:|---|
@@ -81,8 +81,9 @@ The 1,165 assertions above are unchanged. Five suites were added and run by `bas
 | `tests/evidence-intel-impact.test.js` | 2,461 | The 614-case adversarial matrix against the same full-recomputation oracle: no false negative, incremental state equals a from-scratch build, the changed state equals `compileEvidence`, the previous state is untouched. Also asserts that the shared matrix reproduces `reports/impact-proof.json` for the legacy analyzer and that [the committed report](../reports/evidence-intel-impact.json) is reproducible |
 | `tests/evidence-intel-api.test.mjs` | 22 | Real loopback HTTP round trips: loopback bind, Host check, no CORS header, JSON content type, 5 MiB body limit, byte-identical repeated responses, CLI exit codes |
 | `tests/evidence-intel-anchor.test.js` | 115 | Non-transferable provenance anchors: Merkle proofs for 1–17 leaves and tamper cases, fixed no-token boundary, counts as the only numbers, change sensitivity, anchor chains, prepared call arguments, caller-supplied observation checks, API routes, and static checks that no runtime source implements a token, transfer, mint or transaction submission |
+| `tests/evidence-intel-session.test.js` | 90 | Session integration through the existing store, roles and audit chain: compile, successor runs, individual decisions, attestation gates, attested and draft export, extended Pack release, anchors over attested packages, ownership, staleness after change, persistence round trip, older snapshots, tampering, faulty-writer records with valid bindings, store-failure rollback. A one-at-a-time mutation of 17 guards was detected in every case |
 | `tests/evidence-intel-independent-oracle.test.py` | 3 tests | Python `fractions.Fraction` recomputes 442 expressions and 60 synthetic Claims under two coefficient versions, including the exact programme total; Python `hashlib` recomputes an anchor's Merkle root and hash |
 
 `node scripts/benchmark-evidence-intel.cjs --quick` also runs in the suite as a correctness gate (full-rebuild oracle, legacy parity, analyzer set equality, audit cross-check) with no timing threshold. Measured timings and their limits are in [the measurement report](evidence-intelligence-measurements-ja.md).
 
-Validation limits specific to this layer: synthetic Claims only; no generative model is called, so AI-written explanations are untested beyond hand-written drafts fed to the validator; the modules were loaded once in headless Chromium in the authoring session (hashes identical to Node) but are not part of the CI browser check; nothing here exercises the session store, roles or the six routes.
+Validation limits specific to this layer: synthetic Claims only; no generative model is called, so AI-written explanations are untested beyond hand-written drafts fed to the validator; the modules were loaded once in headless Chromium in the authoring session (hashes identical to Node) but are not part of the CI browser check; the session suite exercises the store, roles and audit chain in Node with the in-memory store adapter, but nothing here exercises the six routes or a real browser.

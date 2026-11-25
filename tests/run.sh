@@ -180,6 +180,7 @@ node --check tests/impact-proof.test.js
 node --check tests/evidence-intel.test.js
 node --check tests/evidence-intel-impact.test.js
 node --check tests/evidence-intel-anchor.test.js
+node --check tests/evidence-intel-session.test.js
 node --check tests/lib/impact-matrix.cjs
 node --check scripts/lib/evidence-intel-load.cjs
 node --check scripts/evidence-intel-exact-replay.cjs
@@ -192,6 +193,7 @@ node tests/impact-proof.test.js
 node tests/evidence-intel.test.js
 node tests/evidence-intel-impact.test.js
 node tests/evidence-intel-anchor.test.js
+node tests/evidence-intel-session.test.js
 node tests/evidence-intel-api.test.mjs
 python3 tests/evidence-intel-independent-oracle.test.py
 node scripts/benchmark-evidence-intel.cjs --quick

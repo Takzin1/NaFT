@@ -9,7 +9,7 @@ A build-free vanilla JavaScript runtime, with no network calls, new framework or
 | Pure compiler | `src/mrv-compiler.js`: `compileEvidence`, `compareMethodologyVersions`, `buildProvenanceGraph`, `traceDependents`, `analyzeImpact`, `packageCurrent` |
 | Mutation adapter | `src/compiler-session.js`: `compileAndSave`, `reviewCompilerRun`, `attestCompilerRun`, `applyCompilerChange`, `exportCompilerRun` |
 | UI | `src/compiler-demo.js` + `src/mrv-ui.js`; escaped output and delegated handlers |
-| Evidence Intelligence (additive, not wired into the UI or session) | `src/evidence-intel-*.js`: exact calculation, coefficient/scope registers, node-level dependency graph, differential re-computation, grounded reports, explanation boundary, typed audit log, stateless API. See [design](evidence-intelligence-design-ja.md) |
+| Evidence Intelligence (additive; session adapter wired to the store, roles and audit chain; not in the UI) | `src/evidence-intel-*.js`: exact calculation, coefficient/scope registers, node-level dependency graph, differential re-computation, grounded reports, explanation boundary, typed audit log, stateless API, non-transferable provenance anchors; `src/evidence-intel-session.js` persists runs, decisions, attestations and anchors through the existing guards. See [design](evidence-intelligence-design-ja.md) |
 
 ## Compiler contract
 

@@ -20,3 +20,7 @@ A decision binds `claim_id`, `run_id`, exact `exception_code`, current input fin
 Final research-package attestation requires all of the following: valid audit chain; current run; exact current input and Pack; Pack release approval; no blocking `UNSUPPORTED`; no unresolved `EVIDENCE_REQUIRED`; every `HUMAN_REVIEW_REQUIRED` exception individually decided `ACCEPT`; no remaining `REJECT / NEED_MORE_EVIDENCE / ABSTAIN`; explicit reviewer acknowledgement and reason.
 
 The resulting attestation is `ATTESTED_RESEARCH_PACKAGE`, not formal certification, verifier acceptance or J-Credit registration. The actor selector is a local demonstration identity, not production authentication.
+
+## Evidence Intelligence session (2026-11-25)
+
+`src/evidence-intel-session.js` applies the same human boundaries to engine runs. A reviewer decides each `HUMAN_REVIEW_REQUIRED` issue of a Claim individually (`ACCEPT / REJECT / NEED_MORE_EVIDENCE / ABSTAIN`); the decision binds run ID, run hash, Claim ID, record hash, exception code, reviewer, reason and decision. Deterministic `UNSUPPORTED` and `EVIDENCE_REQUIRED` issues cannot be decided. Final attestation needs a released Pack, explicit acknowledgement and a reason, and is refused while anything is outstanding. Any change creates a successor run, so earlier decisions and attestations stay historical and cannot be reused. A maintainer releases extended Packs with `eiSessionApprovePack`; release never changes official adoption status. Provenance anchors cover attested packages only and are never submitted.

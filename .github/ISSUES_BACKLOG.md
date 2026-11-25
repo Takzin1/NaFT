@@ -76,3 +76,10 @@ Tradable tokens are **not** implemented. `LICENSE` and `AGENTS.md` still prohibi
 - [ ] Submission tool outside the pure core (human action, testnet only, secrets outside the repository); depends on how the external-API rule in `AGENTS.md` is applied.
 - [ ] Session integration: anchor only attested packages, bind to the existing audit chain.
 - [ ] Any tradable token: blocked until every gate in the legal issues document section 5 is met and the owner changes `LICENSE` / `AGENTS.md`.
+
+## Evidence Intelligence — PR-2 session integration (2026-11-25)
+
+- [x] `src/evidence-intel-session.js`: runs, successor runs, individual decisions, final research attestation, attested export, maintainer release for extended Packs and NOT_SUBMITTED anchors over attested packages, all through `db` / `saveDB`, role guards and `audit()`; rebuild-and-compare on every read; rollback on store failure; older snapshots load unchanged.
+- [x] 90 assertions; mutation check of 17 guards, all detected.
+- [ ] PR-3: read-only panels in the six routes and CI real-browser coverage.
+- [ ] PR-4: route `analyzeImpact` / `applyCompilerChange` through the engine with the legacy path as oracle.
