@@ -1,4 +1,4 @@
-# NaFT GreenShift — P81–P88
+# NaFT GreenShift — P81–P90
 New standalone research prototype initiated 2026-11-25 for Green Shift Hacks.
 ## Run
 Node 20+ for tests: `node --test *.test.mjs`.
@@ -11,7 +11,7 @@ All defaults are synthetic illustrative values, not field data or approved emiss
 ## Provenance and eligibility
 The parent repository predates the hackathon. This directory is new work and imports no existing NaFT code, data or third-party assets. Do not submit the full repository as an original hackathon project. Export only this directory into a dedicated repository before submission, retaining authorship/development disclosures. Organizer confirmation required before integrating the pre-existing NaFT core. Rules: https://green-shift-hacks.devpost.com/rules
 ## Roadmap
-P81 planner, P82 baseline, P83 scenario comparison: initial implementation. P84 evidence intake and P85 impact status: initial implementation. P86–P88 decision lab: initial implementation. P89 optional permitted core integration, P90 submission package: pending. No changes to parent workflows or existing files.
+P81 planner, P82 baseline, P83 scenario comparison: initial implementation. P84 evidence intake and P85 impact status: initial implementation. P86–P88 decision lab: initial implementation. P89 standalone shadow valuation and replay: initial implementation. P90 submission draft: prepared; runtime and deployment gates pending. Existing core integration remains pending permission. No changes to parent workflows or existing files.
 
 ## P84–P85 evidence workflow
 Use localhost or HTTPS for Web Crypto. Attach only synthetic files (1 byte–10 MiB, 24 records max); raw bytes and file names are not persisted or exported. Evidence categories are a research checklist inspired by agricultural monitoring, not an AG-005 compliance test. Duplicate SHA-256 content is rejected. Self-review requires three categories, explicit confirmation and a SHA-256 scope binding normalized assumptions and sorted evidence metadata. Changes invalidate review. JSON is an unsigned manifest; external rechecking requires original bytes and independent review. No verified tonnes even after self-review.
@@ -23,3 +23,6 @@ Separate synthetic UI and report, intentionally not part of the evidence self-re
 - https://ghgprotocol.org/blog/inventory-and-project-accounting
 - https://cdm.unfccc.int/Reference/catalogue/document?doc_id=000003240
 - https://www.worldbank.org/en/news/feature/2023/04/20/what-you-need-to-know-about-abatement-costs-and-decarbonisation
+
+## P89–P90 replay and value
+Decision reports are replayed from validated inputs, budget and spreads; compare all fields with recomputation. Key order does not matter. This is not a signature: someone who changes inputs and recomputes a consistent report can pass. Evidence self-review is separate. Hypothetical price × projected signed net reduction gives shadow value; subtract upper cost and derive break-even price only for positive reduction. USD conversion uses user-entered assumptions, not live FX. No credit revenue, trading or token integration. See SUBMISSION.md for draft and release gates.
