@@ -2,7 +2,7 @@
 'use strict';
 /**
  * Replays arithmetic through the JavaScript engine for an independent oracle.
- * stdin: {"expressions":[{expr,env}], "claims":[{id,area,days,variant}], "factor_registry":"default"}
+ * stdin: {"expressions":[{expr,env}], "claims":[{id,area,days,variant}], "factor_registry":"default", "anchor_claims":[id]}
  * stdout: {"expressions":[...], "claims":[...], "aggregates":[...]}
  * Synthetic inputs only. Not a methodology and not a certified quantity.
  */
@@ -27,5 +27,10 @@ if(request.claims) {
     return {id: row.id, status: record.evaluation.status, exact: record.calculation.exact, result: record.calculation.result, factor: record.factors.map(f => f.factor_id + '@' + f.version + '=' + f.value)};
   });
   out.aggregates = eiAggregateView(state);
+}
+if(request.anchor_claims) {
+  const state = eiBuild(request.anchor_claims.map(id => syntheticClaim(id)), eiDefaultContext()), ids = Object.keys(state.claims).sort();
+  out.anchor = eiAnchorPayload(state);
+  out.anchor_leaf_preimages = ids.map(id => eiAnchorClaimProof(state, id).leaf_preimage);
 }
 process.stdout.write(JSON.stringify(out));

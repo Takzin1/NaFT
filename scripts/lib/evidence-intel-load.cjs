@@ -3,7 +3,7 @@
 const fs = require('node:fs'), path = require('node:path'), vm = require('node:vm');
 const EVIDENCE_INTEL_SOURCES = ['mrv-core', 'methodology-packs', 'mrv-compiler', 'compiler-demo',
   'evidence-intel-calc', 'evidence-intel-versions', 'evidence-intel-engine', 'evidence-intel-report',
-  'evidence-intel-explain', 'evidence-intel-audit', 'evidence-intel-api'];
+  'evidence-intel-explain', 'evidence-intel-audit', 'evidence-intel-anchor', 'evidence-intel-api'];
 let loaded = false;
 function loadEvidenceIntel() {
   if(loaded) return;

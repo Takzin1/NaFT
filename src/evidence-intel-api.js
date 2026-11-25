@@ -23,7 +23,10 @@ var EI_API_ROUTES = Object.freeze([
   ['POST', '/v1/graph', 'Dependency graph, optional upstream/downstream trace'],
   ['POST', '/v1/explanations/template', 'Deterministic template explanation sidecar'],
   ['POST', '/v1/explanations/validate', 'Validate an externally written explanation draft'],
-  ['POST', '/v1/audit/verify', 'Verify an audit log hash chain']
+  ['POST', '/v1/audit/verify', 'Verify an audit log hash chain'],
+  ['POST', '/v1/anchor/payload', 'Non-transferable provenance anchor and prepared call arguments (nothing is submitted)'],
+  ['POST', '/v1/anchor/proof', 'Merkle inclusion proof of one Claim record in an anchor'],
+  ['POST', '/v1/anchor/verify', 'Recompute an anchor from Claims and compare; optionally compare a caller-supplied observation']
 ]);
 var EI_API_NOT_FOUND = ['EI_CLAIM_NOT_FOUND', 'EI_PACK_NOT_FOUND', 'UNKNOWN_GRAPH_NODE', 'EVIDENCE_NOT_FOUND'];
 
@@ -98,8 +101,32 @@ var EI_API_HANDLERS = {
     var state = eiBuild(eiApiClaims(body), eiApiContext(body)), report = eiClaimReport(state, body.claim_id, {locale: body.locale || 'ja'}), context = eiExplanationContext(report);
     return {context_hash: context.context_hash, record_hash: report.generated_from.record_hash, sidecar: eiValidateExternalExplanation(context, body.draft)};
   },
-  'POST /v1/audit/verify': function(body) { return eiAuditVerify(body.log, body.checkpoint); }
+  'POST /v1/audit/verify': function(body) { return eiAuditVerify(body.log, body.checkpoint); },
+  'POST /v1/anchor/payload': function(body) {
+    var state = eiBuild(eiApiClaims(body), eiApiContext(body)), anchor = eiAnchorPayload(state, eiApiAnchorOptions(state, body));
+    return {anchor: anchor, call_plan: eiAnchorArguments(anchor)};
+  },
+  'POST /v1/anchor/proof': function(body) {
+    var state = eiBuild(eiApiClaims(body), eiApiContext(body)), anchor = eiAnchorPayload(state, eiApiAnchorOptions(state, body)), proof = eiAnchorClaimProof(state, body.claim_id);
+    return {anchor_hash: anchor.anchor_hash, proof: proof, verification: eiVerifyClaimProof(proof, anchor)};
+  },
+  'POST /v1/anchor/verify': function(body) {
+    var state = eiBuild(eiApiClaims(body), eiApiContext(body)), out = {recomputation: eiVerifyAnchor(state, body.anchor, eiApiAnchorOptions(state, body, true))};
+    if(body.observed !== undefined) out.observation = eiVerifyObservedAnchor(body.anchor, body.observed);
+    return out;
+  }
 };
+/** Optional anchor inputs are rebuilt deterministically from the Claims, never taken from the request. */
+function eiApiAnchorOptions(state, body, verifying) {
+  var out = {};
+  if(!verifying) {
+    if(body.label !== undefined) out.label = body.label;
+    if(body.previous_anchor_hash !== undefined) out.previous_anchor_hash = body.previous_anchor_hash;
+  }
+  if(body.include_audit === true) out.audit_log = eiAuditBuild(eiAuditNew(), state);
+  if(body.include_reports === true) out.reports = Object.keys(state.claims).sort().map(function(id) { return eiClaimReport(state, id); });
+  return out;
+}
 function eiApiRespond(status, payload) {
   return {status: status, body: Object.assign({api_version: EI_API_VERSION}, payload, {boundary: {disclaimer: DISCLAIMER, formal_certification: false, certified_result: null}})};
 }

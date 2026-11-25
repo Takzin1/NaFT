@@ -15,8 +15,9 @@
 | `tests/evidence-intel.test.js` | — | 571 | 算定、版・スコープ、既存実装との一致、グラフ、差分再計算、拡張Pack、レポート、説明境界、監査ログ、API |
 | `tests/evidence-intel-impact.test.js` | — | 2,461 | 614件の反例行列（見逃し検査、差分＝全再構築、既存コンパイラとの一致、旧状態の不変）＋集計検査 |
 | `tests/evidence-intel-api.test.mjs` | — | 22 | 実際のループバックHTTP往復とCLI |
-| **Nodeアサーション計** | **1,165** | **4,219** | 既存1,165は削除・skip・意味変更なし |
-| `tests/evidence-intel-independent-oracle.test.py` | — | 2テスト | Python `fractions.Fraction` による独立オラクル（式442件、Claim 60件×係数2版） |
+| `tests/evidence-intel-anchor.test.js`（2026-11-25追加） | — | 115 | 取引しない来歴アンカー |
+| **Nodeアサーション計** | **1,165** | **4,334** | 既存1,165は削除・skip・意味変更なし |
+| `tests/evidence-intel-independent-oracle.test.py` | — | 3テスト | Python `fractions.Fraction` による独立オラクル（式442件、Claim 60件×係数2版）、`hashlib` によるアンカー再計算 |
 
 `bash tests/run.sh` は変更前・変更後とも全件通過（変更後は上記4スイートとベンチマークの正しさ検査を含む）。時間のしきい値による合否判定はありません。
 

@@ -73,14 +73,15 @@ The core UI handler suites still use DOM stubs for many detailed action regressi
 
 ## Evidence Intelligence suites (2026-11-14, additive)
 
-The 1,165 assertions above are unchanged. Four suites were added and run by `bash tests/run.sh`; the Node total is now **4,219 passed / 0 failed** (1,165 + 571 + 2,461 + 22), plus two Python oracle tests.
+The 1,165 assertions above are unchanged. Five suites were added and run by `bash tests/run.sh`; the Node total is now **4,334 passed / 0 failed** (1,165 + 571 + 2,461 + 22 + 115), plus three Python oracle tests.
 
 | Suite | Count | What it establishes |
 |---|---:|---|
 | `tests/evidence-intel.test.js` | 571 | Exact rational arithmetic, rounding and units fail closed; scope and coefficient registers; engine equals `compileEvidence` on the 36-case Corpus and 100 synthetic Claims; node-level graph reachability, cycles and dangling edges; every change type equals a full rebuild; a 60-step deterministic change sequence; exact aggregates; grounded reports and tamper/stale detection; explanation boundary including static separation; audit-log tamper matrix; every API route, error and limit |
 | `tests/evidence-intel-impact.test.js` | 2,461 | The 614-case adversarial matrix against the same full-recomputation oracle: no false negative, incremental state equals a from-scratch build, the changed state equals `compileEvidence`, the previous state is untouched. Also asserts that the shared matrix reproduces `reports/impact-proof.json` for the legacy analyzer and that [the committed report](../reports/evidence-intel-impact.json) is reproducible |
 | `tests/evidence-intel-api.test.mjs` | 22 | Real loopback HTTP round trips: loopback bind, Host check, no CORS header, JSON content type, 5 MiB body limit, byte-identical repeated responses, CLI exit codes |
-| `tests/evidence-intel-independent-oracle.test.py` | 2 tests | Python `fractions.Fraction` recomputes 442 expressions and 60 synthetic Claims under two coefficient versions, including the exact programme total |
+| `tests/evidence-intel-anchor.test.js` | 115 | Non-transferable provenance anchors: Merkle proofs for 1–17 leaves and tamper cases, fixed no-token boundary, counts as the only numbers, change sensitivity, anchor chains, prepared call arguments, caller-supplied observation checks, API routes, and static checks that no runtime source implements a token, transfer, mint or transaction submission |
+| `tests/evidence-intel-independent-oracle.test.py` | 3 tests | Python `fractions.Fraction` recomputes 442 expressions and 60 synthetic Claims under two coefficient versions, including the exact programme total; Python `hashlib` recomputes an anchor's Merkle root and hash |
 
 `node scripts/benchmark-evidence-intel.cjs --quick` also runs in the suite as a correctness gate (full-rebuild oracle, legacy parity, analyzer set equality, audit cross-check) with no timing threshold. Measured timings and their limits are in [the measurement report](evidence-intelligence-measurements-ja.md).
 

@@ -1,6 +1,6 @@
 # Evidence Intelligence API (v1)
 
-研究用の**ローカル計算API**です。状態を持たず、何も保存せず、外部へ接続せず、時計を読みません。同じリクエストは同じレスポンスを返します。正式な認証・登録・発行・人間判断・最終確認に相当する操作はありません。
+研究用の**ローカル計算API**です。状態を持たず、何も保存せず、外部へ接続せず、時計を読みません。同じリクエストは同じレスポンスを返します。正式な認証・登録・発行・人間判断・最終確認に相当する操作はありません。トークンの発行・移転・売買、ウォレット、署名、取引送信に相当する経路もありません（[来歴アンカー設計書](web3-provenance-anchoring-design-ja.md)）。
 
 設計：[Evidence Intelligence 設計書](evidence-intelligence-design-ja.md) ／ 制約：[既知の制約](known-limitations.md)
 
@@ -49,6 +49,9 @@ curl -s http://127.0.0.1:8787/v1/standards
 | POST | `/v1/explanations/template` | `claims`, `claim_id`, `locale?` | 説明コンテキストとテンプレート説明サイドカー |
 | POST | `/v1/explanations/validate` | `claims`, `claim_id`, `draft` | 外部ドラフトの検証結果（非権威サイドカー） |
 | POST | `/v1/audit/verify` | `log`, `checkpoint?` | 監査ログのハッシュ連鎖の検証結果 |
+| POST | `/v1/anchor/payload` | `claims`, `label?`, `previous_anchor_hash?`, `include_audit?`, `include_reports?` | 取引しない来歴アンカーと、`anchorPackage(bytes32,bytes32,bytes32,bytes32)` 形式の引数（送信しない。`value_wei: "0"`、`NOT_SUBMITTED`） |
+| POST | `/v1/anchor/proof` | `claims`, `claim_id`, `include_audit?`, `include_reports?` | 1件のClaimのMerkle包含証明と検証結果 |
+| POST | `/v1/anchor/verify` | `claims`, `anchor`, `observed?`, `include_audit?`, `include_reports?` | Claimからアンカーを作り直して照合。`observed` は呼び出し側が読み取ったチェーン上の値で、APIは取得しない |
 
 - `claims`：既存 `compileEvidence` と同じ入力形式（1〜500件）。
 - `change`：`methodology` / `evidence` / `evidence_add` / `evidence_withdraw` / `parameter` / `field` / `activity`、または `{"type":"factor_registry","factor_registry":"with-synthetic-correction"}`。

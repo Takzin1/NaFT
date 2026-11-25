@@ -4,7 +4,7 @@ The JavaScript engine evaluates the same deterministic synthetic cases through
 scripts/evidence-intel-exact-replay.cjs. Nothing here is a GHG methodology, an
 emission factor or a certified quantity.
 """
-import json, math, subprocess, unittest
+import hashlib, json, math, subprocess, unittest
 from fractions import Fraction
 from pathlib import Path
 
@@ -157,6 +157,40 @@ class ExactArithmeticOracle(unittest.TestCase):
             self.assertIsNone(aggregate['certified_total'])
             self.assertGreater(counted, 10)
             self.assertLess(counted, 60)
+
+
+def sha(text):
+    return hashlib.sha256(text.encode('utf-8')).hexdigest()
+
+
+def canonical(value):
+    # Same canonical form as Core canonicalize() for the ASCII, integer and null values used here.
+    return json.dumps(value, sort_keys=True, separators=(',', ':'), ensure_ascii=False)
+
+
+def merkle_root(leaves):
+    if not leaves:
+        return sha('naft-merkle-empty')
+    level = [sha('naft-merkle-leaf:' + h) for h in leaves]
+    while len(level) > 1:
+        level = [sha('naft-merkle-node:' + level[i] + level[i + 1]) if i + 1 < len(level) else level[i] for i in range(0, len(level), 2)]
+    return level[0]
+
+
+class AnchorOracle(unittest.TestCase):
+    def test_anchor_recomputed_with_hashlib(self):
+        ids = ['PYA-%02d' % i for i in range(13)]
+        out = replay({'anchor_claims': ids})
+        anchor, preimages = out['anchor'], out['anchor_leaf_preimages']
+        self.assertEqual([p['claim_id'] for p in preimages], sorted(ids))
+        leaves = [sha(canonical(p)) for p in preimages]
+        self.assertEqual(anchor['claims']['root'], merkle_root(leaves))
+        self.assertEqual(anchor['claims']['count'], len(ids))
+        body = {k: v for k, v in anchor.items() if k != 'anchor_hash'}
+        self.assertEqual(anchor['anchor_hash'], sha(canonical(body)))
+        self.assertEqual(anchor['boundary']['transferable'], False)
+        self.assertIsNone(anchor['boundary']['token'])
+        self.assertIsNone(anchor['boundary']['certified_result'])
 
 
 if __name__ == '__main__':

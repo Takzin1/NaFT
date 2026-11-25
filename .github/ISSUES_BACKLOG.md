@@ -59,3 +59,20 @@ Additive modules `src/evidence-intel-*.js`; existing compiler, session, UI, fixt
 | PR-6 Calculation coverage | Conditional expressions, lookup tables, stratified sums, uncertainty propagation; period splitting across coefficient versions | Independent oracle for every new operation; fail-closed tests |
 | PR-7 Audit witness and scale | Merkle inclusion proofs, optional external timestamp/signature, persisted structural sharing, memory profile above 5,000 Claims, large evidence payloads | Tamper matrix; benchmark report with the same correctness gates |
 | PR-8 External explainer adapter | Adapter outside the deterministic core for a caller-operated model; evaluation set for validator false accepts/rejects, including paraphrase attacks | Validator metrics reported; sidecar never enters any hash |
+
+## Web3 — provenance anchoring only (2026-11-25)
+
+Tradable tokens are **not** implemented. `LICENSE` and `AGENTS.md` still prohibit exchangeable tokens, payments and trading of certified credits without prior legal review, and NaFT has no certified quantity to represent. See [legal issues](../docs/web3-token-legal-issues-ja.md) and [anchoring design](../docs/web3-provenance-anchoring-design-ja.md).
+
+### Completed and verified
+
+- [x] Non-transferable anchor payload: Merkle root of Claim records, state digest, coefficient registry, optional audit head and report root, previous-anchor link, fixed no-token boundary.
+- [x] Prepared `anchorPackage(bytes32,bytes32,bytes32,bytes32)` arguments with `value_wei: "0"` and `NOT_SUBMITTED`; caller-supplied observation check without fetching.
+- [x] Inclusion proofs, anchor chains, `ANCHOR` audit entries, three API routes; Python hashlib recomputation of the anchor.
+
+### Not done (each needs a separate decision)
+
+- [ ] Contract semantics for portfolio anchors and a testnet run.
+- [ ] Submission tool outside the pure core (human action, testnet only, secrets outside the repository); depends on how the external-API rule in `AGENTS.md` is applied.
+- [ ] Session integration: anchor only attested packages, bind to the existing audit chain.
+- [ ] Any tradable token: blocked until every gate in the legal issues document section 5 is met and the owner changes `LICENSE` / `AGENTS.md`.

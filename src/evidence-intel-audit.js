@@ -7,10 +7,10 @@
  * detects accidental or partial modification; it is not a signature and not an
  * independent witness — whoever controls every copy can rebuild it.
  *
- * Entry types: INPUT, CALCULATION, VERIFICATION, CHANGE, REPORT, EXPLANATION.
+ * Entry types: INPUT, CALCULATION, VERIFICATION, CHANGE, REPORT, EXPLANATION, ANCHOR.
  */
 var EI_AUDIT_SCHEMA = 'naft-evidence-intel-audit-1';
-var EI_AUDIT_TYPES = ['INPUT', 'CALCULATION', 'VERIFICATION', 'CHANGE', 'REPORT', 'EXPLANATION'];
+var EI_AUDIT_TYPES = ['INPUT', 'CALCULATION', 'VERIFICATION', 'CHANGE', 'REPORT', 'EXPLANATION', 'ANCHOR'];
 
 function eiAuditGenesis() { return hashObject({schema: EI_AUDIT_SCHEMA, genesis: true}); }
 function eiAuditNew() { return {schema: EI_AUDIT_SCHEMA, entries: [], head: eiAuditGenesis()}; }
