@@ -1,0 +1,10 @@
+{
+  "areaHa": 10,
+  "baselinePerHa": 2,
+  "adoption": 0.8,
+  "reductionLow": 0.15,
+  "reductionExpected": 0.3,
+  "reductionHigh": 0.4,
+  "addedEmissionsPerHa": 0.05,
+  "costPerHa": 3000
+}

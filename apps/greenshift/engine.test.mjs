@@ -1,0 +1,16 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {simulate,compare} from './engine.mjs';
+const demo={"areaHa":10,"baselinePerHa":2,"adoption":0.8,"reductionLow":0.15,"reductionExpected":0.3,"reductionHigh":0.4,"addedEmissionsPerHa":0.05,"costPerHa":3000};
+test("nominal calculation",()=>assert.equal((()=>{const r=simulate(demo);return Math.abs(r.netReductionTco2e.expected-4.4)<1e-9&&r.baselineTco2e===20&&Math.abs(r.projectedTco2e-15.6)<1e-9&&r.costJpy===24000})(),true));
+test("range ordering",()=>assert.equal((()=>{const r=simulate(demo);return r.netReductionTco2e.low<=r.netReductionTco2e.expected&&r.netReductionTco2e.expected<=r.netReductionTco2e.high})(),true));
+test("zero adoption",()=>assert.equal((()=>{const r=simulate({...demo,adoption:0});return r.netReductionTco2e.expected===0&&r.costPerNetTonneJpy===null})(),true));
+test("negative net benefit preserved",()=>assert.equal((()=>{const r=simulate({...demo,addedEmissionsPerHa:2});return r.netReductionTco2e.expected<0&&r.projectedTco2e>r.baselineTco2e&&r.warning!==null})(),true));
+test("no verified claim",()=>assert.equal((()=>simulate(demo).verifiedTco2e===null)(),true));
+test("zero baseline",()=>assert.equal((()=>simulate({...demo,baselinePerHa:0}).netReductionTco2e.expected<0)(),true));
+test("reject invalid numeric input",()=>assert.equal((()=>{for(const v of [NaN,Infinity,-1,'10',null]){try{simulate({...demo,areaHa:v});return false}catch(e){if(!(e instanceof RangeError))return false}}return true})(),true));
+test("reject unordered bounds",()=>assert.equal((()=>{try{simulate({...demo,reductionLow:.9});return false}catch(e){return e instanceof RangeError}})(),true));
+test("ranking conservative benefit",()=>assert.equal((()=>compare([{id:'B',input:{...demo,adoption:.4}},{id:'A',input:demo}])[0].id==='A')(),true));
+test("reject duplicate ID",()=>assert.equal((()=>{try{compare([{id:'A',input:demo},{id:'A',input:demo}]);return false}catch(e){return e instanceof TypeError}})(),true));
+test("no mutation",()=>assert.equal((()=>{const before=JSON.stringify(demo);simulate(demo);return before===JSON.stringify(demo)})(),true));
+test("reject missing input",()=>assert.equal((()=>{try{simulate({});return false}catch(e){return e instanceof RangeError}})(),true));
